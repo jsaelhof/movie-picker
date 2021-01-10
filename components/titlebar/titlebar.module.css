@@ -1,0 +1,18 @@
+.appBar {
+  flex-grow: 1;
+}
+
+.toolbar {
+  column-gap: 16px;
+}
+
+.title {
+  flex-grow: 1;
+  font-size: 1.4em;
+}
+
+.random {
+  width: 20px;
+  margin-right: 16px;
+  filter: invert(1);
+}

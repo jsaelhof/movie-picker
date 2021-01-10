@@ -1,60 +1,90 @@
 import Head from "next/head";
-import {useState} from "react";
-import capitalize from "lodash/capitalize";
-import {sourceLabels} from "../constants/sources";
-
-const titleCase = (str) => str.split(" ").map(capitalize).join(" ");
+import {useEffect, useState} from "react";
+import List from "../components/list/list";
+import Container from "@material-ui/core/Container";
+import Add from "../components/add/add";
+import TitleBar from "../components/titlebar/titlebar";
 
 export default function Home() {
-  const [pickedMovie, setPickedMovie] = useState();
+  const [movies, setMovies] = useState();
+  const [stale, setStale] = useState(true);
+
+  useEffect(() => {
+    if (stale) {
+      fetch("/api/list")
+        .then((response) => response.json())
+        .then((json) => {
+          setStale(false);
+          setMovies(json.data);
+        });
+    }
+  }, [stale]);
 
   return (
-    <div className="container">
+    <>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div>
-        <div>Movie Picker</div>
-        <div>
-          <input
-            type="button"
-            value="PICK"
-            onClick={async () => {
-              const response = await fetch("/api/pick");
+        <TitleBar
+          pick={async () => {
+            const response = await fetch("/api/pick");
+
+            if (response.status === 200) {
               const movie = await response.json();
-              setPickedMovie(movie);
+              setMovies([movie]);
+            } else {
+              alert("Error Picking");
+            }
+          }}
+        />
+
+        <Container>
+          <List
+            movies={movies}
+            // TODO: This is ugly.
+            // Shouldn't be inline.
+            // Also maybe look at socket.io to learn that and use it to let the server push new updates?
+            remove={async (id) => {
+              const response = await fetch("/api/delete", {
+                method: "post",
+                body: JSON.stringify({id}),
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+              });
+
+              if (response.status === 200) {
+                setStale(true);
+              } else {
+                alert("Error Deleting");
+              }
             }}
           />
-        </div>
 
-        {pickedMovie && (
-          <div>
-            <div>You are watching: {titleCase(pickedMovie.name)}</div>
-            <div>On: {sourceLabels[pickedMovie.source]}</div>
-            <div>Length: {pickedMovie.runtime}</div>
-            <div>Genre: {pickedMovie.genre}</div>
-          </div>
-        )}
+          <Add
+            add={async (data) => {
+              const response = await fetch("/api/add", {
+                method: "post",
+                body: JSON.stringify(data),
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+              });
+
+              if (response.status === 200) {
+                setStale(true);
+              } else {
+                alert(`Error Adding ${JSON.stringify(data)}`);
+              }
+            }}
+          />
+        </Container>
       </div>
-
-      <style jsx>{``}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
+    </>
   );
 }

@@ -1,0 +1,41 @@
+.list {
+  margin-top: 24px;
+}
+
+.movieList {
+  display: grid;
+  grid-template-columns: auto max-content max-content max-content max-content;
+  align-items: center;
+}
+
+.movieListHeader {
+  font-size: 0.8em;
+  font-weight: 700;
+  color: darkslateblue;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #eee;
+  padding: 8px 16px 16px;
+}
+
+.movieCell {
+  padding: 2px 16px;
+}
+
+.center {
+  text-align: center;
+}
+
+.remove {
+  cursor: pointer;
+  margin: 0 auto;
+  color: #ccc;
+}
+
+.remove:hover {
+  color: #666;
+}
+
+.link {
+  text-decoration: none;
+  color: initial;
+}

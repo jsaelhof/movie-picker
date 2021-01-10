@@ -1,37 +1,36 @@
 import fs from "fs";
-import {isSameName} from "../utils/is-same-name";
+import map from "lodash/map";
+import random from "lodash/random";
+
+const id = () => random(100000000, 999999999).toString();
 
 const update = (updatedData) => {
   fs.writeFileSync("db/data.json", JSON.stringify(updatedData));
   return query();
 };
 
-export const query = () => JSON.parse(fs.readFileSync("db/data.json"));
+const read = () => JSON.parse(fs.readFileSync("db/data.json"));
 
-export const find = (name) =>
-  query().find((movie) => isSameName(movie.name, name));
+export const query = () => map(read(), (data) => data);
+
+export const find = (key, value) =>
+  query().find((movie) => movie[key] === value);
 
 export const upsert = (updateData) => {
-  const existingRecord = find(updateData.name);
-  const data = query();
+  const record = find("title", updateData.title) || {_id: id()};
 
-  return update(
-    existingRecord
-      ? [
-          ...data.filter((movie) => !isSameName(movie.name, updateData.name)),
-          {
-            ...existingRecord,
-            ...updateData,
-          },
-        ]
-      : [...data, updateData],
-  );
+  return update({
+    ...read(),
+    [record._id]: {
+      ...record,
+      ...updateData,
+    },
+  });
 };
 
-export const remove = (name) => {
-  const updatedData = [
-    ...query().filter((movie) => !isSameName(movie.name, name)),
-  ];
-
+export const remove = (movieId) => {
+  // TODO: Check and see if the movie with this id even exists and provide an error if it doesn't.
+  const updatedData = read();
+  delete updatedData[movieId];
   return update(updatedData);
 };

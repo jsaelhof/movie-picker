@@ -1,0 +1,25 @@
+.main {
+  margin: 32px 0;
+}
+
+.addForm {
+  display: grid;
+  grid-template-columns: auto 90px 130px 180px;
+  column-gap: 8px;
+  align-items: center;
+}
+
+.sourceMenu {
+  height: 100%;
+}
+
+.sourceMenu > :first-child {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.sourceMenuItem {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
