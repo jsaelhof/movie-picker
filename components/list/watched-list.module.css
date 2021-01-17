@@ -4,7 +4,7 @@
 
 .movieList {
   display: grid;
-  grid-template-columns: auto 110px 110px max-content max-content;
+  grid-template-columns: auto max-content max-content;
   align-items: center;
 }
 
@@ -22,9 +22,4 @@
 .link {
   text-decoration: none;
   color: initial;
-}
-
-.save {
-  color: #fff !important;
-  background-color: rgb(91, 177, 91) !important;
 }

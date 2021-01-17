@@ -17,13 +17,17 @@ export const find = (key, value) =>
   query().find((movie) => movie[key] === value);
 
 export const upsert = (updateData) => {
-  const record = find("title", updateData.title) || {_id: id()};
+  const record = find("_id", updateData._id) || {
+    _id: id(),
+    addedOn: new Date().toISOString(), // TODO: Move this to the endpoint
+  };
 
   return update({
     ...read(),
     [record._id]: {
       ...record,
       ...updateData,
+      editedOn: new Date().toISOString(), // TODO: Movie this to the endpoint (make an edit endpoint)
     },
   });
 };
@@ -33,4 +37,18 @@ export const remove = (movieId) => {
   const updatedData = read();
   delete updatedData[movieId];
   return update(updatedData);
+};
+
+const readWatched = () => JSON.parse(fs.readFileSync("db/watched.json"));
+
+export const queryWatched = () => map(readWatched(), (data) => data);
+
+// This reaally should be brought together with upsert etc...there should be basic CRUD commands that take a table (data or watched file) and operate on it the same way.
+export const watch = (updateData) => {
+  const updatedData = JSON.stringify({
+    ...readWatched(),
+    [updateData._id]: updateData,
+  });
+  fs.writeFileSync("db/watched.json", updatedData);
+  return updatedData;
 };
