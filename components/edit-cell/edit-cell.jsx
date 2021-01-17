@@ -1,5 +1,5 @@
 import React from "react";
-import ListCell from "./list-cell";
+import ListCell from "../list-cell/list-cell";
 
 import styles from "./edit-cell.module.css";
 

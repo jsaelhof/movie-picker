@@ -16,7 +16,7 @@ UI TODO:
 - ~~Watched list~~
 - Confirm delete on watched list
 - Confirm move to watched list
-- Refactor the list component(s)... move cells to separate component folders, move watched list to separate folder
+- ~~Refactor the list component(s)... move cells to separate component folders, move watched list to separate folder~~
 
 DB TODO:
 
@@ -26,4 +26,7 @@ DB TODO:
 - State needs to be reworked a bit. Passing a lot of functions into display components. Redux? UseReducer?
 - DB. Hook up to a real db? Mongo?
 - DB. Look at graphql/react query?
+- ~~Refactor DB methods to take a table for CRUD actions~~
+- ~~Make endpoints for "watched" things so i don't need to pass a tables constant to the endpoint~~.
 - Probably no need to be returning the full list when endpoint requests complete. Just success is fine since ei'm not using the responses. Although I might be able to use the response to prevent the flashing of the list as it updates after a change.
+- Rebuild the pick endpoint to build a list of conditions to satisfy for each movie.

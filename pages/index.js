@@ -1,10 +1,11 @@
 import Head from "next/head";
 import {useEffect, useState} from "react";
-import List from "../components/list/list";
 import Container from "@material-ui/core/Container";
+
 import Add from "../components/add/add";
+import List from "../components/list/list";
 import TitleBar from "../components/titlebar/titlebar";
-import WatchedList from "../components/list/watched-list";
+import WatchedList from "../components/watched-list/watched-list";
 
 export default function Home() {
   const [movies, setMovies] = useState();
@@ -13,14 +14,14 @@ export default function Home() {
 
   useEffect(() => {
     if (stale) {
-      fetch("/api/list")
+      fetch("/api/movies/list")
         .then((response) => response.json())
         .then((json) => {
           setStale(false);
           setMovies(json.data);
         });
 
-      fetch("/api/watched-list")
+      fetch("/api/watched/list")
         .then((response) => response.json())
         .then((json) => {
           setStale(false);
@@ -39,7 +40,7 @@ export default function Home() {
       <div>
         <TitleBar
           pick={async (options) => {
-            const response = await fetch("/api/pick", {
+            const response = await fetch("/api/movies/pick", {
               method: "post",
               body: JSON.stringify(options),
               headers: {
@@ -61,7 +62,7 @@ export default function Home() {
           <List
             movies={movies}
             add={async (data) => {
-              const response = await fetch("/api/add", {
+              const response = await fetch("/api/movies/add", {
                 method: "post",
                 body: JSON.stringify(data),
                 headers: {
@@ -80,7 +81,7 @@ export default function Home() {
             // Shouldn't be inline.
             // Also maybe look at socket.io to learn that and use it to let the server push new updates?
             remove={async (id) => {
-              const response = await fetch("/api/delete", {
+              const response = await fetch("/api/movies/delete", {
                 method: "post",
                 body: JSON.stringify({id}),
                 headers: {
@@ -120,7 +121,7 @@ export default function Home() {
             // Also maybe look at socket.io to learn that and use it to let the server push new updates?
             remove={async (id) => {
               alert("Implement Deleting");
-              // const response = await fetch("/api/delete", {
+              // const response = await fetch("/api/watched/delete", {
               //   method: "post",
               //   body: JSON.stringify({id}),
               //   headers: {
@@ -139,7 +140,7 @@ export default function Home() {
 
           <Add
             add={async (data) => {
-              const response = await fetch("/api/add", {
+              const response = await fetch("/api/movies/add", {
                 method: "post",
                 body: JSON.stringify(data),
                 headers: {

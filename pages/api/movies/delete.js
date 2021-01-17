@@ -1,4 +1,5 @@
-import {remove} from "../../db/db";
+import {tables} from "../../../constants/tables";
+import {remove} from "../../../db/db";
 
 const handler = (req, res) => {
   try {
@@ -6,7 +7,7 @@ const handler = (req, res) => {
 
     if (!body.id) throw new Error("Id is required");
 
-    const data = remove(body.id);
+    const data = remove(tables.MOVIES, body.id);
     res.status(200).json({data, deleted: body});
   } catch (err) {
     console.log(err);

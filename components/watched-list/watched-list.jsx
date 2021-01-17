@@ -4,8 +4,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import orderBy from "lodash/orderBy";
 
 import {titleCase} from "../../utils/title-case";
-import ListCell from "./list-cell";
-import ListHeaderCell from "./list-header-cell";
+import ListCell from "../list-cell/list-cell";
+import ListHeaderCell from "../list-header-cell/list-header-cell";
 
 import styles from "./watched-list.module.css";
 
@@ -13,13 +13,15 @@ const WatchedList = ({movies, remove}) => {
   return movies ? (
     <Paper className={styles.list}>
       <div className={styles.movieList}>
-        <ListHeaderCell left>Watched Movies</ListHeaderCell>
+        <ListHeaderCell
+          left
+        >{`Watched Movies (${movies.length})`}</ListHeaderCell>
         <ListHeaderCell left>Date</ListHeaderCell>
         <ListHeaderCell>Actions</ListHeaderCell>
 
         {movies &&
           orderBy(movies, ["watched"], ["desc"]).map((movie) => (
-            <>
+            <React.Fragment key={movie._id}>
               <ListCell left>
                 <a
                   className={styles.link}
@@ -46,7 +48,7 @@ const WatchedList = ({movies, remove}) => {
                   }}
                 />
               </ListCell>
-            </>
+            </React.Fragment>
           ))}
       </div>
     </Paper>

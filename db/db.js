@@ -4,51 +4,37 @@ import random from "lodash/random";
 
 const id = () => random(100000000, 999999999).toString();
 
-const update = (updatedData) => {
-  fs.writeFileSync("db/data.json", JSON.stringify(updatedData));
-  return query();
+const read = (table) => JSON.parse(fs.readFileSync(`db/${table}.json`));
+
+const update = (table, updatedData) => {
+  fs.writeFileSync(`db/${table}.json`, JSON.stringify(updatedData));
+  return query(table);
 };
 
-const read = () => JSON.parse(fs.readFileSync("db/data.json"));
+export const query = (table) => map(read(table), (data) => data);
 
-export const query = () => map(read(), (data) => data);
+export const find = (table, key, value) =>
+  query(table).find((movie) => movie[key] === value);
 
-export const find = (key, value) =>
-  query().find((movie) => movie[key] === value);
-
-export const upsert = (updateData) => {
-  const record = find("_id", updateData._id) || {
+export const upsert = (table, updateData) => {
+  const record = find(table, "_id", updateData._id) || {
     _id: id(),
-    addedOn: new Date().toISOString(), // TODO: Move this to the endpoint
+    addedOn: new Date().toISOString(),
   };
 
-  return update({
-    ...read(),
+  return update(table, {
+    ...read(table),
     [record._id]: {
       ...record,
       ...updateData,
-      editedOn: new Date().toISOString(), // TODO: Movie this to the endpoint (make an edit endpoint)
+      editedOn: new Date().toISOString(),
     },
   });
 };
 
-export const remove = (movieId) => {
+export const remove = (table, movieId) => {
   // TODO: Check and see if the movie with this id even exists and provide an error if it doesn't.
-  const updatedData = read();
+  const updatedData = read(table);
   delete updatedData[movieId];
-  return update(updatedData);
-};
-
-const readWatched = () => JSON.parse(fs.readFileSync("db/watched.json"));
-
-export const queryWatched = () => map(readWatched(), (data) => data);
-
-// This reaally should be brought together with upsert etc...there should be basic CRUD commands that take a table (data or watched file) and operate on it the same way.
-export const watch = (updateData) => {
-  const updatedData = JSON.stringify({
-    ...readWatched(),
-    [updateData._id]: updateData,
-  });
-  fs.writeFileSync("db/watched.json", updatedData);
-  return updatedData;
+  return update(table, updatedData);
 };

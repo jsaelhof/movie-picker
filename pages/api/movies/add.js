@@ -1,8 +1,9 @@
 import isNil from "lodash/isNil";
 import values from "lodash/values";
 
-import {upsert} from "../../db/db";
-import {sources} from "../../constants/sources";
+import {upsert} from "../../../db/db";
+import {sources} from "../../../constants/sources";
+import {tables} from "../../../constants/tables";
 
 const handler = (req, res) => {
   try {
@@ -12,7 +13,7 @@ const handler = (req, res) => {
     if (!isNil(body.source) && !values(sources).includes(body.source))
       throw new Error("Source is invalid");
 
-    const data = upsert(body);
+    const data = upsert(tables.MOVIES, body);
     res.status(200).json({data, added: body});
   } catch (err) {
     console.log(err);

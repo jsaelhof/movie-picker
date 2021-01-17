@@ -11,10 +11,10 @@ import {formatRuntime} from "../../utils/format-runtime";
 import {genreLabels, genres} from "../../constants/genres";
 import {sourceLabels, sourceLogos, sources} from "../../constants/sources";
 import {titleCase} from "../../utils/title-case";
-import EditCell from "./edit-cell";
-import ListCell from "./list-cell";
-import ListHeaderCell from "./list-header-cell";
-import ListSelect from "./list-select";
+import EditCell from "../edit-cell/edit-cell";
+import ListCell from "../list-cell/list-cell";
+import ListHeaderCell from "../list-header-cell/list-header-cell";
+import ListSelect from "../list-select/list-select";
 
 import styles from "./list.module.css";
 
@@ -25,7 +25,7 @@ const List = ({movies, add, remove, watched}) => {
   return movies ? (
     <Paper className={styles.list}>
       <div className={styles.movieList}>
-        <ListHeaderCell left>Movies</ListHeaderCell>
+        <ListHeaderCell left>{`Movies (${movies.length})`}</ListHeaderCell>
         <ListHeaderCell>Runtime</ListHeaderCell>
         <ListHeaderCell>Genre</ListHeaderCell>
         <ListHeaderCell>Source</ListHeaderCell>

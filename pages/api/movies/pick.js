@@ -2,13 +2,14 @@ import reduce from "lodash/reduce";
 import sample from "lodash/sample";
 import size from "lodash/size";
 
-import {query} from "../../db/db";
+import {tables} from "../../../constants/tables";
+import {query} from "../../../db/db";
 
 const handler = (req, res) => {
   const {body} = req;
 
   let list = reduce(
-    query(),
+    query(tables.MOVIES),
     (acc, movie) => {
       // TODO: Look for conditions and add a function to an array.
       // All conditions must pass to add the movie.
