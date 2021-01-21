@@ -3,20 +3,21 @@ UI TODO:
 - After using Pick Movie, you should be able to return to the full list.
 - ~~Editing. Using "Add" with new info doesn't work to fix a title. Runtime also gets overwritten if not provided.~~
 - Adding. Should this be a modal? A "drawer" space that slides open under the toolbar?
-- Sort by ~~name~~/date added/length.
+- ~~Sort by name/date added/length.~~
 - ~~Restrict pick to 100 minutes or less.~~
 - ~~Restrict pick to 125 minutes or less.~~
 - ~~Restrict pick to 125 minutes or more (long movie night).~~
 - Restrict pick to a certain genre.
-- No Source, search for a torrent
+- ~~No Source, search for a torrent~~
 - No source. Is there a way to search Netflix/Prime/Disney?
 - ~~Genre should be a dropdown of a few broad genres.~~
 - Mobile view
-- Confirm delete or provide an undo
+- ~~Confirm delete~~ or provide an undo
 - ~~Watched list~~
-- Confirm delete on watched list
-- Confirm move to watched list
+- ~~Confirm delete on watched list~~
+- Undo for move to watched list action. Use toast.
 - ~~Refactor the list component(s)... move cells to separate component folders, move watched list to separate folder~~
+- Source search should probably just be another action if applicable
 
 DB TODO:
 

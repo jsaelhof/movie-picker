@@ -1,0 +1,28 @@
+.sourceImageWrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.sourceImageWrapper > div {
+  opacity: 0;
+}
+
+.sourceImageWrapper:hover > div {
+  opacity: 1;
+}
+
+.sourceImageWrapper:hover > img {
+  opacity: 0.1;
+}
+
+.searchIcon {
+  color: darkslategrey;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+}

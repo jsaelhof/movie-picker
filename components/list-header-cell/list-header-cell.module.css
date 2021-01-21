@@ -7,8 +7,17 @@
   border-bottom: 1px solid #eee;
   padding: 8px 16px 16px;
   justify-content: center;
+  cursor: default;
 }
 
 .left {
   justify-content: left;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.pointer:hover {
+  color: lightskyblue;
 }
