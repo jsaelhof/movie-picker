@@ -9,6 +9,9 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ClockIcon from "mdi-material-ui/ClockOutline";
+import ClockFastIcon from "mdi-material-ui/ClockFast";
+import TimerSandIcon from "mdi-material-ui/TimerSand";
 import Movie from "@material-ui/icons/Movie";
 import {useState} from "react";
 
@@ -19,16 +22,19 @@ const splitButtonItems = [
     value: 0,
     label: "Pick a Short Movie",
     options: {minRuntime: 0, maxRuntime: 5700},
+    Icon: ClockFastIcon,
   },
   {
     value: 1,
     label: "Pick a Regular Movie",
     options: {minRuntime: 5701, maxRuntime: 7800},
+    Icon: ClockIcon,
   },
   {
     value: 2,
     label: "Pick a Long Movie",
     options: {minRuntime: 7801, maxRuntime: 36000},
+    Icon: TimerSandIcon,
   },
 ];
 
@@ -55,12 +61,18 @@ const TitleBar = ({add, pick}) => {
             Add Movie
           </Button>
 
-          <ButtonGroup style={{position: "relative"}}>
-            <Button variant="contained" color="primary" onClick={() => pick()}>
+          <ButtonGroup className={styles.splitButton}>
+            <Button
+              className={styles.mainButton}
+              variant="contained"
+              color="primary"
+              onClick={() => pick()}
+            >
               <img src="/images/random.png" className={styles.random} />
               Pick A Movie
             </Button>
             <Button
+              className={styles.secondaryButton}
               variant="contained"
               size="small"
               color="primary"
@@ -75,12 +87,13 @@ const TitleBar = ({add, pick}) => {
                   onClickAway={() => setOpenSplitButton(false)}
                 >
                   <MenuList id="split-button-menu">
-                    {splitButtonItems.map(({value, label, options}) => (
+                    {splitButtonItems.map(({value, label, Icon, options}) => (
                       <MenuItem
                         key={value}
                         onClick={() => pick(options)}
                         className={styles.splitButtonMenuItem}
                       >
+                        {<Icon className={styles.icon} />}
                         {label}
                       </MenuItem>
                     ))}

@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {format} from "date-fns";
-import {Paper} from "@material-ui/core";
+import {Paper, Tooltip} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
@@ -46,13 +46,15 @@ const WatchedList = ({movies, remove}) => {
                     : "-"}
                 </ListCell>
                 <ListCell>
-                  <DeleteIcon
-                    data-movie-id={movie._id}
-                    className={styles.action}
-                    onClick={({currentTarget}) => {
-                      setDeleteMovie(currentTarget.dataset.movieId);
-                    }}
-                  />
+                  <Tooltip title="Delete">
+                    <DeleteIcon
+                      data-movie-id={movie._id}
+                      className={styles.action}
+                      onClick={({currentTarget}) => {
+                        setDeleteMovie(currentTarget.dataset.movieId);
+                      }}
+                    />
+                  </Tooltip>
                 </ListCell>
               </React.Fragment>
             ))}

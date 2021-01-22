@@ -1,11 +1,11 @@
-import {Paper, TextField} from "@material-ui/core";
+import {Paper, TextField, Tooltip} from "@material-ui/core";
 import {useState} from "react";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
 import EditIcon from "@material-ui/icons/Edit";
 import isNil from "lodash/isNil";
-import VisibilityIcon from "@material-ui/icons/Visibility";
+import EyeCheckIcon from "mdi-material-ui/EyeCheck";
 import orderBy from "lodash/orderBy";
 
 import {formatRuntime} from "../../utils/format-runtime";
@@ -19,12 +19,7 @@ import ListSelect from "../list-select/list-select";
 
 import styles from "./list.module.css";
 import DeleteDialog from "../delete-dialog/delete-dialog";
-import SourceCell from "../source-cell/source-cell";
-
-const resolveOrder = (key, [prevKey, prevDir]) => [
-  key,
-  key !== prevKey ? "asc" : prevDir === "asc" ? "desc" : "asc",
-];
+import ViewAction from "../view-action/view-action";
 
 const List = ({movies, add, remove, watched}) => {
   const [editing, setEditing] = useState(null);
@@ -34,20 +29,25 @@ const List = ({movies, add, remove, watched}) => {
 
   if (!movies) return null;
 
+  const resolveOrder = (key) => [
+    key,
+    key !== order[0] ? "asc" : order[1] === "asc" ? "desc" : "asc",
+  ];
+
   return (
     <>
       <Paper className={styles.list}>
         <div className={styles.movieList}>
           <ListHeaderCell
             left
-            onClick={() => setOrder(resolveOrder("title", order))}
+            onClick={() => setOrder(resolveOrder("title"))}
           >{`Movies (${movies.length})`}</ListHeaderCell>
-          <ListHeaderCell
-            onClick={() => setOrder(resolveOrder("runtime", order))}
-          >
+          <ListHeaderCell onClick={() => setOrder(resolveOrder("runtime"))}>
             Runtime
           </ListHeaderCell>
-          <ListHeaderCell>Genre</ListHeaderCell>
+          <ListHeaderCell onClick={() => setOrder(resolveOrder("genre"))}>
+            Genre
+          </ListHeaderCell>
           <ListHeaderCell>Source</ListHeaderCell>
           <ListHeaderCell>Actions</ListHeaderCell>
 
@@ -161,35 +161,52 @@ const List = ({movies, add, remove, watched}) => {
                       ? titleCase(genreLabels[movie.genre])
                       : "-"}
                   </ListCell>
-                  <SourceCell movie={movie} />
                   <ListCell>
-                    <EditIcon
-                      data-movie-id={movie._id}
-                      className={styles.action}
-                      onClick={({currentTarget}) => {
-                        const movieId = currentTarget.dataset.movieId;
-                        setEditing(movies.find(({_id}) => _id === movieId));
-                        setRuntimeInput(
-                          movie.runtime
-                            ? formatRuntime(movie.runtime, true)
-                            : undefined,
-                        );
-                      }}
+                    <img
+                      src={sourceLogos[movie.source]}
+                      width="40"
+                      height="40"
                     />
-                    <VisibilityIcon
-                      data-movie={JSON.stringify(movie)}
+                  </ListCell>
+                  <ListCell>
+                    <ViewAction
+                      title={movie.title}
+                      source={movie.source}
                       className={styles.action}
-                      onClick={({currentTarget}) =>
-                        watched(JSON.parse(currentTarget.dataset.movie))
-                      }
                     />
-                    <DeleteIcon
-                      data-movie-id={movie._id}
-                      className={styles.action}
-                      onClick={({currentTarget}) => {
-                        setDeleteMovie(currentTarget.dataset.movieId);
-                      }}
-                    />
+                    <Tooltip title="Edit">
+                      <EditIcon
+                        data-movie-id={movie._id}
+                        className={styles.action}
+                        onClick={({currentTarget}) => {
+                          const movieId = currentTarget.dataset.movieId;
+                          setEditing(movies.find(({_id}) => _id === movieId));
+                          setRuntimeInput(
+                            movie.runtime
+                              ? formatRuntime(movie.runtime, true)
+                              : undefined,
+                          );
+                        }}
+                      />
+                    </Tooltip>
+                    <Tooltip title="Mark as Watched">
+                      <EyeCheckIcon
+                        data-movie={JSON.stringify(movie)}
+                        className={styles.action}
+                        onClick={({currentTarget}) =>
+                          watched(JSON.parse(currentTarget.dataset.movie))
+                        }
+                      />
+                    </Tooltip>
+                    <Tooltip title="Delete">
+                      <DeleteIcon
+                        data-movie-id={movie._id}
+                        className={styles.action}
+                        onClick={({currentTarget}) => {
+                          setDeleteMovie(currentTarget.dataset.movieId);
+                        }}
+                      />
+                    </Tooltip>
                   </ListCell>
                 </>
               ),

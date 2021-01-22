@@ -16,7 +16,12 @@
 }
 
 .action:hover {
-  color: #666;
+  color: steelblue;
+}
+
+.disabledAction {
+  opacity: 0.2;
+  cursor: not-allowed;
 }
 
 .link {
