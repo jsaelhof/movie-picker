@@ -5,11 +5,18 @@ import React from "react";
 
 import styles from "./action-button.module.css";
 
-const ActionButton = ({Icon, tooltip, movie = {}, disabled, onClick}) => (
+const ActionButton = ({
+  Icon,
+  tooltip,
+  movie = {},
+  disabled,
+  onClick,
+  className,
+}) => (
   <Tooltip title={tooltip} disableHoverListener={disabled}>
     <Icon
       data-movie={JSON.stringify(movie)}
-      className={clsx(styles.action, disabled && styles.disabled)}
+      className={clsx(styles.action, disabled && styles.disabled, className)}
       onClick={
         disabled
           ? noop

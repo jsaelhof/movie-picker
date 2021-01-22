@@ -109,8 +109,10 @@ const List = ({movies, add, remove, watched}) => {
                     />
                   </EditCell>
                   <EditCell>
-                    <DoneIcon
-                      className={styles.action}
+                    <ActionButton
+                      className={styles.editDone}
+                      Icon={DoneIcon}
+                      tooltip="Save"
                       onClick={() => {
                         let runtime;
 
@@ -134,8 +136,10 @@ const List = ({movies, add, remove, watched}) => {
                         setEditing(null);
                       }}
                     />
-                    <CloseIcon
-                      className={styles.action}
+                    <ActionButton
+                      className={styles.editCancel}
+                      Icon={CloseIcon}
+                      tooltip="Cancel"
                       onClick={() => setEditing(null)}
                     />
                   </EditCell>
