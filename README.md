@@ -6,8 +6,8 @@ UI TODO:
 - No source. Is there a way to search Netflix/Prime/Disney?
 - Mobile view
 - Undo for move to watched list action. Use toast.
-- Extract an Action component that takes an Icon and a handler
-- Idea: Highlight long and short movies on rollover? Probably not needed.
+- Idea: Highlight/filter long and short movies on rollover? Probably not needed.
+- ~~Extract an Action component that takes an Icon and a handler~~
 - ~~Editing. Using "Add" with new info doesn't work to fix a title. Runtime also gets overwritten if not provided.~~
 - ~~Sort by name/date added/length/genre.~~
 - ~~Restrict pick to 100 minutes or less.~~

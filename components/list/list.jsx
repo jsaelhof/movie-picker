@@ -12,14 +12,15 @@ import {formatRuntime} from "../../utils/format-runtime";
 import {genreLabels, genres} from "../../constants/genres";
 import {sourceLabels, sourceLogos, sources} from "../../constants/sources";
 import {titleCase} from "../../utils/title-case";
+import DeleteDialog from "../delete-dialog/delete-dialog";
+import ViewAction from "../view-action/view-action";
 import EditCell from "../edit-cell/edit-cell";
 import ListCell from "../list-cell/list-cell";
 import ListHeaderCell from "../list-header-cell/list-header-cell";
 import ListSelect from "../list-select/list-select";
 
 import styles from "./list.module.css";
-import DeleteDialog from "../delete-dialog/delete-dialog";
-import ViewAction from "../view-action/view-action";
+import ActionButton from "../action-button/action-button";
 
 const List = ({movies, add, remove, watched}) => {
   const [editing, setEditing] = useState(null);
@@ -169,44 +170,32 @@ const List = ({movies, add, remove, watched}) => {
                     />
                   </ListCell>
                   <ListCell>
-                    <ViewAction
-                      title={movie.title}
-                      source={movie.source}
-                      className={styles.action}
+                    <ViewAction movie={movie} />
+                    <ActionButton
+                      Icon={EditIcon}
+                      tooltip="Edit"
+                      movie={movie}
+                      onClick={(movie) => {
+                        setEditing(movies.find(({_id}) => _id === movie._id));
+                        setRuntimeInput(
+                          movie.runtime
+                            ? formatRuntime(movie.runtime, true)
+                            : undefined,
+                        );
+                      }}
                     />
-                    <Tooltip title="Edit">
-                      <EditIcon
-                        data-movie-id={movie._id}
-                        className={styles.action}
-                        onClick={({currentTarget}) => {
-                          const movieId = currentTarget.dataset.movieId;
-                          setEditing(movies.find(({_id}) => _id === movieId));
-                          setRuntimeInput(
-                            movie.runtime
-                              ? formatRuntime(movie.runtime, true)
-                              : undefined,
-                          );
-                        }}
-                      />
-                    </Tooltip>
-                    <Tooltip title="Mark as Watched">
-                      <EyeCheckIcon
-                        data-movie={JSON.stringify(movie)}
-                        className={styles.action}
-                        onClick={({currentTarget}) =>
-                          watched(JSON.parse(currentTarget.dataset.movie))
-                        }
-                      />
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                      <DeleteIcon
-                        data-movie-id={movie._id}
-                        className={styles.action}
-                        onClick={({currentTarget}) => {
-                          setDeleteMovie(currentTarget.dataset.movieId);
-                        }}
-                      />
-                    </Tooltip>
+                    <ActionButton
+                      Icon={EyeCheckIcon}
+                      tooltip="Mark as Watched"
+                      movie={movie}
+                      onClick={(movie) => watched(movie)}
+                    />
+                    <ActionButton
+                      Icon={DeleteIcon}
+                      tooltip="Delete"
+                      movie={movie}
+                      onClick={({_id}) => setDeleteMovie(_id)}
+                    />
                   </ListCell>
                 </>
               ),

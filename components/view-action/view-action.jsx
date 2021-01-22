@@ -5,10 +5,11 @@ import TelevisionPlayIcon from "mdi-material-ui/TelevisionPlay";
 import SearchIcon from "@material-ui/icons/Search";
 
 import {sources} from "../../constants/sources";
+import ActionButton from "../action-button/action-button";
 
-import styles from "./view-action.module.css";
+const ViewAction = ({movie}) => {
+  const {title, source} = movie;
 
-const ViewAction = ({title, source, className}) => {
   const searchUrl = {
     [sources.NONE]: `http://1337x.to/search/${encodeURI(title)}/1/`,
     [sources.NETFLIX]: `http://netflix.com/search?q=${encodeURI(title)}`, // FIXME: Doesn't like commas in the search...possibly other special chars. Other sites maybe the same?
@@ -24,17 +25,11 @@ const ViewAction = ({title, source, className}) => {
   const search = () => window.open(searchUrl, "movieView");
 
   return source === sources.NONE ? (
-    <Tooltip title="Torrent">
-      <SearchIcon className={className} onClick={search} />
-    </Tooltip>
+    <ActionButton Icon={SearchIcon} tooltip="Torrent" onClick={search} />
   ) : source === sources.DVD ? (
-    <TelevisionPlayIcon
-      className={clsx(className, source === sources.DVD && styles.disabled)}
-    />
+    <ActionButton Icon={TelevisionPlayIcon} disabled />
   ) : (
-    <Tooltip title="View">
-      <TelevisionPlayIcon className={className} onClick={search} />
-    </Tooltip>
+    <ActionButton Icon={TelevisionPlayIcon} tooltip="View" onClick={search} />
   );
 };
 

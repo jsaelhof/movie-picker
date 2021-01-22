@@ -1,0 +1,19 @@
+.action {
+  cursor: pointer;
+  margin: 0 auto;
+  color: #ccc;
+  padding: 0 8px;
+}
+
+.action:hover {
+  color: steelblue;
+}
+
+.disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.disabled:hover {
+  color: #ccc;
+}

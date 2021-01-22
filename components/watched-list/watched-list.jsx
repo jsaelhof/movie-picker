@@ -6,6 +6,7 @@ import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
 
 import {titleCase} from "../../utils/title-case";
+import ActionButton from "../action-button/action-button";
 import DeleteDialog from "../delete-dialog/delete-dialog";
 import ListCell from "../list-cell/list-cell";
 import ListHeaderCell from "../list-header-cell/list-header-cell";
@@ -46,15 +47,14 @@ const WatchedList = ({movies, remove}) => {
                     : "-"}
                 </ListCell>
                 <ListCell>
-                  <Tooltip title="Delete">
-                    <DeleteIcon
-                      data-movie-id={movie._id}
-                      className={styles.action}
-                      onClick={({currentTarget}) => {
-                        setDeleteMovie(currentTarget.dataset.movieId);
-                      }}
-                    />
-                  </Tooltip>
+                  <ActionButton
+                    Icon={DeleteIcon}
+                    tooltip="Delete"
+                    movie={movie}
+                    onClick={(movie) => {
+                      setDeleteMovie(movie._id);
+                    }}
+                  />
                 </ListCell>
               </React.Fragment>
             ))}
