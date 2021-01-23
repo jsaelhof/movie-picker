@@ -4,6 +4,7 @@ import Container from "@material-ui/core/Container";
 
 import List from "../components/list/list";
 import TitleBar from "../components/titlebar/titlebar";
+import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
   const [watchedMovies, setWatchedMovies] = useState();
   const [stale, setStale] = useState(true);
   const [enableAddMovie, setEnableAddMovie] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
 
   useEffect(() => {
     if (stale) {
@@ -66,10 +68,10 @@ export default function Home() {
             enableAddMovie={enableAddMovie}
             movies={movies}
             onAddingComplete={() => setEnableAddMovie(false)}
-            onAddMovie={async (data) => {
+            onAddMovie={async (movie) => {
               const response = await fetch("/api/movies/add", {
                 method: "post",
-                body: JSON.stringify(data),
+                body: JSON.stringify(movie),
                 headers: {
                   Accept: "application/json",
                   "Content-Type": "application/json",
@@ -78,8 +80,9 @@ export default function Home() {
 
               if (response.status === 200) {
                 setStale(true);
+                setToastMessage(`Added '${movie.title}'`);
               } else {
-                alert(`Error Adding ${JSON.stringify(data)}`);
+                alert(`Error Adding ${JSON.stringify(movie)}`);
               }
             }}
             onRemoveMovie={async (id) => {
@@ -110,6 +113,7 @@ export default function Home() {
 
               if (response.status === 200) {
                 setStale(true);
+                setToastMessage(`Moved '${movie.title}' to watched list`);
               } else {
                 alert("Error Marking Watched");
               }
@@ -138,6 +142,12 @@ export default function Home() {
           />
         </Container>
       </div>
+
+      <Toast
+        message={toastMessage}
+        open={toastMessage !== null}
+        onClose={() => setToastMessage(null)}
+      />
     </>
   );
 }
