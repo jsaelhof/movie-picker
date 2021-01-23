@@ -38,7 +38,7 @@ const splitButtonItems = [
   },
 ];
 
-const TitleBar = ({add, pick}) => {
+const TitleBar = ({onAdd, onPick}) => {
   const [openSplitButton, setOpenSplitButton] = useState(false);
 
   return (
@@ -47,17 +47,7 @@ const TitleBar = ({add, pick}) => {
         <Toolbar className={styles.toolbar}>
           <Movie />
           <div className={styles.title}>Movie Decider 4000</div>
-          <Button
-            variant="outlined"
-            onClick={() =>
-              add({
-                title,
-                runtime,
-                genre,
-                source,
-              })
-            }
-          >
+          <Button variant="outlined" onClick={onAdd}>
             Add Movie
           </Button>
 
@@ -66,7 +56,7 @@ const TitleBar = ({add, pick}) => {
               className={styles.mainButton}
               variant="contained"
               color="primary"
-              onClick={() => pick()}
+              onClick={() => onPick()}
             >
               <img src="/images/random.png" className={styles.random} />
               Pick A Movie
@@ -90,7 +80,7 @@ const TitleBar = ({add, pick}) => {
                     {splitButtonItems.map(({value, label, Icon, options}) => (
                       <MenuItem
                         key={value}
-                        onClick={() => pick(options)}
+                        onClick={() => onPick(options)}
                         className={styles.splitButtonMenuItem}
                       >
                         {<Icon className={styles.icon} />}

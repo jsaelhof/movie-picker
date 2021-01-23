@@ -10,7 +10,14 @@ import ListRow from "../list-row/list-row";
 
 import styles from "./list.module.css";
 
-const List = ({movies, add, remove, watched}) => {
+const List = ({
+  movies,
+  enableAddMovie,
+  onAddMovie,
+  onAddingComplete,
+  onRemoveMovie,
+  onMarkWatched,
+}) => {
   const [editedMovie, setEditedMovie] = useState(null);
   const [order, setOrder] = useState(["addedOn", "desc"]);
   const [deleteMovie, setDeleteMovie] = useState(null);
@@ -31,13 +38,24 @@ const List = ({movies, add, remove, watched}) => {
             onSort={(column) => setOrder(resolveOrder(column))}
           />
 
+          {enableAddMovie && (
+            <EditRow
+              movie={{}}
+              onSave={(movie) => {
+                onAddMovie(movie);
+                onAddingComplete();
+              }}
+              onCancel={onAddingComplete}
+            />
+          )}
+
           {movies &&
             orderBy(movies, [order[0]], [order[1]]).map((movie) =>
               editedMovie && movie._id === editedMovie ? (
                 <EditRow
                   movie={movies.find(({_id}) => _id === editedMovie)}
                   onSave={(movie) => {
-                    add(movie);
+                    onAddMovie(movie);
                     setEditedMovie(null);
                   }}
                   onCancel={() => setEditedMovie(null)}
@@ -47,7 +65,7 @@ const List = ({movies, add, remove, watched}) => {
                   movie={movie}
                   onEditMovie={({_id}) => setEditedMovie(_id)}
                   onDeleteMovie={({_id}) => setDeleteMovie(_id)}
-                  onMarkWatched={(movie) => watched(movie)}
+                  onMarkWatched={(movie) => onMarkWatched(movie)}
                 />
               ),
             )}
@@ -62,7 +80,7 @@ const List = ({movies, add, remove, watched}) => {
         }' will be removed`}
         onCancel={() => setDeleteMovie(null)}
         onConfirm={() => {
-          remove(deleteMovie);
+          onRemoveMovie(deleteMovie);
           setDeleteMovie(null);
         }}
       />
