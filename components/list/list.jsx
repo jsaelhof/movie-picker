@@ -1,30 +1,26 @@
-import {Paper, TextField, Tooltip} from "@material-ui/core";
+import {Paper} from "@material-ui/core";
 import {useState} from "react";
-import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
-import DoneIcon from "@material-ui/icons/Done";
 import EditIcon from "@material-ui/icons/Edit";
 import isNil from "lodash/isNil";
 import EyeCheckIcon from "mdi-material-ui/EyeCheck";
 import orderBy from "lodash/orderBy";
 
 import {formatRuntime} from "../../utils/format-runtime";
-import {genreLabels, genres} from "../../constants/genres";
-import {sourceLabels, sourceLogos, sources} from "../../constants/sources";
+import {genreLabels} from "../../constants/genres";
+import {sourceLogos} from "../../constants/sources";
 import {titleCase} from "../../utils/title-case";
+import ActionButton from "../action-button/action-button";
+import EditRow from "../edit-row/edit-row";
 import DeleteDialog from "../delete-dialog/delete-dialog";
 import ViewAction from "../view-action/view-action";
-import EditCell from "../edit-cell/edit-cell";
 import ListCell from "../list-cell/list-cell";
 import ListHeaderCell from "../list-header-cell/list-header-cell";
-import ListSelect from "../list-select/list-select";
 
 import styles from "./list.module.css";
-import ActionButton from "../action-button/action-button";
 
 const List = ({movies, add, remove, watched}) => {
-  const [editing, setEditing] = useState(null);
-  const [runtimeInput, setRuntimeInput] = useState(null);
+  const [editedMovie, setEditedMovie] = useState(null);
   const [order, setOrder] = useState(["addedOn", "desc"]);
   const [deleteMovie, setDeleteMovie] = useState(null);
 
@@ -54,96 +50,15 @@ const List = ({movies, add, remove, watched}) => {
 
           {movies &&
             orderBy(movies, [order[0]], [order[1]]).map((movie) =>
-              editing && movie._id === editing._id ? (
-                <>
-                  <EditCell left dense>
-                    <TextField
-                      required
-                      id="title"
-                      label="Title"
-                      value={editing.title}
-                      margin="dense"
-                      fullWidth
-                      variant="outlined"
-                      placeholder="Title"
-                      onChange={({target}) =>
-                        setEditing({...editing, title: target.value})
-                      }
-                    />
-                  </EditCell>
-                  <EditCell dense>
-                    <TextField
-                      id="runtime"
-                      label="Runtime"
-                      value={runtimeInput}
-                      margin="dense"
-                      variant="outlined"
-                      placeholder="0:00"
-                      inputProps={{
-                        maxlength: 4,
-                      }}
-                      onChange={({target}) => setRuntimeInput(target.value)}
-                    />
-                  </EditCell>
-                  <EditCell dense>
-                    <ListSelect
-                      id="genre"
-                      onChange={(value) =>
-                        setEditing({...editing, genre: value})
-                      }
-                      value={editing.genre}
-                      values={genres}
-                      labels={genreLabels}
-                    />
-                  </EditCell>
-                  <EditCell dense>
-                    <ListSelect
-                      id="source"
-                      onChange={(value) =>
-                        setEditing({...editing, source: value})
-                      }
-                      value={editing.source}
-                      values={sources}
-                      labels={sourceLabels}
-                      images={sourceLogos}
-                    />
-                  </EditCell>
-                  <EditCell>
-                    <ActionButton
-                      className={styles.editDone}
-                      Icon={DoneIcon}
-                      tooltip="Save"
-                      onClick={() => {
-                        let runtime;
-
-                        // Convert the runtime input to seconds
-                        if (!runtimeInput || runtimeInput === "") {
-                          runtime = editing.runtime;
-                        } else {
-                          const [hours, minutes] = runtimeInput.includes(":")
-                            ? runtimeInput.split(":")
-                            : [0, runtimeInput];
-
-                          runtime =
-                            (hours ? hours * 3600 : 0) +
-                            (minutes ? minutes * 60 : 0);
-                        }
-
-                        add({
-                          ...editing,
-                          runtime,
-                        });
-                        setEditing(null);
-                      }}
-                    />
-                    <ActionButton
-                      className={styles.editCancel}
-                      Icon={CloseIcon}
-                      tooltip="Cancel"
-                      onClick={() => setEditing(null)}
-                    />
-                  </EditCell>
-                </>
+              editedMovie && movie._id === editedMovie ? (
+                <EditRow
+                  movie={movies.find(({_id}) => _id === editedMovie)}
+                  save={(movie) => {
+                    add(movie);
+                    setEditedMovie(null);
+                  }}
+                  cancel={() => setEditedMovie(null)}
+                />
               ) : (
                 <>
                   <ListCell left>
@@ -180,12 +95,15 @@ const List = ({movies, add, remove, watched}) => {
                       tooltip="Edit"
                       movie={movie}
                       onClick={(movie) => {
-                        setEditing(movies.find(({_id}) => _id === movie._id));
-                        setRuntimeInput(
-                          movie.runtime
-                            ? formatRuntime(movie.runtime, true)
-                            : undefined,
+                        setEditedMovie(
+                          movie._id,
+                          // movies.find(({_id}) => _id === movie._id),
                         );
+                        // setRuntimeInput(
+                        //   movie.runtime
+                        //     ? formatRuntime(movie.runtime, true)
+                        //     : undefined,
+                        // );
                       }}
                     />
                     <ActionButton
