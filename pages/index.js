@@ -122,22 +122,21 @@ export default function Home() {
 
           <WatchedList
             movies={watchedMovies}
-            remove={async (id) => {
-              alert("Implement Deleting");
-              // const response = await fetch("/api/watched/delete", {
-              //   method: "post",
-              //   body: JSON.stringify({id}),
-              //   headers: {
-              //     Accept: "application/json",
-              //     "Content-Type": "application/json",
-              //   },
-              // });
+            onRemoveMovie={async (id) => {
+              const response = await fetch("/api/watched/delete", {
+                method: "post",
+                body: JSON.stringify({id}),
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+              });
 
-              // if (response.status === 200) {
-              //   setStale(true);
-              // } else {
-              //   alert("Error Deleting");
-              // }
+              if (response.status === 200) {
+                setStale(true);
+              } else {
+                alert("Error Deleting From Watched List");
+              }
             }}
           />
         </Container>

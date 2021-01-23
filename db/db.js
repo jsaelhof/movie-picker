@@ -18,7 +18,7 @@ export const find = (table, key, value) =>
 
 export const upsert = (table, updateData) => {
   const record = find(table, "_id", updateData._id) || {
-    _id: id(),
+    _id: updateData._id || id(), // When undoing, or moving a movie to the watched list, it already has an id but doesn't update because it's not in that table. Use it's id instead of making one.
     addedOn: new Date().toISOString(),
   };
 
