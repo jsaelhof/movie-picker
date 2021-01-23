@@ -2,7 +2,7 @@ import {Button, IconButton, Snackbar} from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 
-const Toast = ({open, onClose, duration = 3000, message}) => {
+const Toast = ({open, onClose, onUndo, duration = 5000, message}) => {
   return (
     <Snackbar
       anchorOrigin={{
@@ -15,9 +15,11 @@ const Toast = ({open, onClose, duration = 3000, message}) => {
       message={message}
       action={
         <React.Fragment>
-          {/* <Button color="secondary" size="small" onClick={handleClose}>
+          {onUndo && (
+            <Button color="secondary" size="small" onClick={onUndo}>
               UNDO
-            </Button> */}
+            </Button>
+          )}
           <IconButton size="small" color="inherit" onClick={onClose}>
             <CloseIcon fontSize="small" />
           </IconButton>

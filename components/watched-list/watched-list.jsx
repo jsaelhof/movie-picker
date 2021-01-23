@@ -13,7 +13,7 @@ import ListHeaderCell from "../list-header-cell/list-header-cell";
 
 import styles from "./watched-list.module.css";
 
-const WatchedList = ({movies, remove}) => {
+const WatchedList = ({movies, onRemoveMovie}) => {
   const [deleteMovie, setDeleteMovie] = useState(null);
 
   return movies ? (
@@ -69,7 +69,7 @@ const WatchedList = ({movies, remove}) => {
         }' will be removed from the Watched Movies list`}
         onCancel={() => setDeleteMovie(null)}
         onConfirm={() => {
-          remove(deleteMovie);
+          onRemoveMovie(deleteMovie);
           setDeleteMovie(null);
         }}
       />

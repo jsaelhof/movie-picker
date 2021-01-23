@@ -12,7 +12,7 @@ export default function Home() {
   const [watchedMovies, setWatchedMovies] = useState();
   const [stale, setStale] = useState(true);
   const [enableAddMovie, setEnableAddMovie] = useState(false);
-  const [toastMessage, setToastMessage] = useState(null);
+  const [toastProps, setToastProps] = useState(null);
 
   useEffect(() => {
     if (stale) {
@@ -80,7 +80,7 @@ export default function Home() {
 
               if (response.status === 200) {
                 setStale(true);
-                setToastMessage(`Added '${movie.title}'`);
+                setToastProps({message: `Added '${movie.title}'`});
               } else {
                 alert(`Error Adding ${JSON.stringify(movie)}`);
               }
@@ -113,7 +113,44 @@ export default function Home() {
 
               if (response.status === 200) {
                 setStale(true);
-                setToastMessage(`Moved '${movie.title}' to watched list`);
+                setToastProps({
+                  message: `Moved '${movie.title}' to watched list`,
+                  onUndo: async () => {
+                    const addResponse = await fetch("/api/movies/add", {
+                      method: "post",
+                      body: JSON.stringify(movie),
+                      headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                      },
+                    });
+
+                    const deleteResponse = await fetch("/api/watched/delete", {
+                      method: "post",
+                      body: JSON.stringify({id: movie._id}),
+                      headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                      },
+                    });
+
+                    if (
+                      addResponse.status === 200 &&
+                      deleteResponse.status === 200
+                    ) {
+                      setStale(true);
+                      setToastProps({
+                        message: `Moved '${movie.title}' back to movies list`,
+                      });
+                    } else {
+                      alert(
+                        `Error undoing move to watch list for ${JSON.stringify(
+                          movie,
+                        )}`,
+                      );
+                    }
+                  },
+                });
               } else {
                 alert("Error Marking Watched");
               }
@@ -143,9 +180,9 @@ export default function Home() {
       </div>
 
       <Toast
-        message={toastMessage}
-        open={toastMessage !== null}
-        onClose={() => setToastMessage(null)}
+        open={toastProps !== null}
+        onClose={() => setToastProps(null)}
+        {...toastProps}
       />
     </>
   );

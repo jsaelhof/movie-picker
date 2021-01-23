@@ -1,12 +1,13 @@
 UI TODO:
 
+- Need to build a DB request wrapper. Too much duplication.
 - After using Pick Movie, you should be able to return to the full list.
-- Adding. Should this be a modal? A "drawer" space that slides open under the toolbar?
 - Restrict pick to a certain genre.
 - No source. Is there a way to search Netflix/Prime/Disney?
 - Mobile view
-- Undo for move to watched list action. Use toast.
 - Idea: Highlight/filter long and short movies on rollover? Probably not needed.
+- ~~Undo for move to watched list action. Use toast.~~
+- ~~Adding. Should this be a modal? A "drawer" space that slides open under the toolbar?~~
 - ~~Extract an Action component that takes an Icon and a handler~~
 - ~~Editing. Using "Add" with new info doesn't work to fix a title. Runtime also gets overwritten if not provided.~~
 - ~~Sort by name/date added/length/genre.~~
