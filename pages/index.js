@@ -2,6 +2,7 @@ import Head from "next/head";
 import {useEffect, useState} from "react";
 import Container from "@material-ui/core/Container";
 
+import {request} from "../utils/request";
 import List from "../components/list/list";
 import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
@@ -16,19 +17,15 @@ export default function Home() {
 
   useEffect(() => {
     if (stale) {
-      fetch("/api/movies/list")
-        .then((response) => response.json())
-        .then((json) => {
-          setStale(false);
-          setMovies(json.data);
-        });
+      request("/api/movies/list").then((response) => {
+        setStale(false);
+        setMovies(response.data);
+      });
 
-      fetch("/api/watched/list")
-        .then((response) => response.json())
-        .then((json) => {
-          setStale(false);
-          setWatchedMovies(json.data);
-        });
+      request("/api/watched/list").then((response) => {
+        setStale(false);
+        setWatchedMovies(response.data);
+      });
     }
   }, [stale]);
 
@@ -45,21 +42,8 @@ export default function Home() {
             setEnableAddMovie(true);
           }}
           onPick={async (options) => {
-            const response = await fetch("/api/movies/pick", {
-              method: "post",
-              body: JSON.stringify(options),
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-              },
-            });
-
-            if (response.status === 200) {
-              const movie = await response.json();
-              setMovies([movie]);
-            } else {
-              alert("Error Picking");
-            }
+            const response = await request("/api/movies/pick", options);
+            response.error ? alert("Error Picking") : setMovies([response]);
           }}
         />
 
@@ -69,90 +53,48 @@ export default function Home() {
             movies={movies}
             onAddingComplete={() => setEnableAddMovie(false)}
             onAddMovie={async (movie) => {
-              const response = await fetch("/api/movies/add", {
-                method: "post",
-                body: JSON.stringify(movie),
-                headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                },
-              });
-
-              if (response.status === 200) {
+              const response = await request("/api/movies/add", movie);
+              if (response.error) {
+                alert(`Error Adding ${JSON.stringify(movie)}`);
+              } else {
                 setStale(true);
                 setToastProps({message: `Added '${movie.title}'`});
-              } else {
-                alert(`Error Adding ${JSON.stringify(movie)}`);
               }
             }}
             onRemoveMovie={async (id) => {
-              const response = await fetch("/api/movies/delete", {
-                method: "post",
-                body: JSON.stringify({id}),
-                headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                },
-              });
-
-              if (response.status === 200) {
-                setStale(true);
-              } else {
-                alert("Error Deleting");
-              }
+              const response = await request("/api/movies/delete", {id});
+              response.error ? alert("Error Deleting") : setStale(true);
             }}
             onMarkWatched={async (movie) => {
-              const response = await fetch("/api/watched", {
-                method: "post",
-                body: JSON.stringify(movie),
-                headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                },
-              });
-
-              if (response.status === 200) {
+              const response = await request("/api/watched", movie);
+              if (response.error) {
+                alert("Error Marking Watched");
+              } else {
                 setStale(true);
                 setToastProps({
                   message: `Moved '${movie.title}' to watched list`,
                   onUndo: async () => {
-                    const addResponse = await fetch("/api/movies/add", {
-                      method: "post",
-                      body: JSON.stringify(movie),
-                      headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                      },
-                    });
+                    const addResponse = await request("/api/movies/add", movie);
 
-                    const deleteResponse = await fetch("/api/watched/delete", {
-                      method: "post",
-                      body: JSON.stringify({id: movie._id}),
-                      headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                      },
-                    });
+                    const deleteResponse = await request(
+                      "/api/watched/delete",
+                      {id: movie._id},
+                    );
 
-                    if (
-                      addResponse.status === 200 &&
-                      deleteResponse.status === 200
-                    ) {
-                      setStale(true);
-                      setToastProps({
-                        message: `Moved '${movie.title}' back to movies list`,
-                      });
-                    } else {
+                    if (addResponse.error || deleteResponse.error) {
                       alert(
                         `Error undoing move to watch list for ${JSON.stringify(
                           movie,
                         )}`,
                       );
+                    } else {
+                      setStale(true);
+                      setToastProps({
+                        message: `Moved '${movie.title}' back to movies list`,
+                      });
                     }
                   },
                 });
-              } else {
-                alert("Error Marking Watched");
               }
             }}
           />
@@ -160,20 +102,10 @@ export default function Home() {
           <WatchedList
             movies={watchedMovies}
             onRemoveMovie={async (id) => {
-              const response = await fetch("/api/watched/delete", {
-                method: "post",
-                body: JSON.stringify({id}),
-                headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                },
-              });
-
-              if (response.status === 200) {
-                setStale(true);
-              } else {
-                alert("Error Deleting From Watched List");
-              }
+              const response = await request("/api/watched/delete", {id});
+              response.error
+                ? alert("Error Deleting From Watched List")
+                : setStale(true);
             }}
           />
         </Container>
