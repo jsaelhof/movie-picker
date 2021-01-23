@@ -1,21 +1,12 @@
 import {Paper} from "@material-ui/core";
 import {useState} from "react";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
 import isNil from "lodash/isNil";
-import EyeCheckIcon from "mdi-material-ui/EyeCheck";
 import orderBy from "lodash/orderBy";
 
-import {formatRuntime} from "../../utils/format-runtime";
-import {genreLabels} from "../../constants/genres";
-import {sourceLogos} from "../../constants/sources";
-import {titleCase} from "../../utils/title-case";
-import ActionButton from "../action-button/action-button";
 import EditRow from "../edit-row/edit-row";
 import DeleteDialog from "../delete-dialog/delete-dialog";
-import ViewAction from "../view-action/view-action";
-import ListCell from "../list-cell/list-cell";
 import ListHeaderCell from "../list-header-cell/list-header-cell";
+import ListRow from "../list-row/list-row";
 
 import styles from "./list.module.css";
 
@@ -53,73 +44,19 @@ const List = ({movies, add, remove, watched}) => {
               editedMovie && movie._id === editedMovie ? (
                 <EditRow
                   movie={movies.find(({_id}) => _id === editedMovie)}
-                  save={(movie) => {
+                  onSave={(movie) => {
                     add(movie);
                     setEditedMovie(null);
                   }}
-                  cancel={() => setEditedMovie(null)}
+                  onCancel={() => setEditedMovie(null)}
                 />
               ) : (
-                <>
-                  <ListCell left>
-                    <a
-                      className={styles.link}
-                      href={`https://www.themoviedb.org/search?query=${movie.title.replace(
-                        " ",
-                        "+",
-                      )}`}
-                      target="moviedb"
-                    >
-                      {titleCase(movie.title)}
-                    </a>
-                  </ListCell>
-                  <ListCell>
-                    {movie.runtime ? formatRuntime(movie.runtime) : "-"}
-                  </ListCell>
-                  <ListCell>
-                    {movie.genre || genreLabels[movie.genre]
-                      ? titleCase(genreLabels[movie.genre])
-                      : "-"}
-                  </ListCell>
-                  <ListCell>
-                    <img
-                      src={sourceLogos[movie.source]}
-                      width="40"
-                      height="40"
-                    />
-                  </ListCell>
-                  <ListCell>
-                    <ViewAction movie={movie} />
-                    <ActionButton
-                      Icon={EditIcon}
-                      tooltip="Edit"
-                      movie={movie}
-                      onClick={(movie) => {
-                        setEditedMovie(
-                          movie._id,
-                          // movies.find(({_id}) => _id === movie._id),
-                        );
-                        // setRuntimeInput(
-                        //   movie.runtime
-                        //     ? formatRuntime(movie.runtime, true)
-                        //     : undefined,
-                        // );
-                      }}
-                    />
-                    <ActionButton
-                      Icon={EyeCheckIcon}
-                      tooltip="Mark as Watched"
-                      movie={movie}
-                      onClick={(movie) => watched(movie)}
-                    />
-                    <ActionButton
-                      Icon={DeleteIcon}
-                      tooltip="Delete"
-                      movie={movie}
-                      onClick={({_id}) => setDeleteMovie(_id)}
-                    />
-                  </ListCell>
-                </>
+                <ListRow
+                  movie={movie}
+                  onEditMovie={({_id}) => setEditedMovie(_id)}
+                  onDeleteMovie={({_id}) => setDeleteMovie(_id)}
+                  onMarkWatched={(movie) => watched(movie)}
+                />
               ),
             )}
         </div>

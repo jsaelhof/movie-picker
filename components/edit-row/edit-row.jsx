@@ -12,7 +12,7 @@ import ListSelect from "../list-select/list-select";
 
 import styles from "./edit-row.module.css";
 
-const EditRow = ({movie, save, cancel}) => {
+const EditRow = ({movie, onSave, onCancel}) => {
   const [runtimeInput, setRuntimeInput] = useState(
     movie.runtime ? formatRuntime(movie.runtime, true) : undefined,
   );
@@ -88,7 +88,7 @@ const EditRow = ({movie, save, cancel}) => {
                 (hours ? hours * 3600 : 0) + (minutes ? minutes * 60 : 0);
             }
 
-            save({
+            onSave({
               ...editedMovie,
               runtime,
             });
@@ -98,7 +98,7 @@ const EditRow = ({movie, save, cancel}) => {
           className={styles.editCancel}
           Icon={CloseIcon}
           tooltip="Cancel"
-          onClick={cancel}
+          onClick={onCancel}
         />
       </EditCell>
     </>

@@ -7,8 +7,3 @@
   grid-template-columns: auto 110px 110px max-content max-content;
   align-items: center;
 }
-
-.link {
-  text-decoration: none;
-  color: initial;
-}
