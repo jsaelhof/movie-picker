@@ -3,9 +3,9 @@ import {useState} from "react";
 import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
 
-import EditRow from "../edit-row/edit-row";
 import DeleteDialog from "../delete-dialog/delete-dialog";
-import ListHeaderCell from "../list-header-cell/list-header-cell";
+import EditRow from "../edit-row/edit-row";
+import ListHeaderRow from "../list-header-row/list-header-row";
 import ListRow from "../list-row/list-row";
 
 import styles from "./list.module.css";
@@ -26,18 +26,10 @@ const List = ({movies, add, remove, watched}) => {
     <>
       <Paper className={styles.list}>
         <div className={styles.movieList}>
-          <ListHeaderCell
-            left
-            onClick={() => setOrder(resolveOrder("title"))}
-          >{`Movies (${movies.length})`}</ListHeaderCell>
-          <ListHeaderCell onClick={() => setOrder(resolveOrder("runtime"))}>
-            Runtime
-          </ListHeaderCell>
-          <ListHeaderCell onClick={() => setOrder(resolveOrder("genre"))}>
-            Genre
-          </ListHeaderCell>
-          <ListHeaderCell>Source</ListHeaderCell>
-          <ListHeaderCell>Actions</ListHeaderCell>
+          <ListHeaderRow
+            count={movies.length}
+            onSort={(column) => setOrder(resolveOrder(column))}
+          />
 
           {movies &&
             orderBy(movies, [order[0]], [order[1]]).map((movie) =>
