@@ -8,6 +8,7 @@ import {
   Paper,
   Toolbar,
 } from "@material-ui/core";
+import AddToQueueIcon from "@material-ui/icons/AddToQueue";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ClockIcon from "mdi-material-ui/ClockOutline";
 import ClockFastIcon from "mdi-material-ui/ClockFast";
@@ -48,6 +49,7 @@ const TitleBar = ({onAdd, onPick}) => {
           <Movie />
           <div className={styles.title}>Movie Decider 4000</div>
           <Button variant="outlined" onClick={onAdd}>
+            <AddToQueueIcon className={styles.addToQueue} />
             Add Movie
           </Button>
 

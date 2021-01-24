@@ -17,6 +17,11 @@
   filter: invert(1);
 }
 
+.addToQueue {
+  margin-right: 16px;
+  color: slategray;
+}
+
 .mainButton {
   width: 180px;
 }
