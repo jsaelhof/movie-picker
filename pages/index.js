@@ -43,10 +43,10 @@ export default function Home() {
             setEnableAddMovie(true);
           }}
           onPick={async (options) => {
-            const repsonse = await axios.post(api.PICK_MOVIE, options);
+            const response = await axios.post(api.PICK_MOVIE, options);
             response.data.error
               ? alert("Error Picking")
-              : setMovies([repsonse.data]);
+              : setMovies([response.data]);
           }}
         />
 

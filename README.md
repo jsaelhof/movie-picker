@@ -1,5 +1,6 @@
 UI TODO:
 
+- Add a mute/disabled state to prevent a movie from being picked until reactivated.
 - Pick should not filter the list. Pop it up in a modal or insert a section under the button. Use a short animation of random selections before showing the choice.
 - Restrict pick to a certain genre.
 - No source. Is there a way to search Netflix/Prime/Disney?
@@ -33,7 +34,7 @@ DB TODO:
 - DB. Hook up to a real db? Mongo?
 - DB. Look at graphql/react query?
 - Probably no need to be returning the full list when endpoint requests complete. Just success is fine since ei'm not using the responses. Although I might be able to use the response to prevent the flashing of the list as it updates after a change.
-- Rebuild the pick endpoint to build a list of conditions to satisfy for each movie.
+- ~~Rebuild the pick endpoint to build a list of conditions to satisfy for each movie.~~
 - ~~Adding. Keep date added so I can sort it that way.~~
 - ~~Refactor DB methods to take a table for CRUD actions~~
 - ~~Make endpoints for "watched" things so i don't need to pass a tables constant to the endpoint~~.

@@ -22,19 +22,19 @@ const splitButtonItems = [
   {
     value: 0,
     label: "Pick a Short Movie",
-    options: {minRuntime: 0, maxRuntime: 5700},
+    options: {maxRuntime: 6000},
     Icon: ClockFastIcon,
   },
   {
     value: 1,
     label: "Pick a Regular Movie",
-    options: {minRuntime: 5701, maxRuntime: 7800},
+    options: {minRuntime: 6001, maxRuntime: 7800},
     Icon: ClockIcon,
   },
   {
     value: 2,
     label: "Pick a Long Movie",
-    options: {minRuntime: 7801, maxRuntime: 36000},
+    options: {minRuntime: 7801},
     Icon: TimerSandIcon,
   },
 ];
