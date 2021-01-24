@@ -1,11 +1,11 @@
 UI TODO:
 
-- Switch to Axios. Extract requests to their own files ot shorten things up.
 - Pick should not filter the list. Pop it up in a modal or insert a section under the button. Use a short animation of random selections before showing the choice.
 - Restrict pick to a certain genre.
 - No source. Is there a way to search Netflix/Prime/Disney?
 - Mobile view
 - Idea: Highlight/filter long and short movies on rollover? Probably not needed.
+- ~~Switch to Axios.~~
 - ~~Need to build a DB request wrapper. Too much duplication.~~
 - ~~Undo for move to watched list action. Use toast.~~
 - ~~Adding. Should this be a modal? A "drawer" space that slides open under the toolbar?~~

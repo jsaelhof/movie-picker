@@ -1,8 +1,9 @@
 import Head from "next/head";
 import {useEffect, useState} from "react";
+import axios from "axios";
 import Container from "@material-ui/core/Container";
 
-import {request} from "../utils/request";
+import {api} from "../constants/api";
 import List from "../components/list/list";
 import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
@@ -17,14 +18,14 @@ export default function Home() {
 
   useEffect(() => {
     if (stale) {
-      request("/api/movies/list").then((response) => {
+      axios.get(api.MOVIES).then(({data}) => {
         setStale(false);
-        setMovies(response.data);
+        setMovies(data.data);
       });
 
-      request("/api/watched/list").then((response) => {
+      axios.get(api.WATCHED_MOVIES).then(({data}) => {
         setStale(false);
-        setWatchedMovies(response.data);
+        setWatchedMovies(data.data);
       });
     }
   }, [stale]);
@@ -32,7 +33,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Create Next App</title>
+        <title>Movie Decider 4000</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -42,8 +43,10 @@ export default function Home() {
             setEnableAddMovie(true);
           }}
           onPick={async (options) => {
-            const response = await request("/api/movies/pick", options);
-            response.error ? alert("Error Picking") : setMovies([response]);
+            const repsonse = await axios.post(api.PICK_MOVIE, options);
+            response.data.error
+              ? alert("Error Picking")
+              : setMovies([repsonse.data]);
           }}
         />
 
@@ -53,8 +56,8 @@ export default function Home() {
             movies={movies}
             onAddingComplete={() => setEnableAddMovie(false)}
             onAddMovie={async (movie) => {
-              const response = await request("/api/movies/add", movie);
-              if (response.error) {
+              const response = await axios.post(api.ADD_MOVIE, movie);
+              if (response.data.error) {
                 alert(`Error Adding ${JSON.stringify(movie)}`);
               } else {
                 setStale(true);
@@ -62,26 +65,26 @@ export default function Home() {
               }
             }}
             onRemoveMovie={async (id) => {
-              const response = await request("/api/movies/delete", {id});
-              response.error ? alert("Error Deleting") : setStale(true);
+              const response = await axios.post(api.DELETE_MOVIE, {id});
+              response.data.error ? alert("Error Deleting") : setStale(true);
             }}
             onMarkWatched={async (movie) => {
-              const response = await request("/api/watched", movie);
-              if (response.error) {
+              const response = await axios.post(api.MARK_WATCHED, movie);
+              if (response.data.error) {
                 alert("Error Marking Watched");
               } else {
                 setStale(true);
                 setToastProps({
                   message: `Moved '${movie.title}' to watched list`,
                   onUndo: async () => {
-                    const addResponse = await request("/api/movies/add", movie);
+                    const addResponse = await axios.post(api.ADD_MOVIE, movie);
 
-                    const deleteResponse = await request(
-                      "/api/watched/delete",
+                    const deleteResponse = await axios.post(
+                      api.DELETE_WATCHED,
                       {id: movie._id},
                     );
 
-                    if (addResponse.error || deleteResponse.error) {
+                    if (addResponse.data.error || deleteResponse.data.error) {
                       alert(
                         `Error undoing move to watch list for ${JSON.stringify(
                           movie,
@@ -102,7 +105,7 @@ export default function Home() {
           <WatchedList
             movies={watchedMovies}
             onRemoveMovie={async (id) => {
-              const response = await request("/api/watched/delete", {id});
+              const response = await axios.post(api.DELETE_WATCHED, {id});
               response.error
                 ? alert("Error Deleting From Watched List")
                 : setStale(true);
