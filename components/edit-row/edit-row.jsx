@@ -20,6 +20,7 @@ const EditRow = ({movie, onSave, onCancel}) => {
 
   return (
     <>
+      <EditCell />
       <EditCell left dense>
         <TextField
           required

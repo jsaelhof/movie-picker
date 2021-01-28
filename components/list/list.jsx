@@ -63,6 +63,7 @@ const List = ({
               ) : (
                 <ListRow
                   movie={movie}
+                  onLockMovie={(movie) => onAddMovie(movie)}
                   onEditMovie={({_id}) => setEditedMovie(_id)}
                   onDeleteMovie={({_id}) => setDeleteMovie(_id)}
                   onMarkWatched={(movie) => onMarkWatched(movie)}

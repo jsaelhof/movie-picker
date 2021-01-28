@@ -14,6 +14,11 @@
   justify-content: left;
 }
 
+.dense {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
 .pointer {
   cursor: pointer;
 }

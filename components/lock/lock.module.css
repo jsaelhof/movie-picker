@@ -1,0 +1,22 @@
+.lock {
+  cursor: pointer;
+  margin-left: 12px;
+  display: flex;
+}
+
+.lockIcon {
+  font-size: 1rem !important;
+  color: grey;
+}
+
+.active {
+  opacity: 0;
+}
+
+.active:hover {
+  opacity: 1;
+}
+
+.locked:hover {
+  color: black;
+}

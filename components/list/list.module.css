@@ -4,6 +4,6 @@
 
 .movieList {
   display: grid;
-  grid-template-columns: auto 110px 110px max-content max-content;
+  grid-template-columns: 32px auto 110px 110px max-content max-content;
   align-items: center;
 }

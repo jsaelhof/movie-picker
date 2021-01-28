@@ -11,11 +11,14 @@ import {query} from "../../../db/db";
 const handler = (req, res) => {
   const {body} = req;
 
-  const filters = {};
+  const filters = {
+    locked: (locked) => !locked,
+  };
 
   if (!isNil(body.minRuntime) || !isNil(body.maxRuntime)) {
-    filters.runtime = (val) =>
-      val >= (body.minRuntime || 0) && val <= (body.maxRuntime || Infinity);
+    filters.runtime = (runtime) =>
+      runtime >= (body.minRuntime || 0) &&
+      runtime <= (body.maxRuntime || Infinity);
   }
 
   const list = filter(query(tables.MOVIES), conforms(filters));

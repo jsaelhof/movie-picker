@@ -11,11 +11,26 @@ import ViewAction from "../view-action/view-action";
 import ListCell from "../list-cell/list-cell";
 
 import styles from "./list-row.module.css";
+import Lock from "../lock/lock";
 
-const ListRow = ({movie, onEditMovie, onDeleteMovie, onMarkWatched}) => {
+const ListRow = ({
+  movie,
+  onLockMovie,
+  onEditMovie,
+  onDeleteMovie,
+  onMarkWatched,
+}) => {
   return (
     <>
-      <ListCell left>
+      <ListCell locked={movie.locked} dense>
+        <Lock
+          locked={movie.locked}
+          onToggleLock={(locked) => {
+            onLockMovie({...movie, locked});
+          }}
+        />
+      </ListCell>
+      <ListCell left locked={movie.locked} dense>
         <a
           className={styles.link}
           href={`https://www.themoviedb.org/search?query=${movie.title.replace(
@@ -27,8 +42,10 @@ const ListRow = ({movie, onEditMovie, onDeleteMovie, onMarkWatched}) => {
           {titleCase(movie.title)}
         </a>
       </ListCell>
-      <ListCell>{movie.runtime ? formatRuntime(movie.runtime) : "-"}</ListCell>
-      <ListCell>
+      <ListCell locked={movie.locked}>
+        {movie.runtime ? formatRuntime(movie.runtime) : "-"}
+      </ListCell>
+      <ListCell locked={movie.locked}>
         {movie.genre || genreLabels[movie.genre]
           ? titleCase(genreLabels[movie.genre])
           : "-"}

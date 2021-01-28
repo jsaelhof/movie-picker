@@ -1,11 +1,15 @@
+BUGS
+
+- If no movies meet the criteria (none less than 90 minutes, empty list etc) the app blows up
+
 UI TODO:
 
-- Add a mute/disabled state to prevent a movie from being picked until reactivated.
 - Pick should not filter the list. Pop it up in a modal or insert a section under the button. Use a short animation of random selections before showing the choice.
 - Restrict pick to a certain genre.
 - No source. Is there a way to search Netflix/Prime/Disney?
 - Mobile view
 - Idea: Highlight/filter long and short movies on rollover? Probably not needed.
+- ~~Add a mute/disabled state to prevent a movie from being picked until reactivated.~~
 - ~~Switch to Axios.~~
 - ~~Need to build a DB request wrapper. Too much duplication.~~
 - ~~Undo for move to watched list action. Use toast.~~

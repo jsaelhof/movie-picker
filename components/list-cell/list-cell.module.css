@@ -15,3 +15,7 @@
   padding-left: 4px;
   padding-right: 4px;
 }
+
+.locked {
+  opacity: 0.3;
+}

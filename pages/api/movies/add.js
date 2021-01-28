@@ -10,8 +10,9 @@ const handler = (req, res) => {
     const {body} = req;
 
     if (!body.title) throw new Error("Title is required");
-    if (!isNil(body.source) && !values(sources).includes(body.source))
-      throw new Error("Source is invalid");
+
+    if (isNil(body.source)) body.source = sources.NONE;
+    if (isNil(body.locked)) body.locked = false;
 
     const data = upsert(tables.MOVIES, body);
     res.status(200).json({data, added: body});

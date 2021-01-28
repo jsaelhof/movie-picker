@@ -3,8 +3,10 @@ import ListHeaderCell from "../list-header-cell/list-header-cell";
 const ListHeaderRow = ({count, onSort}) => {
   return (
     <>
+      <ListHeaderCell>&nbsp;</ListHeaderCell>
       <ListHeaderCell
         left
+        dense
         onClick={() => onSort("title")}
       >{`Movies (${count})`}</ListHeaderCell>
       <ListHeaderCell onClick={() => onSort("runtime")}>Runtime</ListHeaderCell>

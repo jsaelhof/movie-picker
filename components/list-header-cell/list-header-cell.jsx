@@ -4,11 +4,12 @@ import React from "react";
 
 import styles from "./list-header-cell.module.css";
 
-const ListHeaderCell = ({children, left, onClick}) => (
+const ListHeaderCell = ({children, left, dense, onClick}) => (
   <div
     className={clsx(
       styles.listHeader,
       left && styles.left,
+      dense && styles.dense,
       onClick && styles.pointer,
     )}
     onClick={onClick || noop}
