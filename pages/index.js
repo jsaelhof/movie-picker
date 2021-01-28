@@ -64,6 +64,14 @@ export default function Home() {
                 setToastProps({message: `Added '${movie.title}'`});
               }
             }}
+            onLockMovie={async (movie) => {
+              const response = await axios.post(api.ADD_MOVIE, movie);
+              if (response.data.error) {
+                alert(`Error Adding ${JSON.stringify(movie)}`);
+              } else {
+                setStale(true);
+              }
+            }}
             onRemoveMovie={async (id) => {
               const response = await axios.post(api.DELETE_MOVIE, {id});
               response.data.error ? alert("Error Deleting") : setStale(true);
