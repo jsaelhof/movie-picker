@@ -17,7 +17,7 @@ const List = ({
   onAddingComplete,
   onRemoveMovie,
   onMarkWatched,
-  onLockMovie,
+  onEditMovie,
 }) => {
   const [editedMovie, setEditedMovie] = useState(null);
   const [order, setOrder] = useState(["addedOn", "desc"]);
@@ -56,7 +56,7 @@ const List = ({
                 <EditRow
                   movie={movies.find(({_id}) => _id === editedMovie)}
                   onSave={(movie) => {
-                    onAddMovie(movie);
+                    onEditMovie(movie);
                     setEditedMovie(null);
                   }}
                   onCancel={() => setEditedMovie(null)}
@@ -64,7 +64,7 @@ const List = ({
               ) : (
                 <ListRow
                   movie={movie}
-                  onLockMovie={(movie) => onLockMovie(movie)}
+                  onLockMovie={(movie) => onEditMovie(movie)}
                   onEditMovie={({_id}) => setEditedMovie(_id)}
                   onDeleteMovie={({_id}) => setDeleteMovie(_id)}
                   onMarkWatched={(movie) => onMarkWatched(movie)}

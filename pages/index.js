@@ -64,7 +64,7 @@ export default function Home() {
                 setToastProps({message: `Added '${movie.title}'`});
               }
             }}
-            onLockMovie={async (movie) => {
+            onEditMovie={async (movie) => {
               const response = await axios.post(api.ADD_MOVIE, movie);
               if (response.data.error) {
                 alert(`Error Adding ${JSON.stringify(movie)}`);
