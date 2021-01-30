@@ -1,16 +1,16 @@
 BUGS
 
 - If no movies meet the criteria (none less than 90 minutes, empty list etc) the app blows up
-- Editing a movie shows the "added" toast.
+- ~~Editing a movie shows the "added" toast.~~
 
 UI TODO:
 
-- Create a centralized comm module for all requests to go through. Handle errors in one place, provide a callback for success. Maybe provide an option for showing a toast on success? Undo?
 - Pick should not filter the list. Pop it up in a modal or insert a section under the button. Use a short animation of random selections before showing the choice.
 - Restrict pick to a certain genre.
 - No source. Is there a way to search Netflix/Prime/Disney?
 - Mobile view
 - Idea: Highlight/filter long and short movies on rollover? Probably not needed.
+- ~~Create a centralized comm module for all requests to go through. Handle errors in one place, provide a callback for success. Maybe provide an option for showing a toast on success? Undo?~~
 - ~~Add a mute/disabled state to prevent a movie from being picked until reactivated.~~
 - ~~Switch to Axios.~~
 - ~~Need to build a DB request wrapper. Too much duplication.~~
@@ -34,7 +34,7 @@ UI TODO:
 
 DB TODO:
 
-- Might be best to separate the add endpoint from being used for editing. Or rename it to update.
+- Might be best to separate the add endpoint from being used for editing. Or rename it to update. Or just make one callled upsert since thats what it does,
 - Track how many times a movie has been "repicked"...might need a "Not tonight" button. Might be able to do something interesting with this data.
 - Pull in a movie rating? Length? Genre? Synopsis? Can get these from the moviedb api but I'd need to get results based on title and then either let you choose or filter results for an exact match of the title? Could be messy but would be really nice.
 - State needs to be reworked a bit. Passing a lot of functions into display components. Redux? UseReducer?

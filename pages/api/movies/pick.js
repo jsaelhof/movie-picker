@@ -1,7 +1,6 @@
 import conforms from "lodash/conforms";
 import filter from "lodash/filter";
 import isNil from "lodash/isNil";
-import reduce from "lodash/reduce";
 import sample from "lodash/sample";
 import size from "lodash/size";
 
@@ -22,7 +21,9 @@ const handler = (req, res) => {
   }
 
   const list = filter(query(tables.MOVIES), conforms(filters));
-  res.status(200).json(size(list) > 0 ? sample(list) : null);
+
+  if (size(list) === 0) res.status(500);
+  res.status(200).json(sample(list));
 };
 
 export default handler;

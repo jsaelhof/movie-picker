@@ -2,6 +2,7 @@ import Head from "next/head";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import Container from "@material-ui/core/Container";
+import noop from "lodash/noop";
 
 import {api} from "../constants/api";
 import List from "../components/list/list";
@@ -30,6 +31,16 @@ export default function Home() {
     }
   }, [stale]);
 
+  const send = async (endpoint, body, onSuccess = noop, errorMessage) => {
+    try {
+      const response = await axios.post(endpoint, body);
+      onSuccess(response.data);
+    } catch (err) {
+      console.error(err);
+      if (errorMessage) alert(errorMessage);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -42,12 +53,14 @@ export default function Home() {
           onAdd={() => {
             setEnableAddMovie(true);
           }}
-          onPick={async (options) => {
-            const response = await axios.post(api.PICK_MOVIE, options);
-            response.data.error
-              ? alert("Error Picking")
-              : setMovies([response.data]);
-          }}
+          onPick={(options) =>
+            send(
+              api.PICK_MOVIE,
+              options,
+              (data) => setMovies([data]),
+              "Error picking a movie",
+            )
+          }
         />
 
         <Container>
@@ -55,69 +68,73 @@ export default function Home() {
             enableAddMovie={enableAddMovie}
             movies={movies}
             onAddingComplete={() => setEnableAddMovie(false)}
-            onAddMovie={async (movie) => {
-              const response = await axios.post(api.ADD_MOVIE, movie);
-              if (response.data.error) {
-                alert(`Error Adding ${JSON.stringify(movie)}`);
-              } else {
-                setStale(true);
-                setToastProps({message: `Added '${movie.title}'`});
-              }
-            }}
-            onEditMovie={async (movie) => {
-              const response = await axios.post(api.ADD_MOVIE, movie);
-              if (response.data.error) {
-                alert(`Error Adding ${JSON.stringify(movie)}`);
-              } else {
-                setStale(true);
-              }
-            }}
-            onRemoveMovie={async (id) => {
-              const response = await axios.post(api.DELETE_MOVIE, {id});
-              response.data.error ? alert("Error Deleting") : setStale(true);
-            }}
-            onMarkWatched={async (movie) => {
-              const response = await axios.post(api.MARK_WATCHED, movie);
-              if (response.data.error) {
-                alert("Error Marking Watched");
-              } else {
+            onAddMovie={(movie) =>
+              send(
+                api.ADD_MOVIE,
+                movie,
+                () => {
+                  setStale(true);
+                  setToastProps({message: `Added '${movie.title}'`});
+                },
+                `Error adding ${JSON.stringify(movie)}`,
+              )
+            }
+            onEditMovie={(movie) =>
+              send(
+                api.ADD_MOVIE,
+                movie,
+                () => setStale(true),
+                `Error editing ${JSON.stringify(movie)}`,
+              )
+            }
+            onRemoveMovie={(id) =>
+              send(
+                api.DELETE_MOVIE,
+                {id},
+                () => setStale(true),
+                `Error deleting movie`,
+              )
+            }
+            onMarkWatched={(movie) =>
+              send(api.MARK_WATCHED, movie, () => {
                 setStale(true);
                 setToastProps({
                   message: `Moved '${movie.title}' to watched list`,
                   onUndo: async () => {
-                    const addResponse = await axios.post(api.ADD_MOVIE, movie);
-
-                    const deleteResponse = await axios.post(
-                      api.DELETE_WATCHED,
-                      {id: movie._id},
+                    const errorMessage = `Error undoing move to watch list for ${movie.title}}`;
+                    send(
+                      api.ADD_MOVIE,
+                      movie,
+                      () =>
+                        send(
+                          api.DELETE_WATCHED,
+                          {id: movie._id},
+                          () => {
+                            setStale(true);
+                            setToastProps({
+                              message: `Moved '${movie.title}' back to movies list`,
+                            });
+                          },
+                          errorMessage,
+                        ),
+                      errorMessage,
                     );
-
-                    if (addResponse.data.error || deleteResponse.data.error) {
-                      alert(
-                        `Error undoing move to watch list for ${JSON.stringify(
-                          movie,
-                        )}`,
-                      );
-                    } else {
-                      setStale(true);
-                      setToastProps({
-                        message: `Moved '${movie.title}' back to movies list`,
-                      });
-                    }
                   },
                 });
-              }
-            }}
+              })
+            }
           />
 
           <WatchedList
             movies={watchedMovies}
-            onRemoveMovie={async (id) => {
-              const response = await axios.post(api.DELETE_WATCHED, {id});
-              response.error
-                ? alert("Error Deleting From Watched List")
-                : setStale(true);
-            }}
+            onRemoveMovie={(id) =>
+              send(
+                apii.DELETE_WATCHED,
+                {id},
+                () => setStale(true),
+                "Error deleting from watched list",
+              )
+            }
           />
         </Container>
       </div>
