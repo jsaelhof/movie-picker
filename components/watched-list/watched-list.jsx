@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {format} from "date-fns";
-import {Paper, Tooltip} from "@material-ui/core";
+import {Paper} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
@@ -43,7 +43,7 @@ const WatchedList = ({movies, onRemoveMovie}) => {
                 </ListCell>
                 <ListCell left>
                   {movie.watched
-                    ? format(new Date(movie.watched), "MMM Do, yyyy")
+                    ? format(new Date(movie.watched), "MMM do, yyyy")
                     : "-"}
                 </ListCell>
                 <ListCell>

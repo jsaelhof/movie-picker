@@ -1,6 +1,7 @@
 BUGS
 
-- If no movies meet the criteria (none less than 90 minutes, empty list etc) the app blows up
+- ~~If no movies meet the criteria (none less than 90 minutes, empty list etc) the app blows up~~
+- ~~Date displays day of year, not month, on watched list (i.e. Feb 32nd instead of Feb 1st)~~
 - ~~Editing a movie shows the "added" toast.~~
 
 UI TODO:
@@ -10,6 +11,7 @@ UI TODO:
 - No source. Is there a way to search Netflix/Prime/Disney?
 - Mobile view
 - Idea: Highlight/filter long and short movies on rollover? Probably not needed.
+- ~~Add a proper error dialog and haandling~~
 - ~~Create a centralized comm module for all requests to go through. Handle errors in one place, provide a callback for success. Maybe provide an option for showing a toast on success? Undo?~~
 - ~~Add a mute/disabled state to prevent a movie from being picked until reactivated.~~
 - ~~Switch to Axios.~~

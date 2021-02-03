@@ -1,6 +1,6 @@
 import isNil from "lodash/isNil";
-import values from "lodash/values";
 
+import {errorAdding} from "../../../errors/error_adding";
 import {upsert} from "../../../db/db";
 import {sources} from "../../../constants/sources";
 import {tables} from "../../../constants/tables";
@@ -9,7 +9,7 @@ const handler = (req, res) => {
   try {
     const {body} = req;
 
-    if (!body.title) throw new Error("Title is required");
+    if (!body.title) res.status(200).json(errorAdding());
 
     if (isNil(body.source)) body.source = sources.NONE;
     if (isNil(body.locked)) body.locked = false;

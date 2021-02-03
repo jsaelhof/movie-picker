@@ -2,13 +2,14 @@ import Head from "next/head";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import Container from "@material-ui/core/Container";
-import noop from "lodash/noop";
 
 import {api} from "../constants/api";
+import {comm} from "../comm/comm";
 import List from "../components/list/list";
 import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
+import ErrorDialog from "../components/error-dialog/error-dialog";
 
 export default function Home() {
   const [movies, setMovies] = useState();
@@ -16,6 +17,11 @@ export default function Home() {
   const [stale, setStale] = useState(true);
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [toastProps, setToastProps] = useState(null);
+  const [error, setError] = useState(null);
+
+  const send = comm((errorMessage) => {
+    setError(errorMessage);
+  });
 
   useEffect(() => {
     if (stale) {
@@ -31,16 +37,6 @@ export default function Home() {
     }
   }, [stale]);
 
-  const send = async (endpoint, body, onSuccess = noop, errorMessage) => {
-    try {
-      const response = await axios.post(endpoint, body);
-      onSuccess(response.data);
-    } catch (err) {
-      console.error(err);
-      if (errorMessage) alert(errorMessage);
-    }
-  };
-
   return (
     <>
       <Head>
@@ -54,12 +50,7 @@ export default function Home() {
             setEnableAddMovie(true);
           }}
           onPick={(options) =>
-            send(
-              api.PICK_MOVIE,
-              options,
-              (data) => setMovies([data]),
-              "Error picking a movie",
-            )
+            send(api.PICK_MOVIE, options, (data) => setMovies([data]))
           }
         />
 
@@ -69,31 +60,16 @@ export default function Home() {
             movies={movies}
             onAddingComplete={() => setEnableAddMovie(false)}
             onAddMovie={(movie) =>
-              send(
-                api.ADD_MOVIE,
-                movie,
-                () => {
-                  setStale(true);
-                  setToastProps({message: `Added '${movie.title}'`});
-                },
-                `Error adding ${JSON.stringify(movie)}`,
-              )
+              send(api.ADD_MOVIE, movie, () => {
+                setStale(true);
+                setToastProps({message: `Added '${movie.title}'`});
+              })
             }
             onEditMovie={(movie) =>
-              send(
-                api.ADD_MOVIE,
-                movie,
-                () => setStale(true),
-                `Error editing ${JSON.stringify(movie)}`,
-              )
+              send(api.ADD_MOVIE, movie, () => setStale(true))
             }
             onRemoveMovie={(id) =>
-              send(
-                api.DELETE_MOVIE,
-                {id},
-                () => setStale(true),
-                `Error deleting movie`,
-              )
+              send(api.DELETE_MOVIE, {id}, () => setStale(true))
             }
             onMarkWatched={(movie) =>
               send(api.MARK_WATCHED, movie, () => {
@@ -101,23 +77,13 @@ export default function Home() {
                 setToastProps({
                   message: `Moved '${movie.title}' to watched list`,
                   onUndo: async () => {
-                    const errorMessage = `Error undoing move to watch list for ${movie.title}}`;
-                    send(
-                      api.ADD_MOVIE,
-                      movie,
-                      () =>
-                        send(
-                          api.DELETE_WATCHED,
-                          {id: movie._id},
-                          () => {
-                            setStale(true);
-                            setToastProps({
-                              message: `Moved '${movie.title}' back to movies list`,
-                            });
-                          },
-                          errorMessage,
-                        ),
-                      errorMessage,
+                    send(api.ADD_MOVIE, movie, () =>
+                      send(api.DELETE_WATCHED, {id: movie._id}, () => {
+                        setStale(true);
+                        setToastProps({
+                          message: `Moved '${movie.title}' back to movies list`,
+                        });
+                      }),
                     );
                   },
                 });
@@ -128,12 +94,7 @@ export default function Home() {
           <WatchedList
             movies={watchedMovies}
             onRemoveMovie={(id) =>
-              send(
-                apii.DELETE_WATCHED,
-                {id},
-                () => setStale(true),
-                "Error deleting from watched list",
-              )
+              send(api.DELETE_WATCHED, {id}, () => setStale(true))
             }
           />
         </Container>
@@ -143,6 +104,12 @@ export default function Home() {
         open={toastProps !== null}
         onClose={() => setToastProps(null)}
         {...toastProps}
+      />
+
+      <ErrorDialog
+        open={error}
+        content={error}
+        onConfirm={() => setError(null)}
       />
     </>
   );

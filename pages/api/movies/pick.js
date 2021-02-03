@@ -4,6 +4,7 @@ import isNil from "lodash/isNil";
 import sample from "lodash/sample";
 import size from "lodash/size";
 
+import {errorPicking} from "../../../errors/error_picking";
 import {tables} from "../../../constants/tables";
 import {query} from "../../../db/db";
 
@@ -22,8 +23,11 @@ const handler = (req, res) => {
 
   const list = filter(query(tables.MOVIES), conforms(filters));
 
-  if (size(list) === 0) res.status(500);
-  res.status(200).json(sample(list));
+  if (size(list) === 0) {
+    res.status(200).json(errorPicking());
+  } else {
+    res.status(200).json(sample(list));
+  }
 };
 
 export default handler;

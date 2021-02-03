@@ -1,3 +1,4 @@
+import {errorDeleting} from "../../../errors/error_deleting";
 import {tables} from "../../../constants/tables";
 import {remove} from "../../../db/db";
 
@@ -5,7 +6,7 @@ const handler = (req, res) => {
   try {
     const {body} = req;
 
-    if (!body.id) throw new Error("Id is required");
+    if (!body.id) res.status(200).json(errorDeleting());
 
     const data = remove(tables.MOVIES, body.id);
     res.status(200).json({data, deleted: body});
