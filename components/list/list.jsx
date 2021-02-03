@@ -54,6 +54,7 @@ const List = ({
             orderBy(movies, [order[0]], [order[1]]).map((movie) =>
               editedMovie && movie._id === editedMovie ? (
                 <EditRow
+                  key={movie._id}
                   movie={movies.find(({_id}) => _id === editedMovie)}
                   onSave={(movie) => {
                     onEditMovie(movie);
@@ -63,6 +64,7 @@ const List = ({
                 />
               ) : (
                 <ListRow
+                  key={movie._id}
                   movie={movie}
                   onLockMovie={(movie) => onEditMovie(movie)}
                   onEditMovie={({_id}) => setEditedMovie(_id)}

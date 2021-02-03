@@ -7,7 +7,7 @@ import styles from "./action-button.module.css";
 
 const ActionButton = ({
   Icon,
-  tooltip,
+  tooltip = "",
   movie = {},
   disabled,
   onClick,

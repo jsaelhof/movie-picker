@@ -107,7 +107,7 @@ export default function Home() {
       />
 
       <ErrorDialog
-        open={error}
+        open={!!error}
         content={error}
         onConfirm={() => setError(null)}
       />
