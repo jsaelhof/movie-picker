@@ -7,7 +7,7 @@ const id = () => random(100000000, 999999999).toString();
 const read = (table) => JSON.parse(fs.readFileSync(`db/${table}.json`));
 
 const update = (table, updatedData) => {
-  fs.writeFileSync(`db/${table}.json`, JSON.stringify(updatedData));
+  fs.writeFileSync(`db/${table}.json`, JSON.stringify(updatedData, null, 2));
   return query(table);
 };
 
