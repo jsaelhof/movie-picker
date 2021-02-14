@@ -25,14 +25,14 @@ export default function Home() {
     setError(errorMessage);
   });
 
-  const dbEndpoint = (endpoint) => endpoint.replace("%db%", db);
+  const dbEndpoint = (endpoint) => endpoint.replace("%db%", db.id);
 
   useEffect(() => {
     if (!dbs) {
       send(api.LOAD_DB, {}, (dbs) => {
         // Default to the first dbs
         setDbs(dbs);
-        setDb(dbs[0].id);
+        setDb(dbs[0]);
       });
     } else if (db && stale) {
       axios.get(dbEndpoint(api.MOVIES)).then(({data}) => {
@@ -56,6 +56,8 @@ export default function Home() {
 
       <div>
         <TitleBar
+          dbs={dbs}
+          currentDb={db}
           onAdd={() => {
             setEnableAddMovie(true);
           }}

@@ -17,6 +17,7 @@ import Movie from "@material-ui/icons/Movie";
 import {useState} from "react";
 
 import styles from "./titlebar.module.css";
+import {delBasePath} from "next/dist/next-server/lib/router/router";
 
 const splitButtonItems = [
   {
@@ -39,7 +40,7 @@ const splitButtonItems = [
   },
 ];
 
-const TitleBar = ({onAdd, onPick}) => {
+const TitleBar = ({dbs, currentDb, onAdd, onPick}) => {
   const [openSplitButton, setOpenSplitButton] = useState(false);
 
   return (
@@ -48,6 +49,9 @@ const TitleBar = ({onAdd, onPick}) => {
         <Toolbar className={styles.toolbar}>
           <Movie />
           <div className={styles.title}>Movie Decider 4000</div>
+
+          <div>{currentDb?.label}</div>
+
           <Button variant="outlined" onClick={onAdd}>
             <AddToQueueIcon className={styles.addToQueue} />
             Add Movie

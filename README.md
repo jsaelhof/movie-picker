@@ -6,6 +6,8 @@ BUGS
 
 UI TODO:
 
+- Move db name and buttons into a subheader under the title bar. DB on the left, buttons on the right.
+- Make DB name a combobox and allow switching
 - Pick should not filter the list. Pop it up in a modal or insert a section under the button. Use a short animation of random selections before showing the choice.
 - Restrict pick to a certain genre.
 - No source. Is there a way to search Netflix/Prime/Disney?
