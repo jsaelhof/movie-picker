@@ -110,9 +110,10 @@
     "title": "Roman J Israel, Esquire",
     "runtime": 7320,
     "genre": 2,
-    "source": 1,
+    "source": 0,
     "addedOn": "2021-01-15T00:00:25.000Z",
-    "locked": false
+    "locked": false,
+    "editedOn": "2021-02-14T07:28:06.139Z"
   },
   "296155258": {
     "_id": "296155258",
@@ -204,15 +205,6 @@
     "runtime": 7200,
     "genre": 2,
     "source": 4,
-    "addedOn": "2021-01-15T00:00:25.000Z",
-    "locked": false
-  },
-  "621782107": {
-    "_id": "621782107",
-    "title": "Taking Of Pelham 123",
-    "runtime": 6360,
-    "genre": 3,
-    "source": 0,
     "addedOn": "2021-01-15T00:00:25.000Z",
     "locked": false
   },
