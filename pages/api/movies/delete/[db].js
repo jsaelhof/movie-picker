@@ -1,14 +1,18 @@
-import {errorDeleting} from "../../../errors/error_deleting";
-import {tables} from "../../../constants/tables";
-import {remove} from "../../../db/db";
+import {errorDeleting} from "../../../../errors/error_deleting";
+import {tables} from "../../../../constants/tables";
+import {remove} from "../../../../db/db";
 
 const handler = (req, res) => {
+  const {
+    query: {db},
+  } = req;
+
   try {
     const {body} = req;
 
     if (!body.id) res.status(200).json(errorDeleting());
 
-    const data = remove(tables.WATCHED, body.id);
+    const data = remove(db, tables.MOVIES, body.id);
     res.status(200).json({data, deleted: body});
   } catch (err) {
     console.log(err);

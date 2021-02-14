@@ -36,6 +36,7 @@ UI TODO:
 
 DB TODO:
 
+- Switch DB's so we can have more than one list
 - Might be best to separate the add endpoint from being used for editing. Or rename it to update. Or just make one callled upsert since thats what it does,
 - Track how many times a movie has been "repicked"...might need a "Not tonight" button. Might be able to do something interesting with this data.
 - Pull in a movie rating? Length? Genre? Synopsis? Can get these from the moviedb api but I'd need to get results based on title and then either let you choose or filter results for an exact match of the title? Could be messy but would be really nice.
