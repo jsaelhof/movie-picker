@@ -5,6 +5,7 @@ import Container from "@material-ui/core/Container";
 
 import {api} from "../constants/api";
 import {comm} from "../comm/comm";
+import ActionBar from "../components/action-bar/action-bar";
 import List from "../components/list/list";
 import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
@@ -58,6 +59,27 @@ export default function Home() {
         <TitleBar
           dbs={dbs}
           currentDb={db}
+          onDBChange={(value) => {
+            setDb(dbs.find(({id}) => id === value));
+            setStale(true);
+          }}
+          onAdd={() => {
+            setEnableAddMovie(true);
+          }}
+          onPick={(options) =>
+            send(dbEndpoint(api.PICK_MOVIE), options, (data) =>
+              setMovies([data]),
+            )
+          }
+        />
+
+        <ActionBar
+          dbs={dbs}
+          currentDb={db}
+          onDBChange={(value) => {
+            setDb(dbs.find(({id}) => id === value));
+            setStale(true);
+          }}
           onAdd={() => {
             setEnableAddMovie(true);
           }}
