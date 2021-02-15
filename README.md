@@ -6,13 +6,14 @@ BUGS
 
 UI TODO:
 
-- Move db name and buttons into a subheader under the title bar. DB on the left, buttons on the right.
-- Make DB name a combobox and allow switching
+- local storage for last db used?
 - Pick should not filter the list. Pop it up in a modal or insert a section under the button. Use a short animation of random selections before showing the choice.
 - Restrict pick to a certain genre.
 - No source. Is there a way to search Netflix/Prime/Disney?
 - Mobile view
 - Idea: Highlight/filter long and short movies on rollover? Probably not needed.
+- ~~Move db name and buttons into a subheader under the title bar. DB on the left, buttons on the right.~~
+- ~~Make DB name a combobox and allow switching~~
 - ~~Add a proper error dialog and haandling~~
 - ~~Create a centralized comm module for all requests to go through. Handle errors in one place, provide a callback for success. Maybe provide an option for showing a toast on success? Undo?~~
 - ~~Add a mute/disabled state to prevent a movie from being picked until reactivated.~~
@@ -38,7 +39,6 @@ UI TODO:
 
 DB TODO:
 
-- Switch DB's so we can have more than one list
 - Might be best to separate the add endpoint from being used for editing. Or rename it to update. Or just make one callled upsert since thats what it does,
 - Track how many times a movie has been "repicked"...might need a "Not tonight" button. Might be able to do something interesting with this data.
 - Pull in a movie rating? Length? Genre? Synopsis? Can get these from the moviedb api but I'd need to get results based on title and then either let you choose or filter results for an exact match of the title? Could be messy but would be really nice.
@@ -46,6 +46,7 @@ DB TODO:
 - DB. Hook up to a real db? Mongo?
 - DB. Look at graphql/react query?
 - Probably no need to be returning the full list when endpoint requests complete. Just success is fine since ei'm not using the responses. Although I might be able to use the response to prevent the flashing of the list as it updates after a change.
+- ~~Switch DB's so we can have more than one list~~
 - ~~Rebuild the pick endpoint to build a list of conditions to satisfy for each movie.~~
 - ~~Adding. Keep date added so I can sort it that way.~~
 - ~~Refactor DB methods to take a table for CRUD actions~~

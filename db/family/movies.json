@@ -1,1 +1,21 @@
-[]
+{
+  "624178850": {
+    "_id": "624178850",
+    "addedOn": "2021-02-15T05:24:03.698Z",
+    "title": "National Treasure 2: Book Of Secrets",
+    "genre": 5,
+    "source": 6,
+    "runtime": 7500,
+    "locked": false,
+    "editedOn": "2021-02-15T05:24:03.698Z"
+  },
+  "678824743": {
+    "_id": "678824743",
+    "addedOn": "2021-02-15T05:21:21.583Z",
+    "title": "Grown Ups",
+    "genre": 1,
+    "source": 0,
+    "locked": false,
+    "editedOn": "2021-02-15T05:21:21.583Z"
+  }
+}
