@@ -12,6 +12,7 @@ UI TODO:
 - No source. Is there a way to search Netflix/Prime/Disney?
 - Mobile view
 - Idea: Highlight/filter long and short movies on rollover? Probably not needed.
+- ~~Focus on the title field after clicking add movie~~
 - ~~Move db name and buttons into a subheader under the title bar. DB on the left, buttons on the right.~~
 - ~~Make DB name a combobox and allow switching~~
 - ~~Add a proper error dialog and haandling~~
