@@ -34,6 +34,7 @@ const EditRow = ({movie, onSave, onCancel}) => {
           onChange={({target}) =>
             setEditedMovie({...editedMovie, title: target.value})
           }
+          autoFocus
         />
       </EditCell>
       <EditCell dense>
