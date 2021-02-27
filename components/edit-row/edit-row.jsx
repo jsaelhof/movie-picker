@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {TextField} from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import DoneIcon from "@material-ui/icons/Done";
+import SearchIcon from "@material-ui/icons/Search";
 
 import {formatRuntime} from "../../utils/format-runtime";
 import {genreLabels, genres} from "../../constants/genres";
@@ -9,14 +10,14 @@ import {sourceLabels, sourceLogos, sources} from "../../constants/sources";
 import ActionButton from "../action-button/action-button";
 import EditCell from "../edit-cell/edit-cell";
 import ListSelect from "../list-select/list-select";
-
-import styles from "./edit-row.module.css";
+import SearchMovieDialog from "../search-movie-dialog/search-movie-dialog";
 
 const EditRow = ({movie, onSave, onCancel}) => {
   const [runtimeInput, setRuntimeInput] = useState(
-    movie.runtime ? formatRuntime(movie.runtime, true) : undefined,
+    movie.runtime ? formatRuntime(movie.runtime, true) : "",
   );
   const [editedMovie, setEditedMovie] = useState(movie);
+  const [search, setSearch] = useState();
 
   return (
     <>
@@ -26,7 +27,7 @@ const EditRow = ({movie, onSave, onCancel}) => {
           required
           id="title"
           label="Title"
-          value={editedMovie.title}
+          value={editedMovie.title || ""}
           margin="dense"
           fullWidth
           variant="outlined"
@@ -72,7 +73,13 @@ const EditRow = ({movie, onSave, onCancel}) => {
       </EditCell>
       <EditCell>
         <ActionButton
-          className={styles.editDone}
+          Icon={SearchIcon}
+          tooltip="Search OMDB"
+          onClick={() => {
+            setSearch(editedMovie.title);
+          }}
+        />
+        <ActionButton
           Icon={DoneIcon}
           tooltip="Save"
           onClick={() => {
@@ -96,13 +103,30 @@ const EditRow = ({movie, onSave, onCancel}) => {
             });
           }}
         />
-        <ActionButton
-          className={styles.editCancel}
-          Icon={CloseIcon}
-          tooltip="Cancel"
-          onClick={onCancel}
-        />
+        <ActionButton Icon={CloseIcon} tooltip="Cancel" onClick={onCancel} />
       </EditCell>
+
+      {search && (
+        <SearchMovieDialog
+          search={search}
+          onUseInfo={({title, runtime, genre}) => {
+            setEditedMovie({
+              ...editedMovie,
+              title,
+              genre,
+            });
+
+            if (runtime) {
+              setRuntimeInput(runtime);
+            }
+
+            setSearch(null);
+          }}
+          onCancel={() => {
+            setSearch(null);
+          }}
+        />
+      )}
     </>
   );
 };

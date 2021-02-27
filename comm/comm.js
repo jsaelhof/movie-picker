@@ -27,6 +27,6 @@ export const comm = (onError) => async (endpoint, body, onSuccess = noop) => {
     }
   } catch (err) {
     console.error(err);
-    onError(`Unknown Error\nerr`);
+    onError(`Unknown Error\n${err}`);
   }
 };

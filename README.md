@@ -12,6 +12,10 @@ UI TODO:
 - No source. Is there a way to search Netflix/Prime/Disney?
 - Mobile view
 - Idea: Highlight/filter long and short movies on rollover? Probably not needed.
+- Use TheMovieDatabase API to get a list of places the movie is streaming from. Look for services I have access to.
+- Add React Spring. Use it to delay displaying of the "Searching..." in the Search Movie Dialog.
+- ~~Extract API url/key for OMDB from search movie dialog.~~
+- ~~Add a search from OMDB to get a list of movies to match from based on a title.~~
 - ~~Focus on the title field after clicking add movie~~
 - ~~Move db name and buttons into a subheader under the title bar. DB on the left, buttons on the right.~~
 - ~~Make DB name a combobox and allow switching~~
