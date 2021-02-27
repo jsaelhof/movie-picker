@@ -56,22 +56,7 @@ export default function Home() {
       </Head>
 
       <div>
-        <TitleBar
-          dbs={dbs}
-          currentDb={db}
-          onDBChange={(value) => {
-            setDb(dbs.find(({id}) => id === value));
-            setStale(true);
-          }}
-          onAdd={() => {
-            setEnableAddMovie(true);
-          }}
-          onPick={(options) =>
-            send(dbEndpoint(api.PICK_MOVIE), options, (data) =>
-              setMovies([data]),
-            )
-          }
-        />
+        <TitleBar />
 
         <ActionBar
           dbs={dbs}
