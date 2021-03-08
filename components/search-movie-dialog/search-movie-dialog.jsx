@@ -5,12 +5,13 @@ import {
   DialogContent,
   TextField,
 } from "@material-ui/core";
+import axios from "axios";
 import findKey from "lodash/findKey";
 import isNil from "lodash/isNil";
 import React, {useEffect, useRef, useState} from "react";
 
+import {api} from "../../constants/api";
 import {genreLabels} from "../../constants/genres";
-import {omdbSearch, omdbTitle} from "../../comm/omdb";
 import MoviePoster from "./movie-poster";
 
 import styles from "./search-movie-dialog.module.css";
@@ -28,8 +29,10 @@ const SearchMovieDialog = ({search: initialSearch, onUseInfo, onCancel}) => {
 
   useEffect(() => {
     const title = async () => {
-      const {Title, Response, Runtime, Genre, Poster} = await omdbTitle(
-        movies[selectedMovie].Title,
+      const {
+        data: {Title, Response, Runtime, Genre, Poster},
+      } = await axios.get(
+        api.OMDB_TITLE.replace("%title%", movies[selectedMovie].Title),
       );
 
       if (Response === "True") {
@@ -61,7 +64,11 @@ const SearchMovieDialog = ({search: initialSearch, onUseInfo, onCancel}) => {
   useEffect(() => {
     const search = async () => {
       setSearchStale(false);
-      const {Response, Search} = await omdbSearch(searchInput);
+
+      const {
+        data: {Response, Search},
+      } = await axios.get(api.OMDB_SEARCH.replace("%title%", searchInput));
+
       // Note: Data includes the number of results but Search is limited to 10 per request.
       // If needed, a Load More button could be implemented.
       setMovies(Response === "True" ? Search : []);

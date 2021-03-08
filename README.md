@@ -9,11 +9,12 @@ UI TODO:
 - local storage for last db used?
 - Pick should not filter the list. Pop it up in a modal or insert a section under the button. Use a short animation of random selections before showing the choice.
 - Restrict pick to a certain genre.
-- No source. Is there a way to search Netflix/Prime/Disney?
 - Mobile view
 - Idea: Highlight/filter long and short movies on rollover? Probably not needed.
-- Use TheMovieDatabase API to get a list of places the movie is streaming from. Look for services I have access to.
+- Use TheMovieDatabase API to get a list of places the movie is streaming from. Look for services I have access to. Need to figure out how to tie this into my search box with OMDB.
 - Add React Spring. Use it to delay displaying of the "Searching..." in the Search Movie Dialog.
+- ~~Need to move OMDB comm stuff to an endpoint and just use axios to call it directly (no need for the comm).~~
+- ~~Need to protect the API keys in .env.local so they aren't in github and they arent exposed on the client. My omdb endpoint should use axios to call omdb internally which should keep the API key secret.~~
 - ~~Extract API url/key for OMDB from search movie dialog.~~
 - ~~Add a search from OMDB to get a list of movies to match from based on a title.~~
 - ~~Focus on the title field after clicking add movie~~

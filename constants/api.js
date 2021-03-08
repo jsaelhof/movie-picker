@@ -7,4 +7,6 @@ export const api = Object.freeze({
   WATCHED_MOVIES: "/api/watched/list/%db%",
   DELETE_WATCHED: "/api/watched/delete/%db%",
   MARK_WATCHED: "/api/watched/watched/%db%",
+  OMDB_SEARCH: "/api/omdb/search/%title%",
+  OMDB_TITLE: "/api/omdb/title/%title%",
 });
