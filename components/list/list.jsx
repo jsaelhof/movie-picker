@@ -13,6 +13,7 @@ import styles from "./list.module.css";
 const List = ({
   movies,
   enableAddMovie,
+  picking,
   onAddMovie,
   onAddingComplete,
   onRemoveMovie,
@@ -22,6 +23,10 @@ const List = ({
   const [editedMovie, setEditedMovie] = useState(null);
   const [order, setOrder] = useState(["addedOn", "desc"]);
   const [deleteMovie, setDeleteMovie] = useState(null);
+
+  // If the pick menu is open, cancel editing.
+  // TODO: Move this to a context?
+  if (picking && editedMovie) setEditedMovie(null);
 
   if (!movies) return null;
 

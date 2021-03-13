@@ -6,7 +6,15 @@ import SplitButton from "../split-button/split-button";
 
 import styles from "./action-bar.module.css";
 
-const TitleBar = ({dbs, currentDb, onDBChange, onAdd, onPick}) => {
+const TitleBar = ({
+  dbs,
+  currentDb,
+  onDBChange,
+  onAdd,
+  onPick,
+  onOpenPickMenu,
+  onClosePickMenu,
+}) => {
   return (
     <div className={styles.appBar}>
       <AppBar position="static" color="transparent" elevation={0}>
@@ -22,7 +30,11 @@ const TitleBar = ({dbs, currentDb, onDBChange, onAdd, onPick}) => {
             Add Movie
           </Button>
 
-          <SplitButton onPick={onPick} />
+          <SplitButton
+            onPick={onPick}
+            onOpen={onOpenPickMenu}
+            onClose={onClosePickMenu}
+          />
         </Toolbar>
       </AppBar>
     </div>

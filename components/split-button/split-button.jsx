@@ -35,7 +35,7 @@ const splitButtonItems = [
   },
 ];
 
-const SplitButton = ({onPick}) => {
+const SplitButton = ({onPick, onOpen, onClose}) => {
   const [openSplitButton, setOpenSplitButton] = useState(false);
 
   return (
@@ -54,14 +54,22 @@ const SplitButton = ({onPick}) => {
         variant="contained"
         size="small"
         color="primary"
-        onClick={() => setOpenSplitButton(true)}
+        onClick={() => {
+          setOpenSplitButton(true);
+          onOpen();
+        }}
       >
         <ArrowDropDownIcon />
       </Button>
 
       {openSplitButton && (
         <Paper className={styles.splitButtonPaper}>
-          <ClickAwayListener onClickAway={() => setOpenSplitButton(false)}>
+          <ClickAwayListener
+            onClickAway={() => {
+              setOpenSplitButton(false);
+              onClose();
+            }}
+          >
             <MenuList id="split-button-menu">
               {splitButtonItems.map(({value, label, Icon, options}) => (
                 <MenuItem

@@ -21,6 +21,7 @@ export default function Home() {
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
+  const [picking, setPicking] = useState(false);
 
   const send = comm((errorMessage) => {
     setError(errorMessage);
@@ -68,17 +69,26 @@ export default function Home() {
           onAdd={() => {
             setEnableAddMovie(true);
           }}
-          onPick={(options) =>
+          onPick={(options) => {
+            setPicking(true); // TODO: No way to get out of picking unless you open and close the menu. When i move the pick to a dialog, i can fix this up by waiting till the dialog is closed.
             send(dbEndpoint(api.PICK_MOVIE), options, (data) =>
               setMovies([data]),
-            )
-          }
+            );
+          }}
+          onOpenPickMenu={() => {
+            setEnableAddMovie(false);
+            setPicking(true);
+          }}
+          onClosePickMenu={() => {
+            setPicking(false);
+          }}
         />
 
         <Container>
           <List
             enableAddMovie={enableAddMovie}
             movies={movies}
+            picking={picking}
             onAddingComplete={() => setEnableAddMovie(false)}
             onAddMovie={(movie) =>
               send(dbEndpoint(api.ADD_MOVIE), movie, () => {
