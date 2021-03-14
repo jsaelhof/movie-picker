@@ -16,7 +16,8 @@
     "genre": 2,
     "source": 0,
     "addedOn": "2021-01-15T00:00:25.000Z",
-    "locked": false
+    "locked": true,
+    "editedOn": "2021-03-14T03:30:17.698Z"
   },
   "121210918": {
     "_id": "121210918",
@@ -45,8 +46,8 @@
     "genre": 2,
     "source": 0,
     "addedOn": "2021-01-15T00:00:25.000Z",
-    "locked": false,
-    "editedOn": "2021-01-28T15:53:50.162Z"
+    "locked": true,
+    "editedOn": "2021-03-14T03:30:22.611Z"
   },
   "175491482": {
     "_id": "175491482",
@@ -122,7 +123,8 @@
     "genre": 2,
     "source": 3,
     "addedOn": "2021-01-15T00:00:25.000Z",
-    "locked": false
+    "locked": true,
+    "editedOn": "2021-03-14T03:30:31.060Z"
   },
   "301976912": {
     "_id": "301976912",
@@ -132,6 +134,16 @@
     "source": 1,
     "addedOn": "2021-01-15T00:00:25.000Z",
     "locked": false
+  },
+  "324356977": {
+    "_id": "324356977",
+    "addedOn": "2021-03-14T03:05:39.320Z",
+    "title": "Singles",
+    "genre": "1",
+    "runtime": 5940,
+    "source": 0,
+    "locked": false,
+    "editedOn": "2021-03-14T03:05:39.320Z"
   },
   "346515542": {
     "_id": "346515542",
@@ -179,16 +191,6 @@
     "source": 1,
     "addedOn": "2021-01-15T00:00:25.000Z",
     "locked": false
-  },
-  "452501890": {
-    "_id": "452501890",
-    "addedOn": "2021-03-09T20:18:27.490Z",
-    "title": "Palm Springs",
-    "genre": 1,
-    "source": 2,
-    "runtime": 5400,
-    "locked": false,
-    "editedOn": "2021-03-09T20:18:27.491Z"
   },
   "525254514": {
     "_id": "525254514",
@@ -282,7 +284,8 @@
     "genre": 2,
     "source": 5,
     "addedOn": "2021-01-15T00:00:25.000Z",
-    "locked": false
+    "locked": true,
+    "editedOn": "2021-03-14T03:30:41.397Z"
   },
   "888965671": {
     "_id": "888965671",
