@@ -64,11 +64,7 @@ const SplitButton = ({onPick}) => {
           <ClickAwayListener onClickAway={() => setOpenSplitButton(false)}>
             <MenuList id="split-button-menu">
               {splitButtonItems.map(({value, label, Icon, options}) => (
-                <MenuItem
-                  key={value}
-                  onClick={() => onPick(options)}
-                  className={styles.splitButtonMenuItem}
-                >
+                <MenuItem key={value} onClick={() => onPick(options)}>
                   {<Icon className={styles.icon} />}
                   {label}
                 </MenuItem>
