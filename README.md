@@ -13,6 +13,11 @@ UI TODO:
 - Idea: Highlight/filter long and short movies on rollover? Probably not needed.
 - Use TheMovieDatabase API to get a list of places the movie is streaming from. Look for services I have access to. Need to figure out how to tie this into my search box with OMDB.
 - Add React Spring. Use it to delay displaying of the "Searching..." in the Search Movie Dialog.
+- When picking, if you pick again (say within 5 minutes or in the same session), it should not pick that movie again.
+- Add a context for state like the split button being open
+- Add movie ratings
+- ~~Move less used actions to "More Actions" menu~~
+- ~~Add search on Common Sense Media~~
 - ~~Need to move OMDB comm stuff to an endpoint and just use axios to call it directly (no need for the comm).~~
 - ~~Need to protect the API keys in .env.local so they aren't in github and they arent exposed on the client. My omdb endpoint should use axios to call omdb internally which should keep the API key secret.~~
 - ~~Extract API url/key for OMDB from search movie dialog.~~
@@ -52,6 +57,7 @@ DB TODO:
 - DB. Hook up to a real db? Mongo?
 - DB. Look at graphql/react query?
 - Probably no need to be returning the full list when endpoint requests complete. Just success is fine since ei'm not using the responses. Although I might be able to use the response to prevent the flashing of the list as it updates after a change.
+- Data migration: Add IMDB to all movies
 - ~~Switch DB's so we can have more than one list~~
 - ~~Rebuild the pick endpoint to build a list of conditions to satisfy for each movie.~~
 - ~~Adding. Keep date added so I can sort it that way.~~

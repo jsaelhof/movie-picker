@@ -1,4 +1,3 @@
-import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import EyeCheckIcon from "mdi-material-ui/EyeCheck";
 
@@ -7,11 +6,12 @@ import {genreLabels} from "../../constants/genres";
 import {sourceLogos} from "../../constants/sources";
 import {titleCase} from "../../utils/title-case";
 import ActionButton from "../action-button/action-button";
-import ViewAction from "../view-action/view-action";
 import ListCell from "../list-cell/list-cell";
+import Lock from "../lock/lock";
+import MoreAction from "../more-action/more-action";
 
 import styles from "./list-row.module.css";
-import Lock from "../lock/lock";
+import {searchTMDB} from "../../utils/search";
 
 const ListRow = ({
   movie,
@@ -33,10 +33,7 @@ const ListRow = ({
       <ListCell left locked={movie.locked} dense>
         <a
           className={styles.link}
-          href={`https://www.themoviedb.org/search?query=${movie.title.replace(
-            " ",
-            "+",
-          )}`}
+          href={searchTMDB(movie.title)}
           target="moviedb"
         >
           {titleCase(movie.title)}
@@ -54,7 +51,6 @@ const ListRow = ({
         <img src={sourceLogos[movie.source]} width="40" height="40" />
       </ListCell>
       <ListCell>
-        <ViewAction movie={movie} />
         <ActionButton
           Icon={EditIcon}
           tooltip="Edit"
@@ -67,12 +63,7 @@ const ListRow = ({
           movie={movie}
           onClick={onMarkWatched}
         />
-        <ActionButton
-          Icon={DeleteIcon}
-          tooltip="Delete"
-          movie={movie}
-          onClick={onDeleteMovie}
-        />
+        <MoreAction movie={movie} onDeleteMovie={onDeleteMovie} />
       </ListCell>
     </>
   );
