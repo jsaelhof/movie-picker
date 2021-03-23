@@ -78,6 +78,7 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 - ~~Refactor DB methods to take a table for CRUD actions~~
 - ~~Make endpoints for "watched" things so i don't need to pass a tables constant to the endpoint~~.
 
+
 #### BUGS
 
 - ~~If no movies meet the criteria (none less than 90 minutes, empty list etc) the app blows up~~
