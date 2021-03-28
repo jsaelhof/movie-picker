@@ -8,6 +8,7 @@ export const genres = {
   FAMILY: 6,
   THRILLER: 7,
   MUSICAL: 8,
+  DOCUMENTARY: 9,
 };
 
 export const genreLabels = {
@@ -20,4 +21,5 @@ export const genreLabels = {
   [genres.FAMILY]: "Family",
   [genres.THRILLER]: "Thriller",
   [genres.MUSICAL]: "Musical",
+  [genres.DOCUMENTARY]: "Documentary",
 };

@@ -68,7 +68,7 @@ const List = ({
                   movie={movie}
                   onLockMovie={(movie) => onEditMovie(movie)}
                   onEditMovie={({_id}) => setEditedMovie(_id)}
-                  onDeleteMovie={({_id}) => setDeleteMovie(_id)}
+                  EditRow={({_id}) => setDeleteMovie(_id)}
                   onMarkWatched={(movie) => onMarkWatched(movie)}
                 />
               ),
