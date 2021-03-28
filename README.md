@@ -1,6 +1,23 @@
 ### Next.js Experiment App
 
-I wanted to play around with Next.js and we could never decide which movie to watch from our list, so I wrote up an app that stores a list of movies and randomly picks one. Over time, this project has grown to include the ability to switch DB's (so that we can have a list for grown up movies and one for movies with the kids), integrate with OMDB to pull in data like genre and runtime, and provide a number of extra functions like finding trailers, reviews, ratings, IMDB info, streaming info and more. It was built using a simple file-based db because I wasn't focusing as much on a deployed, robust solution. Now that this has grown, I plan to host it somewhere and connect it to an actual database.
+I wanted to play around with Next.js and we could never decide which movie to watch from our list, so I wrote up an app that stores a list of movies and randomly picks one. Over time, this project has grown to include the ability to switch DB's (so that we can have a list for grown up movies and one for movies with the kids), integrate with OMDB to pull in data like genre and runtime, and provide a number of extra functions like finding trailers, reviews, ratings, IMDB info, streaming info and more. 
+
+This app doesn't have a very pretty UI. It was supposed to be a quick and dirty project to learn Next.js coding. I've tossed Material-UI on it to provide some basic UI controls. Personal projects just never get enough time.
+
+It was built using a simple file-based db because I wasn't focusing as much on a deployed, robust solution. Now that this has grown, I plan to host it somewhere and connect it to an actual database.
+
+
+###### Main List
+![image](https://user-images.githubusercontent.com/7939225/112165460-5fa5af00-8bb4-11eb-85ff-c56d42b93993.png)
+
+###### More Actions
+![image](https://user-images.githubusercontent.com/7939225/112165689-94196b00-8bb4-11eb-8d0d-9631d646ec0d.png)
+
+###### Add Movie with OMDB Integration
+![image](https://user-images.githubusercontent.com/7939225/112165877-c1feaf80-8bb4-11eb-991e-9f930dd53bfe.png)
+
+
+
 
 #### UI TODO:
 
@@ -61,6 +78,7 @@ I wanted to play around with Next.js and we could never decide which movie to wa
 - ~~Adding. Keep date added so I can sort it that way.~~
 - ~~Refactor DB methods to take a table for CRUD actions~~
 - ~~Make endpoints for "watched" things so i don't need to pass a tables constant to the endpoint~~.
+
 
 #### BUGS
 
