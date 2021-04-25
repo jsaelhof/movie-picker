@@ -31,6 +31,8 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 - Add a context for state like the split button being open
 - Add movie ratings
 - Click a non-null source to launch the stream action
+- Add an option to queue a movie as "on deck". Maybe a separate list. This would be for movies we sure want to watch next. The pick would still just choose from all the unwatched movies.
+- Add an option to alter the date of a watched movie.
 - ~~Add Documentary genre~~
 - ~~Move less used actions to "More Actions" menu~~
 - ~~Add search on Common Sense Media~~
@@ -74,6 +76,8 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 - Look at graphql/react query?
 - Probably no need to be returning the full list when endpoint requests complete. Just success is fine since ei'm not using the responses. Although I might be able to use the response to prevent the flashing of the list as it updates after a change.
 - Data migration: Add IMDB to all movies
+- Sort file DB by date descending
+- Maybe drop the time portion on the dates? It's not particularly useful what hour of the day the movie was watched. I just want to know the day.
 - ~~Switch DB's so we can have more than one list~~
 - ~~Rebuild the pick endpoint to build a list of conditions to satisfy for each movie.~~
 - ~~Adding. Keep date added so I can sort it that way.~~
