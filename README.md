@@ -76,7 +76,7 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 - Look at graphql/react query?
 - Probably no need to be returning the full list when endpoint requests complete. Just success is fine since ei'm not using the responses. Although I might be able to use the response to prevent the flashing of the list as it updates after a change.
 - Data migration: Add IMDB to all movies
-- Sort file DB by date descending
+- Sort file DB by date descending.
 - Maybe drop the time portion on the dates? It's not particularly useful what hour of the day the movie was watched. I just want to know the day.
 - ~~Switch DB's so we can have more than one list~~
 - ~~Rebuild the pick endpoint to build a list of conditions to satisfy for each movie.~~
