@@ -89,3 +89,4 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 - ~~If no movies meet the criteria (none less than 90 minutes, empty list etc) the app blows up~~
 - ~~Date displays day of year, not month, on watched list (i.e. Feb 32nd instead of Feb 1st)~~
 - ~~Editing a movie shows the "added" toast.~~
+- ~~Crash when deleting a movie~~
