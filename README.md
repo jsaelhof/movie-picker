@@ -90,3 +90,5 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 - ~~Date displays day of year, not month, on watched list (i.e. Feb 32nd instead of Feb 1st)~~
 - ~~Editing a movie shows the "added" toast.~~
 - ~~Crash when deleting a movie~~
+- ~~Common sense media requires the movie name to have dashes instead of spaces~~
+- ~~TMDB is only replacing the first instace of a space~~

@@ -1,4 +1,4 @@
-import {sources} from "../constants/sources";
+import { sources } from "../constants/sources";
 
 export const searchIMDB = (imdbId) => `https://www.imdb.com/title/${imdbId}`;
 
@@ -6,10 +6,13 @@ export const searchIMDBTitle = (title) =>
   `https://www.imdb.com/find?q=${encodeURIComponent(title)}`;
 
 export const searchTMDB = (title) =>
-  `https://www.themoviedb.org/search?query=${title.replace(" ", "+")}`;
+  `https://www.themoviedb.org/search?query=${title.replaceAll(" ", "+")}`;
 
 export const searchCommonSense = (title) =>
-  `https://www.commonsensemedia.org/movie-reviews/${title}`;
+  `https://www.commonsensemedia.org/movie-reviews/${title.replaceAll(
+    " ",
+    "-"
+  )}`;
 
 export const searchTorrent = (title) => `http://1337x.to/search/${title}/1/`;
 
