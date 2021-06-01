@@ -30,9 +30,9 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 - When picking, if you pick again (say within 5 minutes or in the same session), it should not pick that movie again.
 - Add a context for state like the split button being open
 - Add movie ratings
-- Click a non-null source to launch the stream action
 - Add an option to queue a movie as "on deck". Maybe a separate list. This would be for movies we sure want to watch next. The pick would still just choose from all the unwatched movies.
 - Add an option to alter the date of a watched movie.
+- ~~Click a non-null source to launch the stream action~~
 - ~~Add Documentary genre~~
 - ~~Move less used actions to "More Actions" menu~~
 - ~~Add search on Common Sense Media~~

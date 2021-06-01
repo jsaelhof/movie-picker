@@ -1,10 +1,10 @@
 import Head from "next/head";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Container from "@material-ui/core/Container";
 
-import {api} from "../constants/api";
-import {comm} from "../comm/comm";
+import { api } from "../constants/api";
+import { comm } from "../comm/comm";
 import ActionBar from "../components/action-bar/action-bar";
 import List from "../components/list/list";
 import TitleBar from "../components/titlebar/titlebar";
@@ -36,17 +36,19 @@ export default function Home() {
         setDb(dbs[0]);
       });
     } else if (db && stale) {
-      axios.get(dbEndpoint(api.MOVIES)).then(({data}) => {
+      axios.get(dbEndpoint(api.MOVIES)).then(({ data }) => {
         setStale(false);
         setMovies(data.data);
       });
 
-      axios.get(dbEndpoint(api.WATCHED_MOVIES)).then(({data}) => {
+      axios.get(dbEndpoint(api.WATCHED_MOVIES)).then(({ data }) => {
         setStale(false);
         setWatchedMovies(data.data);
       });
     }
   }, [dbs, db, stale]);
+
+  if (!movies) return null;
 
   return (
     <>
@@ -62,7 +64,7 @@ export default function Home() {
           dbs={dbs}
           currentDb={db}
           onDBChange={(value) => {
-            setDb(dbs.find(({id}) => id === value));
+            setDb(dbs.find(({ id }) => id === value));
             setStale(true);
           }}
           onAdd={() => {
@@ -70,7 +72,7 @@ export default function Home() {
           }}
           onPick={(options) =>
             send(dbEndpoint(api.PICK_MOVIE), options, (data) =>
-              setMovies([data]),
+              setMovies([data])
             )
           }
         />
@@ -83,14 +85,14 @@ export default function Home() {
             onAddMovie={(movie) =>
               send(dbEndpoint(api.ADD_MOVIE), movie, () => {
                 setStale(true);
-                setToastProps({message: `Added '${movie.title}'`});
+                setToastProps({ message: `Added '${movie.title}'` });
               })
             }
             onEditMovie={(movie) =>
               send(dbEndpoint(api.ADD_MOVIE), movie, () => setStale(true))
             }
             onRemoveMovie={(id) =>
-              send(dbEndpoint(api.DELETE_MOVIE), {id}, () => setStale(true))
+              send(dbEndpoint(api.DELETE_MOVIE), { id }, () => setStale(true))
             }
             onMarkWatched={(movie) =>
               send(dbEndpoint(api.MARK_WATCHED), movie, () => {
@@ -101,14 +103,14 @@ export default function Home() {
                     send(dbEndpoint(api.ADD_MOVIE), movie, () =>
                       send(
                         dbEndpoint(api.DELETE_WATCHED),
-                        {id: movie._id},
+                        { id: movie._id },
                         () => {
                           setStale(true);
                           setToastProps({
                             message: `Moved '${movie.title}' back to movies list`,
                           });
-                        },
-                      ),
+                        }
+                      )
                     );
                   },
                 });
@@ -119,7 +121,7 @@ export default function Home() {
           <WatchedList
             movies={watchedMovies}
             onRemoveMovie={(id) =>
-              send(dbEndpoint(api.DELETE_WATCHED), {id}, () => setStale(true))
+              send(dbEndpoint(api.DELETE_WATCHED), { id }, () => setStale(true))
             }
           />
         </Container>
