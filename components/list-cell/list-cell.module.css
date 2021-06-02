@@ -19,3 +19,7 @@
 .locked {
   opacity: 0.3;
 }
+
+.button {
+  cursor: pointer;
+}

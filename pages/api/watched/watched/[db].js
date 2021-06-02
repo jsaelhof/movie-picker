@@ -1,13 +1,17 @@
-import {tables} from "../../constants/tables";
-import {remove, upsert} from "../../db/db";
+import {tables} from "../../../../constants/tables";
+import {remove, upsert} from "../../../../db/db";
 
 const handler = (req, res) => {
+  const {
+    query: {db},
+  } = req;
+
   try {
     let {body} = req;
     body.watched = new Date().toISOString();
-    const watchedData = upsert(tables.WATCHED, body);
+    const watchedData = upsert(db, tables.WATCHED, body);
 
-    const listData = remove(tables.MOVIES, body._id);
+    const listData = remove(db, tables.MOVIES, body._id);
 
     res.status(200).json({data: listData, watched: body});
   } catch (err) {

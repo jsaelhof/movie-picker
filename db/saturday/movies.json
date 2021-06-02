@@ -1,0 +1,405 @@
+{
+  "111759157": {
+    "_id": "111759157",
+    "title": "Blood Diamond",
+    "runtime": 8580,
+    "genre": 2,
+    "source": 0,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false,
+    "editedOn": "2021-01-28T15:53:48.350Z"
+  },
+  "116196584": {
+    "_id": "116196584",
+    "title": "City Of God",
+    "runtime": 7800,
+    "genre": 2,
+    "source": 0,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": true,
+    "editedOn": "2021-05-24T03:45:31.629Z"
+  },
+  "121210918": {
+    "_id": "121210918",
+    "addedOn": "2021-03-07T04:45:33.068Z",
+    "title": "Mortal Engines",
+    "genre": 4,
+    "source": 1,
+    "runtime": 7680,
+    "locked": false,
+    "editedOn": "2021-03-07T04:45:33.069Z"
+  },
+  "125288552": {
+    "_id": "125288552",
+    "addedOn": "2021-01-28T16:05:00.333Z",
+    "title": "Zodiac",
+    "genre": 7,
+    "source": 1,
+    "runtime": 9420,
+    "locked": false,
+    "editedOn": "2021-01-28T16:05:00.333Z"
+  },
+  "143219361": {
+    "_id": "143219361",
+    "title": "Wag The Dog",
+    "runtime": 6600,
+    "genre": 2,
+    "source": 0,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": true,
+    "editedOn": "2021-03-14T03:30:22.611Z"
+  },
+  "194654131": {
+    "_id": "194654131",
+    "title": "Searching For Bobby Fischer",
+    "runtime": 6600,
+    "genre": 2,
+    "source": 1,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false,
+    "editedOn": "2021-05-24T03:44:40.665Z"
+  },
+  "198392918": {
+    "_id": "198392918",
+    "title": "Motherless Brooklyn",
+    "runtime": 9000,
+    "genre": 2,
+    "source": 4,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false,
+    "editedOn": "2021-01-28T15:53:52.088Z"
+  },
+  "208411729": {
+    "_id": "208411729",
+    "addedOn": "2021-05-24T03:44:21.980Z",
+    "title": "Jack Reacher: Never Go Back",
+    "genre": "3",
+    "runtime": 7080,
+    "source": 0,
+    "locked": false,
+    "editedOn": "2021-05-31T04:13:53.757Z"
+  },
+  "267969981": {
+    "_id": "267969981",
+    "title": "The Big Chill",
+    "runtime": 6300,
+    "genre": 2,
+    "source": 4,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": true,
+    "editedOn": "2021-03-28T02:49:00.315Z"
+  },
+  "279260728": {
+    "_id": "279260728",
+    "title": "42",
+    "runtime": 7680,
+    "genre": 2,
+    "source": 0,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "imdb": "tt0453562",
+    "locked": false
+  },
+  "285365964": {
+    "_id": "285365964",
+    "title": "Roman J Israel, Esquire",
+    "runtime": 7320,
+    "genre": 2,
+    "source": 0,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false,
+    "editedOn": "2021-02-14T07:28:06.139Z"
+  },
+  "296155258": {
+    "_id": "296155258",
+    "title": "On The Rocks",
+    "runtime": 5820,
+    "genre": 2,
+    "source": 3,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": true,
+    "editedOn": "2021-03-14T03:30:31.060Z"
+  },
+  "324356977": {
+    "_id": "324356977",
+    "addedOn": "2021-03-14T03:05:39.320Z",
+    "title": "Singles",
+    "genre": "1",
+    "runtime": 5940,
+    "source": 0,
+    "locked": false,
+    "editedOn": "2021-03-14T03:05:39.320Z"
+  },
+  "349775530": {
+    "_id": "349775530",
+    "addedOn": "2021-03-28T02:53:36.872Z",
+    "title": "Derek DelGaudio's in & of Itself",
+    "genre": "9",
+    "runtime": 5400,
+    "source": 4,
+    "locked": false,
+    "editedOn": "2021-03-28T02:53:44.528Z"
+  },
+  "375576440": {
+    "_id": "375576440",
+    "title": "White Boy Rick",
+    "runtime": 6660,
+    "genre": 2,
+    "source": 1,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false
+  },
+  "377688008": {
+    "_id": "377688008",
+    "title": "Tolkein",
+    "runtime": 6660,
+    "genre": 2,
+    "source": 4,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false
+  },
+  "396900910": {
+    "_id": "396900910",
+    "addedOn": "2021-05-02T03:56:09.291Z",
+    "title": "The League of Extraordinary Gentlemen",
+    "genre": "3",
+    "source": 6,
+    "runtime": 6600,
+    "locked": false,
+    "editedOn": "2021-05-02T03:56:09.291Z"
+  },
+  "443182309": {
+    "_id": "443182309",
+    "title": "Marriage Story",
+    "runtime": 8220,
+    "genre": 2,
+    "source": 1,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false
+  },
+  "466836352": {
+    "_id": "466836352",
+    "addedOn": "2021-03-28T02:46:00.977Z",
+    "title": "Welcome to Marwen",
+    "genre": "1",
+    "runtime": 6960,
+    "source": 1,
+    "locked": false,
+    "editedOn": "2021-03-28T02:56:50.770Z"
+  },
+  "490192478": {
+    "_id": "490192478",
+    "addedOn": "2021-05-09T03:37:42.974Z",
+    "title": "Tower Heist",
+    "genre": "1",
+    "source": 1,
+    "runtime": 6240,
+    "locked": false,
+    "editedOn": "2021-05-09T03:37:42.974Z"
+  },
+  "494378945": {
+    "_id": "494378945",
+    "addedOn": "2021-05-24T03:38:02.274Z",
+    "title": "The Upside",
+    "genre": "1",
+    "source": 1,
+    "runtime": 7560,
+    "locked": false,
+    "editedOn": "2021-05-24T03:38:02.277Z"
+  },
+  "525254514": {
+    "_id": "525254514",
+    "title": "Dolemite Is My Name",
+    "runtime": 7080,
+    "genre": 1,
+    "source": 1,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false
+  },
+  "528375815": {
+    "_id": "528375815",
+    "addedOn": "2021-05-02T03:56:29.828Z",
+    "title": "John Carter",
+    "genre": "3",
+    "source": 6,
+    "runtime": 7920,
+    "locked": false,
+    "editedOn": "2021-05-02T03:56:29.829Z"
+  },
+  "555811775": {
+    "_id": "555811775",
+    "addedOn": "2021-05-02T03:57:18.486Z",
+    "title": "Need for Speed",
+    "genre": "3",
+    "source": 6,
+    "runtime": 7920,
+    "locked": false,
+    "editedOn": "2021-05-02T03:57:18.487Z"
+  },
+  "574965996": {
+    "_id": "574965996",
+    "addedOn": "2021-01-16T06:39:48.002Z",
+    "title": "Blade Runner: The Final Cut",
+    "runtime": 7020,
+    "genre": "4",
+    "source": 1,
+    "editedOn": "2021-01-16T06:39:48.002Z",
+    "locked": false
+  },
+  "637896466": {
+    "_id": "637896466",
+    "addedOn": "2021-01-28T16:08:13.133Z",
+    "title": "Da 5 Bloods",
+    "genre": 3,
+    "source": 1,
+    "runtime": 9300,
+    "locked": false,
+    "editedOn": "2021-01-28T16:08:13.133Z"
+  },
+  "776820480": {
+    "_id": "776820480",
+    "title": "Eternal Sunshine Of The Spotless Mind",
+    "runtime": 6480,
+    "genre": 2,
+    "source": 0,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": true,
+    "editedOn": "2021-05-24T03:44:44.585Z"
+  },
+  "786617227": {
+    "_id": "786617227",
+    "title": "Sophie's Choice",
+    "runtime": 9420,
+    "genre": 2,
+    "source": 0,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": true,
+    "editedOn": "2021-05-24T03:45:10.735Z"
+  },
+  "797660737": {
+    "_id": "797660737",
+    "addedOn": "2021-05-09T03:26:02.705Z",
+    "title": "Tom Clancy's Without Remorse",
+    "genre": "3",
+    "source": 2,
+    "runtime": 6540,
+    "locked": false,
+    "editedOn": "2021-05-09T03:26:02.706Z"
+  },
+  "799761421": {
+    "_id": "799761421",
+    "title": "News Of The World",
+    "runtime": 7080,
+    "genre": 2,
+    "source": 0,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false
+  },
+  "821516448": {
+    "_id": "821516448",
+    "addedOn": "2021-01-28T16:01:33.789Z",
+    "title": "Angel Has Fallen",
+    "genre": 3,
+    "source": 2,
+    "runtime": 7260,
+    "locked": false,
+    "editedOn": "2021-03-23T14:42:35.635Z"
+  },
+  "864032973": {
+    "_id": "864032973",
+    "addedOn": "2021-04-13T20:54:08.124Z",
+    "title": "Dirty Grandpa",
+    "genre": "1",
+    "source": 1,
+    "runtime": 6120,
+    "locked": false,
+    "editedOn": "2021-04-13T20:54:08.124Z"
+  },
+  "877167717": {
+    "_id": "877167717",
+    "title": "Midnight Express",
+    "runtime": 7200,
+    "genre": 2,
+    "source": 0,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": true,
+    "editedOn": "2021-01-28T16:02:00.623Z"
+  },
+  "885641148": {
+    "_id": "885641148",
+    "title": "Leon: The Professional",
+    "runtime": 6600,
+    "genre": 2,
+    "source": 5,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": true,
+    "editedOn": "2021-05-24T03:44:34.062Z"
+  },
+  "888965671": {
+    "_id": "888965671",
+    "title": "Glory",
+    "runtime": 7320,
+    "genre": 2,
+    "source": 1,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false,
+    "editedOn": "2021-03-23T14:42:52.137Z"
+  },
+  "902435074": {
+    "_id": "902435074",
+    "title": "The Longest Yard",
+    "runtime": 6780,
+    "genre": 1,
+    "source": 0,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false
+  },
+  "904131199": {
+    "_id": "904131199",
+    "title": "Hamilton",
+    "runtime": 9600,
+    "genre": 8,
+    "source": 6,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false,
+    "editedOn": "2021-01-28T15:55:19.525Z"
+  },
+  "938797578": {
+    "_id": "938797578",
+    "addedOn": "2021-05-02T16:21:08.696Z",
+    "title": "Always Be My Maybe",
+    "genre": "1",
+    "source": 1,
+    "runtime": 6060,
+    "locked": false,
+    "editedOn": "2021-05-02T16:21:08.697Z"
+  },
+  "963129282": {
+    "_id": "963129282",
+    "title": "Kramer Vs Kramer",
+    "runtime": 6240,
+    "genre": 2,
+    "source": 1,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": true,
+    "editedOn": "2021-05-24T03:44:45.877Z"
+  },
+  "977897054": {
+    "_id": "977897054",
+    "title": "Life",
+    "runtime": 6180,
+    "genre": 4,
+    "source": 1,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "locked": false
+  },
+  "980447677": {
+    "_id": "980447677",
+    "title": "Bill And Ted Face The Music",
+    "runtime": 5700,
+    "genre": 1,
+    "source": 4,
+    "addedOn": "2021-01-15T00:00:25.000Z",
+    "editedOn": "2021-01-16T04:37:44.233Z",
+    "locked": false
+  }
+}

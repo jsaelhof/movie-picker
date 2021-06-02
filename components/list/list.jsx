@@ -1,5 +1,5 @@
-import {Paper} from "@material-ui/core";
-import {useState} from "react";
+import { Paper } from "@material-ui/core";
+import { useState } from "react";
 import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
 
@@ -55,7 +55,7 @@ const List = ({
               editedMovie && movie._id === editedMovie ? (
                 <EditRow
                   key={movie._id}
-                  movie={movies.find(({_id}) => _id === editedMovie)}
+                  movie={movies.find(({ _id }) => _id === editedMovie)}
                   onSave={(movie) => {
                     onEditMovie(movie);
                     setEditedMovie(null);
@@ -67,11 +67,13 @@ const List = ({
                   key={movie._id}
                   movie={movie}
                   onLockMovie={(movie) => onEditMovie(movie)}
-                  onEditMovie={({_id}) => setEditedMovie(_id)}
-                  onDeleteMovie={({_id}) => setDeleteMovie(_id)}
+                  onEditMovie={({ _id }) => setEditedMovie(_id)}
                   onMarkWatched={(movie) => onMarkWatched(movie)}
+                  onDeleteMovie={({ _id }) => {
+                    setDeleteMovie(_id);
+                  }}
                 />
-              ),
+              )
             )}
         </div>
       </Paper>
@@ -80,7 +82,7 @@ const List = ({
         open={!isNil(deleteMovie)}
         title="Delete Movie?"
         content={`'${
-          movies.find(({_id}) => _id === deleteMovie)?.title
+          movies.find(({ _id }) => _id === deleteMovie)?.title
         }' will be removed`}
         onCancel={() => setDeleteMovie(null)}
         onConfirm={() => {

@@ -1,10 +1,11 @@
 import Head from "next/head";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Container from "@material-ui/core/Container";
 
-import {api} from "../constants/api";
-import {comm} from "../comm/comm";
+import { api } from "../constants/api";
+import { comm } from "../comm/comm";
+import ActionBar from "../components/action-bar/action-bar";
 import List from "../components/list/list";
 import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
@@ -12,6 +13,8 @@ import WatchedList from "../components/watched-list/watched-list";
 import ErrorDialog from "../components/error-dialog/error-dialog";
 
 export default function Home() {
+  const [db, setDb] = useState();
+  const [dbs, setDbs] = useState();
   const [movies, setMovies] = useState();
   const [watchedMovies, setWatchedMovies] = useState();
   const [stale, setStale] = useState(true);
@@ -23,19 +26,29 @@ export default function Home() {
     setError(errorMessage);
   });
 
+  const dbEndpoint = (endpoint) => endpoint.replace("%db%", db.id);
+
   useEffect(() => {
-    if (stale) {
-      axios.get(api.MOVIES).then(({data}) => {
+    if (!dbs) {
+      send(api.LOAD_DB, {}, (dbs) => {
+        // Default to the first dbs
+        setDbs(dbs);
+        setDb(dbs[0]);
+      });
+    } else if (db && stale) {
+      axios.get(dbEndpoint(api.MOVIES)).then(({ data }) => {
         setStale(false);
         setMovies(data.data);
       });
 
-      axios.get(api.WATCHED_MOVIES).then(({data}) => {
+      axios.get(dbEndpoint(api.WATCHED_MOVIES)).then(({ data }) => {
         setStale(false);
         setWatchedMovies(data.data);
       });
     }
-  }, [stale]);
+  }, [dbs, db, stale]);
+
+  if (!movies) return null;
 
   return (
     <>
@@ -45,12 +58,22 @@ export default function Home() {
       </Head>
 
       <div>
-        <TitleBar
+        <TitleBar />
+
+        <ActionBar
+          dbs={dbs}
+          currentDb={db}
+          onDBChange={(value) => {
+            setDb(dbs.find(({ id }) => id === value));
+            setStale(true);
+          }}
           onAdd={() => {
             setEnableAddMovie(true);
           }}
           onPick={(options) =>
-            send(api.PICK_MOVIE, options, (data) => setMovies([data]))
+            send(dbEndpoint(api.PICK_MOVIE), options, (data) =>
+              setMovies([data])
+            )
           }
         />
 
@@ -60,30 +83,34 @@ export default function Home() {
             movies={movies}
             onAddingComplete={() => setEnableAddMovie(false)}
             onAddMovie={(movie) =>
-              send(api.ADD_MOVIE, movie, () => {
+              send(dbEndpoint(api.ADD_MOVIE), movie, () => {
                 setStale(true);
-                setToastProps({message: `Added '${movie.title}'`});
+                setToastProps({ message: `Added '${movie.title}'` });
               })
             }
             onEditMovie={(movie) =>
-              send(api.ADD_MOVIE, movie, () => setStale(true))
+              send(dbEndpoint(api.ADD_MOVIE), movie, () => setStale(true))
             }
             onRemoveMovie={(id) =>
-              send(api.DELETE_MOVIE, {id}, () => setStale(true))
+              send(dbEndpoint(api.DELETE_MOVIE), { id }, () => setStale(true))
             }
             onMarkWatched={(movie) =>
-              send(api.MARK_WATCHED, movie, () => {
+              send(dbEndpoint(api.MARK_WATCHED), movie, () => {
                 setStale(true);
                 setToastProps({
                   message: `Moved '${movie.title}' to watched list`,
                   onUndo: async () => {
-                    send(api.ADD_MOVIE, movie, () =>
-                      send(api.DELETE_WATCHED, {id: movie._id}, () => {
-                        setStale(true);
-                        setToastProps({
-                          message: `Moved '${movie.title}' back to movies list`,
-                        });
-                      }),
+                    send(dbEndpoint(api.ADD_MOVIE), movie, () =>
+                      send(
+                        dbEndpoint(api.DELETE_WATCHED),
+                        { id: movie._id },
+                        () => {
+                          setStale(true);
+                          setToastProps({
+                            message: `Moved '${movie.title}' back to movies list`,
+                          });
+                        }
+                      )
                     );
                   },
                 });
@@ -94,7 +121,7 @@ export default function Home() {
           <WatchedList
             movies={watchedMovies}
             onRemoveMovie={(id) =>
-              send(api.DELETE_WATCHED, {id}, () => setStale(true))
+              send(dbEndpoint(api.DELETE_WATCHED), { id }, () => setStale(true))
             }
           />
         </Container>

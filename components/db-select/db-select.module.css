@@ -1,0 +1,16 @@
+.main {
+  flex-grow: 1;
+  font-size: 1.4em;
+}
+
+.dbSelect {
+  padding: 0 32px 0 0 !important;
+}
+
+.dbSelectIcon {
+  margin-right: 16px;
+}
+
+.dbSelectRender {
+  pointer-events: none;
+}

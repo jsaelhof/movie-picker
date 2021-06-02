@@ -4,12 +4,15 @@ import isNil from "lodash/isNil";
 import sample from "lodash/sample";
 import size from "lodash/size";
 
-import {errorPicking} from "../../../errors/error_picking";
-import {tables} from "../../../constants/tables";
-import {query} from "../../../db/db";
+import {errorPicking} from "../../../../errors/error_picking";
+import {tables} from "../../../../constants/tables";
+import {query} from "../../../../db/db";
 
 const handler = (req, res) => {
-  const {body} = req;
+  const {
+    body,
+    query: {db},
+  } = req;
 
   const filters = {
     locked: (locked) => !locked,
@@ -21,7 +24,7 @@ const handler = (req, res) => {
       runtime <= (body.maxRuntime || Infinity);
   }
 
-  const list = filter(query(tables.MOVIES), conforms(filters));
+  const list = filter(query(db, tables.MOVIES), conforms(filters));
 
   if (size(list) === 0) {
     res.status(200).json(errorPicking());
