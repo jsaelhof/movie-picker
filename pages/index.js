@@ -5,6 +5,7 @@ import Container from "@material-ui/core/Container";
 
 import { api } from "../constants/api";
 import { comm } from "../comm/comm";
+import { graphql } from "../comm/graphql";
 import ActionBar from "../components/action-bar/action-bar";
 import List from "../components/list/list";
 import TitleBar from "../components/titlebar/titlebar";
@@ -26,6 +27,10 @@ export default function Home() {
     setError(errorMessage);
   });
 
+  const sendGQL = graphql((errorMessage) => {
+    setError(errorMessage);
+  });
+
   const dbEndpoint = (endpoint) => endpoint.replace("%db%", db.id);
 
   useEffect(() => {
@@ -40,6 +45,18 @@ export default function Home() {
         setStale(false);
         setMovies(data.data);
       });
+
+      sendGQL(
+        `query GetMovies($db: String!) {
+          getMovies(db: $db) {
+            title,
+            runtime
+          }
+        }`,
+        {
+          db: db.id,
+        }
+      );
 
       axios.get(dbEndpoint(api.WATCHED_MOVIES)).then(({ data }) => {
         setStale(false);

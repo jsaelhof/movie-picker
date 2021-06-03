@@ -1,50 +1,39 @@
 import axios from "axios";
-import {api} from "../../../constants/api";
-import map from "lodash/map";
+import { api } from "../../../constants/api";
+import { UserInputError } from "apollo-server-errors";
 
 export const resolvers = {
   Query: {
-    getUsers: async () => {
+    getMovies: async (parent, { db }) => {
       try {
-        const users = await axios.get("https://api.github.com/users");
-        return users.data.map(({id, login, avatar_url}) => ({
-          id,
-          login,
-          avatar_url,
-        }));
-      } catch (error) {
-        throw error;
-      }
-    },
-    getUser: async (_, args) => {
-      try {
-        const user = await axios.get(
-          `https://api.github.com/users/${args.name}`,
+        const movies = await axios.get(
+          `${process.env.API_URL}${api.MOVIES}`.replace("%db%", db)
         );
-        return {
-          id: user.data.id,
-          login: user.data.login,
-          avatar_url: user.data.avatar_url,
-        };
-      } catch (error) {
-        throw error;
-      }
-    },
-    getMovies: async () => {
-      try {
-        const movies = await axios.get(`http://localhost:4000${api.MOVIES}`);
         return movies.data.data;
-        // return map(movies.data, (movie) => ({
-        //   ...movie,
-        // }));
       } catch (error) {
         throw error;
       }
     },
-    pick: async () => {
+    getMovie: async (parent, { db, ...args }) => {
       try {
-        const movie = await axios.get(`http://localhost:4000${api.PICK_MOVIE}`);
-        console.log(movie);
+        if (!args.title && !args.id)
+          throw new UserInputError("title or id must provided");
+
+        const movies = await axios.get(
+          `${process.env.API_URL}${api.MOVIES}`.replace("%db%", db)
+        );
+        return movies.data.data.find(
+          ({ title, _id }) => title === args.title || _id === args.id
+        );
+      } catch (error) {
+        throw error;
+      }
+    },
+    pick: async (parent, { db }) => {
+      try {
+        const movie = await axios.get(
+          `${process.env.API_URL}${api.PICK_MOVIE}`.replace("%db%", db)
+        );
         return movie.data;
       } catch (error) {
         throw error;

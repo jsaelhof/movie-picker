@@ -1,4 +1,5 @@
 export const api = Object.freeze({
+  GRAPHQL: "/api/graphql",
   LOAD_DB: "/api/db/load",
   MOVIES: "/api/movies/list/%db%",
   ADD_MOVIE: "/api/movies/add/%db%",
