@@ -1,10 +1,17 @@
 import axios from "axios";
 import { api } from "../../../constants/api";
-import { UserInputError } from "apollo-server-errors";
 
 export const resolvers = {
   Query: {
-    getMovies: async (parent, { db }) => {
+    dbs: async () => {
+      try {
+        const dbs = await axios.get(`${process.env.API_URL}${api.LOAD_DB}`);
+        return dbs.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+    movies: async (parent, { db }) => {
       try {
         const movies = await axios.get(
           `${process.env.API_URL}${api.MOVIES}`.replace("%db%", db)
@@ -14,17 +21,12 @@ export const resolvers = {
         throw error;
       }
     },
-    getMovie: async (parent, { db, ...args }) => {
+    watchedMovies: async (parent, { db }) => {
       try {
-        if (!args.title && !args.id)
-          throw new UserInputError("title or id must provided");
-
         const movies = await axios.get(
-          `${process.env.API_URL}${api.MOVIES}`.replace("%db%", db)
+          `${process.env.API_URL}${api.WATCHED_MOVIES}`.replace("%db%", db)
         );
-        return movies.data.data.find(
-          ({ title, _id }) => title === args.title || _id === args.id
-        );
+        return movies.data.data;
       } catch (error) {
         throw error;
       }
@@ -39,5 +41,9 @@ export const resolvers = {
         throw error;
       }
     },
+  },
+
+  Mutation: {
+    markWatched: (parent, { movie }) => movie,
   },
 };

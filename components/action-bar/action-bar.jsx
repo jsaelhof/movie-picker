@@ -1,4 +1,4 @@
-import {AppBar, Button, Toolbar} from "@material-ui/core";
+import { AppBar, Button, Toolbar } from "@material-ui/core";
 import AddToQueueIcon from "@material-ui/icons/AddToQueue";
 
 import DbSelect from "../db-select/db-select";
@@ -6,7 +6,7 @@ import SplitButton from "../split-button/split-button";
 
 import styles from "./action-bar.module.css";
 
-const TitleBar = ({dbs, currentDb, onDBChange, onAdd, onPick}) => {
+const ActionBar = ({ disabled, dbs, currentDb, onDBChange, onAdd, onPick }) => {
   return (
     <div className={styles.appBar}>
       <AppBar position="static" color="transparent" elevation={0}>
@@ -17,16 +17,18 @@ const TitleBar = ({dbs, currentDb, onDBChange, onAdd, onPick}) => {
             onDBChange={(dbs, currentDb, onDBChange)}
           />
 
-          <Button variant="outlined" onClick={onAdd}>
-            <AddToQueueIcon className={styles.addToQueue} />
-            Add Movie
-          </Button>
+          {!disabled && (
+            <Button variant="outlined" onClick={onAdd}>
+              <AddToQueueIcon className={styles.addToQueue} />
+              Add Movie
+            </Button>
+          )}
 
-          <SplitButton onPick={onPick} />
+          {!disabled && <SplitButton onPick={onPick} />}
         </Toolbar>
       </AppBar>
     </div>
   );
 };
 
-export default TitleBar;
+export default ActionBar;
