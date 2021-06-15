@@ -21,8 +21,8 @@ export const typeDefs = gql`
   }
 
   input MovieInput {
-    _id: ID!
-    title: String!
+    _id: ID
+    title: String
     runtime: Int
     source: Int
     genre: Int
@@ -40,6 +40,9 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    markWatched(movie: MovieInput!): Movie
+    addMovie(movie: MovieInput!, db: String!): Movie
+    removeMovie(movieId: ID!, db: String!, list: String!): Movie
+    markWatched(movie: MovieInput!, db: String!): Movie
+    undoWatched(movie: MovieInput!, db: String!): Movie
   }
 `;

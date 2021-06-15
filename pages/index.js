@@ -5,7 +5,6 @@ import { useState } from "react";
 import Container from "@material-ui/core/Container";
 import omit from "lodash/omit";
 
-import { api } from "../constants/api";
 import { comm } from "../comm/comm";
 import ActionBar from "../components/action-bar/action-bar";
 import List from "../components/list/list";
@@ -13,6 +12,7 @@ import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
 import ErrorDialog from "../components/error-dialog/error-dialog";
+import { tables } from "../constants/tables";
 
 const useDBs = (onComplete) => {
   const GET_DBS = gql`
@@ -78,10 +78,57 @@ const PICK = gql`
   }
 `;
 
-const MARK_WATCHED = gql`
-  mutation MarkWatched($movie: MovieInput!) {
-    markWatched(movie: $movie) {
+const ADD_MOVIE = gql`
+  mutation AddMovie($movie: MovieInput!, $db: String!) {
+    addMovie(movie: $movie, db: $db) {
       _id
+      title
+      runtime
+      source
+      genre
+      locked
+    }
+  }
+`;
+
+const EDIT_MOVIE = gql`
+  mutation EditMovie($movie: MovieInput!, $db: String!) {
+    addMovie(movie: $movie, db: $db) {
+      _id
+      title
+      runtime
+      source
+      genre
+      locked
+    }
+  }
+`;
+
+const REMOVE_MOVIE = gql`
+  mutation RemoveMovie($movieId: ID!, $db: String!, $list: String!) {
+    removeMovie(movieId: $movieId, db: $db, list: $list) {
+      _id
+    }
+  }
+`;
+
+const MARK_WATCHED = gql`
+  mutation MarkWatched($movie: MovieInput!, $db: String!) {
+    markWatched(movie: $movie, db: $db) {
+      _id
+      title
+      runtime
+      source
+      genre
+      locked
+      watched
+    }
+  }
+`;
+
+const UNDO_WATCHED = gql`
+  mutation UndoWatched($movie: MovieInput!, $db: String!) {
+    undoWatched(movie: $movie, db: $db) {
       title
     }
   }
@@ -93,6 +140,7 @@ export default function Home() {
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
 
+  // TODO: COMM WAS CATCHING A LOT OF ERRORS. HOW DO I DO THAT NOW?
   const send = comm((errorMessage) => {
     setError(errorMessage);
   });
@@ -104,32 +152,54 @@ export default function Home() {
     variables: { db: db?.id, noCache: Date.now() },
     fetchPolicy: "network-only",
   });
-  // console.log(data?.pick.title);
+
+  const [undoWatched] = useMutation(UNDO_WATCHED, {
+    onCompleted: ({ undoWatched: movie }) => {
+      refetchMovies(); // TODO: Same...does this even work or is it needed?
+      setToastProps({
+        message: `Moved '${movie.title}' back to movies list`,
+      });
+    },
+  });
 
   const [markWatched, { data: markWatchedData }] = useMutation(MARK_WATCHED, {
     onCompleted: ({ markWatched: movie }) => {
-      console.log("On Complete", movie);
-      refetchMovies(); // TODO: Does this even work? Is it even needed? It doesnt seem to cause a reftech but maybe thats the cache.
+      refetchMovies(); // TODO: Should the mutation return the full list? Should it insert something into the cache?
       setToastProps({
         message: `Moved '${movie.title}' to watched list`,
         onUndo: async () => {
-          console.log("UNDO");
-          // send(dbEndpoint(api.ADD_MOVIE), movie, () => // TODO: Replace with a mutation
-          //   send(dbEndpoint(api.DELETE_WATCHED), { id: movie._id }, () => {
-          //     refetchMovies(); // TODO: Same...does this even work or is it needed?
-          //     setToastProps({
-          //       message: `Moved '${movie.title}' back to movies list`,
-          //     });
-          //   })
-          // );
+          undoWatched({
+            variables: {
+              movie: omit(movie, "__typename"),
+              db: db.id,
+            },
+          });
         },
       });
     },
   });
 
-  const dbEndpoint = (endpoint) => endpoint.replace("%db%", db.id);
+  const [addMovie] = useMutation(ADD_MOVIE, {
+    onCompleted: ({ addMovie: movie }) => {
+      refetchMovies(); // TODO: Should the mutation return the full list? Should it insert something into the cache?
+      setToastProps({ message: `Added '${movie.title}'` });
+    },
+  });
 
-  console.log(movies);
+  // TODO: Can this be replaced with ADD_MOVIE but taking in a variable about whether it's an ADD or EDIT?
+  const [editMovie] = useMutation(EDIT_MOVIE, {
+    onCompleted: () => {
+      refetchMovies(); // TODO: Should the mutation return the full list? Should it insert something into the cache?
+    },
+  });
+
+  const [removeMovie] = useMutation(REMOVE_MOVIE, {
+    onCompleted: () => {
+      refetchMovies(); // TODO: Should the mutation return the full list? Should it insert something into the cache?
+    },
+  });
+
+  const dbEndpoint = (endpoint) => endpoint.replace("%db%", db.id);
 
   return (
     <>
@@ -147,17 +217,11 @@ export default function Home() {
           currentDb={db}
           onDBChange={(value) => {
             setDb(dbs.find(({ id }) => id === value));
-            //refetchMovies();
           }}
           onAdd={() => {
             setEnableAddMovie(true);
           }}
-          onPick={
-            (options) => pick()
-            // send(dbEndpoint(api.PICK_MOVIE), options, (data) =>
-            //   setMovies([data])
-            // )
-          }
+          onPick={(options) => pick()}
         />
 
         <Container>
@@ -167,22 +231,23 @@ export default function Home() {
               movies={movies}
               onAddingComplete={() => setEnableAddMovie(false)}
               onAddMovie={(movie) =>
-                send(dbEndpoint(api.ADD_MOVIE), movie, () => {
-                  refetchMovies();
-                  setToastProps({ message: `Added '${movie.title}'` });
+                addMovie({
+                  variables: { movie: omit(movie, "__typename"), db: db.id },
                 })
               }
               onEditMovie={(movie) =>
-                send(dbEndpoint(api.ADD_MOVIE), movie, () => refetchMovies())
+                editMovie({
+                  variables: { movie: omit(movie, "__typename"), db: db.id },
+                })
               }
               onRemoveMovie={(id) =>
-                send(dbEndpoint(api.DELETE_MOVIE), { id }, () =>
-                  refetchMovies()
-                )
+                removeMovie({
+                  variables: { movieId: id, db: db.id, list: tables.MOVIES },
+                })
               }
               onMarkWatched={(movie) =>
                 markWatched({
-                  variables: { movie: omit(movie, "__typename") },
+                  variables: { movie: omit(movie, "__typename"), db: db.id },
                 })
               }
             />
@@ -192,9 +257,9 @@ export default function Home() {
             <WatchedList
               movies={watchedMovies}
               onRemoveMovie={(id) =>
-                send(dbEndpoint(api.DELETE_WATCHED), { id }, () =>
-                  refetchMovies()
-                )
+                removeMovie({
+                  variables: { movieId: id, db: db.id, list: tables.WATCHED },
+                })
               }
             />
           )}

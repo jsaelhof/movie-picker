@@ -1,17 +1,17 @@
 import isNil from "lodash/isNil";
 
-import {errorAdding} from "../../../../errors/error_adding";
-import {upsert} from "../../../../db/db";
-import {sources} from "../../../../constants/sources";
-import {tables} from "../../../../constants/tables";
+import { errorAdding } from "../../../../errors/error_adding";
+import { upsert } from "../../../../db/db";
+import { sources } from "../../../../constants/sources";
+import { tables } from "../../../../constants/tables";
 
 const handler = (req, res) => {
   const {
-    query: {db},
+    query: { db },
   } = req;
 
   try {
-    const {body} = req;
+    const { body } = req;
 
     if (!body.title) res.status(200).json(errorAdding());
 
@@ -19,10 +19,10 @@ const handler = (req, res) => {
     if (isNil(body.locked)) body.locked = false;
 
     const data = upsert(db, tables.MOVIES, body);
-    res.status(200).json({data, added: body});
+    res.status(200).json(data);
   } catch (err) {
     console.log(err);
-    res.status(500).json({message: err.message});
+    res.status(500).json({ message: err.message });
   }
 };
 
