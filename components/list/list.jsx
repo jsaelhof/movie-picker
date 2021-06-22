@@ -18,6 +18,7 @@ const List = ({
   onRemoveMovie,
   onMarkWatched,
   onEditMovie,
+  hideHeader,
 }) => {
   const [editedMovie, setEditedMovie] = useState(null);
   const [order, setOrder] = useState(["addedOn", "desc"]);
@@ -34,10 +35,12 @@ const List = ({
     <>
       <Paper className={styles.list}>
         <div className={styles.movieList}>
-          <ListHeaderRow
-            count={movies.length}
-            onSort={(column) => setOrder(resolveOrder(column))}
-          />
+          {!hideHeader && (
+            <ListHeaderRow
+              count={movies.length}
+              onSort={(column) => setOrder(resolveOrder(column))}
+            />
+          )}
 
           {enableAddMovie && (
             <EditRow

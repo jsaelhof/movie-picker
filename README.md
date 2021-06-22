@@ -66,6 +66,14 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 - ~~Action tooltips~~
 - ~~Icons for split button options~~
 
+#### GraphQL ToDo
+
+- ~~Get Pick working~~
+- ~~Filters for picking (resolver)~~
+- Extract queries into separate file(s)
+- ~~Finish removing axios~~
+- Clean up rest endpoints...delete?
+
 #### DB TODO:
 
 - Might be best to separate the add endpoint from being used for editing. Or rename it to update. Or just make one callled upsert since thats what it does,
@@ -92,3 +100,4 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 - ~~Crash when deleting a movie~~
 - ~~Common sense media requires the movie name to have dashes instead of spaces~~
 - ~~TMDB is only replacing the first instace of a space~~
+- ~~If a movie is marked watched and then undo reverts it, it still has a watched key in the db.~~

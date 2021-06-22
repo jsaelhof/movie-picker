@@ -1,45 +1,29 @@
-import axios from "axios";
-import { api } from "../../../constants/api";
+import isNil from "lodash/isNil";
+import omit from "lodash/omit";
 import { tables } from "../../../constants/tables";
+import { sources } from "../../../constants/sources";
+import { UserInputError } from "apollo-server-errors";
+import { errorCodes } from "../../../constants/error_codes";
 
 export const resolvers = {
   Query: {
-    dbs: async () => {
+    dbs: async (parent, args, { load }) => {
       try {
-        const { data } = await axios.get(
-          `${process.env.API_URL}${api.LOAD_DB}`
-        );
-        return data;
+        return load();
       } catch (error) {
         throw error;
       }
     },
-    movies: async (parent, { db }) => {
+    movies: async (parent, { db }, { query }) => {
       try {
-        const { data } = await axios.get(
-          `${process.env.API_URL}${api.MOVIES}`.replace("%db%", db)
-        );
-        return data;
+        return query(db, tables.MOVIES);
       } catch (error) {
         throw error;
       }
     },
-    watchedMovies: async (parent, { db }) => {
+    watchedMovies: async (parent, { db }, { query }) => {
       try {
-        const { data } = await axios.get(
-          `${process.env.API_URL}${api.WATCHED_MOVIES}`.replace("%db%", db)
-        );
-        return data;
-      } catch (error) {
-        throw error;
-      }
-    },
-    pick: async (parent, { db }) => {
-      try {
-        const movie = await axios.get(
-          `${process.env.API_URL}${api.PICK_MOVIE}`.replace("%db%", db)
-        );
-        return movie.data;
+        return query(db, tables.WATCHED);
       } catch (error) {
         throw error;
       }
@@ -47,57 +31,44 @@ export const resolvers = {
   },
 
   Mutation: {
-    addMovie: async (parent, { movie, db }) => {
+    addMovie: async (parent, { movie, db }, { upsert }) => {
       try {
-        const { data } = await axios.post(
-          `${process.env.API_URL}${api.ADD_MOVIE}`.replace("%db%", db),
-          movie
-        );
+        if (!movie.title)
+          throw new UserInputError("No title", {
+            errorCode: errorCodes.NO_TITLE,
+          });
+        if (isNil(movie.source)) movie.source = sources.NONE;
+        if (isNil(movie.locked)) movie.locked = false;
+        return upsert(db, tables.MOVIES, movie);
+      } catch (error) {
+        throw error;
+      }
+    },
+    removeMovie: async (parent, { movieId, db, list }, { remove }) => {
+      try {
+        return remove(db, list, movieId);
+      } catch (error) {
+        throw error;
+      }
+    },
+    markWatched: async (parent, { movie, db }, { remove, upsert }) => {
+      try {
+        const data = upsert(db, tables.WATCHED, {
+          ...movie,
+          watched: new Date().toISOString(),
+        });
+        remove(db, tables.MOVIES, movie._id);
         return data;
       } catch (error) {
         throw error;
       }
     },
-    removeMovie: async (parent, { movieId, db, list }) => {
-      const endpoint = {
-        [tables.MOVIES]: api.DELETE_MOVIE,
-        [tables.WATCHED_MOVIES]: api.DELETE_WATCHED,
-      }[list];
-
+    undoWatched: async (parent, { movie, db }, { remove, upsert }) => {
       try {
-        const { data } = await axios.post(
-          `${process.env.API_URL}${endpoint}`.replace("%db%", db),
-          { id: movieId }
-        );
+        // Remove the watched property that gets added when the movie is marked watched.
+        const data = upsert(db, tables.MOVIES, omit(movie, ["watched"]));
+        remove(db, tables.WATCHED, movie._id);
         return data;
-      } catch (error) {
-        throw error;
-      }
-    },
-    markWatched: async (parent, { movie, db }) => {
-      try {
-        const { data } = await axios.post(
-          `${process.env.API_URL}${api.MARK_WATCHED}`.replace("%db%", db),
-          movie
-        );
-        return data;
-      } catch (error) {
-        throw error;
-      }
-    },
-    undoWatched: async (parent, { movie, db }) => {
-      try {
-        const { data: addData } = await axios.post(
-          `${process.env.API_URL}${api.ADD_MOVIE}`.replace("%db%", db),
-          movie
-        );
-
-        const { data: deleteData } = await axios.post(
-          `${process.env.API_URL}${api.DELETE_WATCHED}`.replace("%db%", db),
-          { id: movie._id }
-        );
-
-        return addData;
       } catch (error) {
         throw error;
       }

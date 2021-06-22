@@ -36,7 +36,6 @@ export const typeDefs = gql`
     dbs: [DB]
     movies(db: String!): [Movie]
     watchedMovies(db: String!): [Movie]
-    pick(db: String!, noCache: Int): Movie
   }
 
   type Mutation {

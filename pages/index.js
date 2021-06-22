@@ -13,6 +13,8 @@ import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
 import ErrorDialog from "../components/error-dialog/error-dialog";
 import { tables } from "../constants/tables";
+import { randomPick } from "../utils/random-pick";
+import Pick from "../components/pick/pick";
 
 const useDBs = (onComplete) => {
   const GET_DBS = gql`
@@ -65,18 +67,6 @@ const useMovies = (db) => {
     loading,
   };
 };
-
-const PICK = gql`
-  query Pick($db: String!) {
-    pick(db: $db) {
-      _id
-      title
-      runtime
-      source
-      genre
-    }
-  }
-`;
 
 const ADD_MOVIE = gql`
   mutation AddMovie($movie: MovieInput!, $db: String!) {
@@ -139,19 +129,15 @@ export default function Home() {
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
+  const [pick, setPick] = useState(null);
 
   // TODO: COMM WAS CATCHING A LOT OF ERRORS. HOW DO I DO THAT NOW?
-  const send = comm((errorMessage) => {
-    setError(errorMessage);
-  });
+  // const send = comm((errorMessage) => {
+  //   setError(errorMessage);
+  // });
 
   const { dbs } = useDBs(setDb);
   const { movies, watchedMovies, refetchMovies, loading } = useMovies(db);
-
-  const [pick, { data }] = useLazyQuery(PICK, {
-    variables: { db: db?.id, noCache: Date.now() },
-    fetchPolicy: "network-only",
-  });
 
   const [undoWatched] = useMutation(UNDO_WATCHED, {
     onCompleted: ({ undoWatched: movie }) => {
@@ -199,8 +185,6 @@ export default function Home() {
     },
   });
 
-  const dbEndpoint = (endpoint) => endpoint.replace("%db%", db.id);
-
   return (
     <>
       <Head>
@@ -221,10 +205,17 @@ export default function Home() {
           onAdd={() => {
             setEnableAddMovie(true);
           }}
-          onPick={(options) => pick()}
+          onPick={(options) => {
+            try {
+              setPick(randomPick(movies, options));
+            } catch (ex) {
+              console.log(ex);
+            }
+          }}
         />
 
         <Container>
+          {pick && <Pick movie={pick} />}
           {movies && (
             <List
               enableAddMovie={enableAddMovie}

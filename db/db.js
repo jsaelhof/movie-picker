@@ -42,8 +42,6 @@ export const upsert = (db, table, updateData) => {
     [record._id]: updatedRecord,
   });
 
-  console.log("DB Upsert", updatedRecord);
-
   // Return the updated record
   return updatedRecord;
 };
@@ -56,4 +54,12 @@ export const remove = (db, table, movieId) => {
   return {
     _id: movieId,
   };
+};
+
+export const db = {
+  load,
+  query,
+  find,
+  upsert,
+  remove,
 };

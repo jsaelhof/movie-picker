@@ -1,4 +1,4 @@
-import {errorCodes} from "../constants/error_codes";
-import {buildError} from "./build-error";
+import { errorCodes } from "../constants/error_codes";
+import { buildError } from "./build-error";
 
-export const errorAdding = () => buildError(errorCodes.ADDING);
+export const errorAdding = () => buildError(errorCodes.NO_TITLE);
