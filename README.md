@@ -72,7 +72,8 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 - ~~Filters for picking (resolver)~~
 - ~~Extract queries into separate file(s)~~
 - ~~Finish removing axios~~
-- Clean up rest endpoints...delete?
+- ~~Clean up rest endpoints...delete?~~
+- Move resolvers and schema out of pages dir and into graphql dir. Rename indexes as resolvers.js and schema.js
 
 #### DB TODO:
 
