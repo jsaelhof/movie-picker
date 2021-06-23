@@ -2,7 +2,7 @@ import isNil from "lodash/isNil";
 import omit from "lodash/omit";
 import { tables } from "../../../constants/tables";
 import { sources } from "../../../constants/sources";
-import { UserInputError } from "apollo-server-errors";
+import { ApolloError, UserInputError } from "apollo-server-errors";
 import { errorCodes } from "../../../constants/error_codes";
 
 export const resolvers = {
@@ -33,10 +33,7 @@ export const resolvers = {
   Mutation: {
     addMovie: async (parent, { movie, db }, { upsert }) => {
       try {
-        if (!movie.title)
-          throw new UserInputError("No title", {
-            errorCode: errorCodes.NO_TITLE,
-          });
+        if (!movie.title) throw new ApolloError(errorCodes.NO_TITLE);
         if (isNil(movie.source)) movie.source = sources.NONE;
         if (isNil(movie.locked)) movie.locked = false;
         return upsert(db, tables.MOVIES, movie);

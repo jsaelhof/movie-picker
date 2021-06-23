@@ -19,9 +19,7 @@ export const randomPick = (movies, options = {}) => {
   const list = filter(movies, conforms(filters));
 
   if (size(list) === 0) {
-    throw new Error("No movies are available to pick from.", {
-      errorCode: errorCodes.PICKING,
-    });
+    throw new Error(errorCodes.PICKING);
   } else {
     return sample(list);
   }

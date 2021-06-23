@@ -23,6 +23,7 @@ import Pick from "../components/pick/pick";
 import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
+import { errorMessage } from "../constants/error_codes";
 
 export default function Home() {
   const [db, setDb] = useState();
@@ -70,6 +71,9 @@ export default function Home() {
       refetchMovies(); // TODO: Should the mutation return the full list? Should it insert something into the cache?
       setToastProps({ message: `Added '${movie.title}'` });
     },
+    onError: ({ message }) => {
+      setError(message);
+    },
   });
 
   // TODO: Can this be replaced with ADD_MOVIE but taking in a variable about whether it's an ADD or EDIT?
@@ -82,6 +86,9 @@ export default function Home() {
   const [removeMovie] = useMutation(REMOVE_MOVIE, {
     onCompleted: () => {
       refetchMovies(); // TODO: Should the mutation return the full list? Should it insert something into the cache?
+    },
+    onError: ({ message }) => {
+      setError(message);
     },
   });
 
@@ -108,8 +115,8 @@ export default function Home() {
           onPick={(options) => {
             try {
               setPick(randomPick(movies, options));
-            } catch (ex) {
-              console.log(ex);
+            } catch ({ message }) {
+              setError(message);
             }
           }}
         />
@@ -165,7 +172,9 @@ export default function Home() {
 
       <ErrorDialog
         open={!!error}
-        content={error}
+        content={
+          errorMessage[error] || errorMessage.UNKNOWN.replace("%%", error)
+        }
         onConfirm={() => setError(null)}
       />
     </>
