@@ -1,128 +1,28 @@
 import Head from "next/head";
 
-import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import Container from "@material-ui/core/Container";
-import omit from "lodash/omit";
 
-import { comm } from "../comm/comm";
+import { omitTypename } from "../utils/omit-typename";
+import { tables } from "../constants/tables";
+import { randomPick } from "../utils/random-pick";
+import {
+  ADD_MOVIE,
+  EDIT_MOVIE,
+  GET_DBS,
+  GET_MOVIES,
+  MARK_WATCHED,
+  REMOVE_MOVIE,
+  UNDO_WATCHED,
+} from "../graphql";
 import ActionBar from "../components/action-bar/action-bar";
+import ErrorDialog from "../components/error-dialog/error-dialog";
 import List from "../components/list/list";
+import Pick from "../components/pick/pick";
 import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
-import ErrorDialog from "../components/error-dialog/error-dialog";
-import { tables } from "../constants/tables";
-import { randomPick } from "../utils/random-pick";
-import Pick from "../components/pick/pick";
-
-const useDBs = (onComplete) => {
-  const GET_DBS = gql`
-    query GetDBs {
-      dbs {
-        id
-        label
-      }
-    }
-  `;
-
-  const { data } = useQuery(GET_DBS, {
-    onCompleted: ({ dbs }) => {
-      onComplete(dbs[0]);
-    },
-  });
-
-  return {
-    ...data,
-  };
-};
-
-const useMovies = (db) => {
-  const GET_MOVIES = gql`
-    query GetMovies($db: String!) {
-      movies(db: $db) {
-        _id
-        title
-        runtime
-        source
-        genre
-        locked
-      }
-      watchedMovies(db: $db) {
-        _id
-        title
-        watched
-      }
-    }
-  `;
-
-  const { data, refetch, loading } = useQuery(GET_MOVIES, {
-    skip: !db,
-    variables: { db: db?.id },
-  });
-
-  return {
-    ...data,
-    refetchMovies: refetch,
-    loading,
-  };
-};
-
-const ADD_MOVIE = gql`
-  mutation AddMovie($movie: MovieInput!, $db: String!) {
-    addMovie(movie: $movie, db: $db) {
-      _id
-      title
-      runtime
-      source
-      genre
-      locked
-    }
-  }
-`;
-
-const EDIT_MOVIE = gql`
-  mutation EditMovie($movie: MovieInput!, $db: String!) {
-    addMovie(movie: $movie, db: $db) {
-      _id
-      title
-      runtime
-      source
-      genre
-      locked
-    }
-  }
-`;
-
-const REMOVE_MOVIE = gql`
-  mutation RemoveMovie($movieId: ID!, $db: String!, $list: String!) {
-    removeMovie(movieId: $movieId, db: $db, list: $list) {
-      _id
-    }
-  }
-`;
-
-const MARK_WATCHED = gql`
-  mutation MarkWatched($movie: MovieInput!, $db: String!) {
-    markWatched(movie: $movie, db: $db) {
-      _id
-      title
-      runtime
-      source
-      genre
-      locked
-      watched
-    }
-  }
-`;
-
-const UNDO_WATCHED = gql`
-  mutation UndoWatched($movie: MovieInput!, $db: String!) {
-    undoWatched(movie: $movie, db: $db) {
-      title
-    }
-  }
-`;
 
 export default function Home() {
   const [db, setDb] = useState();
@@ -156,7 +56,7 @@ export default function Home() {
         onUndo: async () => {
           undoWatched({
             variables: {
-              movie: omit(movie, "__typename"),
+              movie: omitTypename(movie),
               db: db.id,
             },
           });
@@ -223,12 +123,12 @@ export default function Home() {
               onAddingComplete={() => setEnableAddMovie(false)}
               onAddMovie={(movie) =>
                 addMovie({
-                  variables: { movie: omit(movie, "__typename"), db: db.id },
+                  variables: { movie: omitTypename(movie), db: db.id },
                 })
               }
               onEditMovie={(movie) =>
                 editMovie({
-                  variables: { movie: omit(movie, "__typename"), db: db.id },
+                  variables: { movie: omitTypename(movie), db: db.id },
                 })
               }
               onRemoveMovie={(id) =>
@@ -238,7 +138,7 @@ export default function Home() {
               }
               onMarkWatched={(movie) =>
                 markWatched({
-                  variables: { movie: omit(movie, "__typename"), db: db.id },
+                  variables: { movie: omitTypename(movie), db: db.id },
                 })
               }
             />
@@ -271,3 +171,26 @@ export default function Home() {
     </>
   );
 }
+
+const useDBs = (onComplete) => {
+  const { data } = useQuery(GET_DBS, {
+    onCompleted: ({ dbs }) => {
+      onComplete(dbs[0]);
+    },
+  });
+
+  return { ...data };
+};
+
+const useMovies = (db) => {
+  const { data, refetch, loading } = useQuery(GET_MOVIES, {
+    skip: !db,
+    variables: { db: db?.id },
+  });
+
+  return {
+    ...data,
+    refetchMovies: refetch,
+    loading,
+  };
+};

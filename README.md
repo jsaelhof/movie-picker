@@ -70,7 +70,7 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 
 - ~~Get Pick working~~
 - ~~Filters for picking (resolver)~~
-- Extract queries into separate file(s)
+- ~~Extract queries into separate file(s)~~
 - ~~Finish removing axios~~
 - Clean up rest endpoints...delete?
 
