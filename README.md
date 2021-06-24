@@ -73,7 +73,7 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 - ~~Extract queries into separate file(s)~~
 - ~~Finish removing axios~~
 - ~~Clean up rest endpoints...delete?~~
-- Move resolvers and schema out of pages dir and into graphql dir. Rename indexes as resolvers.js and schema.js
+- ~~Move resolvers and schema out of pages dir and into graphql dir. Rename indexes as resolvers.js and schema.js~~
 
 #### DB TODO:
 
@@ -82,8 +82,9 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 - Pull in a movie rating? Length? Genre? Synopsis? Can get these from the moviedb api but I'd need to get results based on title and then either let you choose or filter results for an exact match of the title? Could be messy but would be really nice.
 - State needs to be reworked a bit. Passing a lot of functions into display components. Redux? UseReducer?
 - Hook up to a real db? Mongo?
-- Look at graphql/react query?
-- Probably no need to be returning the full list when endpoint requests complete. Just success is fine since ei'm not using the responses. Although I might be able to use the response to prevent the flashing of the list as it updates after a change.
+- ~~Look at graphql~~
+- Look at ReactQuery
+- ~~Probably no need to be returning the full list when endpoint requests complete. Just success is fine since ei'm not using the responses. Although I might be able to use the response to prevent the flashing of the list as it updates after a change.~~
 - Data migration: Add IMDB to all movies
 - Sort file DB by date descending.
 - Maybe drop the time portion on the dates? It's not particularly useful what hour of the day the movie was watched. I just want to know the day.

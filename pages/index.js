@@ -31,27 +31,20 @@ export default function Home() {
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
   const [pick, setPick] = useState(null);
-
-  // TODO: COMM WAS CATCHING A LOT OF ERRORS. HOW DO I DO THAT NOW?
-  // const send = comm((errorMessage) => {
-  //   setError(errorMessage);
-  // });
-
   const { dbs } = useDBs(setDb);
   const { movies, watchedMovies, refetchMovies, loading } = useMovies(db);
 
   const [undoWatched] = useMutation(UNDO_WATCHED, {
     onCompleted: ({ undoWatched: movie }) => {
-      refetchMovies(); // TODO: Same...does this even work or is it needed?
       setToastProps({
         message: `Moved '${movie.title}' back to movies list`,
       });
     },
+    refetchQueries: ["GetMovies"],
   });
 
   const [markWatched, { data: markWatchedData }] = useMutation(MARK_WATCHED, {
     onCompleted: ({ markWatched: movie }) => {
-      refetchMovies(); // TODO: Should the mutation return the full list? Should it insert something into the cache?
       setToastProps({
         message: `Moved '${movie.title}' to watched list`,
         onUndo: async () => {
@@ -64,29 +57,25 @@ export default function Home() {
         },
       });
     },
+    refetchQueries: ["GetMovies"],
   });
 
   const [addMovie] = useMutation(ADD_MOVIE, {
     onCompleted: ({ addMovie: movie }) => {
-      refetchMovies(); // TODO: Should the mutation return the full list? Should it insert something into the cache?
       setToastProps({ message: `Added '${movie.title}'` });
     },
     onError: ({ message }) => {
       setError(message);
     },
+    refetchQueries: ["GetMovies"],
   });
 
-  // TODO: Can this be replaced with ADD_MOVIE but taking in a variable about whether it's an ADD or EDIT?
   const [editMovie] = useMutation(EDIT_MOVIE, {
-    onCompleted: () => {
-      refetchMovies(); // TODO: Should the mutation return the full list? Should it insert something into the cache?
-    },
+    refetchQueries: ["GetMovies"],
   });
 
   const [removeMovie] = useMutation(REMOVE_MOVIE, {
-    onCompleted: () => {
-      refetchMovies(); // TODO: Should the mutation return the full list? Should it insert something into the cache?
-    },
+    refetchQueries: ["GetMovies"],
     onError: ({ message }) => {
       setError(message);
     },
