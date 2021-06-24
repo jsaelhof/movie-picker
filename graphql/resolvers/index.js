@@ -1,9 +1,9 @@
 import isNil from "lodash/isNil";
 import omit from "lodash/omit";
-import { tables } from "../../../constants/tables";
-import { sources } from "../../../constants/sources";
+import { tables } from "../../constants/tables";
+import { sources } from "../../constants/sources";
 import { ApolloError, UserInputError } from "apollo-server-errors";
-import { errorCodes } from "../../../constants/error_codes";
+import { errorCodes } from "../../constants/error_codes";
 
 export const resolvers = {
   Query: {
