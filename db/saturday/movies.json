@@ -95,6 +95,7 @@
     "runtime": 7680,
     "genre": 2,
     "source": 0,
+    "editedOn": "2021-01-15T00:00:25.000Z",
     "addedOn": "2021-01-15T00:00:25.000Z",
     "imdb": "tt0453562",
     "locked": false
@@ -145,6 +146,7 @@
     "runtime": 6660,
     "genre": 2,
     "source": 1,
+    "editedOn": "2021-01-15T00:00:25.000Z",
     "addedOn": "2021-01-15T00:00:25.000Z",
     "locked": false
   },
@@ -154,6 +156,7 @@
     "runtime": 6660,
     "genre": 2,
     "source": 4,
+    "editedOn": "2021-01-15T00:00:25.000Z",
     "addedOn": "2021-01-15T00:00:25.000Z",
     "locked": false
   },
@@ -173,6 +176,7 @@
     "runtime": 8220,
     "genre": 2,
     "source": 1,
+    "editedOn": "2021-01-15T00:00:25.000Z",
     "addedOn": "2021-01-15T00:00:25.000Z",
     "locked": false
   },
@@ -212,6 +216,7 @@
     "runtime": 7080,
     "genre": 1,
     "source": 1,
+    "editedOn": "2021-01-15T00:00:25.000Z",
     "addedOn": "2021-01-15T00:00:25.000Z",
     "locked": false
   },
@@ -291,6 +296,7 @@
     "runtime": 7080,
     "genre": 2,
     "source": 0,
+    "editedOn": "2021-01-15T00:00:25.000Z",
     "addedOn": "2021-01-15T00:00:25.000Z",
     "locked": false
   },
@@ -350,6 +356,7 @@
     "runtime": 6780,
     "genre": 1,
     "source": 0,
+    "editedOn": "2021-01-15T00:00:25.000Z",
     "addedOn": "2021-01-15T00:00:25.000Z",
     "locked": false
   },
@@ -389,6 +396,7 @@
     "runtime": 6180,
     "genre": 4,
     "source": 1,
+    "editedOn": "2021-01-15T00:00:25.000Z",
     "addedOn": "2021-01-15T00:00:25.000Z",
     "locked": false
   }
