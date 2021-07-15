@@ -10,6 +10,7 @@ import { randomPick } from "../utils/random-pick";
 import {
   ADD_MOVIE,
   EDIT_MOVIE,
+  EDIT_WATCHED_MOVIE,
   GET_DBS,
   GET_MOVIES,
   MARK_WATCHED,
@@ -32,7 +33,7 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [pick, setPick] = useState(null);
   const { dbs } = useDBs(setDb);
-  const { movies, watchedMovies, refetchMovies, loading } = useMovies(db);
+  const { movies, watchedMovies, loading } = useMovies(db);
 
   const [undoWatched] = useMutation(UNDO_WATCHED, {
     onCompleted: ({ undoWatched: movie }) => {
@@ -79,6 +80,10 @@ export default function Home() {
     onError: ({ message }) => {
       setError(message);
     },
+  });
+
+  const [editWatchedMovie] = useMutation(EDIT_WATCHED_MOVIE, {
+    refetchQueries: ["GetMovies"],
   });
 
   return (
@@ -143,6 +148,11 @@ export default function Home() {
           {watchedMovies && (
             <WatchedList
               movies={watchedMovies}
+              onEditMovie={(movie) =>
+                editWatchedMovie({
+                  variables: { movie: omitTypename(movie), db: db.id },
+                })
+              }
               onRemoveMovie={(id) =>
                 removeMovie({
                   variables: { movieId: id, db: db.id, list: tables.WATCHED },

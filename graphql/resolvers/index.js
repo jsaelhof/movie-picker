@@ -70,5 +70,12 @@ export const resolvers = {
         throw error;
       }
     },
+    editWatched: async (parent, { movie, db }, { upsert }) => {
+      try {
+        return upsert(db, tables.WATCHED, movie);
+      } catch (error) {
+        throw error;
+      }
+    },
   },
 };

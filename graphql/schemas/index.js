@@ -43,5 +43,6 @@ export const typeDefs = gql`
     removeMovie(movieId: ID!, db: String!, list: String!): Movie
     markWatched(movie: MovieInput!, db: String!): Movie
     undoWatched(movie: MovieInput!, db: String!): Movie
+    editWatched(movie: MovieInput!, db: String!): Movie
   }
 `;

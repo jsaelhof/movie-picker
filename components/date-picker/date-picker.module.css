@@ -1,0 +1,10 @@
+.datePicker {
+  position: absolute;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  top: 40px;
+  right: 20px;
+  z-index: 10;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+}
