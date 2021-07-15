@@ -3,7 +3,15 @@ import React from "react";
 
 import styles from "./list-cell.module.css";
 
-const ListCell = ({ children, left, dense, locked, onClick, classes }) => (
+const ListCell = ({
+  children,
+  left,
+  dense,
+  locked,
+  onClick,
+  classes,
+  ...props
+}) => (
   <div
     className={clsx(
       styles.listCell,
@@ -14,6 +22,7 @@ const ListCell = ({ children, left, dense, locked, onClick, classes }) => (
       classes
     )}
     onClick={onClick}
+    {...props}
   >
     {children}
   </div>
