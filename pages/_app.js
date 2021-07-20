@@ -1,7 +1,18 @@
 import "../css/global.css";
 
-function MyApp({Component, pageProps}) {
-  return <Component {...pageProps} />;
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: process.env.GRAPHQL_URL,
+  cache: new InMemoryCache(),
+});
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <ApolloProvider client={client}>
+      <Component {...pageProps} />
+    </ApolloProvider>
+  );
 }
 
 // Only uncomment this method if you have blocking data requirements for

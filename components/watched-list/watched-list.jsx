@@ -1,20 +1,17 @@
-import {useState} from "react";
-import {format} from "date-fns";
-import {Paper} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { useState } from "react";
+import { Paper } from "@material-ui/core";
 import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
 
-import {titleCase} from "../../utils/title-case";
-import ActionButton from "../action-button/action-button";
 import DeleteDialog from "../delete-dialog/delete-dialog";
-import ListCell from "../list-cell/list-cell";
 import ListHeaderCell from "../list-header-cell/list-header-cell";
+import WatchedListRow from "../watched-list-row/watched-list-row";
 
 import styles from "./watched-list.module.css";
 
-const WatchedList = ({movies, onRemoveMovie}) => {
+const WatchedList = ({ movies, onEditMovie, onRemoveMovie }) => {
   const [deleteMovie, setDeleteMovie] = useState(null);
+  const [editedMovie, setEditedMovie] = useState(null);
 
   return movies ? (
     <>
@@ -28,35 +25,20 @@ const WatchedList = ({movies, onRemoveMovie}) => {
 
           {movies &&
             orderBy(movies, ["watched"], ["desc"]).map((movie) => (
-              <React.Fragment key={movie._id}>
-                <ListCell left>
-                  <a
-                    className={styles.link}
-                    href={`https://www.themoviedb.org/search?query=${movie.title.replace(
-                      " ",
-                      "+",
-                    )}`}
-                    target="moviedb"
-                  >
-                    {titleCase(movie.title)}
-                  </a>
-                </ListCell>
-                <ListCell left>
-                  {movie.watched
-                    ? format(new Date(movie.watched), "MMM do, yyyy")
-                    : "-"}
-                </ListCell>
-                <ListCell>
-                  <ActionButton
-                    Icon={DeleteIcon}
-                    tooltip="Delete"
-                    movie={movie}
-                    onClick={(movie) => {
-                      setDeleteMovie(movie._id);
-                    }}
-                  />
-                </ListCell>
-              </React.Fragment>
+              <WatchedListRow
+                key={movie._id}
+                movie={movie}
+                isEditing={editedMovie === movie._id}
+                onEditMovie={({ _id }) => setEditedMovie(_id)}
+                onSave={(movie) => {
+                  onEditMovie(movie);
+                  setEditedMovie(null);
+                }}
+                onCancel={() => setEditedMovie(null)}
+                onDelete={({ _id }) => {
+                  setDeleteMovie(_id);
+                }}
+              />
             ))}
         </div>
       </Paper>
@@ -65,7 +47,7 @@ const WatchedList = ({movies, onRemoveMovie}) => {
         open={!isNil(deleteMovie)}
         title="Remove Watched Movie?"
         content={`'${
-          movies.find(({_id}) => _id === deleteMovie)?.title
+          movies.find(({ _id }) => _id === deleteMovie)?.title
         }' will be removed from the Watched Movies list`}
         onCancel={() => setDeleteMovie(null)}
         onConfirm={() => {

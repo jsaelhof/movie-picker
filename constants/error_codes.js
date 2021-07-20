@@ -1,5 +1,10 @@
 export const errorCodes = {
-  PICKING: "001",
-  ADDING: "101",
-  DELETING: "201",
+  PICKING: "PICKING",
+  NO_TITLE: "NO_TITLE",
+};
+
+export const errorMessage = {
+  [errorCodes.PICKING]: "No movies are available to pick from.",
+  [errorCodes.NO_TITLE]: "Title is required to add a movie",
+  UNKNOWN: `Unknown error code: %%`,
 };

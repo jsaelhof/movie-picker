@@ -8,17 +8,17 @@ import {
 import axios from "axios";
 import findKey from "lodash/findKey";
 import isNil from "lodash/isNil";
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import {api} from "../../constants/api";
-import {genreLabels} from "../../constants/genres";
+import { api } from "../../constants/api";
+import { genreLabels } from "../../constants/genres";
 import MoviePoster from "./movie-poster";
 
 import styles from "./search-movie-dialog.module.css";
 
 const AUTO_REFRESH_TIMEOUT = 1500;
 
-const SearchMovieDialog = ({search: initialSearch, onUseInfo, onCancel}) => {
+const SearchMovieDialog = ({ search: initialSearch, onUseInfo, onCancel }) => {
   const [result, setResult] = useState();
   const [movies, setMovies] = useState();
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -30,9 +30,9 @@ const SearchMovieDialog = ({search: initialSearch, onUseInfo, onCancel}) => {
   useEffect(() => {
     const title = async () => {
       const {
-        data: {Title, Response, Runtime, Genre, Poster},
+        data: { Title, Response, Runtime, Genre, Poster },
       } = await axios.get(
-        api.OMDB_TITLE.replace("%title%", movies[selectedMovie].Title),
+        api.OMDB_TITLE.replace("%title%", movies[selectedMovie].Title)
       );
 
       if (Response === "True") {
@@ -44,14 +44,14 @@ const SearchMovieDialog = ({search: initialSearch, onUseInfo, onCancel}) => {
         // Search my list and see if a match is found.
         // If so we'll set that as the genre, otherwise ignore.
         const genre = findKey(genreLabels, (genre) =>
-          Genre.split(", ").includes(genre),
+          Genre.split(", ").includes(genre)
         );
 
         setResult({
           title: Title,
           poster: Poster && Poster !== "N/A" ? Poster : null,
           runtime,
-          genre,
+          genre: genre && parseInt(genre), // If genre exists, parse it to an int.
         });
       }
     };
@@ -66,7 +66,7 @@ const SearchMovieDialog = ({search: initialSearch, onUseInfo, onCancel}) => {
       setSearchStale(false);
 
       const {
-        data: {Response, Search},
+        data: { Response, Search },
       } = await axios.get(api.OMDB_SEARCH.replace("%title%", searchInput));
 
       // Note: Data includes the number of results but Search is limited to 10 per request.
@@ -90,7 +90,7 @@ const SearchMovieDialog = ({search: initialSearch, onUseInfo, onCancel}) => {
             fullWidth
             variant="outlined"
             placeholder="Title"
-            onChange={({target}) => {
+            onChange={({ target }) => {
               setSearchInput(target.value);
               clearTimeout(timeoutId.current);
               timeoutId.current = setTimeout(() => {
@@ -110,7 +110,7 @@ const SearchMovieDialog = ({search: initialSearch, onUseInfo, onCancel}) => {
           </div>
         ) : (
           <div className={styles.posterGrid}>
-            {movies.map(({Poster, Title, Year, imdbID}, index) => (
+            {movies.map(({ Poster, Title, Year, imdbID }, index) => (
               <MoviePoster
                 key={imdbID}
                 poster={Poster}

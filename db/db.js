@@ -12,7 +12,7 @@ const read = (db, table) =>
 const update = (db, table, updatedData) => {
   fs.writeFileSync(
     `db/${db}/${table}.json`,
-    JSON.stringify(updatedData, null, 2),
+    JSON.stringify(updatedData, null, 2)
   );
   return query(db, table);
 };
@@ -23,24 +23,43 @@ export const find = (db, table, key, value) =>
   query(db, table).find((movie) => movie[key] === value);
 
 export const upsert = (db, table, updateData) => {
+  // Find record or make a new one
   const record = find(db, table, "_id", updateData._id) || {
     _id: updateData._id || id(), // When undoing, or moving a movie to the watched list, it already has an id but doesn't update because it's not in that table. Use it's id instead of making one.
     addedOn: new Date().toISOString(),
   };
 
-  return update(db, table, {
+  // Add the new data to the record
+  const updatedRecord = {
+    ...record,
+    ...updateData,
+    editedOn: new Date().toISOString(),
+  };
+
+  // Add the updated record to the DB
+  update(db, table, {
     ...read(db, table),
-    [record._id]: {
-      ...record,
-      ...updateData,
-      editedOn: new Date().toISOString(),
-    },
+    [record._id]: updatedRecord,
   });
+
+  // Return the updated record
+  return updatedRecord;
 };
 
 export const remove = (db, table, movieId) => {
   // TODO: Check and see if the movie with this id even exists and provide an error if it doesn't.
   const updatedData = read(db, table);
   delete updatedData[movieId];
-  return update(db, table, updatedData);
+  update(db, table, updatedData);
+  return {
+    _id: movieId,
+  };
+};
+
+export const db = {
+  load,
+  query,
+  find,
+  upsert,
+  remove,
 };
