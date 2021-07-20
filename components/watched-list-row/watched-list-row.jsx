@@ -50,7 +50,7 @@ const WatchedListRow = ({
           }
         }}
       >
-        {format(watchedDate, "MMM do, yyyy")}
+        {format(watchedDate, "EEE, MMM do, yyyy")}
 
         {isEditing && (
           <DatePicker
