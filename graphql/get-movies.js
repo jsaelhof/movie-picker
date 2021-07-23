@@ -1,19 +1,19 @@
 import { gql } from "@apollo/client";
 
 export const GET_MOVIES = gql`
-  query GetMovies($db: String!) {
-    movies(db: $db) {
-      _id
+  query GetMovies($list: String!) {
+    movies(list: $list) {
+      id
       title
       runtime
       source
       genre
       locked
     }
-    watchedMovies(db: $db) {
-      _id
+    watchedMovies(list: $list) {
+      id
       title
-      watched
+      watchedOn
     }
   }
 `;

@@ -18,6 +18,7 @@
     "graphql": "^15.5.0",
     "lodash": "^4.17.20",
     "mdi-material-ui": "^6.21.0",
+    "mongodb": "^3.6.10",
     "next": "^10.0.0",
     "react": "16.13.1",
     "react-day-picker": "^8.0.0-beta.29",

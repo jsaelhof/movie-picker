@@ -24,19 +24,19 @@ const WatchedList = ({ movies, onEditMovie, onRemoveMovie }) => {
           <ListHeaderCell>Actions</ListHeaderCell>
 
           {movies &&
-            orderBy(movies, ["watched"], ["desc"]).map((movie) => (
+            orderBy(movies, ["watchedOn"], ["desc"]).map((movie) => (
               <WatchedListRow
-                key={movie._id}
+                key={movie.id}
                 movie={movie}
-                isEditing={editedMovie === movie._id}
-                onEditMovie={({ _id }) => setEditedMovie(_id)}
+                isEditing={editedMovie === movie.id}
+                onEditMovie={({ id }) => setEditedMovie(id)}
                 onSave={(movie) => {
                   onEditMovie(movie);
                   setEditedMovie(null);
                 }}
                 onCancel={() => setEditedMovie(null)}
-                onDelete={({ _id }) => {
-                  setDeleteMovie(_id);
+                onDelete={({ id }) => {
+                  setDeleteMovie(id);
                 }}
               />
             ))}
@@ -47,7 +47,7 @@ const WatchedList = ({ movies, onEditMovie, onRemoveMovie }) => {
         open={!isNil(deleteMovie)}
         title="Remove Watched Movie?"
         content={`'${
-          movies.find(({ _id }) => _id === deleteMovie)?.title
+          movies.find(({ id }) => id === deleteMovie)?.title
         }' will be removed from the Watched Movies list`}
         onCancel={() => setDeleteMovie(null)}
         onConfirm={() => {

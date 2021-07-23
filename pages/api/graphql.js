@@ -1,9 +1,12 @@
 import { ApolloServer } from "apollo-server-micro";
 import { typeDefs } from "../../graphql/schemas";
 import { resolvers } from "../../graphql/resolvers";
-import { db } from "../../db/db";
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers, context: db });
+const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: global.mongo.conn,
+});
 
 export const config = {
   api: {

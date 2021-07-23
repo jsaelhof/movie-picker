@@ -1,9 +1,9 @@
 import { gql } from "@apollo/client";
 
 export const ADD_MOVIE = gql`
-  mutation AddMovie($movie: MovieInput!, $db: String!) {
-    addMovie(movie: $movie, db: $db) {
-      _id
+  mutation AddMovie($movie: MovieInput!, $list: String!) {
+    addMovie(movie: $movie, list: $list) {
+      id
       title
       runtime
       source

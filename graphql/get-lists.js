@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const GET_DBS = gql`
-  query GetDBs {
-    dbs {
+export const GET_LISTS = gql`
+  query GetLists {
+    lists {
       id
       label
     }

@@ -22,7 +22,9 @@ const WatchedListRow = ({
   const [editedMovie, setEditedMovie] = useState(null);
 
   // If the date is in process of being changed use that otherwise use the date from the movie.
-  const watchedDate = new Date(isEditing ? editedMovie.watched : movie.watched);
+  const watchedDate = new Date(
+    isEditing ? editedMovie.watchedOn : movie.watchedOn
+  );
 
   return (
     <>
@@ -58,7 +60,7 @@ const WatchedListRow = ({
             onChange={(day) => {
               setEditedMovie((state) => ({
                 ...state,
-                watched: day.toISOString(),
+                watchedOn: day.toISOString(),
               }));
             }}
             onSave={() => {

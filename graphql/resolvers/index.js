@@ -1,29 +1,44 @@
 import isNil from "lodash/isNil";
 import omit from "lodash/omit";
+import random from "lodash/random";
 import { tables } from "../../constants/tables";
 import { sources } from "../../constants/sources";
-import { ApolloError, UserInputError } from "apollo-server-errors";
+import { ApolloError } from "apollo-server-errors";
 import { errorCodes } from "../../constants/error_codes";
+
+const id = () => random(100000000, 999999999).toString();
 
 export const resolvers = {
   Query: {
-    dbs: async (parent, args, { load }) => {
+    lists: async (parent, args, { db }) => {
       try {
-        return load();
+        return await db
+          .collection("lists")
+          .find()
+          .project({ _id: 0 })
+          .toArray();
       } catch (error) {
         throw error;
       }
     },
-    movies: async (parent, { db }, { query }) => {
+    movies: async (parent, { list }, { db }) => {
       try {
-        return query(db, tables.MOVIES);
+        return await db
+          .collection(list)
+          .find({ watchedOn: null })
+          .project({ _id: 0 })
+          .toArray();
       } catch (error) {
         throw error;
       }
     },
-    watchedMovies: async (parent, { db }, { query }) => {
+    watchedMovies: async (parent, { list }, { db }) => {
       try {
-        return query(db, tables.WATCHED);
+        return await db
+          .collection(list)
+          .find({ watchedOn: { $ne: null } })
+          .project({ _id: 0 })
+          .toArray();
       } catch (error) {
         throw error;
       }
@@ -31,48 +46,135 @@ export const resolvers = {
   },
 
   Mutation: {
-    addMovie: async (parent, { movie, db }, { upsert }) => {
+    addMovie: async (parent, { movie, list }, { db }) => {
       try {
         if (!movie.title) throw new ApolloError(errorCodes.NO_TITLE);
         if (isNil(movie.source)) movie.source = sources.NONE;
         if (isNil(movie.locked)) movie.locked = false;
-        return upsert(db, tables.MOVIES, movie);
-      } catch (error) {
-        throw error;
-      }
-    },
-    removeMovie: async (parent, { movieId, db, list }, { remove }) => {
-      try {
-        return remove(db, list, movieId);
-      } catch (error) {
-        throw error;
-      }
-    },
-    markWatched: async (parent, { movie, db }, { remove, upsert }) => {
-      try {
-        const data = upsert(db, tables.WATCHED, {
+
+        // TODO: This should be able to be updateOne with upsert and could probably be extracted to a function.
+        const { result, ops } = await db.collection(list).insertOne({
+          id: id(),
           ...movie,
-          watched: new Date().toISOString(),
+          addedOn: new Date().toISOString(),
+          editedOn: new Date().toISOString(),
         });
-        remove(db, tables.MOVIES, movie._id);
-        return data;
+
+        if (result.ok === 1) {
+          return ops[0];
+        } else {
+          throw new Error(`Error adding movie: ${movie.title}`);
+        }
       } catch (error) {
         throw error;
       }
     },
-    undoWatched: async (parent, { movie, db }, { remove, upsert }) => {
+    editMovie: async (parent, { movie, list }, { db }) => {
       try {
-        // Remove the watched property that gets added when the movie is marked watched.
-        const data = upsert(db, tables.MOVIES, omit(movie, ["watched"]));
-        remove(db, tables.WATCHED, movie._id);
-        return data;
+        console.log(movie);
+        const { value, ok } = await db.collection(list).findOneAndUpdate(
+          {
+            id: movie.id,
+          },
+          {
+            $set: {
+              ...movie,
+              editedOn: new Date().toISOString(),
+            },
+          }
+        );
+
+        if (ok === 1) {
+          return value;
+        } else {
+          throw new Error(`Error marking movie watched: ${movie.title}`);
+        }
       } catch (error) {
         throw error;
       }
     },
-    editWatched: async (parent, { movie, db }, { upsert }) => {
+    removeMovie: async (parent, { movieId, list }, { db }) => {
       try {
-        return upsert(db, tables.WATCHED, movie);
+        const { deletedCount } = await db.collection(list).deleteOne({
+          id: movieId,
+        });
+
+        if (deletedCount === 1) {
+          return { id: movieId };
+        } else {
+          throw new Error(`Error undoing movie watched: ${movie.title}`);
+        }
+      } catch (error) {
+        throw error;
+      }
+    },
+    markWatched: async (parent, { movie, list }, { db }) => {
+      try {
+        const { value, ok } = await db.collection(list).findOneAndUpdate(
+          {
+            id: movie.id,
+          },
+          {
+            $set: {
+              watchedOn: new Date().toISOString(),
+              editedOn: new Date().toISOString(),
+            },
+          }
+        );
+
+        if (ok === 1) {
+          return value;
+        } else {
+          throw new Error(`Error marking movie watched: ${movie.title}`);
+        }
+      } catch (error) {
+        throw error;
+      }
+    },
+    undoWatched: async (parent, { movie, list }, { db }) => {
+      try {
+        const { value, ok } = await db.collection(list).findOneAndUpdate(
+          {
+            id: movie.id,
+          },
+          {
+            $set: {
+              editedOn: new Date().toISOString(),
+            },
+            $unset: {
+              watchedOn: "",
+            },
+          }
+        );
+
+        if (ok === 1) {
+          return value;
+        } else {
+          throw new Error(`Error undoing movie watched: ${movie.title}`);
+        }
+      } catch (error) {
+        throw error;
+      }
+    },
+    editWatched: async (parent, { movie, list }, { db }) => {
+      try {
+        const { value, ok } = await db.collection(list).findOneAndUpdate(
+          {
+            id: movie.id,
+          },
+          {
+            $set: {
+              editedOn: new Date().toISOString(),
+              watchedOn: movie.watchedOn,
+            },
+          }
+        );
+
+        if (ok === 1) {
+          return value;
+        } else {
+          throw new Error(`Error editng watched date: ${movie.title}`);
+        }
       } catch (error) {
         throw error;
       }

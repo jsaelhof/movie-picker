@@ -5,13 +5,12 @@ import { useState } from "react";
 import Container from "@material-ui/core/Container";
 
 import { omitTypename } from "../utils/omit-typename";
-import { tables } from "../constants/tables";
 import { randomPick } from "../utils/random-pick";
 import {
   ADD_MOVIE,
   EDIT_MOVIE,
   EDIT_WATCHED_MOVIE,
-  GET_DBS,
+  GET_LISTS,
   GET_MOVIES,
   MARK_WATCHED,
   REMOVE_MOVIE,
@@ -25,15 +24,16 @@ import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
 import { errorMessage } from "../constants/error_codes";
+import { connectToDatabase } from "../utils/mongodb";
 
-export default function Home() {
-  const [db, setDb] = useState();
+export default function Home({ isConnected }) {
+  const [list, setList] = useState();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
   const [pick, setPick] = useState(null);
-  const { dbs } = useDBs(setDb);
-  const { movies, watchedMovies, loading } = useMovies(db);
+  const { lists } = useLists(setList);
+  const { movies, watchedMovies, loading } = useMovies(list);
 
   const [undoWatched] = useMutation(UNDO_WATCHED, {
     onCompleted: ({ undoWatched: movie }) => {
@@ -52,7 +52,7 @@ export default function Home() {
           undoWatched({
             variables: {
               movie: omitTypename(movie),
-              db: db.id,
+              list: list.id,
             },
           });
         },
@@ -98,10 +98,10 @@ export default function Home() {
 
         <ActionBar
           disabled={!movies || loading}
-          dbs={dbs}
-          currentDb={db}
-          onDBChange={(value) => {
-            setDb(dbs.find(({ id }) => id === value));
+          lists={lists}
+          currentList={list}
+          onListChange={(value) => {
+            setList(lists.find(({ id }) => id === value));
           }}
           onAdd={() => {
             setEnableAddMovie(true);
@@ -124,22 +124,25 @@ export default function Home() {
               onAddingComplete={() => setEnableAddMovie(false)}
               onAddMovie={(movie) =>
                 addMovie({
-                  variables: { movie: omitTypename(movie), db: db.id },
+                  variables: { movie: omitTypename(movie), list: list.id },
                 })
               }
               onEditMovie={(movie) =>
                 editMovie({
-                  variables: { movie: omitTypename(movie), db: db.id },
+                  variables: { movie: omitTypename(movie), list: list.id },
                 })
               }
               onRemoveMovie={(id) =>
                 removeMovie({
-                  variables: { movieId: id, db: db.id, list: tables.MOVIES },
+                  variables: {
+                    movieId: id,
+                    list: list.id,
+                  },
                 })
               }
               onMarkWatched={(movie) =>
                 markWatched({
-                  variables: { movie: omitTypename(movie), db: db.id },
+                  variables: { movie: omitTypename(movie), list: list.id },
                 })
               }
             />
@@ -150,12 +153,15 @@ export default function Home() {
               movies={watchedMovies}
               onEditMovie={(movie) =>
                 editWatchedMovie({
-                  variables: { movie: omitTypename(movie), db: db.id },
+                  variables: { movie: omitTypename(movie), list: list.id },
                 })
               }
               onRemoveMovie={(id) =>
                 removeMovie({
-                  variables: { movieId: id, db: db.id, list: tables.WATCHED },
+                  variables: {
+                    movieId: id,
+                    list: list.id,
+                  },
                 })
               }
             />
@@ -180,20 +186,30 @@ export default function Home() {
   );
 }
 
-const useDBs = (onComplete) => {
-  const { data } = useQuery(GET_DBS, {
-    onCompleted: ({ dbs }) => {
-      onComplete(dbs[0]);
+export async function getServerSideProps(context) {
+  const { client } = await connectToDatabase();
+
+  const isConnected = await client.isConnected();
+
+  return {
+    props: { isConnected },
+  };
+}
+
+const useLists = (onComplete) => {
+  const { data } = useQuery(GET_LISTS, {
+    onCompleted: ({ lists }) => {
+      onComplete(lists[0]);
     },
   });
 
   return { ...data };
 };
 
-const useMovies = (db) => {
+const useMovies = (list) => {
   const { data, refetch, loading } = useQuery(GET_MOVIES, {
-    skip: !db,
-    variables: { db: db?.id },
+    skip: !list,
+    variables: { list: list?.id },
   });
 
   return {

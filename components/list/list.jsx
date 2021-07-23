@@ -55,10 +55,10 @@ const List = ({
 
           {movies &&
             orderBy(movies, [order[0]], [order[1]]).map((movie) =>
-              editedMovie && movie._id === editedMovie ? (
+              editedMovie && movie.id === editedMovie ? (
                 <EditRow
-                  key={movie._id}
-                  movie={movies.find(({ _id }) => _id === editedMovie)}
+                  key={movie.id}
+                  movie={movies.find(({ id }) => id === editedMovie)}
                   onSave={(movie) => {
                     onEditMovie(movie);
                     setEditedMovie(null);
@@ -67,13 +67,13 @@ const List = ({
                 />
               ) : (
                 <ListRow
-                  key={movie._id}
+                  key={movie.id}
                   movie={movie}
                   onLockMovie={(movie) => onEditMovie(movie)}
-                  onEditMovie={({ _id }) => setEditedMovie(_id)}
+                  onEditMovie={({ id }) => setEditedMovie(id)}
                   onMarkWatched={(movie) => onMarkWatched(movie)}
-                  onDeleteMovie={({ _id }) => {
-                    setDeleteMovie(_id);
+                  onDeleteMovie={({ id }) => {
+                    setDeleteMovie(id);
                   }}
                 />
               )
@@ -85,7 +85,7 @@ const List = ({
         open={!isNil(deleteMovie)}
         title="Delete Movie?"
         content={`'${
-          movies.find(({ _id }) => _id === deleteMovie)?.title
+          movies.find(({ id }) => id === deleteMovie)?.title
         }' will be removed`}
         onCancel={() => setDeleteMovie(null)}
         onConfirm={() => {
