@@ -39,10 +39,7 @@ export const typeDefs = gql`
 
   type Mutation {
     addMovie(movie: MovieInput!, list: String!): Movie
-    editMovie(movie: MovieInput!, list: String!): Movie
+    editMovie(movie: MovieInput!, list: String!, removeKeys: [String]): Movie
     removeMovie(movieId: ID!, list: String!): Movie
-    markWatched(movie: MovieInput!, list: String!): Movie
-    undoWatched(movie: MovieInput!, list: String!): Movie
-    editWatched(movie: MovieInput!, list: String!): Movie
   }
 `;

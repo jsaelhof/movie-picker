@@ -1,7 +1,5 @@
 import isNil from "lodash/isNil";
-import omit from "lodash/omit";
 import random from "lodash/random";
-import { tables } from "../../constants/tables";
 import { sources } from "../../constants/sources";
 import { ApolloError } from "apollo-server-errors";
 import { errorCodes } from "../../constants/error_codes";
@@ -69,9 +67,8 @@ export const resolvers = {
         throw error;
       }
     },
-    editMovie: async (parent, { movie, list }, { db }) => {
+    editMovie: async (parent, { movie, list, removeKeys = [] }, { db }) => {
       try {
-        console.log(movie);
         const { value, ok } = await db.collection(list).findOneAndUpdate(
           {
             id: movie.id,
@@ -80,6 +77,12 @@ export const resolvers = {
             $set: {
               ...movie,
               editedOn: new Date().toISOString(),
+            },
+            $unset: {
+              ...removeKeys.reduce((acc, keyToRemove) => {
+                acc[keyToRemove] = "";
+                return acc;
+              }, {}),
             },
           }
         );
@@ -103,77 +106,6 @@ export const resolvers = {
           return { id: movieId };
         } else {
           throw new Error(`Error undoing movie watched: ${movie.title}`);
-        }
-      } catch (error) {
-        throw error;
-      }
-    },
-    markWatched: async (parent, { movie, list }, { db }) => {
-      try {
-        const { value, ok } = await db.collection(list).findOneAndUpdate(
-          {
-            id: movie.id,
-          },
-          {
-            $set: {
-              watchedOn: new Date().toISOString(),
-              editedOn: new Date().toISOString(),
-            },
-          }
-        );
-
-        if (ok === 1) {
-          return value;
-        } else {
-          throw new Error(`Error marking movie watched: ${movie.title}`);
-        }
-      } catch (error) {
-        throw error;
-      }
-    },
-    undoWatched: async (parent, { movie, list }, { db }) => {
-      try {
-        const { value, ok } = await db.collection(list).findOneAndUpdate(
-          {
-            id: movie.id,
-          },
-          {
-            $set: {
-              editedOn: new Date().toISOString(),
-            },
-            $unset: {
-              watchedOn: "",
-            },
-          }
-        );
-
-        if (ok === 1) {
-          return value;
-        } else {
-          throw new Error(`Error undoing movie watched: ${movie.title}`);
-        }
-      } catch (error) {
-        throw error;
-      }
-    },
-    editWatched: async (parent, { movie, list }, { db }) => {
-      try {
-        const { value, ok } = await db.collection(list).findOneAndUpdate(
-          {
-            id: movie.id,
-          },
-          {
-            $set: {
-              editedOn: new Date().toISOString(),
-              watchedOn: movie.watchedOn,
-            },
-          }
-        );
-
-        if (ok === 1) {
-          return value;
-        } else {
-          throw new Error(`Error editng watched date: ${movie.title}`);
         }
       } catch (error) {
         throw error;

@@ -4,17 +4,16 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import Container from "@material-ui/core/Container";
 
+import { connectToDatabase } from "../utils/mongodb";
+import { errorMessage } from "../constants/error_codes";
 import { omitTypename } from "../utils/omit-typename";
 import { randomPick } from "../utils/random-pick";
 import {
   ADD_MOVIE,
   EDIT_MOVIE,
-  EDIT_WATCHED_MOVIE,
   GET_LISTS,
   GET_MOVIES,
-  MARK_WATCHED,
   REMOVE_MOVIE,
-  UNDO_WATCHED,
 } from "../graphql";
 import ActionBar from "../components/action-bar/action-bar";
 import ErrorDialog from "../components/error-dialog/error-dialog";
@@ -23,8 +22,6 @@ import Pick from "../components/pick/pick";
 import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
-import { errorMessage } from "../constants/error_codes";
-import { connectToDatabase } from "../utils/mongodb";
 
 export default function Home({ isConnected }) {
   const [list, setList] = useState();
@@ -35,8 +32,8 @@ export default function Home({ isConnected }) {
   const { lists } = useLists(setList);
   const { movies, watchedMovies, loading } = useMovies(list);
 
-  const [undoWatched] = useMutation(UNDO_WATCHED, {
-    onCompleted: ({ undoWatched: movie }) => {
+  const [undoWatched] = useMutation(EDIT_MOVIE, {
+    onCompleted: ({ editMovie: movie }) => {
       setToastProps({
         message: `Moved '${movie.title}' back to movies list`,
       });
@@ -44,8 +41,8 @@ export default function Home({ isConnected }) {
     refetchQueries: ["GetMovies"],
   });
 
-  const [markWatched, { data: markWatchedData }] = useMutation(MARK_WATCHED, {
-    onCompleted: ({ markWatched: movie }) => {
+  const [markWatched] = useMutation(EDIT_MOVIE, {
+    onCompleted: ({ editMovie: movie }) => {
       setToastProps({
         message: `Moved '${movie.title}' to watched list`,
         onUndo: async () => {
@@ -53,6 +50,7 @@ export default function Home({ isConnected }) {
             variables: {
               movie: omitTypename(movie),
               list: list.id,
+              removeKeys: ["watchedOn"],
             },
           });
         },
@@ -80,10 +78,6 @@ export default function Home({ isConnected }) {
     onError: ({ message }) => {
       setError(message);
     },
-  });
-
-  const [editWatchedMovie] = useMutation(EDIT_WATCHED_MOVIE, {
-    refetchQueries: ["GetMovies"],
   });
 
   return (
@@ -142,7 +136,13 @@ export default function Home({ isConnected }) {
               }
               onMarkWatched={(movie) =>
                 markWatched({
-                  variables: { movie: omitTypename(movie), list: list.id },
+                  variables: {
+                    movie: {
+                      ...omitTypename(movie),
+                      watchedOn: new Date().toISOString(),
+                    },
+                    list: list.id,
+                  },
                 })
               }
             />
@@ -152,7 +152,7 @@ export default function Home({ isConnected }) {
             <WatchedList
               movies={watchedMovies}
               onEditMovie={(movie) =>
-                editWatchedMovie({
+                editMovie({
                   variables: { movie: omitTypename(movie), list: list.id },
                 })
               }
