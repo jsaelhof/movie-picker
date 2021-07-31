@@ -67,7 +67,7 @@ export const resolvers = {
         throw error;
       }
     },
-    editMovie: async (parent, { movie, list, removeKeys = [] }, { db }) => {
+    editMovie: async (parent, { movie, list, removeKeys }, { db }) => {
       try {
         const { value, ok } = await db.collection(list).findOneAndUpdate(
           {
@@ -78,12 +78,14 @@ export const resolvers = {
               ...movie,
               editedOn: new Date().toISOString(),
             },
-            $unset: {
-              ...removeKeys.reduce((acc, keyToRemove) => {
-                acc[keyToRemove] = "";
-                return acc;
-              }, {}),
-            },
+            ...(removeKeys && {
+              $unset: {
+                ...removeKeys.reduce((acc, keyToRemove) => {
+                  acc[keyToRemove] = "";
+                  return acc;
+                }, {}),
+              },
+            }),
           }
         );
 
