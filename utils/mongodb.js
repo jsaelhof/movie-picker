@@ -37,7 +37,9 @@ export const connectToDatabase = async () => {
       useUnifiedTopology: true,
     };
 
+    console.log("Attempt to connect to DB", MONGODB_URI);
     cached.promise = MongoClient.connect(MONGODB_URI, opts).then((client) => {
+      console.log("Mongo Client", client);
       return {
         client,
         db: client.db(MONGODB_DB),
@@ -45,5 +47,8 @@ export const connectToDatabase = async () => {
     });
   }
   cached.conn = await cached.promise;
+
+  console.log("Return Conn", cached.conn);
+
   return cached.conn;
 };
