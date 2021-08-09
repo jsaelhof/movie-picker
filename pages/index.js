@@ -4,7 +4,6 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import Container from "@material-ui/core/Container";
 
-import { connectToDatabase } from "../utils/mongodb";
 import { errorMessage } from "../constants/error_codes";
 import { omitTypename } from "../utils/omit-typename";
 import { randomPick } from "../utils/random-pick";
@@ -23,8 +22,7 @@ import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
 
-export default function Home({ isConnected }) {
-  console.log("IS CONNECTED", isConnected);
+export default function Home() {
   const [list, setList] = useState();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [toastProps, setToastProps] = useState(null);
@@ -185,19 +183,6 @@ export default function Home({ isConnected }) {
       />
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  console.log("GetServerSideProps");
-  const { client } = await connectToDatabase();
-
-  const isConnected = await client.isConnected();
-
-  console.log("is connected", client, client.isConnected);
-
-  return {
-    props: { isConnected },
-  };
 }
 
 const useLists = (onComplete) => {
