@@ -1,6 +1,7 @@
 import "../css/global.css";
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { UserProvider } from "@auth0/nextjs-auth0";
 
 const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
@@ -9,9 +10,11 @@ const client = new ApolloClient({
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ApolloProvider client={client}>
-      <Component {...pageProps} />
-    </ApolloProvider>
+    <UserProvider>
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
+    </UserProvider>
   );
 }
 

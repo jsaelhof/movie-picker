@@ -2,6 +2,7 @@ import Head from "next/head";
 
 import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import Container from "@material-ui/core/Container";
 
 import { errorMessage } from "../constants/error_codes";
@@ -22,7 +23,7 @@ import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
 
-export default function Home() {
+export default withPageAuthRequired(function Home() {
   const [list, setList] = useState();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [toastProps, setToastProps] = useState(null);
@@ -78,8 +79,6 @@ export default function Home() {
       setError(message);
     },
   });
-
-  return null;
 
   return (
     <>
@@ -185,7 +184,7 @@ export default function Home() {
       />
     </>
   );
-}
+});
 
 const useLists = (onComplete) => {
   const { data } = useQuery(GET_LISTS, {
