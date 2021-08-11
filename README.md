@@ -77,8 +77,8 @@ It was built using a simple file-based db because I wasn't focusing as much on a
 
 #### DB TODO:
 
-- Graph Mutations for MarkWatched, UndoWatched and EditWatched are all basically just "Edit Movie". The client knows what should be done and is already passing the data to be updated. Look at simplifying these by just calling Edit Movie instead. With MarkWatched i would just need to move the creation of the date out of the resolver.
-- Might be best to separate the add endpoint from being used for editing. Or rename it to update. Or just make one callled upsert since thats what it does,
+- ~Graph Mutations for MarkWatched, UndoWatched and EditWatched are all basically just "Edit Movie". The client knows what should be done and is already passing the data to be updated. Look at simplifying these by just calling Edit Movie instead. With MarkWatched i would just need to move the creation of the date out of the resolver.~
+- ~Might be best to separate the add endpoint from being used for editing. Or rename it to update. Or just make one callled upsert since thats what it does,~
 - Track how many times a movie has been "repicked"...might need a "Not tonight" button. Might be able to do something interesting with this data.
 - Pull in a movie rating? Length? Genre? Synopsis? Can get these from the moviedb api but I'd need to get results based on title and then either let you choose or filter results for an exact match of the title? Could be messy but would be really nice.
 - State needs to be reworked a bit. Passing a lot of functions into display components. Redux? UseReducer?
