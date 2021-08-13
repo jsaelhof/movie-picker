@@ -9,6 +9,7 @@ import {
   Popper,
   Paper,
   Toolbar,
+  Button,
 } from "@material-ui/core";
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
@@ -59,36 +60,32 @@ const TitleBar = () => {
                       transformOrigin: "center top",
                     }}
                   >
-                    <Paper className={styles.profileMenu} elevation={10}>
-                      <div className={styles.profileAvatar}>
-                        <Avatar
-                          alt={user.name}
-                          src={user.picture}
-                          style={{
-                            width: 65,
-                            height: 65,
-                          }}
-                        />
-                        <div className={styles.profileName}>{user.name}</div>
-                        <div className={styles.profileEmail}>{user.email}</div>
-                      </div>
+                    <ClickAwayListener onClickAway={onCloseMenu}>
+                      <Paper className={styles.profileMenu} elevation={10}>
+                        <div className={styles.profileAvatar}>
+                          <Avatar
+                            alt={user.name}
+                            src={user.picture}
+                            style={{
+                              width: 65,
+                              height: 65,
+                            }}
+                          />
+                          <div className={styles.profileName}>{user.name}</div>
+                          <div className={styles.profileEmail}>
+                            {user.email}
+                          </div>
+                        </div>
 
-                      <ClickAwayListener onClickAway={onCloseMenu}>
-                        <MenuList>
+                        <div className={styles.profileActions}>
                           <Link href="/api/auth/logout">
-                            <MenuItem
-                              onClick={onCloseMenu}
-                              className={styles.profileMenuItem}
-                              style={{
-                                justifyContent: "center",
-                              }}
-                            >
-                              <ExitToAppIcon /> Logout
-                            </MenuItem>
+                            <Button variant="outlined" onClick={onCloseMenu}>
+                              Logout
+                            </Button>
                           </Link>
-                        </MenuList>
-                      </ClickAwayListener>
-                    </Paper>
+                        </div>
+                      </Paper>
+                    </ClickAwayListener>
                   </Grow>
                 )}
               </Popper>
