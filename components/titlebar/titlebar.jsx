@@ -4,8 +4,6 @@ import {
   Avatar,
   ClickAwayListener,
   Grow,
-  MenuItem,
-  MenuList,
   Popper,
   Paper,
   Toolbar,
@@ -13,10 +11,20 @@ import {
 } from "@material-ui/core";
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Movie from "@material-ui/icons/Movie";
 
 import styles from "./titlebar.module.css";
+
+const config = {
+  development: {
+    title: "Movie Decider 4000 - Development",
+    color: "secondary",
+  },
+  production: {
+    title: "Movie Decider 4000",
+    color: "primary",
+  },
+};
 
 const TitleBar = () => {
   const { user } = useUser();
@@ -28,10 +36,16 @@ const TitleBar = () => {
 
   return (
     <div className={styles.appBar}>
-      <AppBar position="static" color="primary" elevation={2}>
+      <AppBar
+        position="static"
+        color={config[process.env.NODE_ENV].color}
+        elevation={2}
+      >
         <Toolbar>
           <Movie />
-          <div className={styles.title}>Movie Decider 4000</div>
+          <div className={styles.title}>
+            {config[process.env.NODE_ENV].title}
+          </div>
           {user && (
             <div>
               <Avatar
