@@ -24,7 +24,7 @@ import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
 
 export default withPageAuthRequired(function Home() {
-  console.log(">>>>", process.env.NODE_ENV);
+  console.log(">>>>", process.env.NODE_ENV, process.env.VERCEL_ENV);
   const [list, setList] = useState();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [toastProps, setToastProps] = useState(null);
