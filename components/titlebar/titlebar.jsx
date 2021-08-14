@@ -26,26 +26,21 @@ const config = {
   },
 };
 
-const TitleBar = () => {
+const TitleBar = ({ prod }) => {
   const { user } = useUser();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
+  const { title, color } = config[prod ? "production" : "development"];
 
   const onOpenMenu = () => setOpen(true);
   const onCloseMenu = () => setOpen(false);
 
   return (
     <div className={styles.appBar}>
-      <AppBar
-        position="static"
-        color={config[process.env.NODE_ENV].color}
-        elevation={2}
-      >
+      <AppBar position="static" color={color} elevation={2}>
         <Toolbar>
           <Movie />
-          <div className={styles.title}>
-            {config[process.env.NODE_ENV].title}
-          </div>
+          <div className={styles.title}>{title}</div>
           {user && (
             <div>
               <Avatar

@@ -31,7 +31,12 @@ export const typeDefs = gql`
     locked: Boolean
   }
 
+  type Database {
+    name: String
+  }
+
   type Query {
+    database: Database
     lists: [List]
     movies(list: String!): [Movie]
     watchedMovies(list: String!): [Movie]

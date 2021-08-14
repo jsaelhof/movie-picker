@@ -8,6 +8,14 @@ const id = () => random(100000000, 999999999).toString();
 
 export const resolvers = {
   Query: {
+    database: async (parent, args, { db }) => {
+      try {
+        const name = await db.collection("lists").dbName;
+        return { name };
+      } catch (error) {
+        throw error;
+      }
+    },
     lists: async (parent, args, { db }) => {
       try {
         return await db

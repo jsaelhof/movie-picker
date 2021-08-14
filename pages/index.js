@@ -11,6 +11,7 @@ import { randomPick } from "../utils/random-pick";
 import {
   ADD_MOVIE,
   EDIT_MOVIE,
+  GET_DATABASE,
   GET_LISTS,
   GET_MOVIES,
   REMOVE_MOVIE,
@@ -24,12 +25,12 @@ import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
 
 export default withPageAuthRequired(function Home() {
-  console.log(">>>>", process.env.NODE_ENV, process.env.VERCEL_ENV);
   const [list, setList] = useState();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
   const [pick, setPick] = useState(null);
+  const { data: { database } = {} } = useQuery(GET_DATABASE);
   const { lists } = useLists(setList);
   const { movies, watchedMovies, loading } = useMovies(list);
 
@@ -89,7 +90,7 @@ export default withPageAuthRequired(function Home() {
       </Head>
 
       <div>
-        <TitleBar />
+        <TitleBar prod={!database?.name.includes("dev")} />
 
         <ActionBar
           disabled={!movies || loading}
