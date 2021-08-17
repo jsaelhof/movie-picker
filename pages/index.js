@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { useMediaQuery } from "react-responsive";
 import Container from "@material-ui/core/Container";
 
 import { errorMessage } from "../constants/error_codes";
@@ -81,6 +82,12 @@ export default withPageAuthRequired(function Home() {
       setError(message);
     },
   });
+
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+
+  console.log({ isDesktopOrLaptop });
 
   return (
     <>
