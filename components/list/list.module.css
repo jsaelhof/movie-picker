@@ -7,3 +7,7 @@
   grid-template-columns: 32px auto 110px 150px max-content max-content;
   align-items: center;
 }
+
+.minimalColumns {
+  grid-template-columns: 32px auto max-content;
+}

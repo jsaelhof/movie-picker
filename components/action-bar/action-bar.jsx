@@ -1,6 +1,8 @@
 import { AppBar, Button, Toolbar } from "@material-ui/core";
 import AddToQueueIcon from "@material-ui/icons/AddToQueue";
+import clsx from "clsx";
 
+import { useResponsive } from "../../hooks/use-responsive";
 import DbSelect from "../db-select/db-select";
 import SplitButton from "../split-button/split-button";
 
@@ -14,17 +16,22 @@ const ActionBar = ({
   onAdd,
   onPick,
 }) => {
+  const { fullFeatures } = useResponsive();
+
   return (
     <div className={styles.appBar}>
       <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar className={styles.toolbar}>
+        <Toolbar
+          className={styles.toolbar}
+          classes={{ root: clsx(!fullFeatures && styles.vertical) }}
+        >
           {/* TODO: Rename this component to CollectionSelect */}
           <DbSelect
             dbs={lists}
             currentDb={currentList}
             onDBChange={(lists, currentList, onListChange)}
           />
-          {!disabled && (
+          {!disabled && fullFeatures && (
             <Button variant="outlined" onClick={onAdd}>
               <AddToQueueIcon className={styles.addToQueue} />
               Add Movie
