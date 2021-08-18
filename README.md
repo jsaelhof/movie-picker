@@ -57,7 +57,7 @@ AUTH0_SECRET was generated for each environmentby running 'openssl rand -hex 32'
 | -------------- | ----------------------- | ---------- |
 | AUTH0_BASE_URL | 'http://localhost:4000' | .env.local |
 
-TODO: Add screenshot of vercel settings filtered for dev
+![image](https://user-images.githubusercontent.com/7939225/129831325-89d7e67e-89d7-468f-85e6-9be4feab0c43.png)
 
 ##### Branch Previews on Vercel
 
@@ -68,7 +68,8 @@ This is required to make Auth0 work on those previews and point back to the verc
 | -------------- | -------------- | --------------- |
 | AUTH0_BASE_URL | { VERCEL_URL } | .env.production |
 
-TODO: Add screenshot of vercel settings filtered for preview
+![image](https://user-images.githubusercontent.com/7939225/129831386-d5aede33-f0de-4ad2-97ba-59b1c22ee80a.png)
+
 
 ##### Production on Vercel
 
@@ -79,7 +80,8 @@ to define the value using vercel-genereated domains for preview branches while s
 | -------------- | ----------------------------------- | ----------------------- |
 | AUTH0_BASE_URL | https://moviedecider4000.vercel.app | Vercel Env - Production |
 
-TODO: Add screenshot of vercel settings filtered for prod
+![image](https://user-images.githubusercontent.com/7939225/129831429-0a944b00-e95a-4c0d-a723-53ddbf5b9f25.png)
+
 
 #### UI TODO:
 
