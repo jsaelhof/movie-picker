@@ -2,3 +2,13 @@
   text-decoration: none;
   color: initial;
 }
+
+.title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.titleCell {
+  min-width: 0;
+}

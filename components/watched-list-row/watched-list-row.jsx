@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { titleCase } from "../../utils/title-case";
+import { useResponsive } from "../../hooks/use-responsive";
 import ActionButton from "../action-button/action-button";
 import DatePicker from "../date-picker/date-picker";
 import ListCell from "../list-cell/list-cell";
@@ -19,6 +20,7 @@ const WatchedListRow = ({
   onCancel,
   onDelete,
 }) => {
+  const { minimalColumns, mobile } = useResponsive();
   const [editedMovie, setEditedMovie] = useState(null);
 
   // If the date is in process of being changed use that otherwise use the date from the movie.
@@ -52,10 +54,11 @@ const WatchedListRow = ({
           }
         }}
       >
-        {format(watchedDate, "EEE, MMM do, yyyy")}
+        {format(watchedDate, minimalColumns ? "MM/dd/yy" : "EEE, MMM do, yyyy")}
 
         {isEditing && (
           <DatePicker
+            drawer={mobile}
             defaultDate={watchedDate}
             onChange={(day) => {
               setEditedMovie((state) => ({

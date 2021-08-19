@@ -1,11 +1,11 @@
-import { useMediaQuery } from "react-responsive";
+import { useMediaQuery } from "@material-ui/core";
 
 export const useResponsive = () => {
-  const minimalColumns = useMediaQuery({
-    query: "(max-width: 736px)",
-  });
+  const mobile = useMediaQuery("(max-width: 500px)");
+  const minimalColumns = useMediaQuery("(max-width: 736px)");
 
   return {
+    mobile,
     minimalColumns,
     fullFeatures: !minimalColumns,
   };

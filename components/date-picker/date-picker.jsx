@@ -1,18 +1,28 @@
 import { useRef } from "react";
 import { DayPicker } from "react-day-picker";
-import Button from "@material-ui/core/Button";
+import { Button, Drawer } from "@material-ui/core";
+import clsx from "clsx";
 
 import { useOnClickOutside } from "../../hooks/use-on-click-outside";
 
 import styles from "./date-picker.module.css";
 import "react-day-picker/style.css";
 
-const DatePicker = ({ defaultDate, onChange, onCancel, onSave }) => {
+const DatePicker = ({
+  drawer = false,
+  defaultDate,
+  onChange,
+  onCancel,
+  onSave,
+}) => {
   const ref = useRef();
   useOnClickOutside(ref, onCancel);
 
-  return (
-    <div ref={ref} className={styles.datePicker}>
+  const picker = (
+    <div
+      ref={ref}
+      className={clsx(styles.datePicker, drawer && styles.datePickerDrawer)}
+    >
       <DayPicker
         defaultMonth={defaultDate}
         defaultSelected={defaultDate}
@@ -33,6 +43,14 @@ const DatePicker = ({ defaultDate, onChange, onCancel, onSave }) => {
         }
       />
     </div>
+  );
+
+  return drawer ? (
+    <Drawer anchor="bottom" open={true} ModalProps={{ hideBackdrop: true }}>
+      {picker}
+    </Drawer>
+  ) : (
+    <>{picker}</>
   );
 };
 

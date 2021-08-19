@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import EditIcon from "@material-ui/icons/Edit";
 import EyeCheckIcon from "mdi-material-ui/EyeCheck";
 
@@ -21,7 +22,7 @@ const ListRow = ({
   onDeleteMovie,
   onMarkWatched,
 }) => {
-  const { fullFeatures } = useResponsive();
+  const { minimalColumns, fullFeatures } = useResponsive();
 
   return (
     <>
@@ -33,9 +34,14 @@ const ListRow = ({
           }}
         />
       </ListCell>
-      <ListCell left locked={movie.locked} dense>
+      <ListCell
+        left
+        locked={movie.locked}
+        dense
+        classes={clsx(minimalColumns && styles.titleCell)}
+      >
         <a
-          className={styles.link}
+          className={clsx(styles.link, minimalColumns && styles.title)}
           href={searchTMDB(movie.title)}
           target="moviedb"
         >

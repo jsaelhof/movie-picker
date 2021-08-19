@@ -1,4 +1,4 @@
-import { AppBar, Button, Toolbar } from "@material-ui/core";
+import { AppBar, Button, Toolbar, useMediaQuery } from "@material-ui/core";
 import AddToQueueIcon from "@material-ui/icons/AddToQueue";
 import clsx from "clsx";
 
@@ -16,14 +16,14 @@ const ActionBar = ({
   onAdd,
   onPick,
 }) => {
-  const { fullFeatures } = useResponsive();
+  const { mobile, fullFeatures } = useResponsive();
 
   return (
     <div className={styles.appBar}>
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar
           className={styles.toolbar}
-          classes={{ root: clsx(!fullFeatures && styles.vertical) }}
+          classes={{ root: clsx(mobile && styles.vertical) }}
         >
           {/* TODO: Rename this component to CollectionSelect */}
           <DbSelect
