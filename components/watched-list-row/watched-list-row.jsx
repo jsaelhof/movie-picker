@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { format } from "date-fns";
+import clsx from "clsx";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { titleCase } from "../../utils/title-case";
@@ -30,9 +31,9 @@ const WatchedListRow = ({
 
   return (
     <>
-      <ListCell left>
+      <ListCell left classes={clsx(minimalColumns && styles.titleCell)}>
         <a
-          className={styles.link}
+          className={clsx(styles.link, minimalColumns && styles.title)}
           href={`https://www.themoviedb.org/search?query=${movie.title.replace(
             " ",
             "+"

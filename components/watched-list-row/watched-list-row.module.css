@@ -6,3 +6,13 @@
 .dateCell {
   position: relative;
 }
+
+.title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.titleCell {
+  min-width: 0;
+}
