@@ -1,8 +1,10 @@
 import { Paper } from "@material-ui/core";
 import { useState } from "react";
+import clsx from "clsx";
 import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
 
+import { useResponsive } from "../../hooks/use-responsive";
 import DeleteDialog from "../delete-dialog/delete-dialog";
 import EditRow from "../edit-row/edit-row";
 import ListHeaderRow from "../list-header-row/list-header-row";
@@ -20,6 +22,8 @@ const List = ({
   onEditMovie,
   hideHeader,
 }) => {
+  const { minimalColumns } = useResponsive();
+
   const [editedMovie, setEditedMovie] = useState(null);
   const [order, setOrder] = useState(["addedOn", "desc"]);
   const [deleteMovie, setDeleteMovie] = useState(null);
@@ -34,7 +38,12 @@ const List = ({
   return (
     <>
       <Paper className={styles.list}>
-        <div className={styles.movieList}>
+        <div
+          className={clsx(
+            styles.movieList,
+            minimalColumns && styles.minimalColumns
+          )}
+        >
           {!hideHeader && (
             <ListHeaderRow
               count={movies.length}

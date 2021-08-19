@@ -2,6 +2,12 @@
   flex-grow: 1;
 }
 
+.vertical {
+  flex-direction: column;
+  height: 100px;
+  margin-bottom: 16px;
+}
+
 .toolbar {
   margin-top: 16px;
   column-gap: 16px;

@@ -1,6 +1,9 @@
+import { useResponsive } from "../../hooks/use-responsive";
 import ListHeaderCell from "../list-header-cell/list-header-cell";
 
-const ListHeaderRow = ({count, onSort}) => {
+const ListHeaderRow = ({ count, onSort }) => {
+  const { fullFeatures } = useResponsive();
+
   return (
     <>
       <ListHeaderCell>&nbsp;</ListHeaderCell>
@@ -9,9 +12,15 @@ const ListHeaderRow = ({count, onSort}) => {
         dense
         onClick={() => onSort("title")}
       >{`Movies (${count})`}</ListHeaderCell>
-      <ListHeaderCell onClick={() => onSort("runtime")}>Runtime</ListHeaderCell>
-      <ListHeaderCell onClick={() => onSort("genre")}>Genre</ListHeaderCell>
-      <ListHeaderCell>Source</ListHeaderCell>
+      {fullFeatures && (
+        <>
+          <ListHeaderCell onClick={() => onSort("runtime")}>
+            Runtime
+          </ListHeaderCell>
+          <ListHeaderCell onClick={() => onSort("genre")}>Genre</ListHeaderCell>
+          <ListHeaderCell>Source</ListHeaderCell>
+        </>
+      )}
       <ListHeaderCell>Actions</ListHeaderCell>
     </>
   );

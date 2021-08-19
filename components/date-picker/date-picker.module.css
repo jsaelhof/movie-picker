@@ -9,6 +9,11 @@
   border-radius: 5px;
 }
 
+.datePickerDrawer {
+  position: initial;
+  text-align: center;
+}
+
 .buttons {
   display: flex;
   justify-content: space-between;
