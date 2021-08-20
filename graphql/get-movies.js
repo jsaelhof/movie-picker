@@ -9,6 +9,7 @@ export const GET_MOVIES = gql`
       source
       genre
       locked
+      addedOn
     }
     watchedMovies(list: $list) {
       id
