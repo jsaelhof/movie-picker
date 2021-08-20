@@ -5,7 +5,7 @@ import EyeCheckIcon from "mdi-material-ui/EyeCheck";
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels } from "../../constants/genres";
 import { searchStreaming, searchTMDB } from "../../utils/search";
-import { sourceLogos, sources } from "../../constants/sources";
+import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
 import { titleCase } from "../../utils/title-case";
 import { useResponsive } from "../../hooks/use-responsive";
 import ActionButton from "../action-button/action-button";
@@ -14,6 +14,19 @@ import Lock from "../lock/lock";
 import MoreAction from "../more-action/more-action";
 
 import styles from "./list-row.module.css";
+
+const getRuntimeDisplay = (movie, placeholder = true) =>
+  movie.runtime ? formatRuntime(movie.runtime) : placeholder ? "-" : null;
+
+const getGenreDisplay = (movie, placeholder = true) =>
+  movie.genre || genreLabels[movie.genre]
+    ? titleCase(genreLabels[movie.genre])
+    : placeholder
+    ? "-"
+    : null;
+
+const getSourceDisplay = (movie, placeholder = true) =>
+  movie.source ? sourceLabels[movie.source] : placeholder ? "-" : null;
 
 const ListRow = ({
   movie,
@@ -47,17 +60,25 @@ const ListRow = ({
         >
           {titleCase(movie.title)}
         </a>
+
+        {minimalColumns && (
+          <div className={styles.titleSubText}>
+            {[
+              getRuntimeDisplay(movie, false),
+              getGenreDisplay(movie, false),
+              getSourceDisplay(movie, false),
+            ]
+              .filter((v) => v !== null)
+              .map((s) => (
+                <div>{s}</div>
+              ))}
+          </div>
+        )}
       </ListCell>
       {fullFeatures && (
         <>
-          <ListCell locked={movie.locked}>
-            {movie.runtime ? formatRuntime(movie.runtime) : "-"}
-          </ListCell>
-          <ListCell locked={movie.locked}>
-            {movie.genre || genreLabels[movie.genre]
-              ? titleCase(genreLabels[movie.genre])
-              : "-"}
-          </ListCell>
+          <ListCell locked={movie.locked}>{getRuntimeDisplay(movie)}</ListCell>
+          <ListCell locked={movie.locked}>{getGenreDisplay(movie)}</ListCell>
           <ListCell
             onClick={
               ![sources.DVD, sources.NONE].includes(movie.source)
@@ -73,7 +94,7 @@ const ListRow = ({
           </ListCell>
         </>
       )}
-      <ListCell>
+      <ListCell classes={styles.actions}>
         {fullFeatures && (
           <ActionButton
             Icon={EditIcon}

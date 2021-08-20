@@ -10,4 +10,5 @@
 
 .minimalColumns {
   grid-template-columns: 32px auto max-content;
+  row-gap: 8px;
 }

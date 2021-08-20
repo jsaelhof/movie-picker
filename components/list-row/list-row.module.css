@@ -12,3 +12,24 @@
 .titleCell {
   min-width: 0;
 }
+
+.titleSubText {
+  color: grey;
+  font-size: 0.8em;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-self: flex-start;
+  justify-content: flex-start;
+}
+
+.titleSubText > div {
+  padding: 0 8px;
+}
+
+.titleSubText > :first-child {
+  padding-left: 0;
+}
+
+.actions {
+  grid-auto-flow: column;
+}

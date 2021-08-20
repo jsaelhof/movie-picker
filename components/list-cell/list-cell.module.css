@@ -1,5 +1,5 @@
 .listCell {
-  display: flex;
+  display: grid;
   justify-content: center;
   align-items: center;
   padding: 4px 16px;
