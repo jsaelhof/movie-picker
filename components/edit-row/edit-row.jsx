@@ -10,7 +10,7 @@ import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
 import ActionButton from "../action-button/action-button";
 import EditCell from "../edit-cell/edit-cell";
 import ListSelect from "../list-select/list-select";
-import SearchMovieDialog from "../search-movie-dialog/search-movie-dialog";
+import AddMovieDialog from "../add-movie-dialog/add-movie-dialog";
 
 import styles from "./edit-row.module.css";
 
@@ -73,6 +73,7 @@ const EditRow = ({ movie, onSave, onCancel }) => {
           values={sources}
           labels={sourceLabels}
           images={sourceLogos}
+          hideLabelForSelection
         />
       </EditCell>
       <EditCell classes={styles.actions}>
@@ -111,7 +112,7 @@ const EditRow = ({ movie, onSave, onCancel }) => {
       </EditCell>
 
       {search && (
-        <SearchMovieDialog
+        <AddMovieDialog
           search={search}
           onUseInfo={({ title, runtime, genre }) => {
             setEditedMovie({

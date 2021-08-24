@@ -1,0 +1,59 @@
+.inputGrid {
+  display: grid;
+  grid-template-columns: minmax(180px, auto) 1fr;
+  margin-bottom: 64px;
+  gap: 32px;
+  align-items: center;
+}
+
+.input {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 100px 150px 175px auto;
+  column-gap: 16px;
+  row-gap: 32px;
+  align-items: center;
+}
+
+.input > * {
+  margin: 0 !important;
+}
+
+.input ul {
+  display: flex;
+  list-style-type: none;
+  padding-left: 16px;
+  gap: 24px;
+}
+
+.input li {
+  display: flex;
+  align-items: center;
+}
+
+.ratingsSourceIcon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.title {
+  grid-column: 1/5;
+}
+
+.source > div {
+  padding: 6px 14px;
+}
+
+.placeholder {
+  height: 250;
+  text-align: center;
+}
+
+.posterGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  column-gap: 16px;
+  row-gap: 32px;
+  margin-bottom: 24px;
+}

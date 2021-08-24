@@ -17,6 +17,7 @@ import {
   REMOVE_MOVIE,
 } from "../graphql";
 import ActionBar from "../components/action-bar/action-bar";
+import AddMovieDialog from "../components/add-movie-dialog/add-movie-dialog";
 import ErrorDialog from "../components/error-dialog/error-dialog";
 import List from "../components/list/list";
 import Pick from "../components/pick/pick";
@@ -115,7 +116,7 @@ export default withPageAuthRequired(function Home() {
           {pick && <Pick movie={pick} />}
           {movies && (
             <List
-              enableAddMovie={enableAddMovie}
+              enableAddMovie={false}
               movies={movies}
               onAddingComplete={() => setEnableAddMovie(false)}
               onAddMovie={(movie) =>
@@ -184,6 +185,27 @@ export default withPageAuthRequired(function Home() {
         }
         onConfirm={() => setError(null)}
       />
+
+      {enableAddMovie && (
+        <AddMovieDialog
+          // onUseInfo={({ title, runtime, genre }) => {
+          //   setEditedMovie({
+          //     ...editedMovie,
+          //     title,
+          //     genre,
+          //   });
+
+          //   if (runtime) {
+          //     setRuntimeInput(runtime);
+          //   }
+
+          //   setSearch(null);
+          // }}
+          onCancel={() => {
+            setEnableAddMovie(false);
+          }}
+        />
+      )}
     </>
   );
 });
