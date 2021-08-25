@@ -1,8 +1,8 @@
 import Head from "next/head";
 
 import { useMutation, useQuery } from "@apollo/client";
-import { useState } from "react";
-import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { useEffect, useState } from "react";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import Container from "@material-ui/core/Container";
 
 import { errorMessage } from "../constants/error_codes";
@@ -26,6 +26,7 @@ import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
 
 export default withPageAuthRequired(function Home() {
+  const { user } = useUser();
   const [list, setList] = useState();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [toastProps, setToastProps] = useState(null);
@@ -83,11 +84,30 @@ export default withPageAuthRequired(function Home() {
     },
   });
 
+  useEffect(() => {
+    console.log(user);
+
+    if (window.Appcues) {
+      console.log("IDENTIFY");
+      window.Appcues.identify(
+        user.sub, // unique, required
+        {
+          email: user.email,
+          name: user.name,
+        }
+      );
+    }
+  }, [user, window.Appcues]);
+
+  console.log(window.Appcues);
+
   return (
     <>
       <Head>
         <title>Movie Decider 4000</title>
         <link rel="icon" href="/favicon.ico" />
+        {/* <script src="//fast.appcues.com/96289.js"></script> */}
+        <script src="/appcues.js"></script>
       </Head>
 
       <div>
