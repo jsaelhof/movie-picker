@@ -3,26 +3,29 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogTitle,
   TextField,
+  useMediaQuery,
 } from "@material-ui/core";
 import axios from "axios";
+import clsx from "clsx";
 import findKey from "lodash/findKey";
 import isNil from "lodash/isNil";
 import React, { useEffect, useRef, useState } from "react";
+import Slider from "react-slick";
 
 import { api } from "../../constants/api";
 import { genreLabels, genres } from "../../constants/genres";
 import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
-import {
-  omdbRatingsSource,
-  ratingsSourceImage,
-  ratingsSources,
-} from "../../constants/ratings";
+import { omdbRatingsSource, ratingsSources } from "../../constants/ratings";
 import { normalizeRating } from "../../utils/normalize-rating";
 import ListSelect from "../list-select/list-select";
 import MoviePoster from "./movie-poster";
 
 import styles from "./add-movie-dialog.module.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { Ratings } from "./ratings";
 
 const AUTO_REFRESH_TIMEOUT = 1500;
 
@@ -38,9 +41,9 @@ const AddMovieDialog = ({ onUseInfo, onCancel }) => {
   const [poster, setPoster] = useState(null);
   const [ratings, setRatings] = useState(null);
 
-  console.log({
-    runtimeInput,
-  });
+  const medium = useMediaQuery("(max-width: 1100px)");
+  const small = useMediaQuery("(max-width: 795px)");
+  const xsmall = useMediaQuery("(max-width: 600px), (max-height: 414px)");
 
   const timeoutId = useRef();
 
@@ -107,107 +110,129 @@ const AddMovieDialog = ({ onUseInfo, onCancel }) => {
   }, [searchStale]);
 
   return (
-    <Dialog open={true} fullWidth maxWidth="lg">
+    <Dialog open={true} fullWidth fullScreen={xsmall} maxWidth="lg">
+      <DialogTitle>Add a Movie</DialogTitle>
       <DialogContent>
-        <div className={styles.inputGrid}>
-          {movies?.[selectedMovie] ? (
-            <MoviePoster poster={poster} />
-          ) : (
-            "PLACEHOLDER"
+        <div
+          className={clsx(
+            styles.input,
+            medium && styles.mediumInput,
+            small && styles.smallInput,
+            xsmall && styles.xsmallInput
           )}
-          <div className={styles.input}>
-            <TextField
-              className={styles.title}
-              id="searchInput"
-              label="Title"
-              value={searchInput}
-              margin="dense"
-              fullWidth
-              variant="outlined"
-              placeholder="Title"
-              onChange={({ target }) => {
-                setSearchInput(target.value);
-                clearTimeout(timeoutId.current);
-                timeoutId.current = setTimeout(() => {
-                  setSelectedMovie(null);
-                  setMovies(null);
-                  setRuntimeInput(null);
-                  setRatings(null);
-                  setPoster(null);
-                  setGenre(null);
-                  setSearchStale(true);
-                }, AUTO_REFRESH_TIMEOUT);
-              }}
-              autoFocus
-            />
+        >
+          <MoviePoster
+            poster={poster}
+            height={xsmall ? 130 : undefined}
+            className={styles.poster}
+          />
+          <TextField
+            className={styles.title}
+            label="Title"
+            value={searchInput}
+            margin="dense"
+            fullWidth
+            variant="outlined"
+            placeholder="Title"
+            onChange={({ target }) => {
+              setSearchInput(target.value);
+              clearTimeout(timeoutId.current);
+              timeoutId.current = setTimeout(() => {
+                setSelectedMovie(null);
+                setMovies(null);
+                setRuntimeInput(null);
+                setRatings(null);
+                setPoster(null);
+                setGenre(null);
+                setSearchStale(true);
+              }, AUTO_REFRESH_TIMEOUT);
+            }}
+            autoFocus
+          />
 
-            <TextField
-              id="runtimeInput"
-              label="Runtime"
-              value={runtimeInput || ""}
-              margin="dense"
-              variant="outlined"
-              placeholder="0:00"
-              inputProps={{
-                maxlength: 4,
-              }}
-              onChange={({ target }) => setRuntimeInput(target.value)}
-            />
-            <ListSelect
-              id="genre"
-              onChange={(value) => setGenre(value)}
-              value={genre}
-              values={genres}
-              labels={genreLabels}
-            />
+          <TextField
+            className={styles.runtime}
+            label="Runtime"
+            value={runtimeInput || ""}
+            margin="dense"
+            variant="outlined"
+            placeholder="0:00"
+            inputProps={{
+              maxlength: 4,
+            }}
+            onChange={({ target }) => setRuntimeInput(target.value)}
+          />
 
-            <ListSelect
-              className={styles.source}
-              id="source"
-              onChange={(value) => setSource(value)}
-              value={source}
-              values={sources}
-              labels={sourceLabels}
-              images={sourceLogos}
-            />
+          <ListSelect
+            className={styles.genre}
+            onChange={(value) => setGenre(value)}
+            value={genre}
+            values={genres}
+            labels={genreLabels}
+          />
 
-            {ratings && (
-              <ul>
-                {ratings.map(({ source, rating }) => (
-                  <li>
-                    <img
-                      src={`/images/ratings/${ratingsSourceImage[source]}`}
-                      className={styles.ratingsSourceIcon}
-                    />
-                    {rating}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <ListSelect
+            className={styles.source}
+            onChange={(value) => setSource(value)}
+            value={source}
+            values={sources}
+            labels={sourceLabels}
+            images={sourceLogos}
+          />
+
+          {ratings && <Ratings ratings={ratings} className={styles.ratings} />}
         </div>
 
         {!movies || movies.length === 0 ? (
-          <div className={styles.placeholder}>
+          <div className={styles.statusMessage}>
             {!movies ? "Searching..." : "No Movies Found"}
           </div>
         ) : (
-          <div className={styles.posterGrid}>
+          <Slider
+            arrows
+            dots
+            speed={500}
+            slidesToShow={4}
+            slidesToScroll={4}
+            className={styles.slider}
+            responsive={[
+              {
+                breakpoint: 1200,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 3,
+                },
+              },
+              {
+                breakpoint: 850,
+                settings: {
+                  slidesToShow: 2,
+                  slidesToScroll: 2,
+                },
+              },
+              {
+                breakpoint: 600,
+                settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                  dots: false,
+                },
+              },
+            ]}
+          >
             {movies.map(({ Poster, Title, Year, imdbID }, index) => (
               <MoviePoster
                 key={imdbID}
                 poster={Poster}
                 title={Title}
                 year={Year}
-                selected={
-                  !isNil(selectedMovie) ? index === selectedMovie : null
-                }
+                height={xsmall ? 110 : undefined}
                 onClick={() => {
                   setSelectedMovie(index);
                 }}
               />
             ))}
-          </div>
+          </Slider>
         )}
         <DialogActions>
           <Button onClick={onCancel} variant="outlined">

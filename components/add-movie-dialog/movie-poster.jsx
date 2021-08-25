@@ -12,18 +12,23 @@ const MoviePoster = ({
   selected,
   onClick,
   height = 200,
+  className,
 }) => (
   <div
     className={clsx(
       styles.main,
       onClick && styles.mainInteraction,
-      !isNil(selected) && !selected && styles.unselected
+      !isNil(selected) && !selected && styles.unselected,
+      className
     )}
     onClick={onClick}
   >
     <div className={styles.poster} style={{ height }}>
       {poster === "N/A" || !poster ? (
-        <TheatresIcon fontSize="large" />
+        <div className={styles.noPoster}>
+          <TheatresIcon fontSize="large" />
+          No Poster
+        </div>
       ) : (
         <img src={poster} />
       )}

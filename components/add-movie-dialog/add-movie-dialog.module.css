@@ -1,29 +1,51 @@
-.inputGrid {
+.input {
+  margin: 16px 0 64px;
   display: grid;
-  grid-template-columns: minmax(180px, auto) 1fr;
-  margin-bottom: 64px;
-  gap: 32px;
-  align-items: center;
+  grid-template-columns: 180px 100px 150px 175px auto;
+  grid-template-rows: 30px repeat(3, 40px);
+  grid-template-areas:
+    "poster . . . ."
+    "poster title title title title"
+    "poster runtime genre source ratings";
+  column-gap: 16px;
+  row-gap: 16px;
+  align-items: flex-start;
 }
 
-.input {
-  margin: 0;
-  display: grid;
-  grid-template-columns: 100px 150px 175px auto;
-  column-gap: 16px;
-  row-gap: 32px;
-  align-items: center;
+.mediumInput {
+  grid-template-rows: 10px repeat(4, 40px);
+  grid-template-areas:
+    "poster . . . ."
+    "poster title title title title"
+    "poster runtime genre source ."
+    "poster ratings ratings ratings ratings";
+}
+
+.smallInput {
+  grid-template-rows: repeat(4, 40px);
+  grid-template-columns: 180px 100px 75px 75px auto;
+  grid-template-areas:
+    "poster title title title title"
+    "poster runtime genre genre ."
+    "poster source source . ."
+    "poster ratings ratings ratings ratings";
+}
+
+.xsmallInput {
+  justify-content: center;
+  grid-template-columns: 100px 150px;
+  grid-template-rows: auto repeat(4, 40px);
+  grid-template-areas:
+    "poster poster"
+    "title title"
+    "runtime genre"
+    "source source"
+    "ratings ratings";
+  margin-bottom: 32px;
 }
 
 .input > * {
   margin: 0 !important;
-}
-
-.input ul {
-  display: flex;
-  list-style-type: none;
-  padding-left: 16px;
-  gap: 24px;
 }
 
 .input li {
@@ -31,29 +53,52 @@
   align-items: center;
 }
 
-.ratingsSourceIcon {
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
+.poster {
+  grid-area: poster;
 }
 
 .title {
-  grid-column: 1/5;
+  grid-area: title;
+}
+
+.runtime {
+  grid-area: runtime;
+}
+
+.genre {
+  grid-area: genre;
+}
+
+.source {
+  grid-area: source;
 }
 
 .source > div {
   padding: 6px 14px;
 }
 
-.placeholder {
-  height: 250;
+.ratings {
+  grid-area: ratings;
+  justify-self: flex-end;
+}
+
+.mediumInput .ratings {
+  justify-self: flex-start;
+}
+
+.xsmallInput .ratings {
+  justify-self: center;
+}
+
+.statusMessage {
+  height: 280px;
   text-align: center;
 }
 
-.posterGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  column-gap: 16px;
-  row-gap: 32px;
-  margin-bottom: 24px;
+.slider {
+  margin: 0 30px 32px;
+}
+
+.slider > button:before {
+  color: #333;
 }
