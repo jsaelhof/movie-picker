@@ -116,14 +116,7 @@ export default withPageAuthRequired(function Home() {
           {pick && <Pick movie={pick} />}
           {movies && (
             <List
-              enableAddMovie={false}
               movies={movies}
-              onAddingComplete={() => setEnableAddMovie(false)}
-              onAddMovie={(movie) =>
-                addMovie({
-                  variables: { movie: omitTypename(movie), list: list.id },
-                })
-              }
               onEditMovie={(movie) =>
                 editMovie({
                   variables: { movie: omitTypename(movie), list: list.id },
@@ -188,19 +181,12 @@ export default withPageAuthRequired(function Home() {
 
       {enableAddMovie && (
         <AddMovieDialog
-          // onUseInfo={({ title, runtime, genre }) => {
-          //   setEditedMovie({
-          //     ...editedMovie,
-          //     title,
-          //     genre,
-          //   });
-
-          //   if (runtime) {
-          //     setRuntimeInput(runtime);
-          //   }
-
-          //   setSearch(null);
-          // }}
+          onAddMovie={(movie) => {
+            addMovie({
+              variables: { movie: omitTypename(movie), list: list.id },
+            });
+            setEnableAddMovie(false);
+          }}
           onCancel={() => {
             setEnableAddMovie(false);
           }}

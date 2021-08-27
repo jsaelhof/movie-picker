@@ -14,9 +14,6 @@ import styles from "./list.module.css";
 
 const List = ({
   movies,
-  enableAddMovie,
-  onAddMovie,
-  onAddingComplete,
   onRemoveMovie,
   onMarkWatched,
   onEditMovie,
@@ -48,17 +45,6 @@ const List = ({
             <ListHeaderRow
               count={movies.length}
               onSort={(column) => setOrder(resolveOrder(column))}
-            />
-          )}
-
-          {enableAddMovie && (
-            <EditRow
-              movie={{}}
-              onSave={(movie) => {
-                onAddMovie(movie);
-                onAddingComplete();
-              }}
-              onCancel={onAddingComplete}
             />
           )}
 

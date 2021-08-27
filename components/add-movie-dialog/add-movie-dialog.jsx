@@ -19,20 +19,22 @@ import { genreLabels, genres } from "../../constants/genres";
 import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
 import { omdbRatingsSource, ratingsSources } from "../../constants/ratings";
 import { normalizeRating } from "../../utils/normalize-rating";
+import { parseRuntime } from "../../utils/parse-runtime";
+import { Ratings } from "./ratings";
 import ListSelect from "../list-select/list-select";
 import MoviePoster from "./movie-poster";
 
 import styles from "./add-movie-dialog.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Ratings } from "./ratings";
 
 const AUTO_REFRESH_TIMEOUT = 1500;
 
-const AddMovieDialog = ({ onUseInfo, onCancel }) => {
-  const [movies, setMovies] = useState();
+const AddMovieDialog = ({ onAddMovie, onCancel }) => {
+  const [movies, setMovies] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [searchStale, setSearchStale] = useState(false);
+  const [searching, setSearching] = useState(false);
 
   const [searchInput, setSearchInput] = useState(null);
   const [runtimeInput, setRuntimeInput] = useState("");
@@ -95,6 +97,7 @@ const AddMovieDialog = ({ onUseInfo, onCancel }) => {
   useEffect(() => {
     const search = async () => {
       setSearchStale(false);
+      setSearching(true);
 
       const {
         data: { Response, Search },
@@ -103,11 +106,21 @@ const AddMovieDialog = ({ onUseInfo, onCancel }) => {
       // Note: Data includes the number of results but Search is limited to 10 per request.
       // If needed, a Load More button could be implemented.
       setMovies(Response === "True" ? Search : []);
+      setSearching(false);
     };
     if (searchStale && searchInput.length > 0) {
       search();
     }
   }, [searchStale]);
+
+  const resetSearch = () => {
+    setSelectedMovie(null);
+    setMovies(null);
+    setRuntimeInput(null);
+    setRatings(null);
+    setPoster(null);
+    setGenre(null);
+  };
 
   return (
     <Dialog open={true} fullWidth fullScreen={xsmall} maxWidth="lg">
@@ -135,17 +148,23 @@ const AddMovieDialog = ({ onUseInfo, onCancel }) => {
             variant="outlined"
             placeholder="Title"
             onChange={({ target }) => {
-              setSearchInput(target.value);
               clearTimeout(timeoutId.current);
-              timeoutId.current = setTimeout(() => {
-                setSelectedMovie(null);
-                setMovies(null);
-                setRuntimeInput(null);
-                setRatings(null);
-                setPoster(null);
-                setGenre(null);
-                setSearchStale(true);
-              }, AUTO_REFRESH_TIMEOUT);
+              setSearchInput(target.value);
+              if (target.value.length) {
+                timeoutId.current = setTimeout(() => {
+                  resetSearch();
+                  setSearchStale(true);
+                }, AUTO_REFRESH_TIMEOUT);
+              } else {
+                // If the text field is empty, set searchStale to false.
+                // If there is any value, set it to true.
+                // This prevents a bug that occurs when you backspace all text after completing
+                // a search, which is caused when the effect that watches searchStale gets stuck
+                // and doesn't fire again when new text is added because searchStale is set to true
+                // even though its empty.
+                // This case resets the search without setting the searchStale to true.
+                resetSearch();
+              }
             }}
             autoFocus
           />
@@ -183,9 +202,13 @@ const AddMovieDialog = ({ onUseInfo, onCancel }) => {
           {ratings && <Ratings ratings={ratings} className={styles.ratings} />}
         </div>
 
-        {!movies || movies.length === 0 ? (
+        {!movies || movies.length === 0 || searching ? (
           <div className={styles.statusMessage}>
-            {!movies ? "Searching..." : "No Movies Found"}
+            {searching
+              ? "Searching..."
+              : movies?.length === 0
+              ? "No Movies Found"
+              : null}
           </div>
         ) : (
           <Slider
@@ -239,12 +262,19 @@ const AddMovieDialog = ({ onUseInfo, onCancel }) => {
             Cancel
           </Button>
           <Button
-            // onClick={() => onUseInfo(result)}
+            onClick={() =>
+              onAddMovie({
+                title: searchInput,
+                runtime: parseRuntime(runtimeInput),
+                genre,
+                source,
+              })
+            }
             color="primary"
             variant="contained"
             disabled={isNil(selectedMovie)}
           >
-            Use Info
+            Add Movie
           </Button>
         </DialogActions>
       </DialogContent>
