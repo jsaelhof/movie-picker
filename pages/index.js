@@ -18,6 +18,7 @@ import {
 } from "../graphql";
 import ActionBar from "../components/action-bar/action-bar";
 import AddMovieDialog from "../components/add-movie-dialog/add-movie-dialog";
+import EditMovieDialog from "../components/add-movie-dialog/edit-movie-dialog";
 import ErrorDialog from "../components/error-dialog/error-dialog";
 import List from "../components/list/list";
 import Pick from "../components/pick/pick";
@@ -28,6 +29,7 @@ import WatchedList from "../components/watched-list/watched-list";
 export default withPageAuthRequired(function Home() {
   const [list, setList] = useState();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
+  const [enableEditMovie, setEnableEditMovie] = useState(null);
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
   const [pick, setPick] = useState(null);
@@ -117,11 +119,15 @@ export default withPageAuthRequired(function Home() {
           {movies && (
             <List
               movies={movies}
-              onEditMovie={(movie) =>
-                editMovie({
-                  variables: { movie: omitTypename(movie), list: list.id },
-                })
-              }
+              onEditMovie={(movie, useEditor = true) => {
+                if (useEditor) {
+                  setEnableEditMovie(movie);
+                } else {
+                  editMovie({
+                    variables: { movie: omitTypename(movie), list: list.id },
+                  });
+                }
+              }}
               onRemoveMovie={(id) =>
                 removeMovie({
                   variables: {
@@ -189,6 +195,21 @@ export default withPageAuthRequired(function Home() {
           }}
           onCancel={() => {
             setEnableAddMovie(false);
+          }}
+        />
+      )}
+
+      {enableEditMovie && (
+        <EditMovieDialog
+          movie={enableEditMovie}
+          onEditMovie={(movie) => {
+            editMovie({
+              variables: { movie: omitTypename(movie), list: list.id },
+            });
+            setEnableEditMovie(false);
+          }}
+          onCancel={() => {
+            setEnableEditMovie(false);
           }}
         />
       )}

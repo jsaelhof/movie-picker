@@ -36,7 +36,7 @@ const AddMovieDialog = ({ onAddMovie, onCancel }) => {
   const [searchStale, setSearchStale] = useState(false);
   const [searching, setSearching] = useState(false);
 
-  const [searchInput, setSearchInput] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
   const [runtimeInput, setRuntimeInput] = useState("");
   const [genre, setGenre] = useState(null);
   const [source, setSource] = useState(null);
@@ -272,7 +272,7 @@ const AddMovieDialog = ({ onAddMovie, onCancel }) => {
             }
             color="primary"
             variant="contained"
-            disabled={isNil(selectedMovie)}
+            disabled={searchInput.length === 0}
           >
             Add Movie
           </Button>
