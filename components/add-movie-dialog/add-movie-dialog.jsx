@@ -27,19 +27,31 @@ import MoviePoster from "./movie-poster";
 import styles from "./add-movie-dialog.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { formatRuntime } from "../../utils/format-runtime";
 
 const AUTO_REFRESH_TIMEOUT = 1500;
 
-const AddMovieDialog = ({ onAddMovie, onCancel }) => {
+const AddMovieDialog = ({
+  onAddMovie,
+  onCancel,
+  movie: initialInputState = {},
+}) => {
   const [movies, setMovies] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [searchStale, setSearchStale] = useState(false);
+  const [searchStale, setSearchStale] = useState(!!initialInputState.title);
   const [searching, setSearching] = useState(false);
 
-  const [searchInput, setSearchInput] = useState("");
-  const [runtimeInput, setRuntimeInput] = useState("");
-  const [genre, setGenre] = useState(null);
-  const [source, setSource] = useState(null);
+  const [input, setInput] = useState({
+    title: "",
+    runtime: "",
+    genre: null,
+    source: null,
+    ...initialInputState,
+    ...(initialInputState.runtime && {
+      runtime: formatRuntime(initialInputState.runtime, true),
+    }),
+  });
+
   const [poster, setPoster] = useState(null);
   const [ratings, setRatings] = useState(null);
 
@@ -81,9 +93,12 @@ const AddMovieDialog = ({ onAddMovie, onCancel }) => {
             }))
           : [];
 
-        setSearchInput(Title);
-        setRuntimeInput(runtime);
-        setGenre(genre && parseInt(genre));
+        setInput({
+          ...input,
+          title: Title,
+          runtime,
+          ...(genre && { genre: parseInt(genre) }),
+        });
         setRatings(ratings);
         setPoster(Poster && Poster !== "N/A" ? Poster : null);
       }
@@ -101,14 +116,15 @@ const AddMovieDialog = ({ onAddMovie, onCancel }) => {
 
       const {
         data: { Response, Search },
-      } = await axios.get(api.OMDB_SEARCH.replace("%title%", searchInput));
+      } = await axios.get(api.OMDB_SEARCH.replace("%title%", input.title));
 
       // Note: Data includes the number of results but Search is limited to 10 per request.
       // If needed, a Load More button could be implemented.
       setMovies(Response === "True" ? Search : []);
       setSearching(false);
     };
-    if (searchStale && searchInput.length > 0) {
+
+    if (searchStale && input.title?.length > 0) {
       search();
     }
   }, [searchStale]);
@@ -116,10 +132,8 @@ const AddMovieDialog = ({ onAddMovie, onCancel }) => {
   const resetSearch = () => {
     setSelectedMovie(null);
     setMovies(null);
-    setRuntimeInput(null);
     setRatings(null);
     setPoster(null);
-    setGenre(null);
   };
 
   return (
@@ -142,14 +156,14 @@ const AddMovieDialog = ({ onAddMovie, onCancel }) => {
           <TextField
             className={styles.title}
             label="Title"
-            value={searchInput}
+            value={input.title}
             margin="dense"
             fullWidth
             variant="outlined"
             placeholder="Title"
             onChange={({ target }) => {
               clearTimeout(timeoutId.current);
-              setSearchInput(target.value);
+              setInput({ ...input, title: target.value });
               if (target.value.length) {
                 timeoutId.current = setTimeout(() => {
                   resetSearch();
@@ -172,28 +186,30 @@ const AddMovieDialog = ({ onAddMovie, onCancel }) => {
           <TextField
             className={styles.runtime}
             label="Runtime"
-            value={runtimeInput || ""}
+            value={input.runtime}
             margin="dense"
             variant="outlined"
             placeholder="0:00"
             inputProps={{
               maxlength: 4,
             }}
-            onChange={({ target }) => setRuntimeInput(target.value)}
+            onChange={({ target }) =>
+              setInput({ ...input, runtime: target.value })
+            }
           />
 
           <ListSelect
             className={styles.genre}
-            onChange={(value) => setGenre(value)}
-            value={genre}
+            onChange={(value) => setInput({ ...input, genre: value })}
+            value={input.genre}
             values={genres}
             labels={genreLabels}
           />
 
           <ListSelect
             className={styles.source}
-            onChange={(value) => setSource(value)}
-            value={source}
+            onChange={(value) => setInput({ ...input, source: value })}
+            value={input.source}
             values={sources}
             labels={sourceLabels}
             images={sourceLogos}
@@ -264,17 +280,18 @@ const AddMovieDialog = ({ onAddMovie, onCancel }) => {
           <Button
             onClick={() =>
               onAddMovie({
-                title: searchInput,
-                runtime: parseRuntime(runtimeInput),
-                genre,
-                source,
+                ...input,
+                title: input.title,
+                runtime: parseRuntime(input.runtime),
+                genre: input.genre,
+                source: input.source,
               })
             }
             color="primary"
             variant="contained"
-            disabled={searchInput.length === 0}
+            disabled={input.title?.length === 0}
           >
-            Add Movie
+            Save Movie
           </Button>
         </DialogActions>
       </DialogContent>

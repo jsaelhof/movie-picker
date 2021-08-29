@@ -18,7 +18,6 @@ import {
 } from "../graphql";
 import ActionBar from "../components/action-bar/action-bar";
 import AddMovieDialog from "../components/add-movie-dialog/add-movie-dialog";
-import EditMovieDialog from "../components/add-movie-dialog/edit-movie-dialog";
 import ErrorDialog from "../components/error-dialog/error-dialog";
 import List from "../components/list/list";
 import Pick from "../components/pick/pick";
@@ -200,9 +199,9 @@ export default withPageAuthRequired(function Home() {
       )}
 
       {enableEditMovie && (
-        <EditMovieDialog
+        <AddMovieDialog
           movie={enableEditMovie}
-          onEditMovie={(movie) => {
+          onAddMovie={(movie) => {
             editMovie({
               variables: { movie: omitTypename(movie), list: list.id },
             });
