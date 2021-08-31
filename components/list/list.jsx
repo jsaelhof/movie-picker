@@ -6,7 +6,6 @@ import orderBy from "lodash/orderBy";
 
 import { useResponsive } from "../../hooks/use-responsive";
 import DeleteDialog from "../delete-dialog/delete-dialog";
-import EditRow from "../edit-row/edit-row";
 import ListHeaderRow from "../list-header-row/list-header-row";
 import ListRow from "../list-row/list-row";
 
@@ -14,9 +13,6 @@ import styles from "./list.module.css";
 
 const List = ({
   movies,
-  enableAddMovie,
-  onAddMovie,
-  onAddingComplete,
   onRemoveMovie,
   onMarkWatched,
   onEditMovie,
@@ -24,7 +20,6 @@ const List = ({
 }) => {
   const { minimalColumns } = useResponsive();
 
-  const [editedMovie, setEditedMovie] = useState(null);
   const [order, setOrder] = useState(["addedOn", "desc"]);
   const [deleteMovie, setDeleteMovie] = useState(null);
 
@@ -51,42 +46,19 @@ const List = ({
             />
           )}
 
-          {enableAddMovie && (
-            <EditRow
-              movie={{}}
-              onSave={(movie) => {
-                onAddMovie(movie);
-                onAddingComplete();
-              }}
-              onCancel={onAddingComplete}
-            />
-          )}
-
           {movies &&
-            orderBy(movies, [order[0]], [order[1]]).map((movie) =>
-              editedMovie && movie.id === editedMovie ? (
-                <EditRow
-                  key={movie.id}
-                  movie={movies.find(({ id }) => id === editedMovie)}
-                  onSave={(movie) => {
-                    onEditMovie(movie);
-                    setEditedMovie(null);
-                  }}
-                  onCancel={() => setEditedMovie(null)}
-                />
-              ) : (
-                <ListRow
-                  key={movie.id}
-                  movie={movie}
-                  onLockMovie={(movie) => onEditMovie(movie)}
-                  onEditMovie={({ id }) => setEditedMovie(id)}
-                  onMarkWatched={(movie) => onMarkWatched(movie)}
-                  onDeleteMovie={({ id }) => {
-                    setDeleteMovie(id);
-                  }}
-                />
-              )
-            )}
+            orderBy(movies, [order[0]], [order[1]]).map((movie) => (
+              <ListRow
+                key={movie.id}
+                movie={movie}
+                onLockMovie={(movie) => onEditMovie(movie, false)}
+                onEditMovie={(movie) => onEditMovie(movie)}
+                onMarkWatched={(movie) => onMarkWatched(movie)}
+                onDeleteMovie={({ id }) => {
+                  setDeleteMovie(id);
+                }}
+              />
+            ))}
         </div>
       </Paper>
 

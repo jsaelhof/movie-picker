@@ -1,4 +1,5 @@
-import { AppBar, Button, Toolbar, useMediaQuery } from "@material-ui/core";
+import React from "react";
+import { AppBar, Button, Toolbar } from "@material-ui/core";
 import AddToQueueIcon from "@material-ui/icons/AddToQueue";
 import clsx from "clsx";
 
@@ -16,7 +17,7 @@ const ActionBar = ({
   onAdd,
   onPick,
 }) => {
-  const { mobile, fullFeatures } = useResponsive();
+  const { mobile, minimalColumns } = useResponsive();
 
   return (
     <div className={styles.appBar}>
@@ -31,13 +32,20 @@ const ActionBar = ({
             currentDb={currentList}
             onDBChange={(lists, currentList, onListChange)}
           />
-          {!disabled && fullFeatures && (
-            <Button variant="outlined" onClick={onAdd}>
-              <AddToQueueIcon className={styles.addToQueue} />
-              Add Movie
-            </Button>
-          )}
-          {!disabled && <SplitButton onPick={onPick} />}
+          <div className={styles.secondaryActions}>
+            {!disabled && (
+              <Button variant="outlined" onClick={onAdd}>
+                <AddToQueueIcon
+                  className={clsx(
+                    styles.addToQueue,
+                    minimalColumns && styles.addToQueueIconOnly
+                  )}
+                />
+                {!minimalColumns && "Add Movie"}
+              </Button>
+            )}
+            {!disabled && <SplitButton onPick={onPick} />}
+          </div>
         </Toolbar>
       </AppBar>
     </div>

@@ -2,6 +2,11 @@
   flex-grow: 1;
 }
 
+.secondaryActions {
+  display: flex;
+  column-gap: 16px;
+}
+
 .vertical {
   flex-direction: column;
   height: 100px;
@@ -16,4 +21,8 @@
 .addToQueue {
   margin-right: 16px;
   color: slategray;
+}
+
+.addToQueueIconOnly {
+  margin-right: 0;
 }

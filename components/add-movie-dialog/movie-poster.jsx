@@ -5,23 +5,36 @@ import TheatresIcon from "@material-ui/icons/Theaters";
 
 import styles from "./movie-poster.module.css";
 
-const MoviePoster = ({poster, title, year, selected, onClick}) => (
+const MoviePoster = ({
+  poster,
+  title,
+  year,
+  selected,
+  onClick,
+  height = 200,
+  className,
+}) => (
   <div
     className={clsx(
       styles.main,
+      onClick && styles.mainInteraction,
       !isNil(selected) && !selected && styles.unselected,
+      className
     )}
     onClick={onClick}
   >
-    <div className={styles.poster}>
+    <div className={styles.poster} style={{ height }}>
       {poster === "N/A" || !poster ? (
-        <TheatresIcon fontSize="large" />
+        <div className={styles.noPoster}>
+          <TheatresIcon fontSize="large" />
+          No Poster
+        </div>
       ) : (
         <img src={poster} />
       )}
     </div>
-    <div className={styles.title}>{title}</div>
-    <div className={styles.year}>{year}</div>
+    {title && <div className={styles.title}>{title}</div>}
+    {year && <div className={styles.year}>{year}</div>}
   </div>
 );
 

@@ -17,6 +17,7 @@ import {
   REMOVE_MOVIE,
 } from "../graphql";
 import ActionBar from "../components/action-bar/action-bar";
+import AddMovieDialog from "../components/add-movie-dialog/add-movie-dialog";
 import ErrorDialog from "../components/error-dialog/error-dialog";
 import List from "../components/list/list";
 import Pick from "../components/pick/pick";
@@ -27,6 +28,7 @@ import WatchedList from "../components/watched-list/watched-list";
 export default withPageAuthRequired(function Home() {
   const [list, setList] = useState();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
+  const [enableEditMovie, setEnableEditMovie] = useState(null);
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
   const [pick, setPick] = useState(null);
@@ -115,19 +117,16 @@ export default withPageAuthRequired(function Home() {
           {pick && <Pick movie={pick} />}
           {movies && (
             <List
-              enableAddMovie={enableAddMovie}
               movies={movies}
-              onAddingComplete={() => setEnableAddMovie(false)}
-              onAddMovie={(movie) =>
-                addMovie({
-                  variables: { movie: omitTypename(movie), list: list.id },
-                })
-              }
-              onEditMovie={(movie) =>
-                editMovie({
-                  variables: { movie: omitTypename(movie), list: list.id },
-                })
-              }
+              onEditMovie={(movie, useEditor = true) => {
+                if (useEditor) {
+                  setEnableEditMovie(movie);
+                } else {
+                  editMovie({
+                    variables: { movie: omitTypename(movie), list: list.id },
+                  });
+                }
+              }}
               onRemoveMovie={(id) =>
                 removeMovie({
                   variables: {
@@ -184,6 +183,35 @@ export default withPageAuthRequired(function Home() {
         }
         onConfirm={() => setError(null)}
       />
+
+      {enableAddMovie && (
+        <AddMovieDialog
+          onAddMovie={(movie) => {
+            addMovie({
+              variables: { movie: omitTypename(movie), list: list.id },
+            });
+            setEnableAddMovie(false);
+          }}
+          onCancel={() => {
+            setEnableAddMovie(false);
+          }}
+        />
+      )}
+
+      {enableEditMovie && (
+        <AddMovieDialog
+          movie={enableEditMovie}
+          onAddMovie={(movie) => {
+            editMovie({
+              variables: { movie: omitTypename(movie), list: list.id },
+            });
+            setEnableEditMovie(false);
+          }}
+          onCancel={() => {
+            setEnableEditMovie(false);
+          }}
+        />
+      )}
     </>
   );
 });

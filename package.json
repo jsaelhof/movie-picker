@@ -23,6 +23,8 @@
     "next": "^10.0.0",
     "react": "16.13.1",
     "react-day-picker": "^8.0.0-beta.29",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "react-slick": "^0.28.1",
+    "slick-carousel": "^1.8.1"
   }
 }
