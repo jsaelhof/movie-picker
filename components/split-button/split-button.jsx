@@ -6,7 +6,7 @@ import {
   MenuList,
   Paper,
 } from "@material-ui/core";
-import {useState} from "react";
+import { useState } from "react";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ClockIcon from "mdi-material-ui/ClockOutline";
 import ClockFastIcon from "mdi-material-ui/ClockFast";
@@ -18,24 +18,24 @@ const splitButtonItems = [
   {
     value: 0,
     label: "Pick a Short Movie",
-    options: {maxRuntime: 6000},
+    options: { maxRuntime: 6000 },
     Icon: ClockFastIcon,
   },
   {
     value: 1,
     label: "Pick a Regular Movie",
-    options: {minRuntime: 6001, maxRuntime: 7800},
+    options: { minRuntime: 6001, maxRuntime: 7800 },
     Icon: ClockIcon,
   },
   {
     value: 2,
     label: "Pick a Long Movie",
-    options: {minRuntime: 7801},
+    options: { minRuntime: 7801 },
     Icon: TimerSandIcon,
   },
 ];
 
-const SplitButton = ({onPick}) => {
+const SplitButton = ({ onPick }) => {
   const [openSplitButton, setOpenSplitButton] = useState(false);
 
   return (
@@ -63,7 +63,7 @@ const SplitButton = ({onPick}) => {
         <Paper className={styles.splitButtonPaper}>
           <ClickAwayListener onClickAway={() => setOpenSplitButton(false)}>
             <MenuList id="split-button-menu">
-              {splitButtonItems.map(({value, label, Icon, options}) => (
+              {splitButtonItems.map(({ value, label, Icon, options }) => (
                 <MenuItem key={value} onClick={() => onPick(options)}>
                   {<Icon className={styles.icon} />}
                   {label}

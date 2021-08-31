@@ -11,15 +11,17 @@ import MoviePoster from "./movie-poster";
 const Carousel = ({ movies, searching, onSelectMovie }) => {
   const xsmall = useMediaQuery("(max-width: 600px), (max-height: 414px)");
 
-  return !movies || movies.length === 0 || searching ? (
-    <div className={styles.statusMessage}>
-      {searching
-        ? "Searching..."
-        : movies?.length === 0
-        ? "No Movies Found"
-        : null}
-    </div>
-  ) : (
+  if (!movies && !searching) {
+    return null;
+  }
+
+  if (searching)
+    return <div className={styles.statusMessage}>Searching...</div>;
+
+  if (movies.length === 0)
+    return <div className={styles.statusMessage}>No Movies Found</div>;
+
+  return (
     <Slider
       arrows
       dots
