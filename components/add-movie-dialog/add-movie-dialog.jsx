@@ -162,20 +162,11 @@ const AddMovieDialog = ({
             onChange={({ target }) => {
               clearTimeout(timeoutId.current);
               setInput({ ...input, title: target.value });
+              resetSearch();
               if (target.value.length) {
                 timeoutId.current = setTimeout(() => {
-                  resetSearch();
                   setSearchStale(true);
                 }, AUTO_REFRESH_TIMEOUT);
-              } else {
-                // If the text field is empty, set searchStale to false.
-                // If there is any value, set it to true.
-                // This prevents a bug that occurs when you backspace all text after completing
-                // a search, which is caused when the effect that watches searchStale gets stuck
-                // and doesn't fire again when new text is added because searchStale is set to true
-                // even though its empty.
-                // This case resets the search without setting the searchStale to true.
-                resetSearch();
               }
             }}
             autoFocus
@@ -227,15 +218,21 @@ const AddMovieDialog = ({
             Cancel
           </Button>
           <Button
-            onClick={() =>
+            onClick={() => {
               onAddMovie({
                 ...input,
                 title: input.title,
                 runtime: parseRuntime(input.runtime),
                 genre: input.genre,
                 source: input.source,
-              })
-            }
+                // If we have additional data not captured in inputs loaded, add it to the movie
+                ...(!isNil(selectedMovie) && {
+                  imdbID: movies[selectedMovie].imdbID,
+                  poster: movies[selectedMovie].Poster,
+                  year: movies[selectedMovie].Year,
+                }),
+              });
+            }}
             color="primary"
             variant="contained"
             disabled={input.title?.length === 0}
