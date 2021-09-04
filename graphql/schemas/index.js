@@ -8,6 +8,9 @@ export const typeDefs = gql`
     runtime: Int
     source: Int
     genre: Int
+    year: String
+    poster: String
+    imdbID: String
     addedOn: String
     editedOn: String
     watchedOn: String
@@ -25,6 +28,9 @@ export const typeDefs = gql`
     runtime: Int
     source: Int
     genre: Int
+    year: String
+    poster: String
+    imdbID: String
     addedOn: String
     editedOn: String
     watchedOn: String

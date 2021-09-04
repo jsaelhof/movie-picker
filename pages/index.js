@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import { useMutation, useQuery } from "@apollo/client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import Container from "@material-ui/core/Container";
 

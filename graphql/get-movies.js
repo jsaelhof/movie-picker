@@ -8,6 +8,9 @@ export const GET_MOVIES = gql`
       runtime
       source
       genre
+      year
+      poster
+      imdbID
       locked
       addedOn
     }
