@@ -17,7 +17,12 @@ import { api } from "../../constants/api";
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels, genres } from "../../constants/genres";
 import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
-import { omdbRatingsSource, ratingsSources } from "../../constants/ratings";
+import {
+  omdbRatingsSource,
+  ratingsSource,
+  ratingsSourceReverseLookup,
+  ratingsSources,
+} from "../../constants/ratings";
 import { normalizeRating } from "../../utils/normalize-rating";
 import { parseRuntime } from "../../utils/parse-runtime";
 import { Ratings } from "./ratings";
@@ -231,6 +236,11 @@ const AddMovieDialog = ({
                   poster: movies[selectedMovie].Poster,
                   year: movies[selectedMovie].Year,
                 }),
+                // Add the ratings
+                ratings: ratings.reduce((acc, { source, rating }) => {
+                  acc[ratingsSourceReverseLookup[source]] = rating;
+                  return acc;
+                }, {}),
               });
             }}
             color="primary"

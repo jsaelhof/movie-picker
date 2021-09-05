@@ -4,6 +4,12 @@ export const ratingsSource = {
   METACRITIC: 2,
 };
 
+export const ratingsSourceReverseLookup = {
+  0: "IMDB",
+  1: "ROTTEN_TOMATOES",
+  2: "METACRITIC",
+};
+
 export const omdbRatingsSource = {
   "Internet Movie Database": ratingsSource.IMDB,
   "Rotten Tomatoes": ratingsSource.ROTTEN_TOMATOES,

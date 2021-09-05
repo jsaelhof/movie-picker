@@ -2,6 +2,18 @@ import { gql } from "apollo-server-micro";
 
 // TODO: watched, addedOn and editedOn are date strings. Is there a better way to handle this in graph?
 export const typeDefs = gql`
+  type Ratings {
+    IMDB: String
+    ROTTEN_TOMATOES: String
+    METACRITIC: String
+  }
+
+  input RatingsInput {
+    IMDB: String
+    ROTTEN_TOMATOES: String
+    METACRITIC: String
+  }
+
   type Movie {
     id: ID!
     title: String!
@@ -15,6 +27,7 @@ export const typeDefs = gql`
     editedOn: String
     watchedOn: String
     locked: Boolean
+    ratings: Ratings
   }
 
   type List {
@@ -35,6 +48,7 @@ export const typeDefs = gql`
     editedOn: String
     watchedOn: String
     locked: Boolean
+    ratings: RatingsInput
   }
 
   type Database {

@@ -13,6 +13,11 @@ export const GET_MOVIES = gql`
       imdbID
       locked
       addedOn
+      ratings {
+        IMDB
+        ROTTEN_TOMATOES
+        METACRITIC
+      }
     }
     watchedMovies(list: $list) {
       id
