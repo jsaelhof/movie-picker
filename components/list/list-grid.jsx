@@ -24,8 +24,7 @@ import styles from "./list-grid.module.css";
 import MoreActions from "./more-actions";
 import { useRef } from "react";
 import Lock from "../lock/lock";
-import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
+import SortNav from "./sort-nav";
 
 // 160 is poster width, 16 is gap.
 // Make these constants for the CSS.
@@ -46,9 +45,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
   const [showExtraActions, setShowExtraActions] = useState(false);
   const [order, setOrder] = useState(["addedOn", "desc"]);
   const [deleteMovie, setDeleteMovie] = useState(null);
-
   const [focusedMovie, setFocusedMovie] = useState(null);
-
   const prevFocusedMovieId = usePrevious(focusedMovie?.id);
 
   const detailStyles = useSpring({
@@ -63,45 +60,24 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
 
   if (!movies) return null;
 
-  const resolveOrder = (key) => [
-    key,
-    key !== order[0] ? "asc" : order[1] === "asc" ? "desc" : "asc",
-  ];
-
   const numColumns = calcNumColumns(gridRef.current?.clientWidth);
   const zoomsWillOverflow =
     window.innerWidth - gridRef.current?.clientWidth < 40;
 
-  const SortOrderIcon =
-    order[1] === "asc" ? KeyboardArrowDown : KeyboardArrowUp;
-
   return (
     <>
-      <ul className={styles.sortNav}>
-        {[
+      <SortNav
+        selectedOption={order}
+        options={[
           ["Title", "title"],
           ["Runtime", "runtime"],
           ["Added", "addedOn"],
-        ].map(([label, key]) => (
-          <li
-            key={key}
-            className={clsx(key === order[0] && styles.selected)}
-            onClick={() => setOrder(resolveOrder(key))}
-          >
-            {label}
-            {key === order[0] && (
-              <SortOrderIcon
-                fontSize="small"
-                style={{
-                  verticalAlign: "middle",
-                  paddingBottom: 2,
-                  marginLeft: 4,
-                }}
-              />
-            )}
-          </li>
-        ))}
-      </ul>
+        ]}
+        onSort={(option, direction) => {
+          setOrder([option, direction]);
+        }}
+      />
+
       <div className={styles.movieList} ref={gridRef}>
         {movies &&
           orderBy(movies, [order[0]], [order[1]]).map((movie, i) => (
