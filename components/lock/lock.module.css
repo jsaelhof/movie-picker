@@ -1,20 +1,26 @@
 .lock {
   cursor: pointer;
-  margin-left: 12px;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .lockIcon {
-  font-size: 1rem !important;
+  font-size: 1.25rem !important;
   color: grey;
 }
 
-.active {
-  opacity: 0;
+.unlocked {
+  opacity: 0.25;
 }
 
-.active:hover {
+.unlocked:hover {
   opacity: 1;
+}
+
+.unlocked:hover > .lockIcon,
+.locked:hover > .lockIcon {
+  color: cornflowerblue;
 }
 
 .locked:hover {

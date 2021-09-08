@@ -1,12 +1,12 @@
 .action {
   cursor: pointer;
-  margin: 0 auto;
-  color: #ccc;
-  padding: 0 8px;
+  margin: 0;
+  color: slategray;
+  padding: 0;
 }
 
 .action:hover {
-  color: steelblue;
+  color: cornflowerblue;
 }
 
 .disabled {

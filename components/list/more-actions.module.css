@@ -1,0 +1,15 @@
+.icon {
+  margin-right: 8px;
+}
+
+.closeButton {
+  color: #666;
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+  cursor: pointer;
+}
+
+.menu {
+  padding-top: 0 !important;
+}

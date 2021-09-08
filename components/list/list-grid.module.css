@@ -1,0 +1,140 @@
+.movieList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 160px); /* CSS VAR for width */
+  gap: 16px;
+  margin-top: 24px;
+  justify-content: center;
+}
+
+.movieWrapper {
+  position: relative;
+  border-radius: 4px;
+}
+
+.movieWrapperFocus {
+  z-index: 1000;
+}
+
+.movie {
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.source {
+  position: fixed;
+  height: 40px;
+  border-radius: 23px;
+  border: 3px solid white;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  margin-left: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.movieDetailPositioner {
+  width: 240px; /* CSS VAR */
+  margin-left: -40px; /* Use reg and zoom width css vars to figure this out */
+  margin-top: -60px; /* Use reg and zoom height css vars to figure this out */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.firstInRow {
+  margin-left: 0;
+}
+
+.lastInRow {
+  margin-left: -80px; /* Double left margin to make right edge flush, use css vars to figure this out */
+}
+
+.movieDetail {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 3px 10px 10px rgba(0, 0, 0, 0.1),
+    0px 5px 15px 0px rgba(0, 0, 0, 0.1), 0px 1px 20px 0px rgba(0, 0, 0, 0.12);
+  transform: scale(0.8);
+}
+
+.poster {
+  width: 100%;
+  aspect-ratio: 192 / 300;
+  background-color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+.posterLocked {
+  opacity: 0.3;
+}
+
+.noPoster {
+  display: grid;
+  grid-template-rows: 1fr 100px;
+  justify-items: center;
+  text-align: center;
+  color: #444;
+  font-size: 0.9rem;
+  background: #f7f7fc;
+}
+
+.noPoster > div {
+  padding: 0 8px;
+}
+
+.info {
+  display: grid;
+  gap: 16px;
+  font-size: 14px;
+  color: #242424;
+  padding: 8px 16px;
+  background: white;
+  height: fit-content;
+  box-shadow: inset 0 4px 5px -3px rgb(0, 0, 0, 0.4);
+}
+
+.infoData {
+  display: flex;
+  justify-content: space-between;
+}
+
+.infoActions {
+  display: grid;
+  grid-template-columns: 26px 26px 26px 1fr 26px;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ratings {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ratings > li {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.ratings > li:last-child {
+  margin-right: 0;
+}
+
+.ratingsSourceIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.moreActions {
+  position: fixed;
+  width: 100%;
+}
