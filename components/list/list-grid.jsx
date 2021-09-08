@@ -24,6 +24,8 @@ import styles from "./list-grid.module.css";
 import MoreActions from "./more-actions";
 import { useRef } from "react";
 import Lock from "../lock/lock";
+import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 
 // 160 is poster width, 16 is gap.
 // Make these constants for the CSS.
@@ -70,8 +72,36 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
   const zoomsWillOverflow =
     window.innerWidth - gridRef.current?.clientWidth < 40;
 
+  const SortOrderIcon =
+    order[1] === "asc" ? KeyboardArrowDown : KeyboardArrowUp;
+
   return (
     <>
+      <ul className={styles.sortNav}>
+        {[
+          ["Title", "title"],
+          ["Runtime", "runtime"],
+          ["Added", "addedOn"],
+        ].map(([label, key]) => (
+          <li
+            key={key}
+            className={clsx(key === order[0] && styles.selected)}
+            onClick={() => setOrder(resolveOrder(key))}
+          >
+            {label}
+            {key === order[0] && (
+              <SortOrderIcon
+                fontSize="small"
+                style={{
+                  verticalAlign: "middle",
+                  paddingBottom: 2,
+                  marginLeft: 4,
+                }}
+              />
+            )}
+          </li>
+        ))}
+      </ul>
       <div className={styles.movieList} ref={gridRef}>
         {movies &&
           orderBy(movies, [order[0]], [order[1]]).map((movie, i) => (
