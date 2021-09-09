@@ -110,13 +110,6 @@
   justify-content: space-between;
 }
 
-.infoActions {
-  display: grid;
-  grid-template-columns: 26px 26px 26px 1fr 26px;
-  gap: 8px;
-  margin-top: 8px;
-}
-
 .ratings {
   display: flex;
   list-style-type: none;

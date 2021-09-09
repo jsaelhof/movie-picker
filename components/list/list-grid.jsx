@@ -1,31 +1,26 @@
 import { Paper } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { animated, useSpring } from "react-spring";
 import clsx from "clsx";
 import has from "lodash/has";
 import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
 import map from "lodash/map";
-import EditIcon from "@material-ui/icons/Edit";
-import EyeCheckIcon from "mdi-material-ui/EyeCheck";
 import TheatresIcon from "@material-ui/icons/Theaters";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 import { useResponsive } from "../../hooks/use-responsive";
-import DeleteDialog from "../delete-dialog/delete-dialog";
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels } from "../../constants/genres";
-import ActionButton from "../action-button/action-button";
 import { ratingsSource, ratingsSourceImage } from "../../constants/ratings";
 import { usePrevious } from "../../hooks/use-previous";
 import { sourceLogos } from "../../constants/sources";
+import { useGridColumns } from "./use-grid-columns";
+import DetailActions from "./detail-actions";
+import DeleteDialog from "../delete-dialog/delete-dialog";
+import MoreActions from "./more-actions";
+import SortNav from "./sort-nav";
 
 import styles from "./list-grid.module.css";
-import MoreActions from "./more-actions";
-import { useRef } from "react";
-import Lock from "../lock/lock";
-import SortNav from "./sort-nav";
-import { useGridColumns } from "./use-grid-columns";
 
 const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
   // const { minimalColumns } = useResponsive();
@@ -169,41 +164,23 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
                           )}
                         </ul>
                       </div>
-                      <div className={styles.infoActions}>
-                        <ActionButton
-                          Icon={EditIcon}
-                          tooltip="Edit"
-                          movie={movie}
-                          onClick={() => {
-                            setFocusedMovie(null);
-                            onEditMovie(movie);
-                          }}
-                        />
-                        <ActionButton
-                          Icon={EyeCheckIcon}
-                          tooltip="Mark as Watched"
-                          movie={movie}
-                          onClick={() => {
-                            setFocusedMovie(null);
-                            onMarkWatched(movie);
-                          }}
-                        />
-                        <Lock
-                          locked={movie.locked}
-                          onToggleLock={(locked) => {
-                            onEditMovie({ ...movie, locked }, false);
-                          }}
-                        />
-                        <div /> {/* Spacer in the grid */}
-                        <ActionButton
-                          Icon={MoreHorizIcon}
-                          tooltip="More Actions"
-                          movie={movie}
-                          onClick={() => {
-                            setShowExtraActions(true);
-                          }}
-                        />
-                      </div>
+                      <DetailActions
+                        movie={movie}
+                        onEdit={() => {
+                          setFocusedMovie(null);
+                          onEditMovie(movie);
+                        }}
+                        onMarkWatched={() => {
+                          setFocusedMovie(null);
+                          onMarkWatched(movie);
+                        }}
+                        onToggleLock={(locked) => {
+                          onEditMovie({ ...movie, locked }, false);
+                        }}
+                        onMoreActions={() => {
+                          setShowExtraActions(true);
+                        }}
+                      />
                     </div>
                     {
                       <animated.div
