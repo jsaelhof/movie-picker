@@ -1,6 +1,6 @@
 .movieList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 160px); /* CSS VAR for width */
+  grid-template-columns: repeat(auto-fill, 160px);
   gap: 16px;
   margin-top: 24px;
   justify-content: center;
@@ -33,9 +33,13 @@
 }
 
 .movieDetailPositioner {
-  width: 240px; /* CSS VAR */
-  margin-left: -40px; /* Use reg and zoom width css vars to figure this out */
-  margin-top: -60px; /* Use reg and zoom height css vars to figure this out */
+  width: 240px;
+  margin-left: calc(
+    (160px - 240px) / 2
+  ); /* Use diff between zoomed and standard widths to determine horizontal offset to center */
+  margin-top: calc(
+    (250px - 375px) / 2
+  ); /* Use diff between zoomed and standard heights to determine vertical offset to center */
   position: absolute;
   top: 0;
   bottom: 0;
@@ -48,7 +52,9 @@
 }
 
 .lastInRow {
-  margin-left: -80px; /* Double left margin to make right edge flush, use css vars to figure this out */
+  margin-left: calc(
+    160px - 240px
+  ); /* Double left margin to make right edge flush */
 }
 
 .movieDetail {
@@ -61,7 +67,7 @@
 
 .poster {
   width: 100%;
-  aspect-ratio: 192 / 300;
+  aspect-ratio: 160 / 250;
   background-color: white;
   background-size: cover;
   background-position: center;

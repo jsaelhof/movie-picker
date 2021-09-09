@@ -25,18 +25,7 @@ import MoreActions from "./more-actions";
 import { useRef } from "react";
 import Lock from "../lock/lock";
 import SortNav from "./sort-nav";
-
-// 160 is poster width, 16 is gap.
-// Make these constants for the CSS.
-const calcNumColumns = (w, n = 1) => {
-  if (!w || w <= 160) return 1;
-
-  if (160 + n * (160 + 16) < w) {
-    return calcNumColumns(w, n + 1);
-  } else {
-    return n;
-  }
-};
+import { useGridColumns } from "./use-grid-columns";
 
 const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
   // const { minimalColumns } = useResponsive();
@@ -60,9 +49,9 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
 
   if (!movies) return null;
 
-  const numColumns = calcNumColumns(gridRef.current?.clientWidth);
-  const zoomsWillOverflow =
-    window.innerWidth - gridRef.current?.clientWidth < 40;
+  const [numColumns, zoomsWillOverflow] = useGridColumns(
+    gridRef.current?.clientWidth
+  );
 
   return (
     <>
