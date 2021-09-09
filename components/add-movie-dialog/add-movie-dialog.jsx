@@ -236,11 +236,13 @@ const AddMovieDialog = ({
                   poster: movies[selectedMovie].Poster,
                   year: movies[selectedMovie].Year,
                 }),
-                // Add the ratings
-                ratings: ratings.reduce((acc, { source, rating }) => {
-                  acc[ratingsSourceReverseLookup[source]] = rating;
-                  return acc;
-                }, {}),
+                // Add the ratings if the exist
+                ...(ratings && {
+                  ratings: ratings.reduce((acc, { source, rating }) => {
+                    acc[ratingsSourceReverseLookup[source]] = rating;
+                    return acc;
+                  }, {}),
+                }),
               });
             }}
             color="primary"
