@@ -7,7 +7,10 @@ import styles from "./sort-nav.module.css";
 
 const SortNav = ({ selectedOption, options, onSort }) => {
   const SortOrderIcon =
-    selectedOption[1] === "asc" ? KeyboardArrowDown : KeyboardArrowUp;
+    (selectedOption[0] === "addedOn" && selectedOption[1] === "asc"
+      ? KeyboardArrowUp
+      : KeyboardArrowDown) ||
+    (selectedOption[1] === "asc" ? KeyboardArrowDown : KeyboardArrowUp);
 
   const resolveOrder = (key) => [
     key,
