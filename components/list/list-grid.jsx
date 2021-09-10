@@ -33,7 +33,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
   const prevFocusedMovieId = usePrevious(focusedMovie?.id);
 
   const detailStyles = useSpring({
-    from: { transform: "scale(0.8)" },
+    from: { transform: "scale(0.67)" },
     to: { transform: "scale(1)" },
     reset: !prevFocusedMovieId || prevFocusedMovieId !== focusedMovie?.id,
   });
@@ -106,97 +106,98 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
                 )}
               </div>
 
-              {focusedMovie?.id === movie.id && (
-                <div
-                  className={clsx(
-                    styles.movieDetailPositioner,
-                    zoomsWillOverflow &&
-                      i % numColumns === 0 &&
-                      styles.firstInRow,
-                    zoomsWillOverflow &&
-                      i % numColumns === numColumns - 1 &&
-                      styles.lastInRow
-                  )}
+              <div
+                className={clsx(
+                  styles.movieDetailPositioner,
+                  focusedMovie?.id === movie.id && styles.movieDetailShow,
+                  zoomsWillOverflow &&
+                    i % numColumns === 0 &&
+                    styles.firstInRow,
+                  zoomsWillOverflow &&
+                    i % numColumns === numColumns - 1 &&
+                    styles.lastInRow
+                )}
+              >
+                <animated.div
+                  style={
+                    focusedMovie?.id === movie.id ? detailStyles : undefined
+                  }
+                  className={styles.movieDetail}
                 >
-                  <animated.div
-                    style={detailStyles}
-                    className={styles.movieDetail}
-                  >
-                    {movie.poster ? (
-                      <div
-                        className={styles.poster}
-                        style={{ backgroundImage: `url(${movie.poster})` }}
-                      />
-                    ) : (
-                      <div className={clsx(styles.poster, styles.noPoster)}>
-                        <TheatresIcon fontSize="large" />
-                        <div>{movie.title}</div>
-                      </div>
-                    )}
-                    <div className={styles.source}>
-                      {
-                        <img
-                          src={sourceLogos[movie.source]}
-                          width="40"
-                          height="40"
-                        />
-                      }
+                  {movie.poster ? (
+                    <div
+                      className={styles.poster}
+                      style={{ backgroundImage: `url(${movie.poster})` }}
+                    />
+                  ) : (
+                    <div className={clsx(styles.poster, styles.noPoster)}>
+                      <TheatresIcon fontSize="large" />
+                      <div>{movie.title}</div>
                     </div>
-                    <div className={styles.info}>
-                      <div className={styles.infoData}>
-                        <div>{formatRuntime(movie.runtime)}</div>
-                        <div>{genreLabels[movie.genre]}</div>
-                      </div>
-                      <div>
-                        <ul className={styles.ratings}>
-                          {map(movie.ratings, (rating, source) =>
-                            has(ratingsSource, source) && rating ? (
-                              <li key={source}>
-                                <img
-                                  src={`/images/ratings/${
-                                    ratingsSourceImage[ratingsSource[source]]
-                                  }`}
-                                  className={styles.ratingsSourceIcon}
-                                />
-                                {rating}
-                              </li>
-                            ) : null
-                          )}
-                        </ul>
-                      </div>
-                      <DetailActions
-                        movie={movie}
-                        onEdit={() => {
-                          setFocusedMovie(null);
-                          onEditMovie(movie);
-                        }}
-                        onMarkWatched={() => {
-                          setFocusedMovie(null);
-                          onMarkWatched(movie);
-                        }}
-                        onToggleLock={(locked) => {
-                          onEditMovie({ ...movie, locked }, false);
-                        }}
-                        onMoreActions={() => {
-                          setShowExtraActions(true);
-                        }}
-                      />
-                    </div>
+                  )}
+                  <div className={styles.source}>
                     {
-                      <animated.div
-                        className={styles.moreActions}
-                        style={moreActionsStyles}
-                      >
-                        <MoreActions
-                          movie={movie}
-                          onClose={() => setShowExtraActions(false)}
-                          onDeleteMovie={() => alert("IMPLEMENT DELETE")}
-                        />
-                      </animated.div>
+                      <img
+                        src={sourceLogos[movie.source]}
+                        width="40"
+                        height="40"
+                      />
                     }
-                  </animated.div>
-                </div>
-              )}
+                  </div>
+                  <div className={styles.info}>
+                    <div className={styles.infoData}>
+                      <div>{formatRuntime(movie.runtime)}</div>
+                      <div>{genreLabels[movie.genre]}</div>
+                    </div>
+                    <div>
+                      <ul className={styles.ratings}>
+                        {map(movie.ratings, (rating, source) =>
+                          has(ratingsSource, source) && rating ? (
+                            <li key={source}>
+                              <img
+                                src={`/images/ratings/${
+                                  ratingsSourceImage[ratingsSource[source]]
+                                }`}
+                                className={styles.ratingsSourceIcon}
+                              />
+                              {rating}
+                            </li>
+                          ) : null
+                        )}
+                      </ul>
+                    </div>
+                    <DetailActions
+                      movie={movie}
+                      onEdit={() => {
+                        setFocusedMovie(null);
+                        onEditMovie(movie);
+                      }}
+                      onMarkWatched={() => {
+                        setFocusedMovie(null);
+                        onMarkWatched(movie);
+                      }}
+                      onToggleLock={(locked) => {
+                        onEditMovie({ ...movie, locked }, false);
+                      }}
+                      onMoreActions={() => {
+                        setShowExtraActions(true);
+                      }}
+                    />
+                  </div>
+                  {
+                    <animated.div
+                      className={styles.moreActions}
+                      style={moreActionsStyles}
+                    >
+                      <MoreActions
+                        movie={movie}
+                        onClose={() => setShowExtraActions(false)}
+                        onDeleteMovie={() => alert("IMPLEMENT DELETE")}
+                      />
+                    </animated.div>
+                  }
+                </animated.div>
+              </div>
             </Paper>
           ))}
       </div>

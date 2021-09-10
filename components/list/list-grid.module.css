@@ -37,14 +37,19 @@
   margin-left: calc(
     (160px - 240px) / 2
   ); /* Use diff between zoomed and standard widths to determine horizontal offset to center */
-  margin-top: calc(
-    (250px - 375px) / 2
-  ); /* Use diff between zoomed and standard heights to determine vertical offset to center */
+  margin-top: -82px;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.movieDetailShow {
+  pointer-events: initial;
+  opacity: 1;
 }
 
 .firstInRow {
@@ -62,7 +67,7 @@
   overflow: hidden;
   box-shadow: 3px 10px 10px rgba(0, 0, 0, 0.1),
     0px 5px 15px 0px rgba(0, 0, 0, 0.1), 0px 1px 20px 0px rgba(0, 0, 0, 0.12);
-  transform: scale(0.8);
+  transform: scale(0.67);
 }
 
 .poster {
@@ -115,6 +120,7 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
+  justify-content: center;
 }
 
 .ratings > li {
