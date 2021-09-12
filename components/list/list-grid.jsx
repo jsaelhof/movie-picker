@@ -8,7 +8,6 @@ import orderBy from "lodash/orderBy";
 import map from "lodash/map";
 import TheatresIcon from "@material-ui/icons/Theaters";
 
-import { useResponsive } from "../../hooks/use-responsive";
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels } from "../../constants/genres";
 import { ratingsSource, ratingsSourceImage } from "../../constants/ratings";
@@ -23,8 +22,6 @@ import SortNav from "./sort-nav";
 import styles from "./list-grid.module.css";
 
 const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
-  // const { minimalColumns } = useResponsive();
-
   const gridRef = useRef();
   const [showExtraActions, setShowExtraActions] = useState(false);
   const [order, setOrder] = useState(["addedOn", "desc"]);

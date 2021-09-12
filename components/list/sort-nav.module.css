@@ -20,3 +20,7 @@
   color: initial;
   border-bottom: 1px solid cornflowerblue;
 }
+
+.centeredNav {
+  justify-content: center;
+}
