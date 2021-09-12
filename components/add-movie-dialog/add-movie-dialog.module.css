@@ -1,12 +1,12 @@
 .input {
   margin: 16px 0 64px;
   display: grid;
-  grid-template-columns: 180px 100px 150px 175px auto;
+  grid-template-columns: 180px 100px 100px 150px 175px auto;
   grid-template-rows: 30px repeat(3, 40px);
   grid-template-areas:
-    "poster . . . ."
-    "poster title title title title"
-    "poster runtime genre source ratings";
+    "poster . . . . ."
+    "poster title title title title title"
+    "poster runtime year genre source ratings";
   column-gap: 16px;
   row-gap: 16px;
   align-items: flex-start;
@@ -14,11 +14,12 @@
 
 .mediumInput {
   grid-template-rows: 10px repeat(4, 40px);
+  grid-template-columns: 180px 100px 100px 150px 175px auto;
   grid-template-areas:
-    "poster . . . ."
-    "poster title title title title"
-    "poster runtime genre source ."
-    "poster ratings ratings ratings ratings";
+    "poster . . . . ."
+    "poster title title title title title"
+    "poster runtime year genre source ."
+    "poster ratings ratings ratings ratings ratings";
 }
 
 .smallInput {
@@ -27,18 +28,19 @@
   grid-template-areas:
     "poster title title title title"
     "poster runtime genre genre ."
-    "poster source source . ."
+    "poster year source source ."
     "poster ratings ratings ratings ratings";
 }
 
 .xsmallInput {
   justify-content: center;
-  grid-template-columns: 100px 150px;
-  grid-template-rows: auto repeat(4, 40px);
+  grid-template-columns: 125px 125px;
+  grid-template-rows: auto repeat(5, 40px);
   grid-template-areas:
     "poster poster"
     "title title"
-    "runtime genre"
+    "runtime year"
+    "genre genre"
     "source source"
     "ratings ratings";
   margin-bottom: 32px;
@@ -75,6 +77,10 @@
 
 .source > div {
   padding: 6px 14px;
+}
+
+.year {
+  grid-area: year;
 }
 
 .ratings {

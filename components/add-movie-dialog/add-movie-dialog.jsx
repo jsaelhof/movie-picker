@@ -19,7 +19,6 @@ import { genreLabels, genres } from "../../constants/genres";
 import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
 import {
   omdbRatingsSource,
-  ratingsSource,
   ratingsSourceReverseLookup,
   ratingsSources,
 } from "../../constants/ratings";
@@ -49,6 +48,7 @@ const AddMovieDialog = ({
     runtime: "",
     genre: null,
     source: null,
+    year: "",
     ...initialInputState,
     ...(initialInputState.runtime && {
       runtime: formatRuntime(initialInputState.runtime, true),
@@ -58,8 +58,8 @@ const AddMovieDialog = ({
   const [poster, setPoster] = useState(null);
   const [ratings, setRatings] = useState(null);
 
-  const medium = useMediaQuery("(max-width: 1100px)");
-  const small = useMediaQuery("(max-width: 795px)");
+  const medium = useMediaQuery("(max-width: 1140px)");
+  const small = useMediaQuery("(max-width: 885px)");
   const xsmall = useMediaQuery("(max-width: 600px), (max-height: 414px)");
 
   const timeoutId = useRef();
@@ -67,7 +67,7 @@ const AddMovieDialog = ({
   useEffect(() => {
     const title = async () => {
       const {
-        data: { Title, Response, Runtime, Genre, Poster, Ratings },
+        data: { Title, Response, Runtime, Year, Genre, Poster, Ratings },
       } = await axios.get(
         movies[selectedMovie].imdbID
           ? api.OMDB_IMDBID.replace("%imdbid%", movies[selectedMovie].imdbID)
@@ -99,6 +99,7 @@ const AddMovieDialog = ({
         setInput({
           ...input,
           title: Title,
+          year: Year,
           runtime,
           ...(genre && { genre: parseInt(genre) }),
         });
@@ -198,6 +199,21 @@ const AddMovieDialog = ({
             value={input.genre}
             values={genres}
             labels={genreLabels}
+          />
+
+          <TextField
+            className={styles.year}
+            label="Year"
+            value={input.year}
+            margin="dense"
+            variant="outlined"
+            placeholder="1978"
+            inputProps={{
+              maxlength: 4,
+            }}
+            onChange={({ target }) =>
+              setInput({ ...input, year: target.value })
+            }
           />
 
           <ListSelect
