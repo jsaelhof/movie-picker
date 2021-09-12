@@ -21,7 +21,7 @@ import { Ratings } from "../ratings/ratings";
 
 const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
   const gridRef = useRef();
-  const [showExtraActions, setShowExtraActions] = useState(false);
+  const [showMoreActions, setShowMoreActions] = useState(false);
   const [order, setOrder] = useState(["addedOn", "desc"]);
   const [deleteMovie, setDeleteMovie] = useState(null);
   const [focusedMovie, setFocusedMovie] = useState(null);
@@ -34,7 +34,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
   });
 
   const moreActionsStyles = useSpring({
-    to: { transform: `translateY(${showExtraActions ? -100 : 0}%)` },
+    to: { transform: `translateY(${showMoreActions ? -100 : 0}%)` },
   });
 
   if (!movies) return null;
@@ -72,7 +72,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
                 }, 250);
               }}
               onMouseLeave={() => {
-                setShowExtraActions(false);
+                setShowMoreActions(false);
                 setFocusedMovie(null);
               }}
             >
@@ -145,7 +145,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
                       <div>{genreLabels[movie.genre]}</div>
                     </div>
                     <div>
-                      <Ratings size="small" ratings={movie.ratings} />
+                      <Ratings size="small" ratings={movie.ratings} dense />
                     </div>
                     <DetailActions
                       movie={movie}
@@ -161,7 +161,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
                         onEditMovie({ ...movie, locked }, false);
                       }}
                       onMoreActions={() => {
-                        setShowExtraActions(true);
+                        setShowMoreActions(true);
                       }}
                     />
                   </div>
@@ -172,7 +172,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
                     >
                       <MoreActions
                         movie={movie}
-                        onClose={() => setShowExtraActions(false)}
+                        onClose={() => setShowMoreActions(false)}
                         onDeleteMovie={() => alert("IMPLEMENT DELETE")}
                       />
                     </animated.div>

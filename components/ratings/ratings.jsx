@@ -7,8 +7,17 @@ import map from "lodash/map";
 
 import { ratingsSource, ratingsSourceImage } from "../../constants/ratings";
 
-export const Ratings = ({ ratings, size = "medium", className, ...props }) => (
-  <ul {...props} className={clsx(styles.ratings, className)}>
+export const Ratings = ({
+  ratings,
+  size = "medium",
+  dense,
+  className,
+  ...props
+}) => (
+  <ul
+    {...props}
+    className={clsx(styles.ratings, dense && styles.dense, className)}
+  >
     {map(ratings, (rating, source) =>
       has(ratingsSource, source) && rating ? (
         <li key={source}>
