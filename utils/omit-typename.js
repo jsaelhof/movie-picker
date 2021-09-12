@@ -1,3 +1,3 @@
-import omit from "lodash/omit";
+import omitDeep from "omit-deep-lodash";
 
-export const omitTypename = (o) => omit(o, "__typename");
+export const omitTypename = (o) => omitDeep(o, "__typename");

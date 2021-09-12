@@ -24,6 +24,7 @@ import Pick from "../components/pick/pick";
 import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
 import WatchedList from "../components/watched-list/watched-list";
+import ListGrid from "../components/list/list-grid";
 
 export default withPageAuthRequired(function Home() {
   const [list, setList] = useState();
@@ -116,7 +117,7 @@ export default withPageAuthRequired(function Home() {
         <Container>
           {pick && <Pick movie={pick} />}
           {movies && (
-            <List
+            <ListGrid
               movies={movies}
               onEditMovie={(movie, useEditor = true) => {
                 if (useEditor) {

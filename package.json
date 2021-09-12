@@ -21,10 +21,12 @@
     "mdi-material-ui": "^6.21.0",
     "mongodb": "^3.6.10",
     "next": "^10.0.0",
+    "omit-deep-lodash": "^1.1.5",
     "react": "16.13.1",
     "react-day-picker": "^8.0.0-beta.29",
     "react-dom": "16.13.1",
     "react-slick": "^0.28.1",
+    "react-spring": "^9.2.4",
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
