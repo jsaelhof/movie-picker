@@ -115,30 +115,6 @@
   justify-content: space-between;
 }
 
-.ratings {
-  display: flex;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  justify-content: center;
-}
-
-.ratings > li {
-  display: flex;
-  align-items: center;
-  margin-right: 20px;
-}
-
-.ratings > li:last-child {
-  margin-right: 0;
-}
-
-.ratingsSourceIcon {
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
-}
-
 .moreActions {
   position: fixed;
   width: 100%;

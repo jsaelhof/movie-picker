@@ -2,15 +2,12 @@ import { Paper } from "@material-ui/core";
 import React, { useState, useRef } from "react";
 import { animated, useSpring } from "react-spring";
 import clsx from "clsx";
-import has from "lodash/has";
 import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
-import map from "lodash/map";
 import TheatresIcon from "@material-ui/icons/Theaters";
 
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels } from "../../constants/genres";
-import { ratingsSource, ratingsSourceImage } from "../../constants/ratings";
 import { usePrevious } from "../../hooks/use-previous";
 import { sourceLogos } from "../../constants/sources";
 import { useGridColumns } from "./use-grid-columns";
@@ -20,6 +17,7 @@ import MoreActions from "./more-actions";
 import SortNav from "./sort-nav";
 
 import styles from "./list-grid.module.css";
+import { Ratings } from "../ratings/ratings";
 
 const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
   const gridRef = useRef();
@@ -147,21 +145,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
                       <div>{genreLabels[movie.genre]}</div>
                     </div>
                     <div>
-                      <ul className={styles.ratings}>
-                        {map(movie.ratings, (rating, source) =>
-                          has(ratingsSource, source) && rating ? (
-                            <li key={source}>
-                              <img
-                                src={`/images/ratings/${
-                                  ratingsSourceImage[ratingsSource[source]]
-                                }`}
-                                className={styles.ratingsSourceIcon}
-                              />
-                              {rating}
-                            </li>
-                          ) : null
-                        )}
-                      </ul>
+                      <Ratings size="small" ratings={movie.ratings} />
                     </div>
                     <DetailActions
                       movie={movie}

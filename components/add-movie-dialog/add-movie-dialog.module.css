@@ -86,6 +86,7 @@
 .ratings {
   grid-area: ratings;
   justify-self: flex-end;
+  padding-right: 16px;
 }
 
 .mediumInput .ratings {
@@ -94,4 +95,5 @@
 
 .xsmallInput .ratings {
   justify-self: center;
+  padding-right: 0;
 }

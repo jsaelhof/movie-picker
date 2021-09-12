@@ -17,14 +17,9 @@ import { api } from "../../constants/api";
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels, genres } from "../../constants/genres";
 import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
-import {
-  omdbRatingsSource,
-  ratingsSourceReverseLookup,
-  ratingsSources,
-} from "../../constants/ratings";
-import { normalizeRating } from "../../utils/normalize-rating";
+import { convertOmdbRatings } from "../../utils/convert-omdb-ratings";
 import { parseRuntime } from "../../utils/parse-runtime";
-import { Ratings } from "./ratings";
+import { Ratings } from "../ratings/ratings";
 import Carousel from "./carousel";
 import ListSelect from "../list-select/list-select";
 import MoviePoster from "./movie-poster";
@@ -55,8 +50,8 @@ const AddMovieDialog = ({
     }),
   });
 
-  const [poster, setPoster] = useState(null);
-  const [ratings, setRatings] = useState(null);
+  const [poster, setPoster] = useState(initialInputState.poster || null);
+  const [ratings, setRatings] = useState(initialInputState.ratings || null);
 
   const medium = useMediaQuery("(max-width: 1140px)");
   const small = useMediaQuery("(max-width: 885px)");
@@ -87,15 +82,6 @@ const AddMovieDialog = ({
           Genre.split(", ").includes(genre)
         );
 
-        const ratings = Ratings
-          ? Ratings.filter(({ Source }) =>
-              ratingsSources.includes(omdbRatingsSource[Source])
-            ).map(({ Source, Value }) => ({
-              source: omdbRatingsSource[Source],
-              rating: normalizeRating(omdbRatingsSource[Source], Value),
-            }))
-          : [];
-
         setInput({
           ...input,
           title: Title,
@@ -103,7 +89,7 @@ const AddMovieDialog = ({
           runtime,
           ...(genre && { genre: parseInt(genre) }),
         });
-        setRatings(ratings);
+        setRatings(Ratings ? convertOmdbRatings(Ratings) : []);
         setPoster(Poster && Poster !== "N/A" ? Poster : null);
       }
     };
@@ -253,12 +239,7 @@ const AddMovieDialog = ({
                   year: movies[selectedMovie].Year,
                 }),
                 // Add the ratings if the exist
-                ...(ratings && {
-                  ratings: ratings.reduce((acc, { source, rating }) => {
-                    acc[ratingsSourceReverseLookup[source]] = rating;
-                    return acc;
-                  }, {}),
-                }),
+                ratings,
               });
             }}
             color="primary"

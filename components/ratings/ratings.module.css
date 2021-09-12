@@ -1,0 +1,28 @@
+.ratings {
+  display: flex;
+  list-style-type: none;
+  padding-left: 0;
+  align-self: center;
+}
+
+.ratings > li {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.ratings > li:last-child {
+  margin-right: 0;
+}
+
+.ratingsSourceIconMedium {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.ratingsSourceIconSmall {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
