@@ -11,10 +11,13 @@ const SortNav = ({ selectedOption, options, onSort }) => {
   const { mobile } = useResponsive();
 
   const SortOrderIcon =
-    (selectedOption[0] === "addedOn" && selectedOption[1] === "asc"
-      ? KeyboardArrowUp
-      : KeyboardArrowDown) ||
-    (selectedOption[1] === "asc" ? KeyboardArrowDown : KeyboardArrowUp);
+    selectedOption[0] === "addedOn"
+      ? selectedOption[1] === "asc"
+        ? KeyboardArrowUp
+        : KeyboardArrowDown
+      : selectedOption[1] === "asc"
+      ? KeyboardArrowDown
+      : KeyboardArrowUp;
 
   const resolveOrder = (key) => [
     key,
