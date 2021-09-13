@@ -71,8 +71,8 @@
 }
 
 .poster {
-  width: 100%;
-  aspect-ratio: 160 / 250;
+  width: 160px;
+  height: 250px;
   background-color: white;
   background-size: cover;
   background-position: center;
@@ -97,6 +97,11 @@
 
 .noPoster > div {
   padding: 0 8px;
+}
+
+.detailPoster {
+  width: calc(160px * 1.5);
+  height: calc(250px * 1.5);
 }
 
 .info {

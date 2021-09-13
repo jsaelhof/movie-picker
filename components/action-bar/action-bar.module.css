@@ -3,7 +3,8 @@
 }
 
 .secondaryActions {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
   column-gap: 16px;
 }
 

@@ -121,7 +121,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
                 >
                   {movie.poster ? (
                     <div
-                      className={styles.poster}
+                      className={clsx(styles.poster, styles.detailPoster)}
                       style={{ backgroundImage: `url(${movie.poster})` }}
                     />
                   ) : (
