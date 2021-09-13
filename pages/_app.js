@@ -1,7 +1,10 @@
 import "../css/global.css";
 
+import React from "react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { UserProvider } from "@auth0/nextjs-auth0";
+import { AppProvider } from "../context/app-context";
+import PageContainer from "../components/page-container/page-container";
 
 const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
@@ -12,7 +15,11 @@ function MyApp({ Component, pageProps }) {
   return (
     <UserProvider>
       <ApolloProvider client={client}>
-        <Component {...pageProps} />
+        <AppProvider>
+          <PageContainer>
+            <Component {...pageProps} />
+          </PageContainer>
+        </AppProvider>
       </ApolloProvider>
     </UserProvider>
   );

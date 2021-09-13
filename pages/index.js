@@ -1,6 +1,4 @@
-import Head from "next/head";
-
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import Container from "@material-ui/core/Container";
@@ -8,34 +6,24 @@ import Container from "@material-ui/core/Container";
 import { errorMessage } from "../constants/error_codes";
 import { omitTypename } from "../utils/omit-typename";
 import { randomPick } from "../utils/random-pick";
-import {
-  ADD_MOVIE,
-  EDIT_MOVIE,
-  GET_DATABASE,
-  GET_LISTS,
-  GET_MOVIES,
-  REMOVE_MOVIE,
-} from "../graphql";
+import { ADD_MOVIE, EDIT_MOVIE } from "../graphql";
+import { useAppContext } from "../context/app-context";
+import { useRemoveMovie } from "../hooks/use-remove-movie";
+import { useEditMovie } from "../hooks/use-edit-movie";
 import ActionBar from "../components/action-bar/action-bar";
 import AddMovieDialog from "../components/add-movie-dialog/add-movie-dialog";
 import ErrorDialog from "../components/error-dialog/error-dialog";
-import List from "../components/list/list";
 import Pick from "../components/pick/pick";
-import TitleBar from "../components/titlebar/titlebar";
 import Toast from "../components/toast/toast";
-import WatchedList from "../components/watched-list/watched-list";
 import ListGrid from "../components/list/list-grid";
 
 export default withPageAuthRequired(function Home() {
-  const [list, setList] = useState();
+  const { list, setList, lists, movies, loadingMovies } = useAppContext();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [enableEditMovie, setEnableEditMovie] = useState(null);
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
   const [pick, setPick] = useState(null);
-  const { data: { database } = {} } = useQuery(GET_DATABASE);
-  const { lists } = useLists(setList);
-  const { movies, watchedMovies, loading } = useMovies(list);
 
   const [undoWatched] = useMutation(EDIT_MOVIE, {
     onCompleted: ({ editMovie: movie }) => {
@@ -74,102 +62,66 @@ export default withPageAuthRequired(function Home() {
     refetchQueries: ["GetMovies"],
   });
 
-  const [editMovie] = useMutation(EDIT_MOVIE, {
-    refetchQueries: ["GetMovies"],
-  });
-
-  const [removeMovie] = useMutation(REMOVE_MOVIE, {
-    refetchQueries: ["GetMovies"],
-    onError: ({ message }) => {
-      setError(message);
-    },
-  });
+  const editMovie = useEditMovie();
+  const removeMovie = useRemoveMovie(setError);
 
   return (
     <>
-      <Head>
-        <title>Movie Decider 4000</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <ActionBar
+        disabled={!movies || loadingMovies}
+        lists={lists}
+        currentList={list}
+        onListChange={(value) => {
+          setList(lists.find(({ id }) => id === value));
+        }}
+        onAdd={() => {
+          setEnableAddMovie(true);
+        }}
+        onPick={(options) => {
+          try {
+            setPick(randomPick(movies, options));
+          } catch ({ message }) {
+            setError(message);
+          }
+        }}
+      />
 
-      <div>
-        <TitleBar prod={!database?.name.includes("dev")} />
-
-        <ActionBar
-          disabled={!movies || loading}
-          lists={lists}
-          currentList={list}
-          onListChange={(value) => {
-            setList(lists.find(({ id }) => id === value));
-          }}
-          onAdd={() => {
-            setEnableAddMovie(true);
-          }}
-          onPick={(options) => {
-            try {
-              setPick(randomPick(movies, options));
-            } catch ({ message }) {
-              setError(message);
-            }
-          }}
-        />
-
-        <Container>
-          {pick && <Pick movie={pick} />}
-          {movies && (
-            <ListGrid
-              movies={movies}
-              onEditMovie={(movie, useEditor = true) => {
-                if (useEditor) {
-                  setEnableEditMovie(movie);
-                } else {
-                  editMovie({
-                    variables: { movie: omitTypename(movie), list: list.id },
-                  });
-                }
-              }}
-              onRemoveMovie={(id) =>
-                removeMovie({
-                  variables: {
-                    movieId: id,
-                    list: list.id,
-                  },
-                })
-              }
-              onMarkWatched={(movie) =>
-                markWatched({
-                  variables: {
-                    movie: {
-                      ...omitTypename(movie),
-                      watchedOn: new Date().toISOString(),
-                    },
-                    list: list.id,
-                  },
-                })
-              }
-            />
-          )}
-
-          {watchedMovies && (
-            <WatchedList
-              movies={watchedMovies}
-              onEditMovie={(movie) =>
+      <Container>
+        {pick && <Pick movie={pick} />}
+        {movies && (
+          <ListGrid
+            movies={movies}
+            onEditMovie={(movie, useEditor = true) => {
+              if (useEditor) {
+                setEnableEditMovie(movie);
+              } else {
                 editMovie({
                   variables: { movie: omitTypename(movie), list: list.id },
-                })
+                });
               }
-              onRemoveMovie={(id) =>
-                removeMovie({
-                  variables: {
-                    movieId: id,
-                    list: list.id,
+            }}
+            onRemoveMovie={(id) =>
+              removeMovie({
+                variables: {
+                  movieId: id,
+                  list: list.id,
+                },
+              })
+            }
+            onMarkWatched={(movie) =>
+              markWatched({
+                variables: {
+                  movie: {
+                    ...omitTypename(movie),
+                    watchedOn: new Date().toISOString(),
                   },
-                })
-              }
-            />
-          )}
-        </Container>
-      </div>
+                  list: list.id,
+                },
+              })
+            }
+          />
+        )}
+      </Container>
 
       <Toast
         open={toastProps !== null}
@@ -216,26 +168,3 @@ export default withPageAuthRequired(function Home() {
     </>
   );
 });
-
-const useLists = (onComplete) => {
-  const { data } = useQuery(GET_LISTS, {
-    onCompleted: ({ lists }) => {
-      onComplete(lists[0]);
-    },
-  });
-
-  return { ...data };
-};
-
-const useMovies = (list) => {
-  const { data, refetch, loading } = useQuery(GET_MOVIES, {
-    skip: !list,
-    variables: { list: list?.id },
-  });
-
-  return {
-    ...data,
-    refetchMovies: refetch,
-    loading,
-  };
-};
