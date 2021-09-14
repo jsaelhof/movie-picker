@@ -1,10 +1,11 @@
 import "../css/global.css";
 
 import React from "react";
+import Head from "next/head";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { AppProvider } from "../context/app-context";
-import PageContainer from "../components/page-container/page-container";
+import TitleBar from "../components/titlebar/titlebar";
 
 const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
@@ -16,9 +17,12 @@ function MyApp({ Component, pageProps }) {
     <UserProvider>
       <ApolloProvider client={client}>
         <AppProvider>
-          <PageContainer>
-            <Component {...pageProps} />
-          </PageContainer>
+          <Head>
+            <title>Movie Decider 4000</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <TitleBar prod={process.env.IS_PROD} />
+          <Component {...pageProps} />
         </AppProvider>
       </ApolloProvider>
     </UserProvider>

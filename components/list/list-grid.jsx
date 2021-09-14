@@ -11,18 +11,18 @@ import { genreLabels } from "../../constants/genres";
 import { usePrevious } from "../../hooks/use-previous";
 import { sourceLogos } from "../../constants/sources";
 import { useGridColumns } from "./use-grid-columns";
+import { useAppContext } from "../../context/app-context";
 import DetailActions from "./detail-actions";
 import DeleteDialog from "../delete-dialog/delete-dialog";
 import MoreActions from "./more-actions";
-import SortNav from "./sort-nav";
+import Ratings from "../ratings/ratings";
 
 import styles from "./list-grid.module.css";
-import { Ratings } from "../ratings/ratings";
 
 const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
+  const { order } = useAppContext();
   const gridRef = useRef();
   const [showMoreActions, setShowMoreActions] = useState(false);
-  const [order, setOrder] = useState(["addedOn", "desc"]);
   const [deleteMovie, setDeleteMovie] = useState(null);
   const [focusedMovie, setFocusedMovie] = useState(null);
   const prevFocusedMovieId = usePrevious(focusedMovie?.id);
@@ -45,18 +45,6 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
 
   return (
     <>
-      <SortNav
-        selectedOption={order}
-        options={[
-          ["Title", "title"],
-          ["Runtime", "runtime"],
-          ["Added", "addedOn"],
-        ]}
-        onSort={(option, direction) => {
-          setOrder([option, direction]);
-        }}
-      />
-
       <div className={styles.movieList} ref={gridRef}>
         {movies &&
           orderBy(movies, [order[0]], [order[1]]).map((movie, i) => (

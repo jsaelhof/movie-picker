@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
+import Link from "next/link";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import Container from "@material-ui/core/Container";
 
@@ -69,11 +70,6 @@ export default withPageAuthRequired(function Home() {
     <>
       <ActionBar
         disabled={!movies || loadingMovies}
-        lists={lists}
-        currentList={list}
-        onListChange={(value) => {
-          setList(lists.find(({ id }) => id === value));
-        }}
         onAdd={() => {
           setEnableAddMovie(true);
         }}

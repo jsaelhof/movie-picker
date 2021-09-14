@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import { useRouter } from "next/router";
 import {
   AppBar,
   Avatar,
@@ -14,23 +15,16 @@ import Link from "next/link";
 import Movie from "@material-ui/icons/Movie";
 
 import styles from "./titlebar.module.css";
-
-const config = {
-  development: {
-    title: "Movie Decider 4000 - Development",
-    color: "secondary",
-  },
-  production: {
-    title: "Movie Decider 4000",
-    color: "primary",
-  },
-};
+import DbSelect from "../db-select/db-select";
+import { useAppContext } from "../../context/app-context";
 
 const TitleBar = ({ prod }) => {
+  const router = useRouter();
+  const { lists, list, setList } = useAppContext();
   const { user } = useUser();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
-  const { title, color } = config[prod ? "production" : "development"];
+  const color = prod ? "primary" : "secondary";
 
   const onOpenMenu = () => setOpen(true);
   const onCloseMenu = () => setOpen(false);
@@ -39,8 +33,27 @@ const TitleBar = ({ prod }) => {
     <div className={styles.appBar}>
       <AppBar position="static" color={color} elevation={2}>
         <Toolbar>
-          <Movie />
-          <div className={styles.title}>{title}</div>
+          <div className={styles.title}>
+            <Movie />
+            <div>MD4K</div>
+          </div>
+
+          <div className={styles.nav}>
+            {router.pathname !== "/watched" && (
+              <Link href="/watched">Watched</Link>
+            )}
+
+            {router.pathname !== "/" && <Link href="/">Movies</Link>}
+
+            <DbSelect
+              dbs={lists}
+              currentDb={list}
+              onDBChange={(value) =>
+                setList(lists.find(({ id }) => id === value))
+              }
+            />
+          </div>
+
           {user && (
             <div>
               <Avatar

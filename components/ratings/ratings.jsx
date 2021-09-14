@@ -7,13 +7,7 @@ import map from "lodash/map";
 
 import { ratingsSource, ratingsSourceImage } from "../../constants/ratings";
 
-export const Ratings = ({
-  ratings,
-  size = "medium",
-  dense,
-  className,
-  ...props
-}) => (
+const Ratings = ({ ratings, size = "medium", dense, className, ...props }) => (
   <ul
     {...props}
     className={clsx(styles.ratings, dense && styles.dense, className)}
@@ -34,3 +28,5 @@ export const Ratings = ({
     )}
   </ul>
 );
+
+export default Ratings;
