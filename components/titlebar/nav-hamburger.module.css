@@ -1,0 +1,17 @@
+.menu {
+  margin-right: 16px;
+}
+
+.menuIcon {
+  color: white;
+}
+
+.icon {
+  margin-right: 16px;
+  color: gray;
+}
+
+.divider {
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+}

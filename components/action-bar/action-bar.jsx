@@ -1,25 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { AppBar, Button, Toolbar } from "@material-ui/core";
 import AddToQueueIcon from "@material-ui/icons/AddToQueue";
 import clsx from "clsx";
 
 import { useAppContext } from "../../context/app-context";
 import { useResponsive } from "../../hooks/use-responsive";
+import SortNav from "./sort-nav";
 import SplitButton from "../split-button/split-button";
 
 import styles from "./action-bar.module.css";
-import SortNav from "./sort-nav";
 
 const ActionBar = ({ disabled, onAdd, onPick }) => {
   const { order, setOrder } = useAppContext();
-  const { mobile, minimalColumns } = useResponsive();
+  const { small, minimalColumns } = useResponsive();
 
   return (
-    <div className={styles.appBar}>
+    <div className={clsx(styles.appBar, small && styles.verticalAppBar)}>
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar
           className={styles.toolbar}
-          classes={{ root: clsx(mobile && styles.vertical) }}
+          classes={{ root: clsx(small && styles.verticalActions) }}
         >
           <SortNav
             selectedOption={order}
