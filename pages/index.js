@@ -9,6 +9,7 @@ import { ADD_MOVIE, EDIT_MOVIE } from "../graphql";
 import { useAppContext } from "../context/app-context";
 import { useRemoveMovie } from "../hooks/use-remove-movie";
 import { useEditMovie } from "../hooks/use-edit-movie";
+import { useResponsive } from "../hooks/use-responsive";
 import ActionBar from "../components/action-bar/action-bar";
 import AddMovieDialog from "../components/add-movie-dialog/add-movie-dialog";
 import ErrorDialog from "../components/error-dialog/error-dialog";
@@ -18,6 +19,7 @@ import ListGrid from "../components/list/list-grid";
 
 export default withPageAuthRequired(function Home() {
   const { list, movies, loadingMovies } = useAppContext();
+  const { mobile } = useResponsive();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [enableEditMovie, setEnableEditMovie] = useState(null);
   const [toastProps, setToastProps] = useState(null);
@@ -66,7 +68,8 @@ export default withPageAuthRequired(function Home() {
 
   return (
     <>
-      <div style={{ padding: "0 44px" }}>
+      {/* In mobile, shrink the margins a bit. The zoom will be slightly smaller as well so that the card will not go off the edge  */}
+      <div style={{ padding: mobile ? "0 38px" : "0 44px" }}>
         <ActionBar
           disabled={!movies || loadingMovies}
           onAdd={() => {
