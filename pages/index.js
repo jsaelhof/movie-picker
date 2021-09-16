@@ -1,8 +1,6 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import Link from "next/link";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
-import Container from "@material-ui/core/Container";
 
 import { errorMessage } from "../constants/error_codes";
 import { omitTypename } from "../utils/omit-typename";
@@ -19,7 +17,7 @@ import Toast from "../components/toast/toast";
 import ListGrid from "../components/list/list-grid";
 
 export default withPageAuthRequired(function Home() {
-  const { list, setList, lists, movies, loadingMovies } = useAppContext();
+  const { list, movies, loadingMovies } = useAppContext();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [enableEditMovie, setEnableEditMovie] = useState(null);
   const [toastProps, setToastProps] = useState(null);
@@ -68,22 +66,23 @@ export default withPageAuthRequired(function Home() {
 
   return (
     <>
-      <ActionBar
-        disabled={!movies || loadingMovies}
-        onAdd={() => {
-          setEnableAddMovie(true);
-        }}
-        onPick={(options) => {
-          try {
-            setPick(randomPick(movies, options));
-          } catch ({ message }) {
-            setError(message);
-          }
-        }}
-      />
+      <div style={{ padding: "0 44px" }}>
+        <ActionBar
+          disabled={!movies || loadingMovies}
+          onAdd={() => {
+            setEnableAddMovie(true);
+          }}
+          onPick={(options) => {
+            try {
+              setPick(randomPick(movies, options));
+            } catch ({ message }) {
+              setError(message);
+            }
+          }}
+        />
 
-      <Container>
         {pick && <Pick movie={pick} />}
+
         {movies && (
           <ListGrid
             movies={movies}
@@ -117,7 +116,7 @@ export default withPageAuthRequired(function Home() {
             }
           />
         )}
-      </Container>
+      </div>
 
       <Toast
         open={toastProps !== null}

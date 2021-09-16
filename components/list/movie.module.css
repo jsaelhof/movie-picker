@@ -1,0 +1,108 @@
+.movieWrapper {
+  position: relative;
+  border-radius: 4px;
+}
+
+.movieWrapperFocus {
+  z-index: 1000;
+}
+
+.movie {
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.source {
+  position: fixed;
+  height: 40px;
+  border-radius: 23px;
+  border: 3px solid white;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  margin-left: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.movieDetailPositioner {
+  width: 240px;
+  margin-left: calc(
+    (160px - 240px) / 2
+  ); /* Use diff between zoomed and standard widths to determine horizontal offset to center */
+  margin-top: -82px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.movieDetailShow {
+  pointer-events: initial;
+  opacity: 1;
+}
+
+.movieDetail {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 3px 10px 10px rgba(0, 0, 0, 0.1),
+    0px 5px 15px 0px rgba(0, 0, 0, 0.1), 0px 1px 20px 0px rgba(0, 0, 0, 0.12);
+  transform: scale(0.67);
+}
+
+.poster {
+  width: 160px;
+  height: 250px;
+  background-color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+.posterLocked {
+  opacity: 0.3;
+}
+
+.noPoster {
+  display: grid;
+  grid-template-rows: 1fr 100px;
+  justify-items: center;
+  text-align: center;
+  color: #444;
+  font-size: 0.9rem;
+  background: #f7f7fc;
+}
+
+.noPoster > div {
+  padding: 0 8px;
+}
+
+.detailPoster {
+  width: calc(160px * 1.5);
+  height: calc(250px * 1.5);
+}
+
+.info {
+  display: grid;
+  gap: 20px;
+  font-size: 14px;
+  color: #242424;
+  padding: 8px 16px;
+  background: white;
+  height: fit-content;
+  box-shadow: inset 0 4px 5px -3px rgb(0, 0, 0, 0.4);
+}
+
+.infoData {
+  display: flex;
+  justify-content: space-between;
+}
+
+.moreActions {
+  position: fixed;
+  width: 100%;
+}
