@@ -22,6 +22,7 @@
   transform: translate(-50%, -50%);
   margin-left: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  z-index: 10;
 }
 
 .movieDetailPositioner {
@@ -46,10 +47,20 @@
 
 .movieDetail {
   border-radius: 4px;
-  overflow: hidden;
   box-shadow: 3px 10px 10px rgba(0, 0, 0, 0.1),
     0px 5px 15px 0px rgba(0, 0, 0, 0.1), 0px 1px 20px 0px rgba(0, 0, 0, 0.12);
   transform: scale(0.67);
+}
+
+/* This div wraps the content so that the overflow is hidden in safari properly without hiding the box-shadow.
+    To fix this I put the box shadow on the outer div and then put this div inside to clip the overflow. */
+.overflowWrapper {
+  border-radius: 4px;
+  overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(
+    white,
+    black
+  ); /* This is needed to fix the overflow: hidden bug in safari */
 }
 
 .poster {
@@ -84,6 +95,8 @@
 .detailPoster {
   width: calc(160px * 1.5);
   height: calc(250px * 1.5);
+  position: relative;
+  z-index: 5;
 }
 
 .info {
@@ -102,7 +115,12 @@
   justify-content: space-between;
 }
 
+.infoRatings {
+  margin: 0 auto;
+}
+
 .moreActions {
   position: fixed;
   width: 100%;
+  z-index: 20;
 }

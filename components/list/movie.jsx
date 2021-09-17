@@ -20,13 +20,19 @@ const Movie = ({ movie, onEditMovie, onMarkWatched }) => {
   const [focused, setFocused] = useState(false);
   const timeoutRef = useRef();
 
-  const detailStyles = useSpring({
+  const detailSpring = useSpring({
     from: { transform: "scale(0.67)" },
     to: { transform: `scale(${mobile ? 0.95 : 1})` },
     reverse: !focused,
   });
 
-  const moreActionsStyles = useSpring({
+  const infoSpring = useSpring({
+    from: { marginTop: -80 },
+    to: { marginTop: 0 },
+    reverse: !focused,
+  });
+
+  const moreActionsSpring = useSpring({
     to: { transform: `translateY(${showMoreActions ? -100 : 0}%)` },
   });
 
@@ -73,59 +79,69 @@ const Movie = ({ movie, onEditMovie, onMarkWatched }) => {
           focused && styles.movieDetailShow
         )}
       >
-        <animated.div style={detailStyles} className={styles.movieDetail}>
-          {movie.poster ? (
-            <div
-              className={clsx(styles.poster, styles.detailPoster)}
-              style={{ backgroundImage: `url(${movie.poster})` }}
-            />
-          ) : (
-            <div className={clsx(styles.poster, styles.noPoster)}>
-              <TheatresIcon fontSize="large" />
-              <div>{movie.title}</div>
+        <animated.div style={detailSpring} className={styles.movieDetail}>
+          <div className={styles.overflowWrapper}>
+            {movie.poster ? (
+              <div
+                className={clsx(styles.poster, styles.detailPoster)}
+                style={{ backgroundImage: `url(${movie.poster})` }}
+              />
+            ) : (
+              <div className={clsx(styles.poster, styles.noPoster)}>
+                <TheatresIcon fontSize="large" />
+                <div>{movie.title}</div>
+              </div>
+            )}
+
+            <div className={styles.source}>
+              {<img src={sourceLogos[movie.source]} width="40" height="40" />}
             </div>
-          )}
-          <div className={styles.source}>
-            {<img src={sourceLogos[movie.source]} width="40" height="40" />}
-          </div>
-          <div className={styles.info}>
-            <div className={styles.infoData}>
-              <div>{formatRuntime(movie.runtime)}</div>
-              <div>{genreLabels[movie.genre]}</div>
-            </div>
-            <div>
-              <Ratings size="small" ratings={movie.ratings} dense />
-            </div>
-            <DetailActions
-              movie={movie}
-              onEdit={() => {
-                setFocused(false);
-                onEditMovie(movie);
-              }}
-              onMarkWatched={() => {
-                setFocused(false);
-                onMarkWatched(movie);
-              }}
-              onToggleLock={(locked) => {
-                onEditMovie({ ...movie, locked }, false);
-              }}
-              onMoreActions={() => {
-                setShowMoreActions(true);
-              }}
-            />
-          </div>
-          {
-            <animated.div
-              className={styles.moreActions}
-              style={moreActionsStyles}
-            >
-              <MoreActions
+
+            <animated.div className={styles.info} style={infoSpring}>
+              <div className={styles.infoData}>
+                <div>{formatRuntime(movie.runtime)}</div>
+                <div>{genreLabels[movie.genre]}</div>
+              </div>
+
+              <Ratings
+                size="small"
+                ratings={movie.ratings}
+                dense
+                className={styles.infoRatings}
+              />
+
+              <DetailActions
                 movie={movie}
-                onClose={() => setShowMoreActions(false)}
-                onDeleteMovie={() => alert("IMPLEMENT DELETE")}
+                onEdit={() => {
+                  setFocused(false);
+                  onEditMovie(movie);
+                }}
+                onMarkWatched={() => {
+                  setFocused(false);
+                  onMarkWatched(movie);
+                }}
+                onToggleLock={(locked) => {
+                  onEditMovie({ ...movie, locked }, false);
+                }}
+                onMoreActions={() => {
+                  setShowMoreActions(true);
+                }}
               />
             </animated.div>
-          }
+
+            {
+              <animated.div
+                className={styles.moreActions}
+                style={moreActionsSpring}
+              >
+                <MoreActions
+                  movie={movie}
+                  onClose={() => setShowMoreActions(false)}
+                  onDeleteMovie={() => alert("IMPLEMENT DELETE")}
+                />
+              </animated.div>
+            }
+          </div>
         </animated.div>
       </div>
     </Paper>
