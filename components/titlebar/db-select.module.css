@@ -4,13 +4,14 @@
 }
 
 .dbSelect {
-  padding: 0 32px 0 0 !important;
-}
-
-.dbSelectIcon {
-  margin-right: 16px;
+  padding: 0 8px 0 0 !important;
 }
 
 .dbSelectRender {
+  color: white !important;
   pointer-events: none;
+}
+
+.arrowIcon {
+  color: white !important;
 }

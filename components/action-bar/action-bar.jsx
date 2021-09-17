@@ -3,35 +3,36 @@ import { AppBar, Button, Toolbar } from "@material-ui/core";
 import AddToQueueIcon from "@material-ui/icons/AddToQueue";
 import clsx from "clsx";
 
+import { useAppContext } from "../../context/app-context";
 import { useResponsive } from "../../hooks/use-responsive";
-import DbSelect from "../db-select/db-select";
+import SortNav from "./sort-nav";
 import SplitButton from "../split-button/split-button";
 
 import styles from "./action-bar.module.css";
 
-const ActionBar = ({
-  disabled,
-  lists,
-  currentList,
-  onListChange,
-  onAdd,
-  onPick,
-}) => {
-  const { mobile, minimalColumns } = useResponsive();
+const ActionBar = ({ disabled, onAdd, onPick }) => {
+  const { order, setOrder } = useAppContext();
+  const { small, minimalColumns } = useResponsive();
 
   return (
-    <div className={styles.appBar}>
+    <div className={clsx(styles.appBar, small && styles.verticalAppBar)}>
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar
           className={styles.toolbar}
-          classes={{ root: clsx(mobile && styles.vertical) }}
+          classes={{ root: clsx(small && styles.verticalActions) }}
         >
-          {/* TODO: Rename this component to CollectionSelect */}
-          <DbSelect
-            dbs={lists}
-            currentDb={currentList}
-            onDBChange={(lists, currentList, onListChange)}
+          <SortNav
+            selectedOption={order}
+            options={[
+              ["Title", "title"],
+              ["Runtime", "runtime"],
+              ["Added", "addedOn"],
+            ]}
+            onSort={(option, direction) => {
+              setOrder([option, direction]);
+            }}
           />
+
           <div className={styles.secondaryActions}>
             {!disabled && (
               <Button variant="outlined" onClick={onAdd}>

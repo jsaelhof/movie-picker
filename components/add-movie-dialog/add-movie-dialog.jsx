@@ -19,10 +19,10 @@ import { genreLabels, genres } from "../../constants/genres";
 import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
 import { convertOmdbRatings } from "../../utils/convert-omdb-ratings";
 import { parseRuntime } from "../../utils/parse-runtime";
-import { Ratings } from "../ratings/ratings";
 import Carousel from "./carousel";
 import ListSelect from "../list-select/list-select";
 import MoviePoster from "./movie-poster";
+import Ratings from "../ratings/ratings";
 
 import styles from "./add-movie-dialog.module.css";
 

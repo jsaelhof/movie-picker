@@ -1,18 +1,28 @@
+import { useQuery } from "@apollo/client";
+import React from "react";
 import { createContext, useState } from "react";
-import { useMediaQuery } from "react-responsive";
+import { GET_LISTS, GET_MOVIES } from "../graphql";
 
 const AppContext = createContext({});
 
 const AppProvider = ({ children }) => {
-  const minimalColumns = useMediaQuery({
-    query: "(max-width: 736px)",
-  });
+  const [list, setList] = useState();
+  const { lists } = useLists(setList);
+  const { movies, watchedMovies, loading: loadingMovies } = useMovies(list);
+  const [order, setOrder] = useState(["addedOn", "desc"]);
 
-  return (
-    <AppContext.Provider value={{ minimalColumns }}>
-      {children}
-    </AppContext.Provider>
-  );
+  const context = {
+    lists,
+    list,
+    setList,
+    movies,
+    watchedMovies,
+    loadingMovies,
+    order,
+    setOrder,
+  };
+
+  return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
 };
 
 const useAppContext = () => {
@@ -21,6 +31,29 @@ const useAppContext = () => {
     throw new Error("useAppContext must be used within an AppProvider");
   }
   return context;
+};
+
+const useLists = (onComplete) => {
+  const { data } = useQuery(GET_LISTS, {
+    onCompleted: ({ lists }) => {
+      onComplete(lists[0]);
+    },
+  });
+
+  return { ...data };
+};
+
+const useMovies = (list) => {
+  const { data, refetch, loading } = useQuery(GET_MOVIES, {
+    skip: !list,
+    variables: { list: list?.id },
+  });
+
+  return {
+    ...data,
+    refetchMovies: refetch,
+    loading,
+  };
 };
 
 export { AppProvider, useAppContext };

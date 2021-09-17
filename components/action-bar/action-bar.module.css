@@ -2,14 +2,18 @@
   flex-grow: 1;
 }
 
+.verticalAppBar {
+  margin-top: 24px;
+}
+
 .secondaryActions {
   display: grid;
   grid-auto-flow: column;
   column-gap: 16px;
 }
 
-.vertical {
-  flex-direction: column;
+.verticalActions {
+  flex-direction: column-reverse;
   height: 100px;
   margin-bottom: 16px;
 }
@@ -17,6 +21,7 @@
 .toolbar {
   margin-top: 16px;
   column-gap: 16px;
+  padding: 0 !important;
 }
 
 .addToQueue {

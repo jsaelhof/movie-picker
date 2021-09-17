@@ -1,3 +1,5 @@
+import styles from "./sort-nav.module.css";
+
 import clsx from "clsx";
 import React from "react";
 import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
@@ -5,10 +7,8 @@ import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 
 import { useResponsive } from "../../hooks/use-responsive";
 
-import styles from "./sort-nav.module.css";
-
 const SortNav = ({ selectedOption, options, onSort }) => {
-  const { mobile } = useResponsive();
+  const { small } = useResponsive();
 
   const SortOrderIcon =
     selectedOption[0] === "addedOn"
@@ -29,7 +29,7 @@ const SortNav = ({ selectedOption, options, onSort }) => {
   ];
 
   return (
-    <ul className={clsx(styles.sortNav, mobile && styles.centeredNav)}>
+    <ul className={clsx(styles.sortNav, small && styles.centeredNav)}>
       {options.map(([label, key]) => (
         <li
           key={key}

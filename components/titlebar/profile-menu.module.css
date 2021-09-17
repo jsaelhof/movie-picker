@@ -1,0 +1,36 @@
+.avatarButton {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.profileMenu {
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.profileAvatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.profileName {
+  margin-top: 16px;
+}
+
+.profileEmail {
+  margin-top: 4px;
+  font-size: 0.75em;
+  opacity: 0.7;
+}
+
+.profileActions {
+  text-align: center;
+  padding: 16px 0;
+}
+
+.profileActions > :first-child {
+  text-transform: capitalize;
+}

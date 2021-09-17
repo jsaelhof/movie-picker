@@ -1,7 +1,12 @@
 import "../css/global.css";
 
+import React from "react";
+import Head from "next/head";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { UserProvider } from "@auth0/nextjs-auth0";
+import { AppProvider } from "../context/app-context";
+import TitleBar from "../components/titlebar/titlebar";
+import Footer from "../components/footer/footer";
 
 const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
@@ -12,7 +17,25 @@ function MyApp({ Component, pageProps }) {
   return (
     <UserProvider>
       <ApolloProvider client={client}>
-        <Component {...pageProps} />
+        <AppProvider>
+          <Head>
+            <title>Movie Decider 4000</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateRows: "auto 1fr auto",
+              height: "100vh",
+            }}
+          >
+            <TitleBar prod={process.env.IS_PROD} />
+            <div>
+              <Component {...pageProps} />
+            </div>
+            <Footer />
+          </div>
+        </AppProvider>
       </ApolloProvider>
     </UserProvider>
   );
