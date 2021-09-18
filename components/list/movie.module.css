@@ -123,4 +123,9 @@
   position: fixed;
   width: 100%;
   z-index: 20;
+  pointer-events: none;
+}
+
+.enableMoreActions {
+  pointer-events: all;
 }

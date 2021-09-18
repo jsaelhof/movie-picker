@@ -131,7 +131,10 @@ const Movie = ({ movie, onEditMovie, onMarkWatched }) => {
 
             {
               <animated.div
-                className={styles.moreActions}
+                className={clsx(
+                  styles.moreActions,
+                  showMoreActions && styles.enableMoreActions
+                )}
                 style={moreActionsSpring}
               >
                 <MoreActions
