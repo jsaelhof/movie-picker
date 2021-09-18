@@ -9,9 +9,15 @@ import NavFull from "./nav-full";
 import Logo from "./logo";
 import NavHamburger from "./nav-hamburger";
 
-const TitleBar = ({ prod }) => {
+const TitleBar = () => {
   const { small } = useResponsive();
-  const color = prod ? "primary" : "secondary";
+
+  let isProd = false;
+  if (typeof window !== "undefined") {
+    isProd = window.location.hostname === "moviedecider4000.vercel.app";
+  }
+
+  const color = isProd ? "primary" : "secondary";
 
   return (
     <div className={styles.appBar}>

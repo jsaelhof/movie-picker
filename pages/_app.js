@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }) {
               height: "100vh",
             }}
           >
-            <TitleBar prod={process.env.IS_PROD} />
+            <TitleBar />
             <div>
               <Component {...pageProps} />
             </div>
