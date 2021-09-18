@@ -66,6 +66,7 @@ export default withPageAuthRequired(function Home() {
   const editMovie = useEditMovie();
   const removeMovie = useRemoveMovie(setError);
 
+  console.log(process.env.PHASE);
   return (
     <>
       {/* In mobile, shrink the margins a bit. The zoom will be slightly smaller as well so that the card will not go off the edge  */}
