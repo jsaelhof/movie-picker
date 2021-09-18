@@ -17,6 +17,8 @@ const TitleBar = () => {
     isProd = window.location.hostname === "moviedecider4000.vercel.app";
   }
 
+  console.log(isProd, typeof window, window?.location.hostname);
+
   const color = isProd ? "primary" : "secondary";
 
   return (
