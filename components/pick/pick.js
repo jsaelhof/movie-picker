@@ -1,12 +1,13 @@
 import styles from "./pick.module.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import clsx from "clsx";
 
 import { formatRuntime } from "../../utils/format-runtime";
 import { api } from "../../constants/api";
 import { genreLabels } from "../../constants/genres";
+import { searchTMDB } from "../../utils/search";
 import { useResponsive } from "../../hooks/use-responsive";
 import Rated from "./rated";
 import MoviePoster from "../movie-poster/movie-poster";
@@ -15,6 +16,10 @@ import Ratings from "../ratings/ratings";
 const Pick = ({ movie }) => {
   const { small, minimalColumns } = useResponsive();
   const [data, setData] = useState(null);
+
+  const search = useCallback(() => {
+    window.open(searchTMDB(movie.title), "moviedb");
+  }, [movie]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +45,7 @@ const Pick = ({ movie }) => {
         height={minimalColumns ? 250 : 350}
         movie={movie}
         className={styles.poster}
+        onClick={search}
       />
 
       <div className={clsx(styles.details, small && styles.detailsCentered)}>
@@ -48,6 +54,7 @@ const Pick = ({ movie }) => {
             styles.movieTitle,
             small && styles.movieTitleCentered
           )}
+          onClick={search}
         >
           {movie.title}
         </div>

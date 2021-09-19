@@ -4,7 +4,13 @@ import React from "react";
 import clsx from "clsx";
 import TheatresIcon from "@material-ui/icons/Theaters";
 
-const MoviePoster = ({ movie, height = 250, borderRadius = 4, className }) => {
+const MoviePoster = ({
+  movie,
+  height = 250,
+  borderRadius = 4,
+  onClick,
+  className,
+}) => {
   const width = height * 0.64;
 
   const posterStyles = {
@@ -24,6 +30,7 @@ const MoviePoster = ({ movie, height = 250, borderRadius = 4, className }) => {
         ...posterStyles,
         backgroundImage: `url(${movie.poster})`,
       }}
+      onClick={onClick}
     />
   ) : (
     <div
@@ -34,6 +41,7 @@ const MoviePoster = ({ movie, height = 250, borderRadius = 4, className }) => {
         className
       )}
       style={posterStyles}
+      onClick={onClick}
     >
       <TheatresIcon fontSize="large" />
       <div>{movie.title}</div>

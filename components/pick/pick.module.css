@@ -16,6 +16,8 @@
     "poster"
     "details";
   justify-items: center;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .title {
@@ -42,6 +44,8 @@
 
 .movieTitle {
   font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
 }
 
 .movieTitleCentered {
@@ -60,6 +64,6 @@
 }
 
 .plot {
-  color: #141414;
   padding: 16px 0;
+  color: #666666;
 }
