@@ -1,6 +1,6 @@
 import styles from "./titlebar.module.css";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AppBar, Toolbar } from "@material-ui/core";
 
 import { useResponsive } from "../../hooks/use-responsive";
@@ -11,13 +11,16 @@ import NavHamburger from "./nav-hamburger";
 
 const TitleBar = () => {
   const { small } = useResponsive();
+  const [isProd, setIsProd] = useState(false);
 
-  let isProd = false;
-  if (typeof window !== "undefined") {
-    isProd = window.location.hostname === "moviedecider4000.vercel.app";
-  }
+  useEffect(() => {
+    console.log(">", window.location.hostname);
+    if (!isProd && window.location.hostname === "moviedecider4000.vercel.app") {
+      setIsProd(true);
+    }
+  }, []);
 
-  console.log(isProd, typeof window, window?.location.hostname);
+  console.log({ isProd });
 
   const color = isProd ? "primary" : "secondary";
 
