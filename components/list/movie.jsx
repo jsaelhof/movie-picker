@@ -4,15 +4,15 @@ import { Paper } from "@material-ui/core";
 import React, { useRef, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import clsx from "clsx";
-import TheatresIcon from "@material-ui/icons/Theaters";
 
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels } from "../../constants/genres";
 import { sourceLogos } from "../../constants/sources";
+import { useResponsive } from "../../hooks/use-responsive";
 import DetailActions from "./detail-actions";
 import MoreActions from "./more-actions";
 import Ratings from "../ratings/ratings";
-import { useResponsive } from "../../hooks/use-responsive";
+import MoviePoster from "../movie-poster/movie-poster";
 
 const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
   const { mobile } = useResponsive();
@@ -52,25 +52,7 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
       }}
     >
       <div className={styles.movie}>
-        {movie.poster ? (
-          <div
-            className={clsx(styles.poster, movie.locked && styles.posterLocked)}
-            style={{
-              backgroundImage: `url(${movie.poster})`,
-            }}
-          />
-        ) : (
-          <div
-            className={clsx(
-              styles.poster,
-              styles.noPoster,
-              movie.locked && styles.posterLocked
-            )}
-          >
-            <TheatresIcon fontSize="large" />
-            <div>{movie.title}</div>
-          </div>
-        )}
+        <MoviePoster movie={movie} />
       </div>
 
       <div
@@ -81,23 +63,11 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
       >
         <animated.div style={detailSpring} className={styles.movieDetail}>
           <div className={styles.overflowWrapper}>
-            {movie.poster ? (
-              <div
-                className={clsx(styles.poster, styles.detailPoster)}
-                style={{ backgroundImage: `url(${movie.poster})` }}
-              />
-            ) : (
-              <div
-                className={clsx(
-                  styles.poster,
-                  styles.detailPoster,
-                  styles.noPoster
-                )}
-              >
-                <TheatresIcon fontSize="large" />
-                <div>{movie.title}</div>
-              </div>
-            )}
+            <MoviePoster
+              movie={movie}
+              height={375}
+              className={styles.detailPoster}
+            />
 
             <div className={styles.source}>
               {<img src={sourceLogos[movie.source]} width="40" height="40" />}

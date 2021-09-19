@@ -1,8 +1,45 @@
 .pick {
-  margin: 32px 0 96px;
+  margin: 32px 16px 96px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "title title"
+    "poster details";
+  column-gap: 32px;
+  row-gap: 24px;
 }
 
 .title {
-  margin-left: 32px;
+  grid-area: title;
   font-size: 24px;
+}
+
+.poster {
+  grid-area: poster;
+  box-shadow: 3px 10px 10px rgba(0, 0, 0, 0.1),
+    0px 5px 15px 0px rgba(0, 0, 0, 0.1), 0px 1px 20px 0px rgba(0, 0, 0, 0.12);
+}
+
+.details {
+  grid-area: details;
+  max-width: 600px;
+}
+
+.movieTitle {
+  font-size: 24px;
+}
+
+.movieData {
+  padding: 8px 0;
+  display: grid;
+  column-gap: 24px;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(3, max-content);
+  font-size: 14px;
+  color: #999;
+}
+
+.plot {
+  color: #141414;
+  padding: 16px 0;
 }

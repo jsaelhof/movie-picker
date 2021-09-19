@@ -63,38 +63,7 @@
   ); /* This is needed to fix the overflow: hidden bug in safari */
 }
 
-.poster {
-  width: 160px;
-  height: 250px;
-  background-color: white;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-}
-
-.posterLocked {
-  opacity: 0.3;
-}
-
-.noPoster {
-  display: grid;
-  grid-template-rows: 1fr 100px;
-  justify-items: center;
-  text-align: center;
-  color: #444;
-  font-size: 0.9rem;
-  background: #f7f7fc;
-}
-
-.noPoster > div {
-  padding: 0 8px;
-}
-
 .detailPoster {
-  width: calc(160px * 1.5);
-  height: calc(250px * 1.5);
   position: relative;
   z-index: 5;
 }

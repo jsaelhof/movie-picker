@@ -1,0 +1,26 @@
+.poster {
+  background-color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.posterLocked {
+  opacity: 0.3;
+}
+
+.noPoster {
+  display: grid;
+  grid-template-rows: 1fr 100px;
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+  color: #444;
+  font-size: 0.9rem;
+  background: #f7f7fc;
+}
+
+.noPoster > div {
+  padding: 0 8px;
+}
