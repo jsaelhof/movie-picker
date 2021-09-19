@@ -5,5 +5,10 @@
 .toolbar {
   display: grid !important;
   grid-template-columns: auto 1fr auto;
+  grid-template-areas: "logo nav profile";
   min-height: 64px !important;
+}
+
+.smallToolbar {
+  grid-template-areas: "nav logo profile";
 }

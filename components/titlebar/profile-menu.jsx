@@ -20,7 +20,7 @@ const ProfileMenu = () => {
   const onCloseMenu = () => setOpen(false);
 
   return user ? (
-    <div>
+    <div className={styles.profile}>
       <Avatar
         ref={anchorRef}
         alt={user.name}
