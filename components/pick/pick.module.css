@@ -9,6 +9,15 @@
   row-gap: 24px;
 }
 
+.pickStacked {
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "title"
+    "poster"
+    "details";
+  justify-items: center;
+}
+
 .title {
   grid-area: title;
   font-size: 24px;
@@ -18,6 +27,7 @@
   grid-area: poster;
   box-shadow: 3px 10px 10px rgba(0, 0, 0, 0.1),
     0px 5px 15px 0px rgba(0, 0, 0, 0.1), 0px 1px 20px 0px rgba(0, 0, 0, 0.12);
+  justify-self: center;
 }
 
 .details {
@@ -25,8 +35,17 @@
   max-width: 600px;
 }
 
+.detailsCentered {
+  display: grid;
+  justify-items: center;
+}
+
 .movieTitle {
   font-size: 24px;
+}
+
+.movieTitleCentered {
+  text-align: center;
 }
 
 .movieData {
@@ -37,6 +56,7 @@
   grid-template-columns: repeat(3, max-content);
   font-size: 14px;
   color: #999;
+  align-items: center;
 }
 
 .plot {
