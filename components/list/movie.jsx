@@ -87,7 +87,13 @@ const Movie = ({ movie, onEditMovie, onMarkWatched }) => {
                 style={{ backgroundImage: `url(${movie.poster})` }}
               />
             ) : (
-              <div className={clsx(styles.poster, styles.noPoster)}>
+              <div
+                className={clsx(
+                  styles.poster,
+                  styles.detailPoster,
+                  styles.noPoster
+                )}
+              >
                 <TheatresIcon fontSize="large" />
                 <div>{movie.title}</div>
               </div>

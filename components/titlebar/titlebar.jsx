@@ -11,16 +11,14 @@ import NavHamburger from "./nav-hamburger";
 
 const TitleBar = () => {
   const { small } = useResponsive();
-  const [isProd, setIsProd] = useState(false);
 
+  // TODO: Find a better way to tell if this is prod. Cna the server send env vars to the client? Maybe implement a graphql query to have the server return it from its process env?
+  const [isProd, setIsProd] = useState(false);
   useEffect(() => {
-    console.log(">", window.location.hostname);
     if (!isProd && window.location.hostname === "moviedecider4000.vercel.app") {
       setIsProd(true);
     }
   }, []);
-
-  console.log({ isProd });
 
   const color = isProd ? "primary" : "secondary";
 
