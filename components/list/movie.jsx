@@ -14,7 +14,7 @@ import MoreActions from "./more-actions";
 import Ratings from "../ratings/ratings";
 import { useResponsive } from "../../hooks/use-responsive";
 
-const Movie = ({ movie, onEditMovie, onMarkWatched }) => {
+const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
   const { mobile } = useResponsive();
   const [showMoreActions, setShowMoreActions] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -146,7 +146,7 @@ const Movie = ({ movie, onEditMovie, onMarkWatched }) => {
                 <MoreActions
                   movie={movie}
                   onClose={() => setShowMoreActions(false)}
-                  onDeleteMovie={() => alert("IMPLEMENT DELETE")}
+                  onDeleteMovie={() => onDeleteMovie(movie)}
                 />
               </animated.div>
             }

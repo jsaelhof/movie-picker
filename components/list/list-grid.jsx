@@ -24,6 +24,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
               movie={movie}
               onEditMovie={onEditMovie}
               onMarkWatched={onMarkWatched}
+              onDeleteMovie={setDeleteMovie}
             />
           ))}
       </div>
@@ -31,12 +32,10 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
       <DeleteDialog
         open={!isNil(deleteMovie)}
         title="Delete Movie?"
-        content={`'${
-          movies.find(({ id }) => id === deleteMovie)?.title
-        }' will be removed`}
+        content={`'${deleteMovie?.title}' will be removed`}
         onCancel={() => setDeleteMovie(null)}
         onConfirm={() => {
-          onRemoveMovie(deleteMovie);
+          onRemoveMovie(deleteMovie.id);
           setDeleteMovie(null);
         }}
       />
