@@ -17,24 +17,24 @@ const ActionBar = ({ disabled, onAdd, onPick }) => {
   return (
     <div className={clsx(styles.appBar, small && styles.verticalAppBar)}>
       <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar
-          className={styles.toolbar}
-          classes={{ root: clsx(small && styles.verticalActions) }}
-        >
-          <SortNav
-            selectedOption={order}
-            options={[
-              ["Title", "title"],
-              ["Runtime", "runtime"],
-              ["Added", "addedOn"],
-            ]}
-            onSort={(option, direction) => {
-              setOrder([option, direction]);
-            }}
-          />
+        {!disabled && (
+          <Toolbar
+            className={styles.toolbar}
+            classes={{ root: clsx(small && styles.verticalActions) }}
+          >
+            <SortNav
+              selectedOption={order}
+              options={[
+                ["Title", "title"],
+                ["Runtime", "runtime"],
+                ["Added", "addedOn"],
+              ]}
+              onSort={(option, direction) => {
+                setOrder([option, direction]);
+              }}
+            />
 
-          <div className={styles.secondaryActions}>
-            {!disabled && (
+            <div className={styles.secondaryActions}>
               <Button variant="outlined" onClick={onAdd}>
                 <AddToQueueIcon
                   className={clsx(
@@ -44,10 +44,10 @@ const ActionBar = ({ disabled, onAdd, onPick }) => {
                 />
                 {!minimalColumns && "Add Movie"}
               </Button>
-            )}
-            {!disabled && <SplitButton onPick={onPick} />}
-          </div>
-        </Toolbar>
+              <SplitButton onPick={onPick} />
+            </div>
+          </Toolbar>
+        )}
       </AppBar>
     </div>
   );
