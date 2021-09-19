@@ -3,7 +3,7 @@ export const parseRuntime = (runtimeInput) => {
 
   // Convert the runtime input to seconds
   if (!runtimeInput || runtimeInput === "") {
-    runtime = editedMovie.runtime;
+    runtime = null;
   } else {
     const [hours, minutes] = runtimeInput.includes(":")
       ? runtimeInput.split(":")
