@@ -167,7 +167,7 @@ const AddMovieDialog = ({
           <TextField
             className={styles.runtime}
             label="Runtime"
-            value={input.runtime}
+            value={input.runtime || ""}
             margin="dense"
             variant="outlined"
             placeholder="0:00"
@@ -190,7 +190,7 @@ const AddMovieDialog = ({
           <TextField
             className={styles.year}
             label="Year"
-            value={input.year}
+            value={input.year || ""}
             margin="dense"
             variant="outlined"
             placeholder="1978"
