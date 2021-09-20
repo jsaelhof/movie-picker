@@ -1,30 +1,28 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { useRouter } from "next/router";
+import { map } from "lodash";
 
 import { errorMessage } from "../constants/error_codes";
 import { omitTypename } from "../utils/omit-typename";
-import { randomPick } from "../utils/random-pick";
 import { ADD_MOVIE, EDIT_MOVIE } from "../graphql";
 import { useAppContext } from "../context/app-context";
 import { useRemoveMovie } from "../hooks/use-remove-movie";
 import { useEditMovie } from "../hooks/use-edit-movie";
-import { useResponsive } from "../hooks/use-responsive";
 import ActionBar from "../components/action-bar/action-bar";
 import AddMovieDialog from "../components/add-movie-dialog/add-movie-dialog";
 import ErrorDialog from "../components/error-dialog/error-dialog";
-import Pick from "../components/pick/pick";
 import Toast from "../components/toast/toast";
 import ListGrid from "../components/list/list-grid";
 
 export default withPageAuthRequired(function Home() {
+  const router = useRouter();
   const { list, movies, loadingMovies } = useAppContext();
-  const { mobile } = useResponsive();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [enableEditMovie, setEnableEditMovie] = useState(null);
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
-  const [pick, setPick] = useState(null);
 
   const [undoWatched] = useMutation(EDIT_MOVIE, {
     onCompleted: ({ editMovie: movie }) => {
@@ -69,22 +67,18 @@ export default withPageAuthRequired(function Home() {
   return (
     <>
       {/* In mobile, shrink the margins a bit. The zoom will be slightly smaller as well so that the card will not go off the edge  */}
-      <div style={{ padding: mobile ? "0 38px" : "0 44px" }}>
+      <div>
         <ActionBar
           disabled={!movies || loadingMovies}
           onAdd={() => {
             setEnableAddMovie(true);
           }}
           onPick={(options) => {
-            try {
-              setPick(randomPick(movies, options));
-            } catch ({ message }) {
-              setError(message);
-            }
+            router.push(
+              `/pick?${map(options, (v, k) => `${k}=${v}`).join("&")}`
+            );
           }}
         />
-
-        {pick && <Pick movie={pick} />}
 
         {movies && (
           <ListGrid

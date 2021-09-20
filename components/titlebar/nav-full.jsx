@@ -11,9 +11,8 @@ const NavFull = () => {
 
   return (
     <div className={styles.nav}>
-      {router.pathname !== "/watched" && <Link href="/watched">Watched</Link>}
-
       {router.pathname !== "/" && <Link href="/">Movies</Link>}
+      {router.pathname !== "/watched" && <Link href="/watched">Watched</Link>}
 
       <DbSelect />
     </div>

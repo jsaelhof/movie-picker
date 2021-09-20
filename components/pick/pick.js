@@ -25,13 +25,12 @@ const Pick = ({ movie }) => {
     const fetchData = async () => {
       setData(null);
 
-      const { data } = await axios.get(
-        movie.imdbID
-          ? api.OMDB_IMDBID.replace("%imdbid%", movie.imdbID)
-          : api.OMDB_TITLE.replace("%title%", movie.Title)
-      );
-
-      setData(data);
+      if (movie.imdbID) {
+        const { data } = await axios.get(
+          api.OMDB_IMDBID.replace("%imdbid%", movie.imdbID)
+        );
+        setData(data);
+      }
     };
 
     fetchData();

@@ -1,5 +1,5 @@
 .pick {
-  margin: 32px 16px 96px;
+  margin: 32px 16px;
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-areas:

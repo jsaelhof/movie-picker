@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
-import Container from "@material-ui/core/Container";
 
 import { useAppContext } from "../context/app-context";
 import { useRemoveMovie } from "../hooks/use-remove-movie";
@@ -19,26 +18,24 @@ export default withPageAuthRequired(function Home() {
 
   return (
     <>
-      <Container>
-        {watchedMovies && (
-          <WatchedList
-            movies={watchedMovies}
-            onEditMovie={(movie) =>
-              editMovie({
-                variables: { movie: omitTypename(movie), list: list.id },
-              })
-            }
-            onRemoveMovie={(id) =>
-              removeMovie({
-                variables: {
-                  movieId: id,
-                  list: list.id,
-                },
-              })
-            }
-          />
-        )}
-      </Container>
+      {watchedMovies && (
+        <WatchedList
+          movies={watchedMovies}
+          onEditMovie={(movie) =>
+            editMovie({
+              variables: { movie: omitTypename(movie), list: list.id },
+            })
+          }
+          onRemoveMovie={(id) =>
+            removeMovie({
+              variables: {
+                movieId: id,
+                list: list.id,
+              },
+            })
+          }
+        />
+      )}
 
       <ErrorDialog
         open={!!error}

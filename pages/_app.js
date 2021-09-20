@@ -5,6 +5,7 @@ import Head from "next/head";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { AppProvider } from "../context/app-context";
+import { useResponsive } from "../hooks/use-responsive";
 import TitleBar from "../components/titlebar/titlebar";
 import Footer from "../components/footer/footer";
 
@@ -14,6 +15,7 @@ const client = new ApolloClient({
 });
 
 function MyApp({ Component, pageProps }) {
+  const { mobile } = useResponsive();
   return (
     <UserProvider>
       <ApolloProvider client={client}>
@@ -30,7 +32,7 @@ function MyApp({ Component, pageProps }) {
             }}
           >
             <TitleBar />
-            <div>
+            <div style={{ padding: mobile ? "0 38px" : "0 44px" }}>
               <Component {...pageProps} />
             </div>
             <Footer />

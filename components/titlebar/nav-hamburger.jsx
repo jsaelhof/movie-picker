@@ -39,17 +39,6 @@ const NavHamburger = () => {
       <Menu anchorEl={anchorEl} open={open}>
         <ClickAwayListener onClickAway={handleClose}>
           <div>
-            {router.pathname !== "/watched" && (
-              <MenuItem
-                onClick={() => {
-                  router.push("/watched");
-                  handleClose();
-                }}
-              >
-                <Eye className={styles.icon} /> Watched
-              </MenuItem>
-            )}
-
             {router.pathname !== "/" && (
               <MenuItem
                 onClick={() => {
@@ -58,6 +47,17 @@ const NavHamburger = () => {
                 }}
               >
                 <Movie className={styles.icon} /> Movies
+              </MenuItem>
+            )}
+
+            {router.pathname !== "/watched" && (
+              <MenuItem
+                onClick={() => {
+                  router.push("/watched");
+                  handleClose();
+                }}
+              >
+                <Eye className={styles.icon} /> Watched
               </MenuItem>
             )}
 
