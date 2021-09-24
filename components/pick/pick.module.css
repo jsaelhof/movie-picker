@@ -4,21 +4,23 @@
   align-items: center;
 }
 
-.pickContainer {
+.backdrop {
   background-size: cover;
   background-position-x: center;
   height: 500px;
   width: 100%;
 }
 
-.pickContainerSmall {
+.backdropSmall {
   height: 400px;
 }
 
+.backdropLarge {
+  height: 600px;
+}
+
 .movieInfo {
-  margin-top: -200px;
-  margin-left: 32px;
-  margin-right: 32px;
+  margin: -200px 32px 32px 32px;
   display: grid;
   grid-template-areas:
     "poster title title"
@@ -28,7 +30,12 @@
   grid-template-columns: max-content auto auto;
   column-gap: 32px;
   max-width: 960px;
+  min-height: 400px;
   z-index: 10;
+}
+
+.movieInfoLarge {
+  margin-top: -250px;
 }
 
 .movieInfoTwoCol {
@@ -52,6 +59,7 @@
   grid-template-rows: 300px auto 40px auto auto;
   grid-template-columns: 1fr;
   justify-items: center;
+  min-height: 300px;
 }
 
 .poster {
@@ -101,11 +109,13 @@
 .ratings {
   grid-area: ratings;
   justify-self: flex-end;
+  margin: 0;
 }
 
 .ratingsTwoCol {
   justify-self: flex-start;
   padding: 16px 0;
+  margin-top: 16px;
 }
 
 .ratingsOneCol {
@@ -117,4 +127,12 @@
   line-height: 1.7;
   color: #333;
   padding-top: 16px;
+}
+
+.actions {
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 24px;
+  justify-content: center;
+  margin-bottom: 64px;
 }

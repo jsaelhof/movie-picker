@@ -1,8 +1,8 @@
 import styles from "./pick.module.css";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { useMediaQuery } from "@material-ui/core";
-import { filter, find } from "lodash";
+import { Button, useMediaQuery } from "@material-ui/core";
+import { filter, find, first, isNil, reject } from "lodash";
 import axios from "axios";
 import clsx from "clsx";
 
@@ -14,12 +14,16 @@ import Rated from "./rated";
 import MoviePoster from "../movie-poster/movie-poster";
 import Ratings from "../ratings/ratings";
 import { animated, useSpring } from "react-spring";
+import { PlayArrow, Refresh } from "@material-ui/icons";
 
 const getTrailer = (data) => {
-  const trailerData = find(
-    filter(data.videos?.results, ["type", "Trailer"]),
+  const officialTrailer = find(
+    filter(data?.videos?.results, ["type", "Trailer"]),
     "official"
   );
+  const anyTrailer = first(filter(data?.videos?.results, ["type", "Trailer"]));
+  const trailerData = first(reject([officialTrailer, anyTrailer], isNil));
+
   if (!trailerData) return null;
 
   const { site, key } = trailerData;
@@ -37,7 +41,8 @@ const getTrailer = (data) => {
 const toTMDBImageUrl = (path, size = "original") =>
   api.TMDB_IMAGE_URL.replace("%size%", size).replace("%path%", path);
 
-const Pick = ({ movie }) => {
+const Pick = ({ movie, pickMovie }) => {
+  const large = useMediaQuery("(min-width: 1200px)");
   const twoCol = useMediaQuery("(max-width: 875px)");
   const small = useMediaQuery("(max-width: 740px)");
   const xsmall = useMediaQuery("(max-width: 680px)");
@@ -69,8 +74,6 @@ const Pick = ({ movie }) => {
           api.TMBD_IMDB.replace("%id%", movie.imdbID)
         );
         setData(data);
-
-        console.log(getTrailer(data));
       }
     };
 
@@ -81,8 +84,9 @@ const Pick = ({ movie }) => {
     <div className={styles.pickGrid}>
       <animated.div
         className={clsx(
-          styles.pickContainer,
-          small && styles.pickContainerSmall
+          styles.backdrop,
+          small && styles.backdropSmall,
+          large && styles.backdropLarge
         )}
         style={{
           ...(data
@@ -102,6 +106,7 @@ const Pick = ({ movie }) => {
         <div
           className={clsx(
             styles.movieInfo,
+            large && styles.movieInfoLarge,
             twoCol && styles.movieInfoTwoCol,
             xsmall && styles.movieInfoOneCol
           )}
@@ -149,12 +154,30 @@ const Pick = ({ movie }) => {
           />
 
           <div className={styles.plot}>{data.overview}</div>
+        </div>
+      )}
 
-          {/* <div style={{ gridArea: "actions" }}>
-              <a href={getTrailer(data)} target="_blank">
-                Trailer
-              </a>
-            </div> */}
+      {data && (
+        <div className={styles.actions}>
+          {getTrailer(data) && (
+            <Button
+              startIcon={<PlayArrow />}
+              variant="outlined"
+              onClick={() => {
+                window.open(getTrailer(data), "_blank");
+              }}
+            >
+              Watch Trailer
+            </Button>
+          )}
+
+          <Button
+            startIcon={<Refresh />}
+            variant="outlined"
+            onClick={pickMovie}
+          >
+            Pick Again
+          </Button>
         </div>
       )}
     </div>
