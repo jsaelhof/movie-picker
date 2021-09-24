@@ -7,16 +7,16 @@
 .backdrop {
   background-size: cover;
   background-position-x: center;
-  height: 500px;
+  height: 60vh;
   width: 100%;
 }
 
 .backdropSmall {
-  height: 400px;
+  height: 50vh;
 }
 
 .backdropLarge {
-  height: 600px;
+  height: 70vh;
 }
 
 .movieInfo {
