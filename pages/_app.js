@@ -32,9 +32,7 @@ function MyApp({ Component, pageProps }) {
             }}
           >
             <TitleBar />
-            <div style={{ padding: mobile ? "0 38px" : "0 44px" }}>
-              <Component {...pageProps} />
-            </div>
+            <Component {...pageProps} />
             <Footer />
           </div>
         </AppProvider>

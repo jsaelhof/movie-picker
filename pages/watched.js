@@ -8,6 +8,7 @@ import { errorMessage } from "../constants/error_codes";
 import { omitTypename } from "../utils/omit-typename";
 import ErrorDialog from "../components/error-dialog/error-dialog";
 import WatchedList from "../components/watched-list/watched-list";
+import PageContainer from "../components/page-container/page-container";
 
 export default withPageAuthRequired(function Home() {
   const { list, watchedMovies } = useAppContext();
@@ -18,24 +19,26 @@ export default withPageAuthRequired(function Home() {
 
   return (
     <>
-      {watchedMovies && (
-        <WatchedList
-          movies={watchedMovies}
-          onEditMovie={(movie) =>
-            editMovie({
-              variables: { movie: omitTypename(movie), list: list.id },
-            })
-          }
-          onRemoveMovie={(id) =>
-            removeMovie({
-              variables: {
-                movieId: id,
-                list: list.id,
-              },
-            })
-          }
-        />
-      )}
+      <PageContainer>
+        {watchedMovies && (
+          <WatchedList
+            movies={watchedMovies}
+            onEditMovie={(movie) =>
+              editMovie({
+                variables: { movie: omitTypename(movie), list: list.id },
+              })
+            }
+            onRemoveMovie={(id) =>
+              removeMovie({
+                variables: {
+                  movieId: id,
+                  list: list.id,
+                },
+              })
+            }
+          />
+        )}
+      </PageContainer>
 
       <ErrorDialog
         open={!!error}

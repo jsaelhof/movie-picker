@@ -1,69 +1,120 @@
-.pick {
-  margin: 32px 16px;
+.pickGrid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pickContainer {
+  background-size: cover;
+  background-position-x: center;
+  height: 500px;
+  width: 100%;
+}
+
+.pickContainerSmall {
+  height: 400px;
+}
+
+.movieInfo {
+  margin-top: -200px;
+  margin-left: 32px;
+  margin-right: 32px;
   display: grid;
-  grid-template-columns: auto 1fr;
   grid-template-areas:
-    "title title"
-    "poster details";
+    "poster title title"
+    "poster info ratings"
+    "poster plot plot";
+  grid-template-rows: 140px 40px auto;
+  grid-template-columns: max-content auto auto;
   column-gap: 32px;
-  row-gap: 24px;
+  max-width: 960px;
+  z-index: 10;
 }
 
-.pickStacked {
-  grid-template-columns: 1fr;
+.movieInfoTwoCol {
   grid-template-areas:
-    "title"
-    "poster"
-    "details";
-  justify-items: center;
-  margin-left: 0;
-  margin-right: 0;
+    "poster title"
+    "poster info"
+    "poster plot"
+    "poster ratings";
+  grid-template-rows: 125px 40px auto auto;
+  grid-template-columns: max-content auto;
 }
 
-.title {
-  grid-area: title;
-  font-size: 24px;
+.movieInfoOneCol {
+  margin-top: -150px;
+  grid-template-areas:
+    "poster"
+    "title"
+    "info"
+    "plot"
+    "ratings";
+  grid-template-rows: 300px auto 40px auto auto;
+  grid-template-columns: 1fr;
+  justify-items: center;
 }
 
 .poster {
   grid-area: poster;
   box-shadow: 3px 10px 10px rgba(0, 0, 0, 0.1),
     0px 5px 15px 0px rgba(0, 0, 0, 0.1), 0px 1px 20px 0px rgba(0, 0, 0, 0.12);
+}
+
+.posterXSmall {
   justify-self: center;
 }
 
-.details {
-  grid-area: details;
-  max-width: 600px;
+.title {
+  grid-area: title;
+  font-size: 48px;
+  font-weight: bold;
+  color: #141414;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  text-shadow: 0 0 3px white;
+  padding-bottom: 16px;
 }
 
-.detailsCentered {
-  display: grid;
-  justify-items: center;
+.titleSmall {
+  font-size: 32px;
 }
 
-.movieTitle {
-  font-size: 24px;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-}
-
-.movieTitleCentered {
+.titleXSmall {
+  font-size: 32px;
+  padding-top: 24px;
   text-align: center;
 }
 
 .movieData {
-  padding: 8px 0;
+  padding: 0;
   display: grid;
   column-gap: 24px;
   grid-auto-flow: column;
   grid-template-columns: repeat(3, max-content);
   font-size: 14px;
-  color: #999;
   align-items: center;
+  grid-area: info;
+  color: #333;
+}
+
+.ratings {
+  grid-area: ratings;
+  justify-self: flex-end;
+}
+
+.ratingsTwoCol {
+  justify-self: flex-start;
+  padding: 16px 0;
+}
+
+.ratingsOneCol {
+  justify-self: unset;
 }
 
 .plot {
-  padding: 16px 0;
-  color: #666666;
+  grid-area: plot;
+  line-height: 1.7;
+  color: #333;
+  padding-top: 16px;
 }
