@@ -15,6 +15,7 @@ import MoviePoster from "../movie-poster/movie-poster";
 import Ratings from "../ratings/ratings";
 import { animated, useSpring } from "react-spring";
 import { PlayArrow, Refresh } from "@material-ui/icons";
+import { sourceLogosLarge } from "../../constants/sources";
 
 const getTrailer = (data) => {
   const officialTrailer = find(
@@ -44,8 +45,8 @@ const toTMDBImageUrl = (path, size = "original") =>
 const Pick = ({ movie, pickMovie }) => {
   const large = useMediaQuery("(min-width: 1200px)");
   const twoCol = useMediaQuery("(max-width: 875px)");
-  const small = useMediaQuery("(max-width: 740px)");
-  const xsmall = useMediaQuery("(max-width: 680px)");
+  const small = useMediaQuery("(max-width: 775px)");
+  const xsmall = useMediaQuery("(max-width: 600px)");
 
   const [data, setData] = useState(null);
 
@@ -107,15 +108,17 @@ const Pick = ({ movie, pickMovie }) => {
           className={clsx(
             styles.movieInfo,
             large && styles.movieInfoLarge,
-            twoCol && styles.movieInfoTwoCol,
+            small && styles.movieInfoTwoCol,
             xsmall && styles.movieInfoOneCol
           )}
         >
-          <animated.div style={growSpring}>
+          <animated.div
+            className={clsx(styles.poster, xsmall && styles.posterXSmall)}
+            style={growSpring}
+          >
             <MoviePoster
-              height={xsmall ? 300 : 400}
+              height={small ? 300 : 400}
               movie={movie}
-              className={clsx(styles.poster, xsmall && styles.posterXSmall)}
               onClick={search}
             />
           </animated.div>
@@ -130,7 +133,9 @@ const Pick = ({ movie, pickMovie }) => {
             <div>{movie.title}</div>
           </div>
 
-          <div className={styles.movieData}>
+          <div
+            className={clsx(styles.movieData, xsmall && styles.movieDataXSmall)}
+          >
             <div>{formatRuntime(movie.runtime)}</div>
             <div>{movie.year}</div>
             <div>{genreLabels[movie.genre]}</div>
@@ -142,14 +147,27 @@ const Pick = ({ movie, pickMovie }) => {
                 )?.[0]?.certification
               }
             />
+            {(!small || xsmall) && (
+              <img
+                src={sourceLogosLarge[movie.source]}
+                className={styles.source}
+              />
+            )}
           </div>
+
+          {small && !xsmall && (
+            <img
+              src={sourceLogosLarge[movie.source]}
+              className={clsx(styles.source, styles.sourceTwoCol)}
+            />
+          )}
 
           <Ratings
             ratings={movie.ratings}
             className={clsx(
               styles.ratings,
               twoCol && styles.ratingsTwoCol,
-              xsmall && styles.ratingsOneCol
+              xsmall && styles.ratingsXSmall
             )}
           />
 
@@ -170,14 +188,6 @@ const Pick = ({ movie, pickMovie }) => {
               Watch Trailer
             </Button>
           )}
-
-          <Button
-            startIcon={<Refresh />}
-            variant="outlined"
-            onClick={pickMovie}
-          >
-            Pick Again
-          </Button>
         </div>
       )}
     </div>

@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { useRouter } from "next/router";
 import MenuIcon from "@material-ui/icons/Menu";
+import Refresh from "@material-ui/icons/Refresh";
 import Eye from "mdi-material-ui/Eye";
 import Movie from "mdi-material-ui/Movie";
 import List from "@material-ui/icons/FormatListBulleted";
@@ -17,7 +18,7 @@ import List from "@material-ui/icons/FormatListBulleted";
 import { useAppContext } from "../../context/app-context";
 
 const NavHamburger = () => {
-  const router = useRouter();
+  const { push, reload, pathname } = useRouter();
   const { lists, setList } = useAppContext();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -39,10 +40,25 @@ const NavHamburger = () => {
       <Menu anchorEl={anchorEl} open={open}>
         <ClickAwayListener onClickAway={handleClose}>
           <div>
-            {router.pathname !== "/" && (
+            {pathname === "/pick" && (
               <MenuItem
                 onClick={() => {
-                  router.push("/");
+                  reload();
+                  handleClose();
+                }}
+              >
+                <Refresh className={styles.icon} /> Pick again
+              </MenuItem>
+            )}
+
+            {pathname === "/pick" && (
+              <Divider variant="middle" className={styles.divider} />
+            )}
+
+            {pathname !== "/" && (
+              <MenuItem
+                onClick={() => {
+                  push("/");
                   handleClose();
                 }}
               >
@@ -50,10 +66,10 @@ const NavHamburger = () => {
               </MenuItem>
             )}
 
-            {router.pathname !== "/watched" && (
+            {pathname !== "/watched" && (
               <MenuItem
                 onClick={() => {
-                  router.push("/watched");
+                  push("/watched");
                   handleClose();
                 }}
               >

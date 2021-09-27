@@ -23,11 +23,12 @@
   margin: -200px 32px 32px 32px;
   display: grid;
   grid-template-areas:
-    "poster title title"
-    "poster info ratings"
-    "poster plot plot";
-  grid-template-rows: 140px 40px auto;
-  grid-template-columns: max-content auto auto;
+    "poster title"
+    "poster info"
+    "poster plot"
+    "poster ratings";
+  grid-template-rows: 140px 40px auto max-content;
+  grid-template-columns: max-content auto;
   column-gap: 32px;
   max-width: 960px;
   min-height: 400px;
@@ -39,13 +40,14 @@
 }
 
 .movieInfoTwoCol {
+  margin-top: -150px;
   grid-template-areas:
     "poster title"
     "poster info"
+    "poster source"
     "poster plot"
     "poster ratings";
-  grid-template-rows: 125px 40px auto auto;
-  grid-template-columns: max-content auto;
+  grid-template-rows: 100px 40px max-content auto max-content;
 }
 
 .movieInfoOneCol {
@@ -56,14 +58,14 @@
     "info"
     "plot"
     "ratings";
-  grid-template-rows: 300px auto 40px auto auto;
+  grid-template-rows: 300px auto 40px auto max-content;
   grid-template-columns: 1fr;
-  justify-items: center;
   min-height: 300px;
 }
 
 .poster {
   grid-area: poster;
+  height: fit-content;
   box-shadow: 3px 10px 10px rgba(0, 0, 0, 0.1),
     0px 5px 15px 0px rgba(0, 0, 0, 0.1), 0px 1px 20px 0px rgba(0, 0, 0, 0.12);
 }
@@ -99,27 +101,29 @@
   display: grid;
   column-gap: 24px;
   grid-auto-flow: column;
-  grid-template-columns: repeat(3, max-content);
+  grid-template-columns: repeat(4, max-content) auto;
   font-size: 14px;
   align-items: center;
   grid-area: info;
   color: #333;
 }
 
+.movieDataXSmall {
+  column-gap: 16px;
+}
+
 .ratings {
   grid-area: ratings;
-  justify-self: flex-end;
   margin: 0;
 }
 
 .ratingsTwoCol {
-  justify-self: flex-start;
   padding: 16px 0;
   margin-top: 16px;
 }
 
-.ratingsOneCol {
-  justify-self: unset;
+.ratingsXSmall {
+  justify-content: center;
 }
 
 .plot {
@@ -127,6 +131,17 @@
   line-height: 1.7;
   color: #333;
   padding-top: 16px;
+}
+
+.source {
+  height: 40px;
+  margin-left: auto;
+}
+
+.sourceTwoCol {
+  grid-area: "source";
+  margin-left: 0;
+  margin: 16px 0 8px;
 }
 
 .actions {

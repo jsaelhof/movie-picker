@@ -13,3 +13,14 @@
 .smallToolbar {
   grid-template-areas: "nav logo profile";
 }
+
+.smallPickToolbar {
+  grid-template-areas: "nav logo pick profile";
+  grid-template-columns: auto max-content 1fr auto;
+}
+
+.pickAgain {
+  grid-area: pick;
+  margin-right: 16px !important;
+  margin-left: auto !important;
+}
