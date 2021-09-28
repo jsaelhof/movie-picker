@@ -71,10 +71,14 @@ const Pick = ({ movie }) => {
       setData(null);
 
       if (movie.imdbID) {
+        try {
         const { data } = await axios.get(
           api.TMBD_IMDB.replace("%id%", movie.imdbID)
         );
         setData(data);
+        } catch (ex) {
+          setData({});
+        }
       }
     };
 
@@ -90,7 +94,7 @@ const Pick = ({ movie }) => {
           large && styles.backdropLarge
         )}
         style={{
-          ...(data
+          ...(data?.backdrop_path
             ? {
                 backgroundImage: `linear-gradient(to top, white, transparent 70%), url("${toTMDBImageUrl(
                   data.backdrop_path
@@ -171,7 +175,9 @@ const Pick = ({ movie }) => {
             )}
           />
 
-          <div className={styles.plot}>{data.overview}</div>
+          <div className={styles.plot}>
+            {data.overview || "No Plot - Check OMDB?"}
+          </div>
         </div>
       )}
 
