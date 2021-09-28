@@ -5,10 +5,12 @@ import React from "react";
 import DbSelect from "./db-select";
 import { KeyboardArrowLeft, Refresh } from "@material-ui/icons";
 
+import { useAppContext } from "../../context/app-context";
 import NavButton from "./nav-button";
 
 const NavFull = () => {
   const { pathname } = useRouter();
+  const { setPick } = useAppContext();
 
   return (
     <div className={styles.nav}>
@@ -18,7 +20,7 @@ const NavFull = () => {
             Return to Movies
           </NavButton>
 
-          <NavButton startIcon={<Refresh />} refresh>
+          <NavButton startIcon={<Refresh />} onClick={() => setPick(null)}>
             Pick Again
           </NavButton>
         </>

@@ -2,14 +2,14 @@ import React from "react";
 import { useRouter } from "next/router";
 import { Button } from "@material-ui/core";
 
-const NavButton = ({ children, href, refresh, style, ...props }) => {
-  const { reload, push } = useRouter();
+const NavButton = ({ children, href, onClick, style, ...props }) => {
+  const { push } = useRouter();
 
   return (
     <Button
       {...props}
       onClick={() => {
-        refresh ? reload() : push(href);
+        onClick ? onClick() : push(href);
       }}
       style={{
         color: "white",

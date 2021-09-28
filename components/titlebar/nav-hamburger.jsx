@@ -19,7 +19,7 @@ import { useAppContext } from "../../context/app-context";
 
 const NavHamburger = () => {
   const { push, reload, pathname } = useRouter();
-  const { lists, setList } = useAppContext();
+  const { lists, setList, setPick } = useAppContext();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -43,7 +43,7 @@ const NavHamburger = () => {
             {pathname === "/pick" && (
               <MenuItem
                 onClick={() => {
-                  reload();
+                  setPick(null);
                   handleClose();
                 }}
               >

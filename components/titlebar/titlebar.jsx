@@ -15,7 +15,7 @@ import NavHamburger from "./nav-hamburger";
 import NavButton from "./nav-button";
 
 const TitleBar = () => {
-  const { movies } = useAppContext();
+  const { movies, setPick } = useAppContext();
   const { small } = useResponsive();
   const { pathname, reload } = useRouter();
 
@@ -48,7 +48,7 @@ const TitleBar = () => {
           {movies && small && pathname === "/pick" && (
             <NavButton
               startIcon={<Refresh />}
-              refresh
+              onClick={() => setPick(null)}
               className={styles.pickAgain}
             >
               Pick Again

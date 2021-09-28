@@ -10,6 +10,7 @@ const AppProvider = ({ children }) => {
   const { lists } = useLists(setList);
   const { movies, watchedMovies, loading: loadingMovies } = useMovies(list);
   const [order, setOrder] = useState(["addedOn", "desc"]);
+  const [pick, setPick] = useState(null);
 
   const context = {
     lists,
@@ -20,6 +21,8 @@ const AppProvider = ({ children }) => {
     loadingMovies,
     order,
     setOrder,
+    pick,
+    setPick,
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;

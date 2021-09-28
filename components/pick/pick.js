@@ -42,7 +42,7 @@ const getTrailer = (data) => {
 const toTMDBImageUrl = (path, size = "original") =>
   api.TMDB_IMAGE_URL.replace("%size%", size).replace("%path%", path);
 
-const Pick = ({ movie, pickMovie }) => {
+const Pick = ({ movie }) => {
   const large = useMediaQuery("(min-width: 1200px)");
   const twoCol = useMediaQuery("(max-width: 875px)");
   const small = useMediaQuery("(max-width: 775px)");

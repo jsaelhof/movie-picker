@@ -9,10 +9,9 @@ import Pick from "../components/pick/pick";
 import { randomPick } from "../utils/random-pick";
 
 export default withPageAuthRequired(function Home() {
-  const { movies } = useAppContext();
+  const { movies, pick, setPick } = useAppContext();
   const { query } = useRouter();
   const [error, setError] = useState(null);
-  const [pick, setPick] = useState(null);
 
   const pickMovie = useCallback(() => {
     try {
@@ -32,7 +31,7 @@ export default withPageAuthRequired(function Home() {
 
   return (
     <>
-      <Pick movie={pick} pickMovie={pickMovie} />
+      <Pick movie={pick} />
 
       <ErrorDialog
         open={!!error}
