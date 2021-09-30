@@ -16,6 +16,7 @@ import { animated, useSpring } from "react-spring";
 import { sourceLogosLarge, sources } from "../../constants/sources";
 import TelevisionPlay from "mdi-material-ui/TelevisionPlay";
 import StarRating from "../ratings/star-rating";
+import { PlayArrow } from "@material-ui/icons";
 
 const getTrailer = (data) => {
   const officialTrailer = find(
@@ -186,16 +187,23 @@ const Pick = ({ movie }) => {
                 onClick={() => {
                   window.open(getTrailer(data), "_blank");
                 }}
-                size="medium"
               >
                 <TelevisionPlay />
               </IconButton>
             )}
 
-            <img
-              src={sourceLogosLarge[movie.source]}
-              className={styles.source}
-            />
+            {canStream && (
+              <IconButton
+                onClick={() => {
+                  window.open(
+                    searchStreaming(movie.title, movie.source),
+                    "movieView"
+                  );
+                }}
+              >
+                <PlayArrow />
+              </IconButton>
+            )}
           </div>
         </div>
       )}
