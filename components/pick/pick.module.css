@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 414px;
 }
 
 .backdrop {
@@ -23,13 +24,12 @@
   margin: -200px 32px 32px 32px;
   display: grid;
   grid-template-areas:
-    "poster title"
-    "poster info"
-    "poster plot"
-    "poster ratings";
+    "poster title title"
+    "poster info ratings"
+    "poster plot plot"
+    "poster actions actions";
   grid-template-rows: 140px 40px auto max-content;
-  grid-template-columns: max-content auto;
-  column-gap: 32px;
+  grid-template-columns: max-content 1fr max-content;
   max-width: 960px;
   min-height: 400px;
   z-index: 10;
@@ -39,38 +39,33 @@
   margin-top: -250px;
 }
 
-.movieInfoTwoCol {
+.movieInfoSmall {
   margin-top: -150px;
-  grid-template-areas:
-    "poster title"
-    "poster info"
-    "poster source"
-    "poster plot"
-    "poster ratings";
-  grid-template-rows: 100px 40px max-content auto max-content;
 }
 
-.movieInfoOneCol {
+.movieInfoXSmall {
   margin-top: -150px;
   grid-template-areas:
-    "poster"
-    "title"
-    "info"
-    "plot"
-    "ratings";
-  grid-template-rows: 300px auto 40px auto max-content;
+    "poster poster"
+    "title title"
+    "info ratings"
+    "plot plot"
+    "actions actions";
+  grid-template-rows: 300px auto 40px max-content auto max-content;
   grid-template-columns: 1fr;
   min-height: 300px;
 }
 
 .poster {
   grid-area: poster;
+  margin-right: 32px;
   height: fit-content;
   box-shadow: 3px 10px 10px rgba(0, 0, 0, 0.1),
     0px 5px 15px 0px rgba(0, 0, 0, 0.1), 0px 1px 20px 0px rgba(0, 0, 0, 0.12);
 }
 
 .posterXSmall {
+  margin-right: 0;
   justify-self: center;
 }
 
@@ -101,11 +96,15 @@
   display: grid;
   column-gap: 24px;
   grid-auto-flow: column;
-  grid-template-columns: repeat(4, max-content) auto;
+  grid-template-columns: repeat(3, max-content) 1fr;
   font-size: 14px;
   align-items: center;
   grid-area: info;
   color: #333;
+}
+
+.movieDataSmall {
+  column-gap: 20px;
 }
 
 .movieDataXSmall {
@@ -113,13 +112,8 @@
 }
 
 .ratings {
+  margin: 8px 0;
   grid-area: ratings;
-  margin: 0;
-}
-
-.ratingsTwoCol {
-  padding: 16px 0;
-  margin-top: 16px;
 }
 
 .ratingsXSmall {
@@ -138,16 +132,12 @@
   margin-left: auto;
 }
 
-.sourceTwoCol {
-  grid-area: "source";
-  margin-left: 0;
-  margin: 16px 0 8px;
-}
-
 .actions {
+  grid-area: actions;
   display: grid;
   grid-auto-flow: column;
   column-gap: 24px;
   justify-content: center;
-  margin-bottom: 64px;
+  margin-top: 24px;
+  /* margin-bottom: 64px; */
 }

@@ -1,0 +1,9 @@
+.starRating {
+  display: flex;
+  align-items: center;
+  width: 80px;
+}
+
+.fade {
+  opacity: 0.5;
+}

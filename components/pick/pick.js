@@ -1,7 +1,7 @@
 import styles from "./pick.module.css";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, useMediaQuery } from "@material-ui/core";
+import { IconButton, useMediaQuery } from "@material-ui/core";
 import { filter, find, first, isNil, reject } from "lodash";
 import axios from "axios";
 import clsx from "clsx";
@@ -12,10 +12,10 @@ import { genreLabels } from "../../constants/genres";
 import { searchTMDB } from "../../utils/search";
 import Rated from "./rated";
 import MoviePoster from "../movie-poster/movie-poster";
-import Ratings from "../ratings/ratings";
 import { animated, useSpring } from "react-spring";
-import { PlayArrow, Refresh } from "@material-ui/icons";
 import { sourceLogosLarge } from "../../constants/sources";
+import TelevisionPlay from "mdi-material-ui/TelevisionPlay";
+import StarRating from "../ratings/star-rating";
 
 const getTrailer = (data) => {
   const officialTrailer = find(
@@ -44,9 +44,8 @@ const toTMDBImageUrl = (path, size = "original") =>
 
 const Pick = ({ movie }) => {
   const large = useMediaQuery("(min-width: 1200px)");
-  const twoCol = useMediaQuery("(max-width: 875px)");
-  const small = useMediaQuery("(max-width: 775px)");
-  const xsmall = useMediaQuery("(max-width: 600px)");
+  const small = useMediaQuery("(max-width: 750px)");
+  const xsmall = useMediaQuery("(max-width: 660px)");
 
   const [data, setData] = useState(null);
 
@@ -72,10 +71,10 @@ const Pick = ({ movie }) => {
 
       if (movie.imdbID) {
         try {
-        const { data } = await axios.get(
-          api.TMBD_IMDB.replace("%id%", movie.imdbID)
-        );
-        setData(data);
+          const { data } = await axios.get(
+            api.TMBD_IMDB.replace("%id%", movie.imdbID)
+          );
+          setData(data);
         } catch (ex) {
           setData({});
         }
@@ -85,6 +84,9 @@ const Pick = ({ movie }) => {
     fetchData();
   }, [movie]);
 
+  // TODO: Try averaging the ratings and using a tooltip to show the breakout by service?
+  // TODO: Try aligning the content on the bottom of the screen?
+  // TODO: Move the actions into the right grid area.
   return (
     <div className={styles.pickGrid}>
       <animated.div
@@ -112,8 +114,8 @@ const Pick = ({ movie }) => {
           className={clsx(
             styles.movieInfo,
             large && styles.movieInfoLarge,
-            small && styles.movieInfoTwoCol,
-            xsmall && styles.movieInfoOneCol
+            small && styles.movieInfoSmall,
+            xsmall && styles.movieInfoXSmall
           )}
         >
           <animated.div
@@ -138,7 +140,11 @@ const Pick = ({ movie }) => {
           </div>
 
           <div
-            className={clsx(styles.movieData, xsmall && styles.movieDataXSmall)}
+            className={clsx(
+              styles.movieData,
+              small && styles.movieDataSmall,
+              xsmall && styles.movieDataXSmall
+            )}
           >
             <div>{formatRuntime(movie.runtime)}</div>
             <div>{movie.year}</div>
@@ -151,49 +157,43 @@ const Pick = ({ movie }) => {
                 )?.[0]?.certification
               }
             />
-            {(!small || xsmall) && (
-              <img
-                src={sourceLogosLarge[movie.source]}
-                className={styles.source}
-              />
-            )}
           </div>
 
-          {small && !xsmall && (
-            <img
-              src={sourceLogosLarge[movie.source]}
-              className={clsx(styles.source, styles.sourceTwoCol)}
-            />
-          )}
+          <StarRating
+            ratings={movie.ratings}
+            className={clsx(styles.ratings)}
+          />
 
-          <Ratings
+          {/* <Ratings
             ratings={movie.ratings}
             className={clsx(
               styles.ratings,
               twoCol && styles.ratingsTwoCol,
               xsmall && styles.ratingsXSmall
             )}
-          />
+          /> */}
 
           <div className={styles.plot}>
             {data.overview || "No Plot - Check OMDB?"}
           </div>
-        </div>
-      )}
 
-      {data && (
-        <div className={styles.actions}>
-          {getTrailer(data) && (
-            <Button
-              startIcon={<PlayArrow />}
-              variant="outlined"
-              onClick={() => {
-                window.open(getTrailer(data), "_blank");
-              }}
-            >
-              Watch Trailer
-            </Button>
-          )}
+          <div className={styles.actions}>
+            {getTrailer(data) && (
+              <IconButton
+                onClick={() => {
+                  window.open(getTrailer(data), "_blank");
+                }}
+                size="medium"
+              >
+                <TelevisionPlay />
+              </IconButton>
+            )}
+
+            <img
+              src={sourceLogosLarge[movie.source]}
+              className={styles.source}
+            />
+          </div>
         </div>
       )}
     </div>
