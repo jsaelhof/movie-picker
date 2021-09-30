@@ -25,10 +25,10 @@
   display: grid;
   grid-template-areas:
     "poster title title"
-    "poster info ratings"
+    "poster info source"
     "poster plot plot"
     "poster actions actions";
-  grid-template-rows: 140px 40px auto max-content;
+  grid-template-rows: 170px 40px auto max-content;
   grid-template-columns: max-content 1fr max-content;
   max-width: 960px;
   min-height: 400px;
@@ -48,7 +48,7 @@
   grid-template-areas:
     "poster poster"
     "title title"
-    "info ratings"
+    "info source"
     "plot plot"
     "actions actions";
   grid-template-rows: 300px auto 40px max-content auto max-content;
@@ -78,7 +78,7 @@
   justify-content: flex-end;
   flex-direction: column;
   text-shadow: 0 0 3px white;
-  padding-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .titleSmall {
@@ -88,7 +88,8 @@
 .titleXSmall {
   font-size: 32px;
   padding-top: 24px;
-  text-align: center;
+  margin-bottom: 16px;
+  align-items: center;
 }
 
 .movieData {
@@ -128,8 +129,17 @@
 }
 
 .source {
+  grid-area: source;
   height: 40px;
   margin-left: auto;
+}
+
+.activeSource {
+  cursor: pointer;
+}
+
+.activeSource:hover {
+  transform: scale(1.1);
 }
 
 .actions {
@@ -139,5 +149,4 @@
   column-gap: 24px;
   justify-content: center;
   margin-top: 24px;
-  /* margin-bottom: 64px; */
 }

@@ -1,9 +1,7 @@
 .starRating {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 2px;
   align-items: center;
-  width: 80px;
-}
-
-.fade {
-  opacity: 0.5;
+  width: 100px;
 }

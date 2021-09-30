@@ -32,7 +32,7 @@ const StarRating = ({ ratings, className, ...props }) => {
         } else if (offset === 0.5) {
           return <StarHalf />;
         } else {
-          return <StarOutline className={styles.fade} />;
+          return <StarOutline />;
         }
       })}
     </div>

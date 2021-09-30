@@ -9,11 +9,11 @@ import clsx from "clsx";
 import { formatRuntime } from "../../utils/format-runtime";
 import { api } from "../../constants/api";
 import { genreLabels } from "../../constants/genres";
-import { searchTMDB } from "../../utils/search";
+import { searchStreaming, searchTMDB } from "../../utils/search";
 import Rated from "./rated";
 import MoviePoster from "../movie-poster/movie-poster";
 import { animated, useSpring } from "react-spring";
-import { sourceLogosLarge } from "../../constants/sources";
+import { sourceLogosLarge, sources } from "../../constants/sources";
 import TelevisionPlay from "mdi-material-ui/TelevisionPlay";
 import StarRating from "../ratings/star-rating";
 
@@ -84,7 +84,8 @@ const Pick = ({ movie }) => {
     fetchData();
   }, [movie]);
 
-  // TODO: Try averaging the ratings and using a tooltip to show the breakout by service?
+  const canStream = ![sources.DVD, sources.NONE].includes(movie.source);
+
   // TODO: Try aligning the content on the bottom of the screen?
   // TODO: Move the actions into the right grid area.
   return (
@@ -137,6 +138,10 @@ const Pick = ({ movie }) => {
             )}
           >
             <div>{movie.title}</div>
+            <StarRating
+              ratings={movie.ratings}
+              className={clsx(styles.ratings)}
+            />
           </div>
 
           <div
@@ -159,19 +164,17 @@ const Pick = ({ movie }) => {
             />
           </div>
 
-          <StarRating
-            ratings={movie.ratings}
-            className={clsx(styles.ratings)}
+          <img
+            src={sourceLogosLarge[movie.source]}
+            className={clsx(styles.source, canStream && styles.activeSource)}
+            onClick={() =>
+              canStream &&
+              window.open(
+                searchStreaming(movie.title, movie.source),
+                "movieView"
+              )
+            }
           />
-
-          {/* <Ratings
-            ratings={movie.ratings}
-            className={clsx(
-              styles.ratings,
-              twoCol && styles.ratingsTwoCol,
-              xsmall && styles.ratingsXSmall
-            )}
-          /> */}
 
           <div className={styles.plot}>
             {data.overview || "No Plot - Check OMDB?"}
