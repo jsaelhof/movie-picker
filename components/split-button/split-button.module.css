@@ -8,6 +8,11 @@
   width: 180px;
 }
 
+.mainButtonMobile {
+  width: unset;
+  max-width: 180px;
+}
+
 .secondaryButton {
   border-radius: 0 4px 4px 0;
 }

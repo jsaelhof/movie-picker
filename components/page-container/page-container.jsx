@@ -7,7 +7,7 @@ import { useResponsive } from "../../hooks/use-responsive";
 const PageContainer = ({ children }) => {
   const { mobile } = useResponsive();
   return (
-    <div className={clsx(styles.container, mobile && styles.container)}>
+    <div className={clsx(styles.container, mobile && styles.containerMobile)}>
       {children}
     </div>
   );

@@ -6,13 +6,15 @@ import {
   MenuList,
   Paper,
 } from "@material-ui/core";
-import { useState } from "react";
+import React, { useState } from "react";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ClockIcon from "mdi-material-ui/ClockOutline";
 import ClockFastIcon from "mdi-material-ui/ClockFast";
 import TimerSandIcon from "mdi-material-ui/TimerSand";
+import clsx from "clsx";
 
 import styles from "./split-button.module.css";
+import { useResponsive } from "../../hooks/use-responsive";
 
 const splitButtonItems = [
   {
@@ -36,12 +38,13 @@ const splitButtonItems = [
 ];
 
 const SplitButton = ({ onPick }) => {
+  const { mobile } = useResponsive();
   const [openSplitButton, setOpenSplitButton] = useState(false);
 
   return (
     <ButtonGroup className={styles.splitButton}>
       <Button
-        className={styles.mainButton}
+        className={clsx(styles.mainButton, mobile && styles.mainButtonMobile)}
         variant="contained"
         color="primary"
         onClick={() => onPick()}
