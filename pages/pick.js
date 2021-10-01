@@ -7,13 +7,11 @@ import { errorMessage } from "../constants/error_codes";
 import ErrorDialog from "../components/error-dialog/error-dialog";
 import Pick from "../components/pick/pick";
 import { randomPick } from "../utils/random-pick";
-import { Button } from "@material-ui/core";
 
 export default withPageAuthRequired(function Home() {
-  const { movies } = useAppContext();
+  const { movies, pick, setPick } = useAppContext();
   const { query } = useRouter();
   const [error, setError] = useState(null);
-  const [pick, setPick] = useState(null);
 
   const pickMovie = useCallback(() => {
     try {
@@ -34,12 +32,6 @@ export default withPageAuthRequired(function Home() {
   return (
     <>
       <Pick movie={pick} />
-
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <Button variant="contained" color="Primary" onClick={pickMovie}>
-          Pick Again
-        </Button>
-      </div>
 
       <ErrorDialog
         open={!!error}

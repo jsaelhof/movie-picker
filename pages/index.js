@@ -15,6 +15,7 @@ import AddMovieDialog from "../components/add-movie-dialog/add-movie-dialog";
 import ErrorDialog from "../components/error-dialog/error-dialog";
 import Toast from "../components/toast/toast";
 import ListGrid from "../components/list/list-grid";
+import PageContainer from "../components/page-container/page-container";
 
 export default withPageAuthRequired(function Home() {
   const router = useRouter();
@@ -66,8 +67,7 @@ export default withPageAuthRequired(function Home() {
 
   return (
     <>
-      {/* In mobile, shrink the margins a bit. The zoom will be slightly smaller as well so that the card will not go off the edge  */}
-      <div>
+      <PageContainer>
         <ActionBar
           disabled={!movies || loadingMovies}
           onAdd={() => {
@@ -113,7 +113,7 @@ export default withPageAuthRequired(function Home() {
             }
           />
         )}
-      </div>
+      </PageContainer>
 
       <Toast
         open={toastProps !== null}

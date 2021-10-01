@@ -1,69 +1,164 @@
-.pick {
-  margin: 32px 16px;
+.pickGrid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 414px;
+}
+
+.backdrop {
+  background-size: cover;
+  background-position-x: center;
+  height: 60vh;
+  width: 100%;
+}
+
+.backdropSmall {
+  height: 50vh;
+}
+
+.backdropLarge {
+  height: 60vh;
+}
+
+.backdropXLarge {
+  height: 65vh;
+}
+
+.movieInfo {
+  margin: -160px 32px 32px 32px;
   display: grid;
-  grid-template-columns: auto 1fr;
   grid-template-areas:
+    "poster title title"
+    "poster info source"
+    "poster plot plot"
+    "poster actions actions";
+  grid-template-rows: 130px 40px auto max-content;
+  grid-template-columns: max-content 1fr max-content;
+  max-width: 960px;
+  min-height: 400px;
+  z-index: 10;
+}
+
+.movieInfoSmall {
+  margin-top: -150px;
+}
+
+.movieInfoLarge {
+  margin-top: -180px;
+}
+
+.movieInfoXLarge {
+  margin-top: -200px;
+}
+
+.movieInfoXSmall {
+  margin-top: -150px;
+  grid-template-areas:
+    "poster poster"
     "title title"
-    "poster details";
-  column-gap: 32px;
-  row-gap: 24px;
-}
-
-.pickStacked {
+    "info source"
+    "plot plot"
+    "actions actions";
+  grid-template-rows: 300px auto 40px max-content auto max-content;
   grid-template-columns: 1fr;
-  grid-template-areas:
-    "title"
-    "poster"
-    "details";
-  justify-items: center;
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.title {
-  grid-area: title;
-  font-size: 24px;
+  min-height: 300px;
 }
 
 .poster {
   grid-area: poster;
+  margin-right: 32px;
+  height: fit-content;
   box-shadow: 3px 10px 10px rgba(0, 0, 0, 0.1),
     0px 5px 15px 0px rgba(0, 0, 0, 0.1), 0px 1px 20px 0px rgba(0, 0, 0, 0.12);
+}
+
+.posterXSmall {
+  margin-right: 0;
   justify-self: center;
 }
 
-.details {
-  grid-area: details;
-  max-width: 600px;
+.title {
+  grid-area: title;
+  font-size: 48px;
+  font-weight: bold;
+  color: #141414;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  text-shadow: 0 0 3px white;
+  margin-bottom: 8px;
 }
 
-.detailsCentered {
-  display: grid;
-  justify-items: center;
+.titleSmall {
+  font-size: 32px;
 }
 
-.movieTitle {
-  font-size: 24px;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-}
-
-.movieTitleCentered {
-  text-align: center;
-}
-
-.movieData {
-  padding: 8px 0;
-  display: grid;
-  column-gap: 24px;
-  grid-auto-flow: column;
-  grid-template-columns: repeat(3, max-content);
-  font-size: 14px;
-  color: #999;
+.titleXSmall {
+  font-size: 32px;
+  padding-top: 24px;
+  margin-bottom: 16px;
   align-items: center;
 }
 
+.movieData {
+  padding: 0;
+  display: grid;
+  column-gap: 24px;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(3, max-content) 1fr;
+  font-size: 14px;
+  align-items: center;
+  grid-area: info;
+  color: #333;
+}
+
+.movieDataSmall {
+  column-gap: 20px;
+}
+
+.movieDataXSmall {
+  column-gap: 16px;
+}
+
+.ratings {
+  margin: 8px 0;
+  grid-area: ratings;
+}
+
+.ratingsXSmall {
+  justify-content: center;
+}
+
 .plot {
-  padding: 16px 0;
-  color: #666666;
+  grid-area: plot;
+  line-height: 1.7;
+  color: #333;
+  padding-top: 16px;
+}
+
+.source {
+  grid-area: source;
+  height: 40px;
+  margin-left: auto;
+}
+
+.activeSource {
+  cursor: pointer;
+}
+
+.activeSource:hover {
+  transform: scale(1.1);
+}
+
+.actions {
+  grid-area: actions;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 32px;
+  justify-content: flex-start;
+  margin-top: 24px;
+}
+
+.actionsXSmall {
+  justify-content: center;
 }

@@ -61,6 +61,7 @@
     white,
     black
   ); /* This is needed to fix the overflow: hidden bug in safari */
+  background-color: white;
 }
 
 .detailPoster {

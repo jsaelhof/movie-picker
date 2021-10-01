@@ -8,13 +8,3 @@
   align-items: center;
   margin: 0 48px;
 }
-
-.nav > a {
-  color: white;
-  text-decoration: none;
-  padding-bottom: 3px;
-}
-
-.nav > a:hover {
-  opacity: 85%;
-}

@@ -29,3 +29,15 @@ export const sourceLogos = {
   [sources.DVD]: `${sourceLogoBase}dvd.png`,
   [sources.DISNEY_PLUS]: `${sourceLogoBase}disney+.png`,
 };
+
+const sourceLogoLargeBase = "/images/source_large/";
+
+export const sourceLogosLarge = {
+  [sources.NONE]: `${sourceLogoLargeBase}none.png`,
+  [sources.NETFLIX]: `${sourceLogoLargeBase}netflix.png`,
+  [sources.PRIME_VIDEO]: `${sourceLogoLargeBase}primevideo.png`,
+  [sources.APPLE_TV]: `${sourceLogoLargeBase}appletv+.png`,
+  [sources.PLEX]: `${sourceLogoLargeBase}plex.png`,
+  [sources.DVD]: `${sourceLogoLargeBase}dvd.png`,
+  [sources.DISNEY_PLUS]: `${sourceLogoLargeBase}disney+.png`,
+};
