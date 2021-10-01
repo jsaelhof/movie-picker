@@ -17,30 +17,38 @@
 }
 
 .backdropLarge {
-  height: 70vh;
+  height: 60vh;
+}
+
+.backdropXLarge {
+  height: 65vh;
 }
 
 .movieInfo {
-  margin: -200px 32px 32px 32px;
+  margin: -160px 32px 32px 32px;
   display: grid;
   grid-template-areas:
     "poster title title"
     "poster info source"
     "poster plot plot"
     "poster actions actions";
-  grid-template-rows: 170px 40px auto max-content;
+  grid-template-rows: 130px 40px auto max-content;
   grid-template-columns: max-content 1fr max-content;
   max-width: 960px;
   min-height: 400px;
   z-index: 10;
 }
 
-.movieInfoLarge {
-  margin-top: -250px;
-}
-
 .movieInfoSmall {
   margin-top: -150px;
+}
+
+.movieInfoLarge {
+  margin-top: -180px;
+}
+
+.movieInfoXLarge {
+  margin-top: -200px;
 }
 
 .movieInfoXSmall {

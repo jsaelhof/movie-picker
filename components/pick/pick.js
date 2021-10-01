@@ -9,7 +9,7 @@ import clsx from "clsx";
 import { formatRuntime } from "../../utils/format-runtime";
 import { api } from "../../constants/api";
 import { genreLabels } from "../../constants/genres";
-import { searchStreaming, searchTMDB } from "../../utils/search";
+import { searchStreaming, searchTMDB, searchTorrent } from "../../utils/search";
 import Rated from "./rated";
 import MoviePoster from "../movie-poster/movie-poster";
 import { animated, useSpring } from "react-spring";
@@ -17,6 +17,7 @@ import { sourceLogosLarge, sources } from "../../constants/sources";
 import TelevisionPlay from "mdi-material-ui/TelevisionPlay";
 import StarRating from "../ratings/star-rating";
 import { PlayArrow } from "@material-ui/icons";
+import Search from "@material-ui/icons/Search";
 
 const getTrailer = (data) => {
   const officialTrailer = find(
@@ -44,6 +45,7 @@ const toTMDBImageUrl = (path, size = "original") =>
   api.TMDB_IMAGE_URL.replace("%size%", size).replace("%path%", path);
 
 const Pick = ({ movie }) => {
+  const xlarge = useMediaQuery("(min-width: 2000px)");
   const large = useMediaQuery("(min-width: 1200px)");
   const small = useMediaQuery("(max-width: 750px)");
   const xsmall = useMediaQuery("(max-width: 660px)");
@@ -87,15 +89,14 @@ const Pick = ({ movie }) => {
 
   const canStream = ![sources.DVD, sources.NONE].includes(movie.source);
 
-  // TODO: Try aligning the content on the bottom of the screen?
-  // TODO: Move the actions into the right grid area.
   return (
     <div className={styles.pickGrid}>
       <animated.div
         className={clsx(
           styles.backdrop,
           small && styles.backdropSmall,
-          large && styles.backdropLarge
+          large && styles.backdropLarge,
+          xlarge && styles.backdropXLarge
         )}
         style={{
           ...(data?.backdrop_path
@@ -115,6 +116,7 @@ const Pick = ({ movie }) => {
         <div
           className={clsx(
             styles.movieInfo,
+            xlarge && styles.movieInfoXLarge,
             large && styles.movieInfoLarge,
             small && styles.movieInfoSmall,
             xsmall && styles.movieInfoXSmall
@@ -204,6 +206,17 @@ const Pick = ({ movie }) => {
                 }}
               >
                 Stream Movie
+              </Button>
+            )}
+
+            {movie.source === sources.NONE && (
+              <Button
+                startIcon={<Search />}
+                onClick={() => {
+                  window.open(searchTorrent(movie.title), "movieView");
+                }}
+              >
+                Torrent Search
               </Button>
             )}
           </div>
