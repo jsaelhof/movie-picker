@@ -1,7 +1,7 @@
 import styles from "./pick.module.css";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { IconButton, useMediaQuery } from "@material-ui/core";
+import { Button, useMediaQuery } from "@material-ui/core";
 import { filter, find, first, isNil, reject } from "lodash";
 import axios from "axios";
 import clsx from "clsx";
@@ -181,19 +181,21 @@ const Pick = ({ movie }) => {
             {data.overview || "No Plot - Check OMDB?"}
           </div>
 
-          <div className={styles.actions}>
+          <div className={clsx(styles.actions, xsmall && styles.actionsXSmall)}>
             {getTrailer(data) && (
-              <IconButton
+              <Button
+                startIcon={<TelevisionPlay />}
                 onClick={() => {
                   window.open(getTrailer(data), "_blank");
                 }}
               >
-                <TelevisionPlay />
-              </IconButton>
+                Watch Trailer
+              </Button>
             )}
 
             {canStream && (
-              <IconButton
+              <Button
+                startIcon={<PlayArrow />}
                 onClick={() => {
                   window.open(
                     searchStreaming(movie.title, movie.source),
@@ -201,8 +203,8 @@ const Pick = ({ movie }) => {
                   );
                 }}
               >
-                <PlayArrow />
-              </IconButton>
+                Stream Movie
+              </Button>
             )}
           </div>
         </div>

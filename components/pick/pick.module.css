@@ -146,7 +146,11 @@
   grid-area: actions;
   display: grid;
   grid-auto-flow: column;
-  column-gap: 24px;
-  justify-content: center;
+  column-gap: 32px;
+  justify-content: flex-start;
   margin-top: 24px;
+}
+
+.actionsXSmall {
+  justify-content: center;
 }
