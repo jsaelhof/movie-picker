@@ -5,3 +5,16 @@
   align-items: center;
   width: 100px;
 }
+
+.popover {
+  pointer-events: none;
+  margin-top: 8px;
+}
+
+.tooltip {
+  padding: 0 16px;
+}
+
+.paper {
+  border-radius: 8px !important;
+}

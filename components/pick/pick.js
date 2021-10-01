@@ -136,14 +136,15 @@ const Pick = ({ movie }) => {
           <div
             className={clsx(
               styles.title,
-              (movie.title.length > 25 || small) && styles.titleSmall,
+              (movie.title.length >= 25 || small) && styles.titleSmall,
               xsmall && styles.titleXSmall
             )}
           >
             <div>{movie.title}</div>
             <StarRating
               ratings={movie.ratings}
-              className={clsx(styles.ratings)}
+              anchor={xsmall ? "center" : "left"}
+              className={styles.ratings}
             />
           </div>
 
