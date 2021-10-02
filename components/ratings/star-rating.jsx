@@ -36,11 +36,11 @@ const StarRating = ({ ratings, anchor, className }) => {
       {times(5, (i) => {
         const offset = avgRating - i;
         if (offset >= 1) {
-          return <Star />;
+          return <Star className={styles.star} key={i} />;
         } else if (offset === 0.5) {
-          return <StarHalf />;
+          return <StarHalf className={styles.star} key={i} />;
         } else {
-          return <StarOutline />;
+          return <StarOutline className={styles.star} key={i} />;
         }
       })}
 

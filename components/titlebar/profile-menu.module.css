@@ -38,3 +38,7 @@
 .profileActions > :first-child {
   text-transform: capitalize;
 }
+
+.popper {
+  z-index: 1001;
+}

@@ -40,14 +40,10 @@ const ProfileMenu = () => {
             offset: "0,8",
           },
         }}
+        className={styles.popper}
       >
         {({ TransitionProps }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin: "center top",
-            }}
-          >
+          <Grow {...TransitionProps}>
             <ClickAwayListener onClickAway={onCloseMenu}>
               <Paper className={styles.profileMenu} elevation={10}>
                 <div className={styles.profileAvatar}>
