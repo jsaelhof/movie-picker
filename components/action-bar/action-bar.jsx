@@ -35,7 +35,7 @@ const ActionBar = ({ disabled, onAdd, onPick }) => {
             />
 
             <div className={styles.secondaryActions}>
-              <Button variant="outlined" onClick={onAdd}>
+              <Button variant="outlined" color="primary" onClick={onAdd}>
                 <AddToQueueIcon
                   className={clsx(
                     styles.addToQueue,

@@ -8,10 +8,5 @@
 }
 
 .dbSelectRender {
-  color: white !important;
   pointer-events: none;
-}
-
-.arrowIcon {
-  color: white !important;
 }

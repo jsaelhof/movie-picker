@@ -14,10 +14,9 @@ const DbSelect = () => {
     <div className={styles.main}>
       {lists && list && (
         <Select
-          variant="standard"
           disableUnderline
           margin="dense"
-          classes={{ root: styles.dbSelect, icon: styles.arrowIcon }}
+          classes={{ root: styles.dbSelect }}
           value={list}
           onChange={({ target }) => {
             setList(target.value);

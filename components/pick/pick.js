@@ -91,26 +91,30 @@ const Pick = ({ movie }) => {
 
   return (
     <div className={styles.pickGrid}>
-      <animated.div
+      <div
         className={clsx(
-          styles.backdrop,
-          small && styles.backdropSmall,
-          large && styles.backdropLarge,
-          xlarge && styles.backdropXLarge
+          styles.backdropWrapper,
+          small && styles.backdropWrapperSmall,
+          large && styles.backdropWrapperarge,
+          xlarge && styles.backdropWrapperXLarge
         )}
-        style={{
-          ...(data?.backdrop_path
-            ? {
-                backgroundImage: `linear-gradient(to top, white, transparent 70%), url("${toTMDBImageUrl(
-                  data.backdrop_path
-                )}")`,
-              }
-            : {
-                backgroundImage: "linear-gradient(to top, white, #ccc)",
-              }),
-          ...fadeSpring,
-        }}
-      />
+      >
+        <animated.div
+          className={styles.backdrop}
+          style={{
+            ...(data?.backdrop_path
+              ? {
+                  backgroundImage: `url("${toTMDBImageUrl(
+                    data.backdrop_path
+                  )}")`,
+                }
+              : {
+                  backgroundImage: "linear-gradient(to top, white, #ccc)",
+                }),
+            ...fadeSpring,
+          }}
+        />
+      </div>
 
       {data && (
         <div
@@ -187,6 +191,7 @@ const Pick = ({ movie }) => {
           <div className={clsx(styles.actions, xsmall && styles.actionsXSmall)}>
             {getTrailer(data) && (
               <Button
+                color="primary"
                 startIcon={<TelevisionPlay />}
                 onClick={() => {
                   window.open(getTrailer(data), "_blank");
@@ -198,6 +203,7 @@ const Pick = ({ movie }) => {
 
             {canStream && (
               <Button
+                color="primary"
                 startIcon={<PlayArrow />}
                 onClick={() => {
                   window.open(
@@ -212,6 +218,7 @@ const Pick = ({ movie }) => {
 
             {movie.source === sources.NONE && (
               <Button
+                color="primary"
                 startIcon={<Search />}
                 onClick={() => {
                   window.open(searchTorrent(movie.title), "movieView");
