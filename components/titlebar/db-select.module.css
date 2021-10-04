@@ -5,8 +5,13 @@
 
 .dbSelect {
   padding: 0 8px 0 0 !important;
+  color: #b4b5de !important;
 }
 
 .dbSelectRender {
   pointer-events: none;
+}
+
+.selectIcon {
+  color: #b4b5de !important;
 }

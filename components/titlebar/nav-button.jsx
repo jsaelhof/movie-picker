@@ -8,7 +8,7 @@ const NavButton = ({ children, href, onClick, style, ...props }) => {
   return (
     <Button
       {...props}
-      color="primary"
+      color="secondary"
       onClick={() => {
         onClick ? onClick() : push(href);
       }}

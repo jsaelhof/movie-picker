@@ -33,7 +33,7 @@ const NavHamburger = () => {
 
   return (
     <div className={styles.menu}>
-      <IconButton onClick={handleClick} color="primary">
+      <IconButton onClick={handleClick} color="secondary">
         <MenuIcon />
       </IconButton>
 
