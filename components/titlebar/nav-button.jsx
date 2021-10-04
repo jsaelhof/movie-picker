@@ -8,11 +8,11 @@ const NavButton = ({ children, href, onClick, style, ...props }) => {
   return (
     <Button
       {...props}
+      color="secondary"
       onClick={() => {
         onClick ? onClick() : push(href);
       }}
       style={{
-        color: "white",
         textTransform: "initial",
         fontSize: 16,
         fontWeight: 400,

@@ -1,7 +1,7 @@
 import styles from "./titlebar.module.css";
 
-import React, { useEffect, useState } from "react";
-import { AppBar, Button, Toolbar } from "@material-ui/core";
+import React from "react";
+import { AppBar, Toolbar } from "@material-ui/core";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import Refresh from "@material-ui/icons/Refresh";
@@ -17,21 +17,11 @@ import NavButton from "./nav-button";
 const TitleBar = () => {
   const { movies, setPick } = useAppContext();
   const { small } = useResponsive();
-  const { pathname, reload } = useRouter();
-
-  // TODO: Find a better way to tell if this is prod. Cna the server send env vars to the client? Maybe implement a graphql query to have the server return it from its process env?
-  const [isProd, setIsProd] = useState(false);
-  useEffect(() => {
-    if (!isProd && window.location.hostname === "moviedecider4000.vercel.app") {
-      setIsProd(true);
-    }
-  }, []);
-
-  const color = isProd ? "primary" : "secondary";
+  const { pathname } = useRouter();
 
   return (
     <div className={styles.appBar}>
-      <AppBar position="static" color={color} elevation={2}>
+      <AppBar position="static" color="transparent" elevation={2}>
         <Toolbar
           classes={{
             root: clsx(

@@ -1,6 +1,7 @@
 .appBar {
   flex-grow: 1;
   z-index: 1000;
+  background: linear-gradient(75deg, #37476c, #1e1e30 80%);
 }
 
 .toolbar {

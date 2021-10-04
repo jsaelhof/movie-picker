@@ -7,6 +7,8 @@ import { UserProvider } from "@auth0/nextjs-auth0";
 import { AppProvider } from "../context/app-context";
 import TitleBar from "../components/titlebar/titlebar";
 import Footer from "../components/footer/footer";
+import { ThemeProvider } from "@material-ui/core";
+import { theme } from "../theme/theme";
 
 const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
@@ -26,12 +28,16 @@ function MyApp({ Component, pageProps }) {
             style={{
               display: "grid",
               gridTemplateRows: "auto 1fr auto",
-              height: "100vh",
+              minHeight: "100vh",
+              //background: "radial-gradient(#37476c, #1e1e30 80%)",
+              background: "radial-gradient(#FFF, #DFDFDF 80%)",
             }}
           >
-            <TitleBar />
-            <Component {...pageProps} />
-            <Footer />
+            <ThemeProvider theme={theme}>
+              <TitleBar />
+              <Component {...pageProps} />
+              <Footer />
+            </ThemeProvider>
           </div>
         </AppProvider>
       </ApolloProvider>

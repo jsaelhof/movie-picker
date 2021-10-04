@@ -18,7 +18,7 @@ import List from "@material-ui/icons/FormatListBulleted";
 import { useAppContext } from "../../context/app-context";
 
 const NavHamburger = () => {
-  const { push, reload, pathname } = useRouter();
+  const { push, pathname } = useRouter();
   const { lists, setList, setPick } = useAppContext();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -33,8 +33,8 @@ const NavHamburger = () => {
 
   return (
     <div className={styles.menu}>
-      <IconButton onClick={handleClick}>
-        <MenuIcon className={styles.menuIcon} />
+      <IconButton onClick={handleClick} color="secondary">
+        <MenuIcon />
       </IconButton>
 
       <Menu anchorEl={anchorEl} open={open}>
