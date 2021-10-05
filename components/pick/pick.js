@@ -49,6 +49,7 @@ const Pick = ({ movie }) => {
   const large = useMediaQuery("(min-width: 1200px)");
   const small = useMediaQuery("(max-width: 750px)");
   const xsmall = useMediaQuery("(max-width: 660px)");
+  const xxsmall = useMediaQuery("(max-width: 450px)");
 
   const [data, setData] = useState(null);
 
@@ -188,7 +189,13 @@ const Pick = ({ movie }) => {
             {data.overview || "No Plot - Check OMDB?"}
           </div>
 
-          <div className={clsx(styles.actions, xsmall && styles.actionsXSmall)}>
+          <div
+            className={clsx(
+              styles.actions,
+              xsmall && styles.actionsXSmall,
+              xxsmall && styles.actionsXXSmall
+            )}
+          >
             {getTrailer(data) && (
               <Button
                 color="primary"

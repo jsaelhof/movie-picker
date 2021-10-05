@@ -172,3 +172,11 @@
 .actionsXSmall {
   justify-content: center;
 }
+
+.actionsXXSmall > button {
+  display: grid;
+}
+
+.actionsXXSmall span {
+  justify-items: center;
+}
