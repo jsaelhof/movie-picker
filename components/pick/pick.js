@@ -41,6 +41,8 @@ const getTrailer = (data) => {
   }
 };
 
+console.log("Pick");
+
 const toTMDBImageUrl = (path, size = "original") =>
   api.TMDB_IMAGE_URL.replace("%size%", size).replace("%path%", path);
 
