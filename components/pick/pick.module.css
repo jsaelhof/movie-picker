@@ -180,3 +180,24 @@
 .actionsXXSmall span {
   justify-items: center;
 }
+
+.player {
+  box-shadow: 4px 10px 10px rgb(0 0 0 / 30%);
+  border: 2px solid #333;
+  width: 90vw;
+  height: calc(90vw * (1 / 1.778));
+  background-color: black;
+}
+
+.playerWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
+  z-index: 1000000;
+}
