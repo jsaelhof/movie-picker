@@ -32,7 +32,7 @@ const getTrailer = (data) => {
   const { site, key } = trailerData;
   switch (site) {
     case "YouTube":
-      return `https://www.youtube.com/watch?v=${key}`;
+      return `https://www.youtube.com/embed/${key}?autoplay=1`;
     case "Vimeo":
       return `https://www.vimeo.com/${key}`;
     default:
@@ -40,8 +40,6 @@ const getTrailer = (data) => {
       return null;
   }
 };
-
-console.log("Pick");
 
 const toTMDBImageUrl = (path, size = "original") =>
   api.TMDB_IMAGE_URL.replace("%size%", size).replace("%path%", path);
@@ -54,6 +52,7 @@ const Pick = ({ movie }) => {
   const xxsmall = useMediaQuery("(max-width: 450px)");
 
   const [data, setData] = useState(null);
+  const [trailer, setTrailer] = useState(null);
 
   const fadeSpring = useSpring({
     opacity: data ? 1 : 0,
@@ -118,6 +117,18 @@ const Pick = ({ movie }) => {
           }}
         />
       </div>
+
+      {trailer && (
+        <div className={styles.playerWrapper} onClick={() => setTrailer(null)}>
+          <iframe
+            src={trailer}
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+            allowfullscreen
+            className={styles.player}
+          ></iframe>
+        </div>
+      )}
 
       {data && (
         <div
@@ -203,7 +214,7 @@ const Pick = ({ movie }) => {
                 color="primary"
                 startIcon={<TelevisionPlay />}
                 onClick={() => {
-                  window.open(getTrailer(data), "_blank");
+                  setTrailer(getTrailer(data));
                 }}
               >
                 Watch Trailer
