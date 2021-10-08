@@ -118,7 +118,7 @@ const Pick = ({ movie }) => {
         />
       </div>
 
-      {console.log("Test2")}
+      {console.log("Test3")}
       {trailer && (
         <div className={styles.playerWrapper} onClick={() => setTrailer(null)}>
           <iframe
