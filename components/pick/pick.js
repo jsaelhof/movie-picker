@@ -123,7 +123,7 @@ const Pick = ({ movie }) => {
           <iframe
             src={trailer}
             frameborder="0"
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+            allow="autoplay; clipboard-write; encrypted-media;"
             allowfullscreen
             className={styles.player}
           ></iframe>
