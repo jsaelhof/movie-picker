@@ -34,7 +34,7 @@ const getTrailer = (data) => {
     case "YouTube":
       return `https://www.youtube.com/embed/${key}?autoplay=1`;
     case "Vimeo":
-      return `https://www.vimeo.com/${key}`;
+      return `https://player.vimeo.com/video/${key}`;
     default:
       console.warn(`No pattern exists for site "${site}"`);
       return null;
