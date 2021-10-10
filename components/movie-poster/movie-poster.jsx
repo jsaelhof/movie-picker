@@ -24,6 +24,7 @@ const MoviePoster = ({
       className={clsx(
         styles.poster,
         movie.locked && styles.posterLocked,
+        onClick && styles.active,
         className
       )}
       style={{
@@ -37,6 +38,7 @@ const MoviePoster = ({
       className={clsx(
         styles.poster,
         styles.noPoster,
+        onClick && styles.active,
         movie.locked && styles.posterLocked,
         className
       )}

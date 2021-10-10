@@ -24,3 +24,11 @@
 .noPoster > div {
   padding: 0 8px;
 }
+
+.active {
+  cursor: pointer;
+}
+
+.active:hover {
+  transform: scale(1.025);
+}
