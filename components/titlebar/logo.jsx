@@ -1,12 +1,10 @@
 import styles from "./logo.module.css";
 
 import React from "react";
-import Movie from "@material-ui/icons/Movie";
 
-const Logo = () => (
-  <div className={styles.title}>
-    <Movie />
-    <div>MD4K</div>
+const Logo = ({ small }) => (
+  <div className={styles.logo}>
+    <img src={small ? "/images/logo-small.png" : "/images/logo.png"} />
   </div>
 );
 

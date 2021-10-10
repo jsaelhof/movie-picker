@@ -13,10 +13,12 @@ import NavFull from "./nav-full";
 import Logo from "./logo";
 import NavHamburger from "./nav-hamburger";
 import NavButton from "./nav-button";
+import { useMediaQuery } from "@material-ui/core";
 
 const TitleBar = () => {
   const { movies, setPick } = useAppContext();
-  const { small } = useResponsive();
+  const smallLogo = useMediaQuery("(max-width: 430px)");
+  const mobileNav = useMediaQuery("(max-width: 580px)");
   const { pathname } = useRouter();
 
   return (
@@ -26,16 +28,16 @@ const TitleBar = () => {
           classes={{
             root: clsx(
               styles.toolbar,
-              small && styles.smallToolbar,
-              pathname === "/pick" && small && styles.smallPickToolbar
+              mobileNav && styles.smallToolbar,
+              pathname === "/pick" && mobileNav && styles.smallPickToolbar
             ),
           }}
         >
-          <Logo />
-          {movies && (small ? <NavHamburger /> : <NavFull />)}
+          <Logo small={smallLogo} />
+          {movies && (mobileNav ? <NavHamburger /> : <NavFull />)}
 
           {/* In the small view, keep a pick again button in the ain nav area. It's also in the hamburger menu */}
-          {movies && small && pathname === "/pick" && (
+          {movies && mobileNav && pathname === "/pick" && (
             <NavButton
               startIcon={<Refresh />}
               onClick={() => setPick(null)}
