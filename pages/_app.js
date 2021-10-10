@@ -24,6 +24,7 @@ function MyApp({ Component, pageProps }) {
             <title>Movie Decider 4000</title>
             <link rel="icon" href="/favicon.ico" />
             <link rel="apple-touch-icon" href="touch-icon-iphone.png" />
+            <meta name="apple-mobile-web-app-title" content="MD4000"></meta>
           </Head>
           <div
             style={{
