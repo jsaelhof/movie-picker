@@ -25,6 +25,11 @@ function MyApp({ Component, pageProps }) {
             <link rel="icon" href="/favicon.ico" />
             <link rel="apple-touch-icon" href="touch-icon-iphone.png" />
             <meta name="apple-mobile-web-app-title" content="MD4000"></meta>
+            <meta name="apple-mobile-web-app-capable" content="yes"></meta>
+            <meta
+              name="apple-mobile-web-app-status-bar-style"
+              content="black"
+            ></meta>
           </Head>
           <div
             style={{
