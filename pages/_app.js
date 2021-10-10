@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }) {
           <Head>
             <title>Movie Decider 4000</title>
             <link rel="icon" href="/favicon.ico" />
+            <link rel="apple-touch-icon" href="touch-icon-iphone.png" />
           </Head>
           <div
             style={{
