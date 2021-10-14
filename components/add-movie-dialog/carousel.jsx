@@ -55,12 +55,12 @@ const Carousel = ({ movies, searching, onSelectMovie }) => {
         },
       ]}
     >
-      {movies.map(({ Poster, Title, Year, imdbID }, index) => (
+      {movies.map(({ poster, title, year, imdbID }, index) => (
         <MoviePoster
           key={imdbID}
-          poster={Poster}
-          title={Title}
-          year={Year}
+          poster={poster}
+          title={title}
+          year={year}
           height={xsmall ? 110 : undefined}
           onClick={() => {
             onSelectMovie(index);

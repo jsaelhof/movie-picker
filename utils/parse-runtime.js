@@ -1,4 +1,5 @@
 export const parseRuntime = (runtimeInput) => {
+  runtimeInput = runtimeInput?.toString();
   let runtime;
 
   // Convert the runtime input to seconds
