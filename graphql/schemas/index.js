@@ -28,6 +28,26 @@ export const typeDefs = gql`
     watchedOn: String
     locked: Boolean
     ratings: Ratings
+    backdrop: String
+    certification: String
+    trailer: Trailer
+    plot: String
+  }
+
+  type Trailer {
+    site: String
+    key: String
+  }
+
+  type Provider {
+    provider: String
+  }
+
+  type SearchResult {
+    title: String
+    year: String
+    imdbID: String
+    poster: String
   }
 
   type List {
@@ -60,6 +80,10 @@ export const typeDefs = gql`
     lists: [List]
     movies(list: String!): [Movie]
     watchedMovies(list: String!): [Movie]
+    searchByTitle(title: String!): [SearchResult]
+    omdbMovie(imdbID: String!): Movie
+    tmdbMovie(imdbID: String!): Movie
+    tmdbProvider(imdbID: String!): Provider
   }
 
   type Mutation {

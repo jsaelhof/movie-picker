@@ -1,13 +1,10 @@
 import styles from "./pick.module.css";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Button, useMediaQuery } from "@material-ui/core";
-import { filter, find, first, isNil, reject } from "lodash";
-import axios from "axios";
 import clsx from "clsx";
 
 import { formatRuntime } from "../../utils/format-runtime";
-import { api } from "../../constants/api";
 import { genreLabels } from "../../constants/genres";
 import { searchStreaming, searchTMDB, searchTorrent } from "../../utils/search";
 import Rated from "./rated";
@@ -18,18 +15,10 @@ import TelevisionPlay from "mdi-material-ui/TelevisionPlay";
 import StarRating from "../ratings/star-rating";
 import { PlayArrow } from "@material-ui/icons";
 import Search from "@material-ui/icons/Search";
+import { useQuery } from "@apollo/client";
+import { GET_MOVIE_EXTENDED_DETAILS } from "../../graphql";
 
-const getTrailer = (data) => {
-  const officialTrailer = find(
-    filter(data?.videos?.results, ["type", "Trailer"]),
-    "official"
-  );
-  const anyTrailer = first(filter(data?.videos?.results, ["type", "Trailer"]));
-  const trailerData = first(reject([officialTrailer, anyTrailer], isNil));
-
-  if (!trailerData) return null;
-
-  const { site, key } = trailerData;
+const buildTrailerUrl = ({ site, key }) => {
   switch (site) {
     case "YouTube":
       return `https://www.youtube.com/embed/${key}?autoplay=1`;
@@ -40,9 +29,6 @@ const getTrailer = (data) => {
       return null;
   }
 };
-
-const toTMDBImageUrl = (path, size = "original") =>
-  api.TMDB_IMAGE_URL.replace("%size%", size).replace("%path%", path);
 
 const Pick = ({ movie }) => {
   const xlarge = useMediaQuery("(min-width: 2000px)");
@@ -70,24 +56,15 @@ const Pick = ({ movie }) => {
     window.open(searchTMDB(movie.title), "moviedb");
   }, [movie]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setData(null);
-
-      if (movie.imdbID) {
-        try {
-          const { data } = await axios.get(
-            api.TMBD_IMDB.replace("%id%", movie.imdbID)
-          );
-          setData(data);
-        } catch (ex) {
-          setData({});
-        }
-      }
-    };
-
-    fetchData();
-  }, [movie]);
+  useQuery(GET_MOVIE_EXTENDED_DETAILS, {
+    errorPolicy: "all",
+    variables: {
+      imdbID: movie.imdbID,
+    },
+    onCompleted: ({ tmdbMovie, omdbMovie }) =>
+      setData({ ...omdbMovie, ...tmdbMovie }),
+    onError: () => setData({}),
+  });
 
   const canStream = ![sources.DVD, sources.NONE].includes(movie.source);
 
@@ -104,11 +81,9 @@ const Pick = ({ movie }) => {
         <animated.div
           className={styles.backdrop}
           style={{
-            ...(data?.backdrop_path
+            ...(data?.backdrop
               ? {
-                  backgroundImage: `url("${toTMDBImageUrl(
-                    data.backdrop_path
-                  )}")`,
+                  backgroundImage: `url("${data.backdrop}")`,
                 }
               : {
                   backgroundImage: "linear-gradient(to top, white, #ccc)",
@@ -176,14 +151,7 @@ const Pick = ({ movie }) => {
             <div>{formatRuntime(movie.runtime)}</div>
             <div>{movie.year}</div>
             <div>{genreLabels[movie.genre]}</div>
-            <Rated
-              rated={
-                data?.releases?.countries.filter(
-                  ({ certification, iso_3166_1 }) =>
-                    certification !== "" && iso_3166_1 === "US"
-                )?.[0]?.certification
-              }
-            />
+            <Rated rated={data.certification} />
           </div>
 
           <img
@@ -198,9 +166,7 @@ const Pick = ({ movie }) => {
             }
           />
 
-          <div className={styles.plot}>
-            {data.overview || "No Plot - Check OMDB?"}
-          </div>
+          <div className={styles.plot}>{data.plot}</div>
 
           <div
             className={clsx(
@@ -209,12 +175,12 @@ const Pick = ({ movie }) => {
               xxsmall && styles.actionsXXSmall
             )}
           >
-            {getTrailer(data) && (
+            {data.trailer && (
               <Button
                 color="primary"
                 startIcon={<TelevisionPlay />}
                 onClick={() => {
-                  setTrailer(getTrailer(data));
+                  setTrailer(buildTrailerUrl(data.trailer));
                 }}
               >
                 Watch Trailer

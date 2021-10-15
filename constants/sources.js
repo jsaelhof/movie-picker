@@ -41,3 +41,10 @@ export const sourceLogosLarge = {
   [sources.DVD]: `${sourceLogoLargeBase}dvd.png`,
   [sources.DISNEY_PLUS]: `${sourceLogoLargeBase}disney+.png`,
 };
+
+export const fromTMDBProvider = {
+  "Disney Plus": sources.DISNEY_PLUS,
+  Netflix: sources.NETFLIX,
+  "Amazon Prime Video": sources.PRIME_VIDEO,
+  "Apple TV Plus": sources.APPLE_TV,
+};

@@ -7,17 +7,13 @@ import {
   TextField,
   useMediaQuery,
 } from "@material-ui/core";
-import axios from "axios";
 import clsx from "clsx";
-import findKey from "lodash/findKey";
-import isNil from "lodash/isNil";
-import React, { useEffect, useRef, useState } from "react";
+import { isNil } from "lodash";
+import React, { useRef, useState } from "react";
 
-import { api } from "../../constants/api";
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels, genres } from "../../constants/genres";
 import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
-import { convertOmdbRatings } from "../../utils/convert-omdb-ratings";
 import { parseRuntime } from "../../utils/parse-runtime";
 import Carousel from "./carousel";
 import ListSelect from "../list-select/list-select";
@@ -25,6 +21,8 @@ import MoviePoster from "./movie-poster";
 import Ratings from "../ratings/ratings";
 
 import styles from "./add-movie-dialog.module.css";
+import { GET_MOVIE_DETAILS, SEARCH_BY_TITLE } from "../../graphql";
+import { useQuery } from "@apollo/client";
 
 const AUTO_REFRESH_TIMEOUT = 1500;
 
@@ -38,6 +36,7 @@ const AddMovieDialog = ({
   const [searchStale, setSearchStale] = useState(!!initialInputState.title);
   const [searching, setSearching] = useState(false);
 
+  // TODO: This tracks more than just the inputs now (poster, ratings etc) so maybe rename it.
   const [input, setInput] = useState({
     title: "",
     runtime: "",
@@ -50,80 +49,42 @@ const AddMovieDialog = ({
     }),
   });
 
-  const [poster, setPoster] = useState(initialInputState.poster || null);
-  const [ratings, setRatings] = useState(initialInputState.ratings || null);
-
   const medium = useMediaQuery("(max-width: 1140px)");
   const small = useMediaQuery("(max-width: 885px)");
   const xsmall = useMediaQuery("(max-width: 600px), (max-height: 414px)");
 
   const timeoutId = useRef();
 
-  useEffect(() => {
-    const title = async () => {
-      const {
-        data: { Title, Response, Runtime, Year, Genre, Poster, Ratings },
-      } = await axios.get(
-        movies[selectedMovie].imdbID
-          ? api.OMDB_IMDBID.replace("%imdbid%", movies[selectedMovie].imdbID)
-          : api.OMDB_TITLE.replace("%title%", movies[selectedMovie].Title)
-      );
-
-      if (Response === "True") {
-        // Runtime includes " min" like "113 min".
-        // ParseInt strips out the text portion.
-        const runtime =
-          Runtime && Runtime !== "N/A" ? parseInt(Runtime).toString() : null;
-
-        // Genre is a delimited string of genres.
-        // Search my list and see if a match is found.
-        // If so we'll set that as the genre, otherwise ignore.
-        const genre = findKey(genreLabels, (genre) =>
-          Genre.split(", ").includes(genre)
-        );
-
-        setInput({
-          ...input,
-          title: Title,
-          year: Year,
-          runtime,
-          ...(genre && { genre: parseInt(genre) }),
-        });
-        setRatings(Ratings ? convertOmdbRatings(Ratings) : []);
-        setPoster(Poster && Poster !== "N/A" ? Poster : null);
-      }
-    };
-
-    if (!isNil(selectedMovie)) {
-      title();
-    }
-  }, [selectedMovie]);
-
-  useEffect(() => {
-    const search = async () => {
+  useQuery(SEARCH_BY_TITLE, {
+    skip: !(searchStale && input.title?.length > 0),
+    variables: { title: input.title },
+    onCompleted: ({ searchByTitle }) => {
       setSearchStale(false);
-      setSearching(true);
-
-      const {
-        data: { Response, Search },
-      } = await axios.get(api.OMDB_SEARCH.replace("%title%", input.title));
-
-      // Note: Data includes the number of results but Search is limited to 10 per request.
-      // If needed, a Load More button could be implemented.
-      setMovies(Response === "True" ? Search : []);
+      setMovies(searchByTitle);
       setSearching(false);
-    };
+    },
+  });
 
-    if (searchStale && input.title?.length > 0) {
-      search();
-    }
-  }, [searchStale]);
+  useQuery(GET_MOVIE_DETAILS, {
+    skip: !movies?.[selectedMovie],
+    variables: { imdbID: movies?.[selectedMovie]?.imdbID },
+    onCompleted: ({ omdbMovie, tmdbProvider }) => {
+      setInput({
+        ...input,
+        ...omdbMovie,
+        source: tmdbProvider.provider,
+      });
+    },
+  });
 
   const resetSearch = () => {
     setSelectedMovie(null);
     setMovies(null);
-    setRatings(null);
-    setPoster(null);
+    setInput((state) => ({
+      ...state,
+      poster: null,
+      ratings: null,
+    }));
   };
 
   return (
@@ -139,7 +100,7 @@ const AddMovieDialog = ({
           )}
         >
           <MoviePoster
-            poster={poster}
+            poster={input.poster}
             height={xsmall ? 130 : undefined}
             className={styles.poster}
           />
@@ -158,6 +119,7 @@ const AddMovieDialog = ({
               if (target.value.length) {
                 timeoutId.current = setTimeout(() => {
                   setSearchStale(true);
+                  setSearching(true);
                 }, AUTO_REFRESH_TIMEOUT);
               }
             }}
@@ -211,7 +173,9 @@ const AddMovieDialog = ({
             images={sourceLogos}
           />
 
-          {ratings && <Ratings ratings={ratings} className={styles.ratings} />}
+          {input.ratings && (
+            <Ratings ratings={input.ratings} className={styles.ratings} />
+          )}
         </div>
 
         <Carousel
@@ -228,18 +192,12 @@ const AddMovieDialog = ({
             onClick={() => {
               onAddMovie({
                 ...input,
-                title: input.title,
                 runtime: parseRuntime(input.runtime),
-                genre: input.genre,
-                source: input.source,
                 // If we have additional data not captured in inputs loaded, add it to the movie
                 ...(!isNil(selectedMovie) && {
                   imdbID: movies[selectedMovie].imdbID,
-                  poster: movies[selectedMovie].Poster,
-                  year: movies[selectedMovie].Year,
+                  poster: movies[selectedMovie].poster,
                 }),
-                // Add the ratings if the exist
-                ratings,
               });
             }}
             color="primary"
