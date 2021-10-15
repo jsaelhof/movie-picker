@@ -6,7 +6,6 @@ import { animated, useSpring } from "react-spring";
 import clsx from "clsx";
 
 import { formatRuntime } from "../../utils/format-runtime";
-import { genreLabels } from "../../constants/genres";
 import { sourceLogos } from "../../constants/sources";
 import { useResponsive } from "../../hooks/use-responsive";
 import DetailActions from "./detail-actions";
@@ -76,7 +75,7 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
             <animated.div className={styles.info} style={infoSpring}>
               <div className={styles.infoData}>
                 <div>{formatRuntime(movie.runtime)}</div>
-                <div>{genreLabels[movie.genre]}</div>
+                <div>{movie.year}</div>
               </div>
 
               <Ratings
