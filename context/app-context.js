@@ -1,16 +1,22 @@
 import { useQuery } from "@apollo/client";
-import React from "react";
+import React, { useCallback } from "react";
 import { createContext, useState } from "react";
 import { GET_LISTS, GET_MOVIES } from "../graphql";
 
 const AppContext = createContext({});
 
 const AppProvider = ({ children }) => {
-  const [list, setList] = useState();
-  const { lists } = useLists(setList);
+  const [list, _setList] = useState();
+  const { lists } = useLists(_setList);
   const { movies, watchedMovies, loading: loadingMovies } = useMovies(list);
   const [order, setOrder] = useState(["addedOn", "desc"]);
   const [pick, setPick] = useState(null);
+
+  // Expost a list change function so that we can clear any state from the old list while changing to a new one
+  const setList = useCallback((val) => {
+    setPick(null);
+    _setList(val);
+  }, []);
 
   const context = {
     lists,
