@@ -41,7 +41,7 @@ const AddMovieDialog = ({
     title: "",
     runtime: "",
     genre: null,
-    source: null,
+    source: sources.NONE,
     year: "",
     ...initialInputState,
     ...(initialInputState.runtime && {
@@ -72,7 +72,7 @@ const AddMovieDialog = ({
       setInput({
         ...input,
         ...omdbMovie,
-        source: tmdbProvider.provider,
+        ...(tmdbProvider && { source: tmdbProvider.provider }),
       });
     },
   });
