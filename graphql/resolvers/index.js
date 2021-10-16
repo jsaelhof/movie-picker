@@ -134,7 +134,7 @@ export const resolvers = {
       // In general there should be only match but it seems possible to get more than one thing back.
       // If there's zero, then we can't find the TMDB data from the imdb id.
       if (tmdbData.movie_results?.length < 1) {
-        return { provider: null };
+        return { imdbID, provider: null };
       }
 
       // Look up the TMDB data using the movie id from the first request.
