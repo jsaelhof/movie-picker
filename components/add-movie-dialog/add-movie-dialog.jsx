@@ -10,19 +10,19 @@ import {
 import clsx from "clsx";
 import { isNil } from "lodash";
 import React, { useRef, useState } from "react";
+import { useQuery } from "@apollo/client";
 
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels, genres } from "../../constants/genres";
 import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
 import { parseRuntime } from "../../utils/parse-runtime";
+import { GET_MOVIE_DETAILS, SEARCH_BY_TITLE } from "../../graphql";
 import Carousel from "./carousel";
 import ListSelect from "../list-select/list-select";
 import MoviePoster from "./movie-poster";
 import Ratings from "../ratings/ratings";
 
 import styles from "./add-movie-dialog.module.css";
-import { GET_MOVIE_DETAILS, SEARCH_BY_TITLE } from "../../graphql";
-import { useQuery } from "@apollo/client";
 
 const AUTO_REFRESH_TIMEOUT = 1500;
 

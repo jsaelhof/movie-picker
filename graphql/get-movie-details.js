@@ -1,8 +1,9 @@
 import { gql } from "@apollo/client";
 
 export const GET_MOVIE_DETAILS = gql`
-  query GetMovieDetails($imdbID: String!) {
+  query GetMovieDetails($imdbID: ID!) {
     omdbMovie(imdbID: $imdbID) {
+      imdbID
       title
       year
       runtime
@@ -15,6 +16,7 @@ export const GET_MOVIE_DETAILS = gql`
       poster
     }
     tmdbProvider(imdbID: $imdbID) {
+      imdbID
       provider
     }
   }

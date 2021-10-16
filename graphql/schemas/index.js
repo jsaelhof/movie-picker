@@ -40,7 +40,8 @@ export const typeDefs = gql`
   }
 
   type Provider {
-    provider: String
+    imdbID: ID!
+    provider: Int
   }
 
   type SearchResult {
@@ -51,7 +52,7 @@ export const typeDefs = gql`
   }
 
   type List {
-    id: String!
+    id: ID!
     label: String!
   }
 
@@ -81,9 +82,9 @@ export const typeDefs = gql`
     movies(list: String!): [Movie]
     watchedMovies(list: String!): [Movie]
     searchByTitle(title: String!): [SearchResult]
-    omdbMovie(imdbID: String!): Movie
-    tmdbMovie(imdbID: String!): Movie
-    tmdbProvider(imdbID: String!): Provider
+    omdbMovie(imdbID: ID!): Movie
+    tmdbMovie(imdbID: ID!): Movie
+    tmdbProvider(imdbID: ID!): Provider
   }
 
   type Mutation {

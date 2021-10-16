@@ -31,7 +31,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
 
       <DeleteDialog
         open={!isNil(deleteMovie)}
-        title="Delete Movie?"
+        title="Hasta La Vista, Baby"
         content={`'${deleteMovie?.title}' will be removed`}
         onCancel={() => setDeleteMovie(null)}
         onConfirm={() => {

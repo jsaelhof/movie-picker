@@ -73,13 +73,14 @@ export const resolvers = {
         );
 
         return {
+          imdbID,
           title: Title,
           year: Year,
           runtime,
           ...(genre && { genre: parseInt(genre) }),
           ratings: Ratings ? convertOmdbRatings(Ratings) : [],
           poster: Poster && Poster !== "N/A" ? Poster : null,
-          plot: Plot
+          plot: Plot,
         };
       } else {
         return null;
@@ -112,6 +113,7 @@ export const resolvers = {
       const trailerData = first(reject([officialTrailer, anyTrailer], isNil));
 
       return {
+        imdbID,
         title,
         backdrop: toTMDBImageUrl(backdrop_path),
         trailer: trailerData ? pick(trailerData, ["site", "key"]) : null,
@@ -141,6 +143,7 @@ export const resolvers = {
       );
 
       return {
+        imdbID,
         provider: first(
           get(providerData, "results.CA.flatrate", [])
             .map(({ provider_name }) => fromTMDBProvider[provider_name])

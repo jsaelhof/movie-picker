@@ -12,7 +12,24 @@ import { theme } from "../theme/theme";
 
 const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    // This whole typePolicies object is required to prevent an warning when deleting a movie.
+    // The warning comes from updating the cache with one less movie.
+    // returning false for the merge function just tells it to just always use the new data (incoming).
+    // This also runs when requesting movies, not just deleting, but the warning only happens on delete.
+    // The warning was:
+    // Cache data may be lost when replacing the movies field of a Query object.
+    // To address this problem (which is not a bug in Apollo Client), define a custom merge function for the Query.movies field, so InMemoryCache can safely merge these objects:
+    typePolicies: {
+      Query: {
+        fields: {
+          movies: {
+            merge: false,
+          },
+        },
+      },
+    },
+  }),
 });
 
 function MyApp({ Component, pageProps }) {

@@ -1,11 +1,13 @@
 import { gql } from "@apollo/client";
 
 export const GET_MOVIE_EXTENDED_DETAILS = gql`
-  query GetMovieExtendedDetails($imdbID: String!) {
+  query GetMovieExtendedDetails($imdbID: ID!) {
     omdbMovie(imdbID: $imdbID) {
+      imdbID
       plot
     }
     tmdbMovie(imdbID: $imdbID) {
+      imdbID
       title
       backdrop
       certification
