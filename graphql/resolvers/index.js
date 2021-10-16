@@ -48,7 +48,7 @@ export const resolvers = {
             title: Title,
             year: Year,
             imdbID,
-            poster: Poster,
+            poster: Poster && Poster !== "N/A" ? Poster : null,
           }))
         : [];
     },
