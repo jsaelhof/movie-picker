@@ -3,6 +3,7 @@ import { MongoClient } from "mongodb";
 import { typeDefs } from "../../graphql/schemas";
 import { resolvers } from "../../graphql/resolvers";
 import { api } from "../../constants/api";
+import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DB = process.env.MONGODB_DB;
@@ -49,4 +50,6 @@ export const config = {
   },
 };
 
-export default apolloServer.createHandler({ path: api.GRAPHQL });
+export default withApiAuthRequired(
+  apolloServer.createHandler({ path: api.GRAPHQL })
+);
