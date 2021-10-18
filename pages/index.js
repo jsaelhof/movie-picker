@@ -1,6 +1,5 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
 import { map } from "lodash";
 
@@ -17,7 +16,7 @@ import Toast from "../components/toast/toast";
 import ListGrid from "../components/list/list-grid";
 import PageContainer from "../components/page-container/page-container";
 
-export default withPageAuthRequired(function Home() {
+export default function Home() {
   const router = useRouter();
   const { list, movies, loadingMovies } = useAppContext();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
@@ -159,4 +158,4 @@ export default withPageAuthRequired(function Home() {
       )}
     </>
   );
-});
+}

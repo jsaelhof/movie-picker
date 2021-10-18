@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
 
 import { useAppContext } from "../context/app-context";
@@ -8,7 +7,7 @@ import ErrorDialog from "../components/error-dialog/error-dialog";
 import Pick from "../components/pick/pick";
 import { randomPick } from "../utils/random-pick";
 
-export default withPageAuthRequired(function Home() {
+export default function Home() {
   const { movies, pick, setPick } = useAppContext();
   const { query } = useRouter();
   const [error, setError] = useState(null);
@@ -42,4 +41,4 @@ export default withPageAuthRequired(function Home() {
       />
     </>
   );
-});
+}

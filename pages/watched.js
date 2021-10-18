@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 import { useAppContext } from "../context/app-context";
 import { useRemoveMovie } from "../hooks/use-remove-movie";
@@ -10,7 +9,7 @@ import ErrorDialog from "../components/error-dialog/error-dialog";
 import WatchedList from "../components/watched-list/watched-list";
 import PageContainer from "../components/page-container/page-container";
 
-export default withPageAuthRequired(function Home() {
+export default function Home() {
   const { list, watchedMovies } = useAppContext();
   const [error, setError] = useState(null);
 
@@ -49,4 +48,4 @@ export default withPageAuthRequired(function Home() {
       />
     </>
   );
-});
+}
