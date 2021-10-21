@@ -7,7 +7,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@material-ui/core";
+} from "@mui/material";
 import React from "react";
 
 const DeleteDialog = ({ open, title, content, onCancel, onConfirm }) => (

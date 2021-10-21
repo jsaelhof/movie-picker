@@ -6,7 +6,7 @@ import {
   DialogTitle,
   TextField,
   useMediaQuery,
-} from "@material-ui/core";
+} from "@mui/material";
 import clsx from "clsx";
 import { isNil } from "lodash";
 import React, { useRef, useState } from "react";

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import isNil from "lodash/isNil";
 import React from "react";
-import TheatresIcon from "@material-ui/icons/Theaters";
+import TheatresIcon from "@mui/icons-material/Theaters";
 
 import styles from "./movie-poster.module.css";
 

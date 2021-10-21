@@ -7,13 +7,13 @@ import {
   IconButton,
   Menu,
   MenuItem,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useRouter } from "next/router";
-import MenuIcon from "@material-ui/icons/Menu";
-import Refresh from "@material-ui/icons/Refresh";
-import Eye from "mdi-material-ui/Eye";
-import Movie from "mdi-material-ui/Movie";
-import List from "@material-ui/icons/FormatListBulleted";
+import MenuIcon from "@mui/icons-material/Menu";
+import Refresh from "@mui/icons-material/Refresh";
+import Eye from "@mitch528/mdi-material-ui/Eye";
+import Movie from "@mitch528/mdi-material-ui/Movie";
+import List from "@mui/icons-material/FormatListBulleted";
 
 import { useAppContext } from "../../context/app-context";
 
@@ -33,7 +33,7 @@ const NavHamburger = () => {
 
   return (
     <div className={styles.menu}>
-      <IconButton onClick={handleClick} color="secondary">
+      <IconButton onClick={handleClick} color="secondary" size="large">
         <MenuIcon />
       </IconButton>
 
@@ -62,7 +62,8 @@ const NavHamburger = () => {
                   handleClose();
                 }}
               >
-                <Movie className={styles.icon} /> Movies
+                <Movie className={styles.icon} />
+                Movies
               </MenuItem>
             )}
 
@@ -73,7 +74,8 @@ const NavHamburger = () => {
                   handleClose();
                 }}
               >
-                <Eye className={styles.icon} /> Watched
+                <Eye className={styles.icon} />
+                Watched
               </MenuItem>
             )}
 

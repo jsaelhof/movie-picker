@@ -1,10 +1,10 @@
 import styles from "./titlebar.module.css";
 
 import React from "react";
-import { AppBar, Toolbar } from "@material-ui/core";
+import { AppBar, Toolbar } from "@mui/material";
 import { useRouter } from "next/router";
 import clsx from "clsx";
-import Refresh from "@material-ui/icons/Refresh";
+import Refresh from "@mui/icons-material/Refresh";
 
 import { useResponsive } from "../../hooks/use-responsive";
 import { useAppContext } from "../../context/app-context";
@@ -13,7 +13,7 @@ import NavFull from "./nav-full";
 import Logo from "./logo";
 import NavHamburger from "./nav-hamburger";
 import NavButton from "./nav-button";
-import { useMediaQuery } from "@material-ui/core";
+import { useMediaQuery } from "@mui/material";
 
 const TitleBar = () => {
   const { movies, setPick } = useAppContext();

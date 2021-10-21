@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import clsx from "clsx";
 import { isNil, times } from "lodash";
 import { filter, flow, map, mean, round, thru } from "lodash/fp";
-import { Popover } from "@material-ui/core";
+import { Popover } from "@mui/material";
 
 import { omitTypename } from "../../utils/omit-typename";
 import Star from "./star.svg";

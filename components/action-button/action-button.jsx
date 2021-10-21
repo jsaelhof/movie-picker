@@ -1,4 +1,4 @@
-import { Tooltip } from "@material-ui/core";
+import { Tooltip } from "@mui/material";
 import clsx from "clsx";
 import noop from "lodash/noop";
 import React from "react";

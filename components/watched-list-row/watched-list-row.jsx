@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import clsx from "clsx";
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { titleCase } from "../../utils/title-case";
 import { useResponsive } from "../../hooks/use-responsive";

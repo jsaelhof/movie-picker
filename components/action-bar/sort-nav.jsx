@@ -2,8 +2,8 @@ import styles from "./sort-nav.module.css";
 
 import clsx from "clsx";
 import React from "react";
-import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
+import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUp from "@mui/icons-material/KeyboardArrowUp";
 
 import { useResponsive } from "../../hooks/use-responsive";
 

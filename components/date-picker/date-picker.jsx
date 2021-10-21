@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { DayPicker } from "react-day-picker";
-import { Button, Drawer } from "@material-ui/core";
+import { Button, Drawer } from "@mui/material";
 import clsx from "clsx";
 
 import { useOnClickOutside } from "../../hooks/use-on-click-outside";
