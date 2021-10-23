@@ -1,15 +1,9 @@
-import styles from "./sort-nav.module.css";
-
-import clsx from "clsx";
+import { styled } from "@mui/material";
 import React from "react";
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUp from "@mui/icons-material/KeyboardArrowUp";
 
-import { useResponsive } from "../../hooks/use-responsive";
-
 const SortNav = ({ selectedOption, options, onSort }) => {
-  const { small } = useResponsive();
-
   const SortOrderIcon =
     selectedOption[0] === "addedOn"
       ? selectedOption[1] === "asc"
@@ -29,11 +23,11 @@ const SortNav = ({ selectedOption, options, onSort }) => {
   ];
 
   return (
-    <ul className={clsx(styles.sortNav, small && styles.centeredNav)}>
+    <SortNavList>
       {options.map(([label, key]) => (
-        <li
+        <SortNavListItem
           key={key}
-          className={clsx(key === selectedOption[0] && styles.selected)}
+          $selected={key === selectedOption[0]}
           onClick={() => {
             const newOrder = resolveOrder(key);
             onSort(newOrder[0], newOrder[1]);
@@ -50,10 +44,41 @@ const SortNav = ({ selectedOption, options, onSort }) => {
               }}
             />
           )}
-        </li>
+        </SortNavListItem>
       ))}
-    </ul>
+    </SortNavList>
   );
 };
+
+const SortNavList = styled("ul")(({ theme: { breakpoints, spacing } }) => ({
+  flexGrow: 1,
+  display: "flex",
+  padding: 0,
+  alignItems: "baseline",
+  justifyContent: "flex-start",
+
+  [breakpoints.down(575)]: {
+    justifyContent: "center",
+    marginTop: spacing(4),
+    marginBottom: 0,
+  },
+}));
+
+const SortNavListItem = styled("li")(
+  ({ theme: { palette, spacing }, $selected }) => ({
+    listStyleType: "none",
+    marginLeft: spacing(2),
+    fontSize: "0.8rem",
+    cursor: "pointer",
+    color: palette.grey[700],
+    paddingBottom: spacing(0.5),
+
+    ...($selected && {
+      fontSize: "1rem",
+      color: "initial",
+      borderBottom: `1px solid ${palette.blueAccent}`,
+    }),
+  })
+);
 
 export default SortNav;

@@ -7,6 +7,8 @@ const darkBlue = {
   900: "#1e1e30",
 };
 
+const blueAccent = "cornflowerblue";
+
 export const theme = createTheme({
   palette: {
     primary: {
@@ -17,6 +19,7 @@ export const theme = createTheme({
     },
     darkBlue,
     grey,
+    blueAccent,
   },
 
   components: {

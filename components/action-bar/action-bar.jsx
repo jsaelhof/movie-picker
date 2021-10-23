@@ -1,27 +1,21 @@
 import React from "react";
-import { AppBar, Button, Toolbar } from "@mui/material";
-import AddToQueueIcon from "@mui/icons-material/AddToQueue";
-import clsx from "clsx";
+import { AppBar, Button, styled, Toolbar } from "@mui/material";
+import AddToQueue from "@mui/icons-material/AddToQueue";
 
 import { useAppContext } from "../../context/app-context";
 import { useResponsive } from "../../hooks/use-responsive";
 import SortNav from "./sort-nav";
 import SplitButton from "../split-button/split-button";
 
-import styles from "./action-bar.module.css";
-
 const ActionBar = ({ disabled, onAdd, onPick }) => {
   const { order, setOrder } = useAppContext();
-  const { small, minimalColumns } = useResponsive();
+  const { minimalColumns } = useResponsive();
 
   return (
-    <div className={clsx(styles.appBar, small && styles.verticalAppBar)}>
+    <ActionBarContainer>
       <AppBar position="static" color="transparent" elevation={0}>
         {!disabled && (
-          <Toolbar
-            className={styles.toolbar}
-            classes={{ root: clsx(small && styles.verticalActions) }}
-          >
+          <ActionToolbar>
             <SortNav
               selectedOption={order}
               options={[
@@ -34,23 +28,58 @@ const ActionBar = ({ disabled, onAdd, onPick }) => {
               }}
             />
 
-            <div className={styles.secondaryActions}>
+            <SecondaryActions>
               <Button variant="outlined" color="primary" onClick={onAdd}>
-                <AddToQueueIcon
-                  className={clsx(
-                    styles.addToQueue,
-                    minimalColumns && styles.addToQueueIconOnly
-                  )}
-                />
+                <AddToQueueIcon />
                 {!minimalColumns && "Add Movie"}
               </Button>
               <SplitButton onPick={onPick} />
-            </div>
-          </Toolbar>
+            </SecondaryActions>
+          </ActionToolbar>
         )}
       </AppBar>
-    </div>
+    </ActionBarContainer>
   );
 };
+
+const ActionBarContainer = styled("div")(
+  ({ theme: { breakpoints, spacing } }) => ({
+    flexGrow: 1,
+
+    [breakpoints.down(615)]: {
+      marginTop: spacing(3),
+    },
+  })
+);
+
+const ActionToolbar = styled(Toolbar)(
+  ({ theme: { breakpoints, spacing } }) => ({
+    marginTop: spacing(2),
+    columnGap: spacing(2),
+    padding: 0,
+
+    [breakpoints.down(615)]: {
+      flexDirection: "column-reverse",
+      height: 100,
+      marginBottom: spacing(2),
+    },
+  })
+);
+
+const SecondaryActions = styled("div")(({ theme: { spacing } }) => ({
+  display: "grid",
+  gridAutoFlow: "column",
+  columnGap: spacing(2),
+}));
+
+const AddToQueueIcon = styled(AddToQueue)(
+  ({ theme: { breakpoints, spacing } }) => ({
+    marginRight: spacing(2),
+
+    [breakpoints.down(736)]: {
+      marginRight: 0,
+    },
+  })
+);
 
 export default ActionBar;
