@@ -34,6 +34,7 @@ const ProfileMenu = () => {
         }}
         transformOrigin={{
           vertical: -8,
+          horizontal: 0,
         }}
       >
         <ClickAwayListener onClickAway={onCloseMenu}>
