@@ -1,40 +1,46 @@
 import React from "react";
-import { MenuItem, Select } from "@mui/material";
+import { MenuItem, Select, styled } from "@mui/material";
 import { useRouter } from "next/router";
 
 import { useAppContext } from "../../context/app-context";
-
-import styles from "./db-select.module.css";
 
 const DbSelect = () => {
   const { lists, list, setList } = useAppContext();
   const { push } = useRouter();
 
   return (
-    <div className={styles.main}>
+    <div>
       {lists && list && (
-        <Select
+        <StyledSelect
+          variant="standard"
           disableUnderline
-          margin="dense"
-          classes={{ root: styles.dbSelect, icon: styles.selectIcon }}
           value={list}
           onChange={({ target }) => {
             setList(target.value);
             push("/");
           }}
-          renderValue={() => (
-            <MenuItem className={styles.dbSelectRender}>{list.label}</MenuItem>
-          )}
+          renderValue={() => <MenuItem>{list.label}</MenuItem>}
         >
           {lists.map((list) => (
             <MenuItem key={list.id} value={list}>
               {list.label}
             </MenuItem>
           ))}
-        </Select>
+        </StyledSelect>
       )}
     </div>
   );
 };
+
+const StyledSelect = styled(Select)(({ theme }) => ({
+  color: theme.palette.secondary.main,
+  "& li": {
+    // Target the rendered item, a MenuItem component, which renders an li
+    paddingRight: 4,
+  },
+  "& .MuiSelect-icon": {
+    color: theme.palette.secondary.main,
+  },
+}));
 
 export default DbSelect;

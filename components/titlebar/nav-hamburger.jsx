@@ -1,7 +1,6 @@
-import styles from "./nav-hamburger.module.css";
-
 import React, { useState } from "react";
 import {
+  styled,
   ClickAwayListener,
   Divider,
   IconButton,
@@ -32,7 +31,7 @@ const NavHamburger = () => {
   };
 
   return (
-    <div className={styles.menu}>
+    <NavMenu>
       <IconButton onClick={handleClick} color="secondary" size="large">
         <MenuIcon />
       </IconButton>
@@ -47,13 +46,11 @@ const NavHamburger = () => {
                   handleClose();
                 }}
               >
-                <Refresh className={styles.icon} /> Pick again
+                <RefreshIcon /> Pick again
               </MenuItem>
             )}
 
-            {pathname === "/pick" && (
-              <Divider variant="middle" className={styles.divider} />
-            )}
+            {pathname === "/pick" && <MenuDivider variant="middle" />}
 
             {pathname !== "/" && (
               <MenuItem
@@ -62,7 +59,7 @@ const NavHamburger = () => {
                   handleClose();
                 }}
               >
-                <Movie className={styles.icon} />
+                <MovieIcon />
                 Movies
               </MenuItem>
             )}
@@ -74,12 +71,12 @@ const NavHamburger = () => {
                   handleClose();
                 }}
               >
-                <Eye className={styles.icon} />
+                <EyeIcon />
                 Watched
               </MenuItem>
             )}
 
-            <Divider variant="middle" className={styles.divider} />
+            <MenuDivider variant="middle" />
 
             {lists?.map((list) => (
               <MenuItem
@@ -89,14 +86,34 @@ const NavHamburger = () => {
                   handleClose();
                 }}
               >
-                <List className={styles.icon} /> {list.label}
+                <ListIcon /> {list.label}
               </MenuItem>
             ))}
           </div>
         </ClickAwayListener>
       </Menu>
-    </div>
+    </NavMenu>
   );
 };
+
+const NavMenu = styled("div")(({ theme: { spacing } }) => ({
+  gridArea: "nav",
+  marginRight: spacing(2),
+}));
+
+const icon = ({ theme: { palette, spacing } }) => ({
+  marginRight: spacing(2),
+  color: palette.grey[600],
+});
+
+const RefreshIcon = styled(Refresh)(icon);
+const ListIcon = styled(List)(icon);
+const EyeIcon = styled(Eye)(icon);
+const MovieIcon = styled(Movie)(icon);
+
+const MenuDivider = styled(Divider)(({ theme: { spacing } }) => ({
+  marginTop: spacing(0.5),
+  marginBottom: spacing(0.5),
+}));
 
 export default NavHamburger;

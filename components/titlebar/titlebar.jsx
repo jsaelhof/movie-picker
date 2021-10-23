@@ -1,12 +1,8 @@
-import styles from "./titlebar.module.css";
-
 import React from "react";
-import { AppBar, Toolbar } from "@mui/material";
+import { AppBar, Toolbar, styled } from "@mui/material";
 import { useRouter } from "next/router";
-import clsx from "clsx";
 import Refresh from "@mui/icons-material/Refresh";
 
-import { useResponsive } from "../../hooks/use-responsive";
 import { useAppContext } from "../../context/app-context";
 import ProfileMenu from "./profile-menu";
 import NavFull from "./nav-full";
@@ -22,35 +18,56 @@ const TitleBar = () => {
   const { pathname } = useRouter();
 
   return (
-    <div className={styles.appBar}>
+    <AppBarContainer>
       <AppBar position="static" color="transparent" elevation={2}>
-        <Toolbar
-          classes={{
-            root: clsx(
-              styles.toolbar,
-              mobileNav && styles.smallToolbar,
-              pathname === "/pick" && mobileNav && styles.smallPickToolbar
-            ),
-          }}
-        >
+        <StyledToolbar $isPickScreen={pathname === "/pick"}>
           <Logo small={smallLogo} />
           {movies && (mobileNav ? <NavHamburger /> : <NavFull />)}
 
           {/* In the small view, keep a pick again button in the ain nav area. It's also in the hamburger menu */}
           {movies && mobileNav && pathname === "/pick" && (
-            <NavButton
+            <PickAgainButton
               startIcon={<Refresh />}
               onClick={() => setPick(null)}
-              className={styles.pickAgain}
             >
               Pick Again
-            </NavButton>
+            </PickAgainButton>
           )}
           <ProfileMenu />
-        </Toolbar>
+        </StyledToolbar>
       </AppBar>
-    </div>
+    </AppBarContainer>
   );
 };
+
+const AppBarContainer = styled("div")(({ theme: { palette } }) => ({
+  flexGrow: 1,
+  zIndex: 1000,
+  background: `linear-gradient(75deg, ${palette.darkBlue[500]}, ${palette.darkBlue[900]} 80%)`,
+}));
+
+const StyledToolbar = styled(Toolbar)(
+  ({ theme: { breakpoints }, $isPickScreen }) => ({
+    display: "grid",
+    gridTemplateColumns: "auto 1fr auto",
+    gridTemplateAreas: `"logo nav profile"`,
+    minHeight: "64px",
+
+    [breakpoints.down(580)]: {
+      ...($isPickScreen
+        ? {
+            gridTemplateAreas: `"nav logo pick profile"`,
+            gridTemplateColumns: "auto max-content 1fr auto",
+          }
+        : { gridTemplateAreas: `"nav logo profile"` }),
+    },
+  })
+);
+
+const PickAgainButton = styled(NavButton)(({ theme: { spacing } }) => ({
+  gridArea: "pick",
+  marginRight: spacing(2),
+  marginLeft: "auto",
+}));
 
 export default TitleBar;

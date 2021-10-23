@@ -1,13 +1,11 @@
-import styles from "./profile-menu.module.css";
-
 import React, { useRef, useState } from "react";
 import {
   Avatar,
   ClickAwayListener,
-  Grow,
-  Popper,
+  Popover,
   Paper,
   Button,
+  styled,
 } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
@@ -20,59 +18,90 @@ const ProfileMenu = () => {
   const onCloseMenu = () => setOpen(false);
 
   return user ? (
-    <div className={styles.profile}>
-      <Avatar
+    <Profile>
+      <AvatarButton
         ref={anchorRef}
         alt={user.name}
         src={user.picture}
-        className={styles.avatarButton}
         onClick={onOpenMenu}
       />
-
-      <Popper
+      <Popover
         open={open}
         anchorEl={anchorRef.current}
-        transition
-        placement="bottom-end"
-        modifiers={{
-          offset: {
-            enabled: true,
-            offset: "0,8",
-          },
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
         }}
-        className={styles.popper}
+        transformOrigin={{
+          vertical: -8,
+        }}
       >
-        {({ TransitionProps }) => (
-          <Grow {...TransitionProps}>
-            <ClickAwayListener onClickAway={onCloseMenu}>
-              <Paper className={styles.profileMenu} elevation={10}>
-                <div className={styles.profileAvatar}>
-                  <Avatar
-                    alt={user.name}
-                    src={user.picture}
-                    style={{
-                      width: 65,
-                      height: 65,
-                    }}
-                  />
-                  <div className={styles.profileName}>{user.name}</div>
-                  <div className={styles.profileEmail}>{user.email}</div>
-                </div>
+        <ClickAwayListener onClickAway={onCloseMenu}>
+          <ProfilePaper elevation={10}>
+            <ProfileAvatar>
+              <AppBarAvatar alt={user.name} src={user.picture} />
+              <ProfileName>{user.name}</ProfileName>
+              <ProfileEmail>{user.email}</ProfileEmail>
+            </ProfileAvatar>
 
-                <div className={styles.profileActions}>
-                  <Link href="/api/auth/logout">
-                    <Button variant="outlined" onClick={onCloseMenu}>
-                      Logout
-                    </Button>
-                  </Link>
-                </div>
-              </Paper>
-            </ClickAwayListener>
-          </Grow>
-        )}
-      </Popper>
-    </div>
+            <ProfileActions>
+              <Link href="/api/auth/logout">
+                <Button variant="outlined" onClick={onCloseMenu}>
+                  Logout
+                </Button>
+              </Link>
+            </ProfileActions>
+          </ProfilePaper>
+        </ClickAwayListener>
+      </Popover>
+    </Profile>
   ) : null;
 };
+
+const Profile = styled("div")`
+  grid-area: profile;
+`;
+
+const AvatarButton = styled(Avatar)`
+  border: 1px solid rgba(0, 0, 0, 0.2);
+`;
+
+const ProfilePaper = styled(Paper)`
+  min-width: 200px;
+  max-width: 300px;
+`;
+
+const ProfileAvatar = styled("div")(({ theme: { palette, spacing } }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  margin: `0 ${spacing(2)}`,
+  padding: `${spacing(2)} 0`,
+  borderBottom: `1px solid ${palette.grey[400]}`,
+}));
+
+const AppBarAvatar = styled(Avatar)`
+  width: 65px;
+  height: 65px;
+`;
+
+const ProfileName = styled("div")(({ theme: { spacing } }) => ({
+  marginTop: spacing(2),
+}));
+
+const ProfileEmail = styled("div")(({ theme: { spacing } }) => ({
+  marginTop: spacing(0.5),
+  fontSize: "0.75em",
+  opacity: 0.7,
+}));
+
+const ProfileActions = styled("div")(({ theme: { spacing } }) => ({
+  textAlign: "center",
+  padding: `${spacing(2)} 0`,
+
+  "& :first-child": {
+    textTransform: "capitalize",
+  },
+}));
 
 export default ProfileMenu;
