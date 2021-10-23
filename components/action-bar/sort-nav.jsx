@@ -76,7 +76,7 @@ const SortNavListItem = styled("li")(
     ...($selected && {
       fontSize: "1rem",
       color: "initial",
-      borderBottom: `1px solid ${palette.blueAccent}`,
+      borderBottom: `1px solid ${palette.accent}`,
     }),
   })
 );
