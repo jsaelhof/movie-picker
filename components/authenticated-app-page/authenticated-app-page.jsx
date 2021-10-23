@@ -1,8 +1,6 @@
 import React from "react";
 import TitleBar from "../titlebar/titlebar";
 import Footer from "../footer/footer";
-import { ThemeProvider, StyledEngineProvider } from "@mui/material";
-import { theme } from "../../theme/theme";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 /**
@@ -19,13 +17,9 @@ const AuthenticatedAppPage = ({ Component, pageProps }) => {
         background: "radial-gradient(#FFF, #DFDFDF 80%)",
       }}
     >
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <TitleBar />
-          <Component {...pageProps} />
-          <Footer />
-        </ThemeProvider>
-      </StyledEngineProvider>
+      <TitleBar />
+      <Component {...pageProps} />
+      <Footer />
     </div>
   );
 };

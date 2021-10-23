@@ -1,14 +1,37 @@
-import { createTheme, adaptV4Theme } from "@mui/material";
+import { createTheme } from "@mui/material";
+import { grey } from "@mui/material/colors";
 
-const navColor = "#b4b5de";
+const darkBlue = {
+  50: "#b4b5de",
+  500: "#37476c",
+  900: "#1e1e30",
+};
 
-export const theme = createTheme(adaptV4Theme({
+export const theme = createTheme({
   palette: {
     primary: {
-      main: "#37476c",
+      main: darkBlue[500],
     },
     secondary: {
-      main: navColor,
+      main: darkBlue[50],
+    },
+    darkBlue,
+    grey,
+  },
+
+  components: {
+    MuiButton: {
+      variants: [
+        {
+          props: { variant: "nav" },
+          style: {
+            color: darkBlue[50],
+            textTransform: "initial",
+            fontSize: "1rem",
+            fontWeight: 400,
+          },
+        },
+      ],
     },
   },
 
@@ -21,8 +44,8 @@ export const theme = createTheme(adaptV4Theme({
     },
     MuiAppBar: {
       colorTransparent: {
-        color: navColor,
+        color: darkBlue[50],
       },
     },
   },
-}));
+});

@@ -6,6 +6,8 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { AppProvider } from "../context/app-context";
 import AuthenticatedAppPage from "../components/authenticated-app-page/authenticated-app-page";
+import { ThemeProvider, StyledEngineProvider } from "@mui/material";
+import { theme } from "../theme/theme";
 
 const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
@@ -33,20 +35,24 @@ function MyApp(props) {
   return (
     <UserProvider>
       <ApolloProvider client={client}>
-        <AppProvider>
-          <Head>
-            <title>Movie Decider 4000</title>
-            <link rel="icon" href="/favicon.ico" />
-            <link rel="apple-touch-icon" href="touch-icon-iphone.png" />
-            <meta name="apple-mobile-web-app-title" content="MD4000"></meta>
-            <meta name="apple-mobile-web-app-capable" content="yes"></meta>
-            <meta
-              name="apple-mobile-web-app-status-bar-style"
-              content="black"
-            ></meta>
-          </Head>
-          <AuthenticatedAppPage {...props} />
-        </AppProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <AppProvider>
+              <Head>
+                <title>Movie Decider 4000</title>
+                <link rel="icon" href="/favicon.ico" />
+                <link rel="apple-touch-icon" href="touch-icon-iphone.png" />
+                <meta name="apple-mobile-web-app-title" content="MD4000"></meta>
+                <meta name="apple-mobile-web-app-capable" content="yes"></meta>
+                <meta
+                  name="apple-mobile-web-app-status-bar-style"
+                  content="black"
+                ></meta>
+              </Head>
+              <AuthenticatedAppPage {...props} />
+            </AppProvider>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </ApolloProvider>
     </UserProvider>
   );
