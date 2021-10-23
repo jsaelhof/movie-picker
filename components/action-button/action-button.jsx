@@ -1,9 +1,6 @@
-import { Tooltip } from "@mui/material";
-import clsx from "clsx";
+import { Tooltip, styled } from "@mui/material";
 import noop from "lodash/noop";
 import React from "react";
-
-import styles from "./action-button.module.css";
 
 const ActionButton = ({
   Icon,
@@ -11,7 +8,6 @@ const ActionButton = ({
   movie = {},
   disabled,
   onClick,
-  className,
 }) => (
   <Tooltip
     title={tooltip}
@@ -20,17 +16,27 @@ const ActionButton = ({
     enterDelay={1000}
     enterNextDelay={1000}
   >
-    <Icon
-      data-movie={JSON.stringify(movie)}
-      className={clsx(styles.action, disabled && styles.disabled, className)}
-      onClick={
-        disabled
-          ? noop
-          : ({ currentTarget }) =>
-              onClick(JSON.parse(currentTarget.dataset.movie))
-      }
-    />
+    <ButtonContainer
+      $disabled={disabled}
+      onClick={disabled ? noop : () => onClick(movie)}
+    >
+      <Icon />
+    </ButtonContainer>
   </Tooltip>
 );
+
+const ButtonContainer = styled("div")(({ theme: { palette } }, $disabled) => ({
+  cursor: "pointer",
+  color: palette.icon,
+
+  ...($disabled && {
+    opacity: 0.2,
+    cursor: "not-allowed",
+  }),
+
+  "& :hover": {
+    color: $disabled ? palette.icon : palette.accent,
+  },
+}));
 
 export default ActionButton;
