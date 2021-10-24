@@ -1,12 +1,10 @@
+import "react-day-picker/style.css";
+
 import { useRef } from "react";
 import { DayPicker } from "react-day-picker";
-import { Button, Drawer } from "@mui/material";
-import clsx from "clsx";
+import { Button, Drawer, styled } from "@mui/material";
 
 import { useOnClickOutside } from "../../hooks/use-on-click-outside";
-
-import styles from "./date-picker.module.css";
-import "react-day-picker/style.css";
 
 const DatePicker = ({
   drawer = false,
@@ -19,10 +17,7 @@ const DatePicker = ({
   useOnClickOutside(ref, onCancel);
 
   const picker = (
-    <div
-      ref={ref}
-      className={clsx(styles.datePicker, drawer && styles.datePickerDrawer)}
-    >
+    <Picker ref={ref} $drawer={drawer}>
       <DayPicker
         defaultMonth={defaultDate}
         defaultSelected={defaultDate}
@@ -32,17 +27,17 @@ const DatePicker = ({
         mode="single"
         onSelect={onChange}
         footer={
-          <div className={styles.buttons}>
+          <ButtonGroup>
             <Button variant="outlined" onClick={onCancel}>
               Cancel
             </Button>
             <Button variant="contained" color="primary" onClick={onSave}>
               Save
             </Button>
-          </div>
+          </ButtonGroup>
         }
       />
-    </div>
+    </Picker>
   );
 
   return drawer ? (
@@ -53,5 +48,28 @@ const DatePicker = ({
     <>{picker}</>
   );
 };
+
+const Picker = styled("div")(({ $drawer }) => ({
+  position: "absolute",
+  background: "white",
+  border: "1px solid rgba(0, 0, 0, 0.25)",
+  top: 40,
+  right: 20,
+  zIndex: 10,
+  boxShadow: "0 5px 10px rgba(0, 0, 0, 0.15)",
+  borderRadius: 5,
+
+  ...($drawer && {
+    position: "initial",
+    textAlign: "center",
+  }),
+}));
+
+const ButtonGroup = styled("div")(({ theme: { spacing } }) => ({
+  display: "flex",
+  justifyContent: "space-between",
+  marginLeft: "40%",
+  marginTop: spacing(1),
+}));
 
 export default DatePicker;
