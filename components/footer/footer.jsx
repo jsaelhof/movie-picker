@@ -1,17 +1,33 @@
-import styles from "./footer.module.css";
-
 import React from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { styled } from "@mui/material";
 
 const Footer = () => {
-  const router = useRouter;
   return (
-    <div className={styles.footer}>
+    <FooterContainer>
       <Link href="/">Movies</Link>
       <Link href="/watched">Watched</Link>
-    </div>
+    </FooterContainer>
   );
 };
+
+const FooterContainer = styled("div")(({ theme: { palette, spacing } }) => ({
+  width: "100%",
+  height: spacing(8),
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+
+  "& > a": {
+    fontSize: "0.9rem",
+    margin: `0 ${spacing(2)}`,
+    textDecoration: "none",
+    color: palette.grey[600],
+  },
+
+  "& > a:hover": {
+    color: palette.accent,
+  },
+}));
 
 export default Footer;
