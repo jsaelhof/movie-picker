@@ -1,5 +1,3 @@
-import styles from "./delete-dialog.module.css";
-
 import {
   Button,
   Dialog,
@@ -19,11 +17,7 @@ const DeleteDialog = ({ open, title, content, onCancel, onConfirm }) => (
         <Button onClick={onCancel} autoFocus>
           Cancel
         </Button>
-        <Button
-          onClick={onConfirm}
-          variant="contained"
-          className={styles.deleteButton}
-        >
+        <Button onClick={onConfirm} variant="contained" color="error">
           Delete
         </Button>
       </DialogActions>
