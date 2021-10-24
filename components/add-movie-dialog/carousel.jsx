@@ -1,9 +1,8 @@
-import styles from "./carousel.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import React from "react";
-import { useMediaQuery } from "@mui/material";
+import { useMediaQuery, styled } from "@mui/material";
 import Slider from "react-slick";
 
 import MoviePoster from "./movie-poster";
@@ -15,21 +14,19 @@ const Carousel = ({ movies, searching, onSelectMovie }) => {
     return null;
   }
 
-  if (searching)
-    return <div className={styles.statusMessage}>Searching...</div>;
+  if (searching) return <StatusMessage>Searching...</StatusMessage>;
 
   if (movies.length === 0)
-    return <div className={styles.statusMessage}>No Movies Found</div>;
+    return <StatusMessage>No Movies Found</StatusMessage>;
 
   return (
-    <Slider
+    <StyledSlider
       arrows
       dots
       infinite={false}
       speed={500}
       slidesToShow={4}
       slidesToScroll={4}
-      className={styles.slider}
       responsive={[
         {
           breakpoint: 1200,
@@ -67,8 +64,21 @@ const Carousel = ({ movies, searching, onSelectMovie }) => {
           }}
         />
       ))}
-    </Slider>
+    </StyledSlider>
   );
 };
+
+const StatusMessage = styled("div")`
+  height: 280px;
+  text-align: center;
+`;
+
+const StyledSlider = styled(Slider)(({ theme: { palette, spacing } }) => ({
+  margin: `0 30px ${spacing(4)}`,
+
+  "& > button:before": {
+    color: palette.grey[800],
+  },
+}));
 
 export default Carousel;

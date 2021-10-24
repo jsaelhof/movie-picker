@@ -1,9 +1,7 @@
-import clsx from "clsx";
 import isNil from "lodash/isNil";
 import React from "react";
 import TheatresIcon from "@mui/icons-material/Theaters";
-
-import styles from "./movie-poster.module.css";
+import { styled } from "@mui/material";
 
 const MoviePoster = ({
   poster,
@@ -14,28 +12,93 @@ const MoviePoster = ({
   height = 200,
   className,
 }) => (
-  <div
-    className={clsx(
-      styles.main,
-      onClick && styles.mainInteraction,
-      !isNil(selected) && !selected && styles.unselected,
-      className
-    )}
+  <PosterContainer
+    $interactive={!!onClick}
+    $unselected={!isNil(selected) && !selected}
+    className={className}
     onClick={onClick}
   >
-    <div className={styles.poster} style={{ height }}>
+    <Poster $height={height}>
       {poster === "N/A" || !poster ? (
-        <div className={styles.noPoster}>
+        <NoPoster>
           <TheatresIcon fontSize="large" />
           No Poster
-        </div>
+        </NoPoster>
       ) : (
         <img src={poster} />
       )}
-    </div>
-    {title && <div className={styles.title}>{title}</div>}
-    {year && <div className={styles.year}>{year}</div>}
-  </div>
+    </Poster>
+    {title && <Title>{title}</Title>}
+    {year && <Year>{year}</Year>}
+  </PosterContainer>
 );
+
+const PosterContainer = styled("div")(
+  ({ theme: { palette, spacing }, $interactive, $unselected }) => ({
+    display: "grid",
+    gridAutoFlow: "row",
+    alignItems: "center",
+    color: palette.grey[800],
+    transition: "all 400ms",
+    paddingLeft: spacing(0.5),
+    paddingRight: spacing(0.5),
+
+    ...($unselected && {
+      opacity: 0.25,
+    }),
+
+    ...($interactive && {
+      paddingTop: spacing(0.5),
+    }),
+
+    "& img": {
+      maxWidth: "100%",
+      maxHeight: "100%",
+      objectFit: "contain",
+      boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.4)",
+    },
+
+    "& :hover > img": {
+      ...($interactive && {
+        transform: `translateY(${spacing(-0.5)})`,
+        boxShadow: "0px 6px 8px rgba(0, 0, 0, 0.25)",
+      }),
+    },
+  })
+);
+
+const Poster = styled("div")(({ theme: { palette }, $height }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  color: palette.grey[800],
+  height: $height,
+}));
+
+const NoPoster = styled("div")(() => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  textAlign: "center",
+  width: 128,
+  height: 200,
+  background: "#f7f7fc",
+  boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.15)",
+}));
+
+const Title = styled("div")(({ theme: { spacing } }) => ({
+  width: "100%",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  textAlign: "center",
+  marginTop: spacing(1),
+}));
+
+const Year = styled("div")`
+  font-size: 0.8em;
+  text-align: center;
+`;
 
 export default MoviePoster;

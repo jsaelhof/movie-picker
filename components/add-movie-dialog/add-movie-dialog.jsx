@@ -6,8 +6,8 @@ import {
   DialogTitle,
   TextField,
   useMediaQuery,
+  styled,
 } from "@mui/material";
-import clsx from "clsx";
 import { isNil } from "lodash";
 import React, { useRef, useState } from "react";
 import { useQuery } from "@apollo/client";
@@ -21,8 +21,6 @@ import Carousel from "./carousel";
 import ListSelect from "../list-select/list-select";
 import MoviePoster from "./movie-poster";
 import Ratings from "../ratings/ratings";
-
-import styles from "./add-movie-dialog.module.css";
 
 const AUTO_REFRESH_TIMEOUT = 1500;
 
@@ -91,24 +89,15 @@ const AddMovieDialog = ({
     <Dialog open={true} fullWidth fullScreen={xsmall} maxWidth="lg">
       <DialogTitle>Add a Movie</DialogTitle>
       <DialogContent>
-        <div
-          className={clsx(
-            styles.input,
-            medium && styles.mediumInput,
-            small && styles.smallInput,
-            xsmall && styles.xsmallInput
-          )}
-        >
-          <MoviePoster
+        <Input>
+          <StyledMoviePoster
             poster={input.poster}
             height={xsmall ? 130 : undefined}
-            className={styles.poster}
           />
-          <TextField
-            className={styles.title}
+          <Title
             label="Title"
             value={input.title}
-            margin="dense"
+            size="small"
             fullWidth
             variant="outlined"
             placeholder="Title"
@@ -126,11 +115,10 @@ const AddMovieDialog = ({
             autoFocus
           />
 
-          <TextField
-            className={styles.runtime}
+          <Runtime
             label="Runtime"
             value={input.runtime || ""}
-            margin="dense"
+            size="small"
             variant="outlined"
             placeholder="0:00"
             inputProps={{
@@ -141,19 +129,17 @@ const AddMovieDialog = ({
             }
           />
 
-          <ListSelect
-            className={styles.genre}
+          <Genre
             onChange={(value) => setInput({ ...input, genre: value })}
             value={input.genre}
             values={genres}
             labels={genreLabels}
           />
 
-          <TextField
-            className={styles.year}
+          <Year
             label="Year"
             value={input.year || ""}
-            margin="dense"
+            size="small"
             variant="outlined"
             placeholder="1978"
             inputProps={{
@@ -164,8 +150,7 @@ const AddMovieDialog = ({
             }
           />
 
-          <ListSelect
-            className={styles.source}
+          <Source
             onChange={(value) => setInput({ ...input, source: value })}
             value={input.source}
             values={sources}
@@ -173,10 +158,8 @@ const AddMovieDialog = ({
             images={sourceLogos}
           />
 
-          {input.ratings && (
-            <Ratings ratings={input.ratings} className={styles.ratings} />
-          )}
-        </div>
+          {input.ratings && <StyledRatings ratings={input.ratings} />}
+        </Input>
 
         <Carousel
           movies={movies}
@@ -211,5 +194,115 @@ const AddMovieDialog = ({
     </Dialog>
   );
 };
+
+const Input = styled("div")(({ theme: { breakpoints, spacing } }) => ({
+  margin: `${spacing(2)} 0 ${spacing(8)}`,
+  display: "grid",
+  gridTemplateColumns: "180px 100px 100px 150px 175px auto",
+  gridTemplateRows: "30px repeat(3, 40px)",
+  gridTemplateAreas: `
+    "poster . . . . ."
+    "poster title title title title title"
+    "poster runtime year genre source ratings"
+  `,
+  columnGap: spacing(2),
+  rowGap: spacing(2),
+  alignItems: "flex-start",
+
+  "& > *": {
+    margin: 0,
+  },
+
+  "& li": {
+    display: "flex",
+    alignItems: "center",
+  },
+
+  [breakpoints.down(1140)]: {
+    gridTemplateRows: "10px repeat(4, 40px)",
+    gridTemplateColumns: "180px 100px 100px 150px 175px auto",
+    gridTemplateAreas: `
+      "poster . . . . ."
+      "poster title title title title title"
+      "poster runtime year genre source ."
+      "poster ratings ratings ratings ratings ratings"
+    `,
+  },
+
+  [breakpoints.down(885)]: {
+    gridTemplateRows: "repeat(4, 40px)",
+    gridTemplateColumns: "180px 100px 75px 75px auto",
+    gridTemplateAreas: `
+      "poster title title title title"
+      "poster runtime genre genre ."
+      "poster year source source ."
+      "poster ratings ratings ratings ratings"
+    `,
+  },
+
+  [`${breakpoints.down(600)}, (max-height: 414px)`]: {
+    justifyContent: "center",
+    gridTemplateColumns: "125px 125px",
+    gridTemplateRows: "auto repeat(5, 40px)",
+    gridTemplateAreas: `
+      "poster poster"
+      "title title"
+      "runtime year"
+      "genre genre"
+      "source source"
+      "ratings ratings"
+    `,
+    marginBottom: spacing(4),
+  },
+}));
+
+const StyledMoviePoster = styled(MoviePoster)`
+  grid-area: poster;
+`;
+
+const Title = styled(TextField)`
+  grid-area: title;
+`;
+
+const Runtime = styled(TextField)`
+  grid-area: runtime;
+`;
+
+const Genre = styled(ListSelect)(() => ({
+  gridArea: "genre",
+
+  "& > div": {
+    padding: "8.5px 14px",
+  },
+}));
+
+const Year = styled(TextField)`
+  grid-area: year;
+`;
+
+const Source = styled(ListSelect)(() => ({
+  gridArea: "source",
+
+  "& > div": {
+    padding: "5px 14px",
+  },
+}));
+
+const StyledRatings = styled(Ratings)(
+  ({ theme: { breakpoints, spacing } }) => ({
+    gridArea: "ratings",
+    justifySelf: "flex-end",
+    paddingRight: spacing(2),
+
+    [breakpoints.down(1140)]: {
+      justifySelf: "flex-start",
+    },
+
+    [`${breakpoints.down(600)}, (max-height: 414px)`]: {
+      justifySelf: "center",
+      paddingRight: 0,
+    },
+  })
+);
 
 export default AddMovieDialog;
