@@ -1,31 +1,27 @@
-import clsx from "clsx";
 import React from "react";
+import { styled } from "@mui/material";
 
-import styles from "./list-cell.module.css";
-
-const ListCell = ({
-  children,
-  left,
-  dense,
-  locked,
-  onClick,
-  classes,
-  ...props
-}) => (
-  <div
-    className={clsx(
-      styles.listCell,
-      left && styles.left,
-      dense && styles.dense,
-      locked && styles.locked,
-      onClick && styles.button,
-      classes
-    )}
-    onClick={onClick}
-    {...props}
-  >
+const ListCell = ({ children, classes, ...props }) => (
+  <Cell className={classes} onClick={props.onClick} {...props}>
     {children}
-  </div>
+  </Cell>
 );
+
+const Cell = styled("div")(({ theme: { spacing }, left, onClick }) => ({
+  display: "grid",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: `${spacing(0.5)} ${spacing(2)}`,
+  height: "100%",
+  minHeight: 40,
+
+  ...(left && {
+    justifyContent: "left",
+  }),
+
+  ...(onClick && {
+    cursor: "pointer",
+  }),
+}));
 
 export default ListCell;
