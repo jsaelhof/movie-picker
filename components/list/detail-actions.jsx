@@ -1,12 +1,11 @@
 import React from "react";
+import { styled } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import EyeCheckIcon from "@mitch528/mdi-material-ui/EyeCheck";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import ActionButton from "../action-button/action-button";
 import Lock from "../lock/lock";
-
-import styles from "./detail-actions.module.css";
 
 const DetailActions = ({
   movie,
@@ -15,7 +14,7 @@ const DetailActions = ({
   onToggleLock,
   onMoreActions,
 }) => (
-  <div className={styles.detailActions}>
+  <Actions>
     <ActionButton Icon={EditIcon} tooltip="Edit" onClick={onEdit} />
     <ActionButton
       Icon={EyeCheckIcon}
@@ -34,7 +33,13 @@ const DetailActions = ({
       tooltip="More Actions"
       onClick={onMoreActions}
     />
-  </div>
+  </Actions>
 );
+
+const Actions = styled("div")(({ theme: { spacing } }) => ({
+  display: "grid",
+  gridTemplateColumns: "26px 26px 26px 1fr 26px",
+  gap: spacing(1),
+}));
 
 export default DetailActions;
