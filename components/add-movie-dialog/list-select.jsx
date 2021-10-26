@@ -1,18 +1,8 @@
-import { MenuItem, Select, TextField } from "@mui/material";
-import clsx from "clsx";
+import { MenuItem, Select, styled } from "@mui/material";
 import map from "lodash/map";
 import React from "react";
 
-import styles from "./list-select.module.css";
-
-const getImage = (src) => <img src={src} width="30" height="30" />;
-
-const MenuItemContent = ({ images, labels, value, hideLabelForSelection }) => (
-  <div className={clsx(styles.menuItem, value === 0 && styles.italic)}>
-    {images && getImage(images[value])}
-    {!hideLabelForSelection && <span>{labels[value]}</span>}
-  </div>
-);
+import ListSelectItem from "./list-select-item";
 
 const ListSelect = ({
   value,
@@ -22,16 +12,15 @@ const ListSelect = ({
   ...props
 }) => {
   return (
-    <Select
+    <StyledSelect
       margin="dense"
       variant="outlined"
-      className={styles.select}
       value={value || 0}
       onChange={({ target }) => {
         if (onChange) onChange(target.value);
       }}
       renderValue={(value) => (
-        <MenuItemContent
+        <ListSelectItem
           hideLabelForSelection={hideLabelForSelection}
           value={value}
           {...props}
@@ -41,11 +30,22 @@ const ListSelect = ({
     >
       {map(values, (value) => (
         <MenuItem key={value} value={value}>
-          <MenuItemContent value={value} {...props} />
+          <ListSelectItem value={value} {...props} />
         </MenuItem>
       ))}
-    </Select>
+    </StyledSelect>
   );
 };
+
+const StyledSelect = styled(Select)(({ theme: { spacing } }) => ({
+  marginTop: spacing(1) /* simulate margin=dense */,
+  marginBottom: spacing(0.5) /* simulate margin=dense */,
+  height: 41 /* Grrr...make the hight line up */,
+
+  "& > :first-child": {
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+}));
 
 export default ListSelect;
