@@ -5,7 +5,7 @@ import EyeCheckIcon from "@mitch528/mdi-material-ui/EyeCheck";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import ActionButton from "../action-button/action-button";
-import Lock from "../lock/lock";
+import Lock from "./lock";
 
 const DetailActions = ({
   movie,
