@@ -42,15 +42,13 @@ const ActionBar = ({ disabled, onAdd, onPick }) => {
   );
 };
 
-const ActionBarContainer = styled("div")(
-  ({ theme: { breakpoints, spacing } }) => ({
-    flexGrow: 1,
+const ActionBarContainer = styled("div")`
+  flex-grow: 1;
 
-    [breakpoints.down(615)]: {
-      marginTop: spacing(3),
-    },
-  })
-);
+  @media (max-width: 615px) {
+    margin-top: ${({ theme }) => theme.spacing(3)};
+  }
+`;
 
 const ActionToolbar = styled(Toolbar)(
   ({ theme: { breakpoints, spacing } }) => ({
@@ -66,20 +64,18 @@ const ActionToolbar = styled(Toolbar)(
   })
 );
 
-const SecondaryActions = styled("div")(({ theme: { spacing } }) => ({
-  display: "grid",
-  gridAutoFlow: "column",
-  columnGap: spacing(2),
-}));
+const SecondaryActions = styled("div")`
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: ${({ theme: { spacing } }) => spacing(2)};
+`;
 
-const AddToQueueIcon = styled(AddToQueue)(
-  ({ theme: { breakpoints, spacing } }) => ({
-    marginRight: spacing(2),
+const AddToQueueIcon = styled(AddToQueue)`
+  margin-right: ${({ theme: { spacing } }) => spacing(2)};
 
-    [breakpoints.down(736)]: {
-      marginRight: 0,
-    },
-  })
-);
+  @media (max-width: 736px) {
+    margin-right: 0;
+  }
+`;
 
 export default ActionBar;
