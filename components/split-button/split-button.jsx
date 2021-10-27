@@ -5,16 +5,13 @@ import {
   MenuItem,
   MenuList,
   Paper,
+  styled,
 } from "@mui/material";
 import React, { useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ClockIcon from "@mitch528/mdi-material-ui/ClockOutline";
 import ClockFastIcon from "@mitch528/mdi-material-ui/ClockFast";
 import TimerSandIcon from "@mitch528/mdi-material-ui/TimerSand";
-import clsx from "clsx";
-
-import styles from "./split-button.module.css";
-import { useResponsive } from "../../hooks/use-responsive";
 
 const splitButtonItems = [
   {
@@ -38,46 +35,71 @@ const splitButtonItems = [
 ];
 
 const SplitButton = ({ onPick }) => {
-  const { mobile } = useResponsive();
   const [openSplitButton, setOpenSplitButton] = useState(false);
 
   return (
-    <ButtonGroup className={styles.splitButton}>
-      <Button
-        className={clsx(styles.mainButton, mobile && styles.mainButtonMobile)}
-        variant="contained"
-        color="primary"
-        onClick={() => onPick()}
-      >
-        <img src="/images/random.png" className={styles.random} />
+    <SplitButtonContainer>
+      <MainButton variant="contained" onClick={() => onPick()}>
+        <RandomIcon src="/images/random.png" />
         Pick A Movie
-      </Button>
+      </MainButton>
       <Button
-        className={styles.secondaryButton}
         variant="contained"
         size="small"
-        color="primary"
         onClick={() => setOpenSplitButton(true)}
       >
         <ArrowDropDownIcon />
       </Button>
 
       {openSplitButton && (
-        <Paper className={styles.splitButtonPaper}>
+        <SplitMenu>
           <ClickAwayListener onClickAway={() => setOpenSplitButton(false)}>
             <MenuList id="split-button-menu">
               {splitButtonItems.map(({ value, label, Icon, options }) => (
                 <MenuItem key={value} onClick={() => onPick(options)}>
-                  {<Icon className={styles.icon} />}
+                  {<MenuIcon as={Icon} />}
                   {label}
                 </MenuItem>
               ))}
             </MenuList>
           </ClickAwayListener>
-        </Paper>
+        </SplitMenu>
       )}
-    </ButtonGroup>
+    </SplitButtonContainer>
   );
 };
+
+const SplitButtonContainer = styled(ButtonGroup)`
+  position: relative;
+`;
+
+const MainButton = styled(Button)`
+  width: 180px;
+
+  @media (max-width: 500px) {
+    width: unset;
+    max-width: 180px;
+  }
+`;
+
+const RandomIcon = styled("img")`
+  width: 20px;
+  margin-right: ${({ theme: { spacing } }) => spacing(2)};
+  filter: invert(1);
+`;
+
+const SplitMenu = styled(Paper)`
+  position: absolute;
+  width: 220px;
+  top: 38px;
+  right: 0;
+  box-shadow: 0px 5px 3px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  z-index: 5;
+`;
+
+const MenuIcon = styled("div")`
+  margin-right: ${({ theme: { spacing } }) => spacing(1)};
+`;
 
 export default SplitButton;
