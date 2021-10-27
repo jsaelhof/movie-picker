@@ -4,8 +4,8 @@ import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
 
 import DeleteDialog from "../delete-dialog/delete-dialog";
-import ListHeaderCell from "../list-header-cell/list-header-cell";
-import WatchedListRow from "../watched-list-row/watched-list-row";
+import ListHeaderCell from "./list-header-cell";
+import WatchedListRow from "./watched-list-row";
 
 const WatchedList = ({ movies, onEditMovie, onRemoveMovie }) => {
   const [deleteMovie, setDeleteMovie] = useState(null);

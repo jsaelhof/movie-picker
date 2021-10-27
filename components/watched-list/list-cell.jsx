@@ -14,6 +14,7 @@ const Cell = styled("div")(({ theme: { spacing }, left, onClick }) => ({
   padding: `${spacing(0.5)} ${spacing(2)}`,
   height: "100%",
   minHeight: 40,
+  minWidth: 0,
 
   ...(left && {
     justifyContent: "left",
