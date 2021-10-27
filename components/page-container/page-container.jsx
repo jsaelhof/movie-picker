@@ -1,16 +1,14 @@
-import styles from "./page-container.module.css";
-
 import React from "react";
-import clsx from "clsx";
-import { useResponsive } from "../../hooks/use-responsive";
+import { styled } from "@mui/material";
 
-const PageContainer = ({ children }) => {
-  const { mobile } = useResponsive();
-  return (
-    <div className={clsx(styles.container, mobile && styles.containerMobile)}>
-      {children}
-    </div>
-  );
-};
+const PageContainer = ({ children }) => <Container>{children}</Container>;
+
+const Container = styled("div")`
+  padding: 0 44px;
+
+  @media (max-width: 500px) {
+    padding: 0 16px;
+  }
+`;
 
 export default PageContainer;
