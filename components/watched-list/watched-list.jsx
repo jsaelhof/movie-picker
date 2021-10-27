@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Paper } from "@mui/material";
+import { Paper, styled } from "@mui/material";
 import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
 
@@ -7,16 +7,14 @@ import DeleteDialog from "../delete-dialog/delete-dialog";
 import ListHeaderCell from "../list-header-cell/list-header-cell";
 import WatchedListRow from "../watched-list-row/watched-list-row";
 
-import styles from "./watched-list.module.css";
-
 const WatchedList = ({ movies, onEditMovie, onRemoveMovie }) => {
   const [deleteMovie, setDeleteMovie] = useState(null);
   const [editedMovie, setEditedMovie] = useState(null);
 
   return movies ? (
     <>
-      <Paper className={styles.list}>
-        <div className={styles.movieList}>
+      <ListContainer>
+        <List>
           <ListHeaderCell
             left
           >{`Watched Movies (${movies.length})`}</ListHeaderCell>
@@ -40,8 +38,8 @@ const WatchedList = ({ movies, onEditMovie, onRemoveMovie }) => {
                 }}
               />
             ))}
-        </div>
-      </Paper>
+        </List>
+      </ListContainer>
 
       <DeleteDialog
         open={!isNil(deleteMovie)}
@@ -58,5 +56,16 @@ const WatchedList = ({ movies, onEditMovie, onRemoveMovie }) => {
     </>
   ) : null;
 };
+
+const ListContainer = styled(Paper)(({ theme: { spacing } }) => ({
+  marginTop: spacing(6),
+  marginBottom: spacing(6),
+}));
+
+const List = styled("div")`
+  display: grid;
+  grid-template-columns: auto max-content max-content;
+  align-items: center;
+`;
 
 export default WatchedList;
