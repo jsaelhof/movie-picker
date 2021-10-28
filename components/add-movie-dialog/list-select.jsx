@@ -37,15 +37,17 @@ const ListSelect = ({
   );
 };
 
-const StyledSelect = styled(Select)(({ theme: { spacing } }) => ({
-  marginTop: spacing(1) /* simulate margin=dense */,
-  marginBottom: spacing(0.5) /* simulate margin=dense */,
-  height: 41 /* Grrr...make the hight line up */,
+const StyledSelect = styled(Select)`
+  /* simulate margin=dense */
+  margin-top: ${({ theme: { spacing } }) => spacing(1)};
+  /* simulate margin=dense */
+  margin-bottom: ${({ theme: { spacing } }) => spacing(0.5)};
+  /* Grrr...make the height line up */
+  height: 41;
 
-  "& > :first-child": {
-    paddingTop: 0,
-    paddingBottom: 0,
-  },
-}));
-
+  & > :first-child {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+`;
 export default ListSelect;

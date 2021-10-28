@@ -9,14 +9,15 @@ const ListSelectItem = ({ images, labels, value, hideLabelForSelection }) => (
   </Item>
 );
 
-const Item = styled("div")(({ theme: { spacing }, value }) => ({
-  display: "flex",
-  alignItems: "center",
-  columnGap: spacing(1),
+const Item = styled("div")`
+  display: flex;
+  align-items: center;
+  column-gap: ${({ theme: { spacing } }) => spacing(1)};
 
-  ...(value === 0 && {
-    fontStyle: "italic",
-  }),
-}));
+  ${({ value }) =>
+    value === 0 && {
+      fontStyle: "italic",
+    }}
+`;
 
 export default ListSelectItem;
