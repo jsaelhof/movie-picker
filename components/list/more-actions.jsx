@@ -94,21 +94,21 @@ const MoreActions = ({ movie, onDeleteMovie, onClose }) => {
   );
 };
 
-const CloseButton = styled("div")(({ theme: { palette, spacing } }) => ({
-  color: palette.grey[700],
-  display: "flex",
-  justifyContent: "center",
-  paddingTop: spacing(1),
-  cursor: "pointer",
-}));
+const CloseButton = styled("div")`
+  color: ${({ theme: { palette } }) => palette.grey[700]};
+  display: flex;
+  justify-content: center;
+  padding-top: ${({ theme: { spacing } }) => spacing(1)};
+  cursor: pointer;
+`;
 
-const Menu = styled(MenuList)(({ theme: { spacing } }) => ({
-  padding: 0,
-  paddingBottom: spacing(1),
-}));
+const Menu = styled(MenuList)`
+  padding: 0;
+  padding-bottom: ${({ theme: { spacing } }) => spacing(1)};
+`;
 
-const StyledIcon = styled("div")(({ theme: { spacing } }) => ({
-  marginRight: spacing(1),
-}));
+const StyledIcon = styled("div")`
+  margin-right: ${({ theme: { spacing } }) => spacing(1)};
+`;
 
 export default MoreActions;

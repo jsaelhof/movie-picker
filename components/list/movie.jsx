@@ -54,7 +54,11 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
       <MovieDetailPositioner $focused={focused}>
         <MovieDetail style={detailSpring}>
           <OverflowWrapper>
-            <DetailPoster movie={movie} height={375} />
+            <MoviePoster
+              movie={movie}
+              height={375}
+              style={{ position: "relative", zIndex: 5 }}
+            />
 
             <Source>
               {<img src={sourceLogos[movie.source]} width="40" height="40" />}
@@ -106,14 +110,15 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
   );
 };
 
-const MovieWrapper = styled(Paper)(({ $focused }) => ({
-  position: "relative",
-  borderRadius: 4,
+const MovieWrapper = styled(Paper)`
+  position: relative;
+  border-radius: 4px;
 
-  ...($focused && {
-    zIndex: 1000,
-  }),
-}));
+  ${({ $focused }) =>
+    $focused && {
+      zIndex: 1000,
+    }};
+`;
 
 const MoviePosterContainer = styled("div")`
   border-radius: 4px;
@@ -121,23 +126,25 @@ const MoviePosterContainer = styled("div")`
   position: relative;
 `;
 
-const MovieDetailPositioner = styled("div")(({ $focused }) => ({
-  width: 240,
-  marginLeft: `calc((160px - 240px) / 2)` /* Use diff between zoomed and standard widths to determine horizontal offset to center */,
-  marginTop: "-82px",
-  position: "absolute",
-  top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0,
-  pointerEvents: "none",
-  opacity: 0,
+const MovieDetailPositioner = styled("div")`
+  width: 240px;
+  /* Use diff between zoomed and standard widths to determine horizontal offset to center */
+  margin-left: calc((160px - 240px) / 2);
+  margin-top: -82px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  opacity: 0;
 
-  ...($focused && {
-    pointerEvents: "initial",
-    opacity: 1,
-  }),
-}));
+  ${({ $focused }) =>
+    $focused && {
+      pointerEvents: "initial",
+      opacity: 1,
+    }};
+`;
 
 const MovieDetail = styled(animated.div)`
   border-radius: 4px;
@@ -151,16 +158,9 @@ const MovieDetail = styled(animated.div)`
 const OverflowWrapper = styled("div")`
   border-radius: 4px;
   overflow: hidden;
-  -webkit-mask-image: -webkit-radial-gradient(
-    white,
-    black
-  ); /* This is needed to fix the overflow: hidden bug in safari */
+  /* This is needed to fix the overflow: hidden bug in safari */
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
   background-color: white;
-`;
-
-const DetailPoster = styled(MoviePoster)`
-  position: relative;
-  z-index: 5;
 `;
 
 const Source = styled("div")`
@@ -175,16 +175,16 @@ const Source = styled("div")`
   z-index: 10;
 `;
 
-const Info = styled(animated.div)(({ theme: { palette, spacing } }) => ({
-  display: "grid",
-  gap: 20,
-  fontSize: 14,
-  color: palette.grey[900],
-  padding: `${spacing(1)} ${spacing(2)}`,
-  background: "white",
-  height: "fit-content",
-  boxShadow: "inset 0 4px 5px -3px rgb(0, 0, 0, 0.4)",
-}));
+const Info = styled(animated.div)`
+  display: grid;
+  gap: 20;
+  font-size: 14px;
+  color: ${({ theme: { palette } }) => palette.grey[900]};
+  padding: ${({ theme: { spacing } }) => spacing(1, 2)};
+  background: white;
+  height: fit-content;
+  box-shadow: inset 0 4px 5px -3px rgb(0, 0, 0, 0.4);
+`;
 
 const InfoData = styled("div")`
   display: flex;
@@ -195,15 +195,16 @@ const InfoRatings = styled(Ratings)`
   margin: 0 auto;
 `;
 
-const MoreActionsDrawer = styled(animated.div)(({ $show }) => ({
-  position: "fixed",
-  width: "100%",
-  zIndex: 20,
-  pointerEvents: "none",
+const MoreActionsDrawer = styled(animated.div)`
+  position: fixed;
+  width: 100%;
+  z-index: 20;
+  pointer-events: none;
 
-  ...($show && {
-    pointerEvents: "all",
-  }),
-}));
+  ${({ $show }) =>
+    $show && {
+      pointerEvents: "all",
+    }}
+`;
 
 export default Movie;

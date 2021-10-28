@@ -11,23 +11,23 @@ const Footer = () => {
   );
 };
 
-const FooterContainer = styled("div")(({ theme: { palette, spacing } }) => ({
-  width: "100%",
-  height: spacing(8),
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
+const FooterContainer = styled("div")`
+  width: 100%;
+  height: ${({ theme: { spacing } }) => spacing(8)};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  "& > a": {
-    fontSize: "0.9rem",
-    margin: `0 ${spacing(2)}`,
-    textDecoration: "none",
-    color: palette.grey[600],
-  },
+  & > a {
+    font-size: 0.9rem;
+    margin: ${({ theme: { spacing } }) => spacing(0, 2)};
+    text-decoration: none;
+    color: ${({ theme: { palette } }) => palette.grey[600]};
+  }
 
-  "& > a:hover": {
-    color: palette.accent,
-  },
-}));
+  & > a:hover {
+    color: ${({ theme: { palette } }) => palette.accent};
+  }
+`;
 
 export default Footer;

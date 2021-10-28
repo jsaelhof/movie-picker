@@ -49,27 +49,28 @@ const DatePicker = ({
   );
 };
 
-const Picker = styled("div")(({ $drawer }) => ({
-  position: "absolute",
-  background: "white",
-  border: "1px solid rgba(0, 0, 0, 0.25)",
-  top: 40,
-  right: 20,
-  zIndex: 10,
-  boxShadow: "0 5px 10px rgba(0, 0, 0, 0.15)",
-  borderRadius: 5,
+const Picker = styled("div")`
+  position: absolute;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  top: 40px;
+  right: 20px;
+  z-index: 10;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
 
-  ...($drawer && {
-    position: "initial",
-    textAlign: "center",
-  }),
-}));
+  ${({ $drawer }) =>
+    $drawer && {
+      position: "initial",
+      textAlign: "center",
+    }}
+`;
 
-const ButtonGroup = styled("div")(({ theme: { spacing } }) => ({
-  display: "flex",
-  justifyContent: "space-between",
-  marginLeft: "40%",
-  marginTop: spacing(1),
-}));
+const ButtonGroup = styled("div")`
+  display: flex;
+  justify-content: space-between;
+  margin-left: 40%;
+  margin-top: ${({ theme: { spacing } }) => spacing(1)};
+`;
 
 export default DatePicker;

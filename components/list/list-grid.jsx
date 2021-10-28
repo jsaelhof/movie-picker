@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {styled} from "@mui/material";
+import { styled } from "@mui/material";
 import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
 
@@ -42,13 +42,13 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
   );
 };
 
-const MovieList = styled("div")(({ theme: { spacing } }) => ({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, 160px)',
-  gap: spacing(2),
-  marginTop: spacing(3),
-  marginBottom: 200,
-  justifyContent: 'center',
-}));
+const MovieList = styled("div")`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 160px);
+  gap: ${({ theme: { spacing } }) => spacing(2)};
+  margin-top: ${({ theme: { spacing } }) => spacing(3)};
+  margin-bottom: 200px;
+  justify-content: center;
+`;
 
 export default ListGrid;

@@ -25,25 +25,25 @@ const Lock = ({ locked, onToggleLock }) => {
   );
 };
 
-const LockContainer = styled("div")(({ theme: { palette }, $locked }) => ({
-  cursor: "pointer",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  opacity: $locked ? 1 : 0.25,
+const LockContainer = styled("div")`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: ${({ $locked }) => ($locked ? 1 : 0.25)};
 
-  ":hover": {
-    opacity: 1,
-  },
+  &:hover {
+    opacity: 1;
+  }
 
-  "& :hover": {
-    color: palette.accent,
-  },
-}));
+  & :hover {
+    color: ${({ theme: { palette } }) => palette.accent};
+  }
+`;
 
-const StyledIcon = styled("div")(({ theme: { palette } }) => ({
-  fontSize: "1.25rem",
-  color: palette.grey[600],
-}));
+const StyledIcon = styled("div")`
+  font-size: 1.25rem;
+  color: ${({ theme: { palette } }) => palette.grey[600]};
+`;
 
 export default Lock;

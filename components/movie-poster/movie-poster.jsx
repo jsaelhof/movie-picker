@@ -4,7 +4,7 @@ import TheatresIcon from "@mui/icons-material/Theaters";
 
 import { toTransientProps } from "../../utils/to-transient-props";
 
-const MoviePoster = ({ movie, height = 250, onClick }) => {
+const MoviePoster = ({ movie, height = 250, onClick, style }) => {
   const posterProps = toTransientProps({
     height,
     locked: movie.locked,
@@ -12,9 +12,9 @@ const MoviePoster = ({ movie, height = 250, onClick }) => {
   });
 
   return movie.poster ? (
-    <Poster onClick={onClick} {...posterProps} />
+    <Poster onClick={onClick} {...posterProps} style={style} />
   ) : (
-    <NoPoster onClick={onClick} {...posterProps}>
+    <NoPoster onClick={onClick} {...posterProps} style={style}>
       <TheatresIcon fontSize="large" />
       <div>{movie.title}</div>
     </NoPoster>

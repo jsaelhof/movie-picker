@@ -36,10 +36,10 @@ const DetailActions = ({
   </Actions>
 );
 
-const Actions = styled("div")(({ theme: { spacing } }) => ({
-  display: "grid",
-  gridTemplateColumns: "26px 26px 26px 1fr 26px",
-  gap: spacing(1),
-}));
+const Actions = styled("div")`
+  display: grid;
+  grid-template-columns: 26px 26px 26px 1fr 26px;
+  gap: ${({ theme: { spacing } }) => spacing(1)};
+`;
 
 export default DetailActions;
