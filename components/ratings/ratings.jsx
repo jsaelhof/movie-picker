@@ -25,8 +25,6 @@ const RatingsList = styled("ul")`
   display: flex;
   list-style-type: none;
   padding-left: 0;
-  align-self: center;
-
   ${({ $dense }) => $dense && { margin: 0 }}
 `;
 

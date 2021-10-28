@@ -158,7 +158,11 @@ const AddMovieDialog = ({
             images={sourceLogos}
           />
 
-          {input.ratings && <StyledRatings ratings={input.ratings} />}
+          {input.ratings && (
+            <RatingsContainer>
+              <Ratings ratings={input.ratings} dense />
+            </RatingsContainer>
+          )}
         </Input>
 
         <Carousel
@@ -167,7 +171,7 @@ const AddMovieDialog = ({
           onSelectMovie={(index) => setSelectedMovie(index)}
         />
 
-        <DialogActions>
+        <Actions>
           <Button onClick={onCancel} variant="outlined">
             Cancel
           </Button>
@@ -189,72 +193,68 @@ const AddMovieDialog = ({
           >
             Save Movie
           </Button>
-        </DialogActions>
+        </Actions>
       </DialogContent>
     </Dialog>
   );
 };
 
-const Input = styled("div")(({ theme: { breakpoints, spacing } }) => ({
-  margin: `${spacing(2)} 0 ${spacing(8)}`,
-  display: "grid",
-  gridTemplateColumns: "180px 100px 100px 150px 175px auto",
-  gridTemplateRows: "30px repeat(3, 40px)",
-  gridTemplateAreas: `
+const Input = styled("div")`
+  margin: ${({ theme: { spacing } }) => spacing(2, 0, 8)};
+  display: grid;
+  grid-template-columns: 180px 100px 100px 150px 175px auto;
+  grid-template-rows: 30px repeat(3, 40px);
+  grid-template-areas:
     "poster . . . . ."
     "poster title title title title title"
-    "poster runtime year genre source ratings"
-  `,
-  columnGap: spacing(2),
-  rowGap: spacing(2),
-  alignItems: "flex-start",
+    "poster runtime year genre source ratings";
+  column-gap: ${({ theme: { spacing } }) => spacing(2)};
+  row-gap: ${({ theme: { spacing } }) => spacing(2)};
+  align-items: flex-start;
 
-  "& > *": {
-    margin: 0,
-  },
+  & > * {
+    margin: 0;
+  }
 
-  "& li": {
-    display: "flex",
-    alignItems: "center",
-  },
+  & li {
+    display: flex;
+    align-items: center;
+  }
 
-  [breakpoints.down(1140)]: {
-    gridTemplateRows: "10px repeat(4, 40px)",
-    gridTemplateColumns: "180px 100px 100px 150px 175px auto",
-    gridTemplateAreas: `
+  @media (max-width: 1140px) {
+    grid-template-rows: 10px repeat(4, 40px);
+    grid-template-columns: 180px 100px 100px 150px 175px auto;
+    grid-template-areas:
       "poster . . . . ."
       "poster title title title title title"
       "poster runtime year genre source ."
-      "poster ratings ratings ratings ratings ratings"
-    `,
-  },
+      "poster ratings ratings ratings ratings ratings";
+  }
 
-  [breakpoints.down(885)]: {
-    gridTemplateRows: "repeat(4, 40px)",
-    gridTemplateColumns: "180px 100px 75px 75px auto",
-    gridTemplateAreas: `
+  @media (max-width: 885px) {
+    grid-template-rows: repeat(4, 40px);
+    grid-template-columns: 180px 100px 75px 75px auto;
+    grid-template-areas:
       "poster title title title title"
       "poster runtime genre genre ."
       "poster year source source ."
-      "poster ratings ratings ratings ratings"
-    `,
-  },
+      "poster ratings ratings ratings ratings";
+  }
 
-  [`${breakpoints.down(600)}, (max-height: 414px)`]: {
-    justifyContent: "center",
-    gridTemplateColumns: "125px 125px",
-    gridTemplateRows: "auto repeat(5, 40px)",
-    gridTemplateAreas: `
+  @media (max-width: 600px), (max-height: 414px) {
+    justify-content: center;
+    grid-template-columns: 125px 125px;
+    grid-template-rows: auto repeat(5, 40px);
+    grid-template-areas:
       "poster poster"
       "title title"
       "runtime year"
       "genre genre"
       "source source"
-      "ratings ratings"
-    `,
-    marginBottom: spacing(4),
-  },
-}));
+      "ratings ratings";
+    margin-bottom: ${({ theme: { spacing } }) => spacing(4)};
+  }
+`;
 
 const StyledMoviePoster = styled(MoviePoster)`
   grid-area: poster;
@@ -268,41 +268,46 @@ const Runtime = styled(TextField)`
   grid-area: runtime;
 `;
 
-const Genre = styled(ListSelect)(() => ({
-  gridArea: "genre",
+const Genre = styled(ListSelect)`
+  grid-area: genre;
 
-  "& > div": {
-    padding: "8.5px 14px",
-  },
-}));
+  & > div {
+    padding: 8.5px 14px;
+  }
+`;
 
 const Year = styled(TextField)`
   grid-area: year;
 `;
 
-const Source = styled(ListSelect)(() => ({
-  gridArea: "source",
+const Source = styled(ListSelect)`
+  grid-area: source;
 
-  "& > div": {
-    padding: "5px 14px",
-  },
-}));
+  & > div {
+    padding: 5px 14px;
+  }
+`;
 
-const StyledRatings = styled(Ratings)(
-  ({ theme: { breakpoints, spacing } }) => ({
-    gridArea: "ratings",
-    justifySelf: "flex-end",
-    paddingRight: spacing(2),
+const RatingsContainer = styled("div")`
+  grid-area: ratings;
+  justify-self: flex-end;
+  padding-right: ${({ theme: { spacing } }) => spacing(2)};
+  align-self: center;
 
-    [breakpoints.down(1140)]: {
-      justifySelf: "flex-start",
-    },
+  @media (max-width: 1140px) {
+    justify-self: flex-start;
+  }
 
-    [`${breakpoints.down(600)}, (max-height: 414px)`]: {
-      justifySelf: "center",
-      paddingRight: 0,
-    },
-  })
-);
+  @media (max-width: 600px), (max-height: 414px) {
+    justify-self: center;
+    padding-right: 0;
+  }
+`;
+
+const Actions = styled(DialogActions)`
+  @media (max-width: 600px) {
+    justify-content: center;
+  }
+`;
 
 export default AddMovieDialog;

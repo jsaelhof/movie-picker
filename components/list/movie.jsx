@@ -66,7 +66,7 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
                 <div>{movie.year}</div>
               </InfoData>
 
-              <InfoRatings size="small" ratings={movie.ratings} dense />
+              <InfoRatings size="small" ratings={movie.ratings} />
 
               <DetailActions
                 movie={movie}
