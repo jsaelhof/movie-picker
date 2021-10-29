@@ -67,34 +67,34 @@ const PosterContainer = styled("div")(
   })
 );
 
-const Poster = styled("div")(({ theme: { palette }, $height }) => ({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  color: palette.grey[800],
-  height: $height,
-}));
+const Poster = styled("div")`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${({ theme: { palette } }) => palette.grey[800]};
+  height: ${({ $height }) => $height};
+`;
 
-const NoPoster = styled("div")(() => ({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  textAlign: "center",
-  width: 128,
-  height: 200,
-  background: "#f7f7fc",
-  boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.15)",
-}));
+const NoPoster = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 128px;
+  height: 200px;
+  background: #f7f7fc;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+`;
 
-const Title = styled("div")(({ theme: { spacing } }) => ({
-  width: "100%",
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  textAlign: "center",
-  marginTop: spacing(1),
-}));
+const Title = styled("div")`
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  margin-top: ${({ theme: { spacing } }) => spacing(1)};
+`;
 
 const Year = styled("div")`
   font-size: 0.8em;
