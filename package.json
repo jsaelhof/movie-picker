@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev -- -p 4000",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "./node_modules/.bin/eslint -c ./.eslintrc.js . --ext .js,.jsx"
   },
   "dependencies": {
     "@apollo/client": "^3.3.19",

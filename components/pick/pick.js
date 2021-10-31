@@ -97,9 +97,9 @@ const Pick = ({ movie }) => {
         <div className={styles.playerWrapper} onClick={() => setTrailer(null)}>
           <iframe
             src={trailer}
-            frameborder="0"
+            frameBorder="0"
             allow="autoplay; clipboard-write; encrypted-media;"
-            allowfullscreen
+            allowFullScreen
             className={styles.player}
           ></iframe>
         </div>

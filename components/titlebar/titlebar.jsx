@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import clsx from "clsx";
 import Refresh from "@material-ui/icons/Refresh";
 
-import { useResponsive } from "../../hooks/use-responsive";
 import { useAppContext } from "../../context/app-context";
 import ProfileMenu from "./profile-menu";
 import NavFull from "./nav-full";
