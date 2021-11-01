@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import LockIcon from "@material-ui/icons/Lock";
+import LockIcon from "@mui/icons-material/Lock";
 import React, { useState } from "react";
-import UnlockIcon from "mdi-material-ui/LockOpenVariant";
+import UnlockIcon from "@mitch528/mdi-material-ui/LockOpenVariant";
 
 import styles from "./lock.module.css";
 

@@ -1,6 +1,6 @@
 import styles from "./movie.module.css";
 
-import { Paper } from "@material-ui/core";
+import { Paper } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import clsx from "clsx";

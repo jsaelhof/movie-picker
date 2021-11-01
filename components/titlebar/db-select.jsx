@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuItem, Select } from "@material-ui/core";
+import { MenuItem, Select } from "@mui/material";
 import { useRouter } from "next/router";
 
 import { useAppContext } from "../../context/app-context";

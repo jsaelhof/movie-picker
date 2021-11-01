@@ -2,7 +2,7 @@ import styles from "./movie-poster.module.css";
 
 import React from "react";
 import clsx from "clsx";
-import TheatresIcon from "@material-ui/icons/Theaters";
+import TheatresIcon from "@mui/icons-material/Theaters";
 
 const MoviePoster = ({
   movie,

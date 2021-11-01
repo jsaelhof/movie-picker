@@ -1,8 +1,8 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createTheme, adaptV4Theme } from "@mui/material";
 
 const navColor = "#b4b5de";
 
-export const theme = createMuiTheme({
+export const theme = createTheme(adaptV4Theme({
   palette: {
     primary: {
       main: "#37476c",
@@ -25,4 +25,4 @@ export const theme = createMuiTheme({
       },
     },
   },
-});
+}));

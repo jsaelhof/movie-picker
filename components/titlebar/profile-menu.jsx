@@ -8,7 +8,7 @@ import {
   Popper,
   Paper,
   Button,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 

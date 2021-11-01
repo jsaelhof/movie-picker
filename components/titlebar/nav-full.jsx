@@ -3,8 +3,8 @@ import styles from "./nav-full.module.css";
 import { useRouter } from "next/router";
 import React from "react";
 import clsx from "clsx";
-import { KeyboardArrowLeft, Refresh } from "@material-ui/icons";
-import { useMediaQuery } from "@material-ui/core";
+import { KeyboardArrowLeft, Refresh } from "@mui/icons-material";
+import { useMediaQuery } from "@mui/material";
 
 import { useAppContext } from "../../context/app-context";
 import DbSelect from "./db-select";

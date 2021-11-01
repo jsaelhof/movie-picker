@@ -1,6 +1,6 @@
 import React from "react";
-import { AppBar, Button, Toolbar } from "@material-ui/core";
-import AddToQueueIcon from "@material-ui/icons/AddToQueue";
+import { AppBar, Button, Toolbar } from "@mui/material";
+import AddToQueueIcon from "@mui/icons-material/AddToQueue";
 import clsx from "clsx";
 
 import { useAppContext } from "../../context/app-context";

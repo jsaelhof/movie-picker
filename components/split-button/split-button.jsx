@@ -5,12 +5,12 @@ import {
   MenuItem,
   MenuList,
   Paper,
-} from "@material-ui/core";
+} from "@mui/material";
 import React, { useState } from "react";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ClockIcon from "mdi-material-ui/ClockOutline";
-import ClockFastIcon from "mdi-material-ui/ClockFast";
-import TimerSandIcon from "mdi-material-ui/TimerSand";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ClockIcon from "@mitch528/mdi-material-ui/ClockOutline";
+import ClockFastIcon from "@mitch528/mdi-material-ui/ClockFast";
+import TimerSandIcon from "@mitch528/mdi-material-ui/TimerSand";
 import clsx from "clsx";
 
 import styles from "./split-button.module.css";

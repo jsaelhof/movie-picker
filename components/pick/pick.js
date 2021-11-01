@@ -1,7 +1,7 @@
 import styles from "./pick.module.css";
 
 import React, { useCallback, useState } from "react";
-import { Button, useMediaQuery } from "@material-ui/core";
+import { Button, useMediaQuery } from "@mui/material";
 import clsx from "clsx";
 
 import { formatRuntime } from "../../utils/format-runtime";
@@ -11,10 +11,10 @@ import Rated from "./rated";
 import MoviePoster from "../movie-poster/movie-poster";
 import { animated, useSpring } from "react-spring";
 import { sourceLogosLarge, sources } from "../../constants/sources";
-import TelevisionPlay from "mdi-material-ui/TelevisionPlay";
+import TelevisionPlay from "@mitch528/mdi-material-ui/TelevisionPlay";
 import StarRating from "../ratings/star-rating";
-import { PlayArrow } from "@material-ui/icons";
-import Search from "@material-ui/icons/Search";
+import { PlayArrow } from "@mui/icons-material";
+import Search from "@mui/icons-material/Search";
 import { useQuery } from "@apollo/client";
 import { GET_MOVIE_EXTENDED_DETAILS } from "../../graphql";
 

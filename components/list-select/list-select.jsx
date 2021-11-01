@@ -1,4 +1,4 @@
-import { MenuItem, Select } from "@material-ui/core";
+import { MenuItem, Select } from "@mui/material";
 import clsx from "clsx";
 import map from "lodash/map";
 import React from "react";

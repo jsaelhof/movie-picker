@@ -1,7 +1,7 @@
 import React from "react";
-import EditIcon from "@material-ui/icons/Edit";
-import EyeCheckIcon from "mdi-material-ui/EyeCheck";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import EditIcon from "@mui/icons-material/Edit";
+import EyeCheckIcon from "@mitch528/mdi-material-ui/EyeCheck";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import ActionButton from "../action-button/action-button";
 import Lock from "../lock/lock";

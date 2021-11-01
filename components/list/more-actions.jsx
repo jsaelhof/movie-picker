@@ -1,11 +1,11 @@
-import { MenuItem, MenuList, Paper } from "@material-ui/core";
-import CheckIcon from "mdi-material-ui/Check";
-import DeleteIcon from "@material-ui/icons/Delete";
-import InformationIcon from "mdi-material-ui/InformationOutline";
+import { MenuItem, MenuList, Paper } from "@mui/material";
+import CheckIcon from "@mitch528/mdi-material-ui/Check";
+import DeleteIcon from "@mui/icons-material/Delete";
+import InformationIcon from "@mitch528/mdi-material-ui/InformationOutline";
 import React from "react";
-import SearchIcon from "@material-ui/icons/Search";
-import TelevisionPlayIcon from "mdi-material-ui/TelevisionPlay";
-import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
+import SearchIcon from "@mui/icons-material/Search";
+import TelevisionPlayIcon from "@mitch528/mdi-material-ui/TelevisionPlay";
+import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 
 import {
   searchCommonSense,
