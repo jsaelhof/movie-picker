@@ -33,15 +33,6 @@ const MoreActions = ({ movie, onDeleteMovie, onClose }) => {
       remove: [sources.DVD, sources.NONE].includes(source),
     },
     {
-      value: 1,
-      label: "Find Torrent",
-      Icon: SearchIcon,
-      action: () => {
-        window.open(searchTorrent(title), "movieView");
-      },
-      remove: source !== sources.NONE,
-    },
-    {
       value: 2,
       label: "Common Sense Media",
       Icon: CheckIcon,
