@@ -16,7 +16,12 @@ const DbSelect = () => {
         <Select
           disableUnderline
           margin="dense"
-          classes={{ root: styles.dbSelect, icon: styles.selectIcon }}
+          variant="standard"
+          classes={{
+            root: styles.dbSelect,
+            icon: styles.selectIcon,
+            select: styles.select,
+          }}
           value={list}
           onChange={({ target }) => {
             setList(target.value);

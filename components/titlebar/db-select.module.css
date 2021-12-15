@@ -4,8 +4,28 @@
 }
 
 .dbSelect {
-  padding: 0 8px 0 0 !important;
   color: #b4b5de !important;
+}
+
+/* Targets the label/icon button that opens and closes the select */
+.select {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/* Removes the shading when focused */
+.select:focus {
+  background: unset;
+}
+
+.select:hover {
+  border-radius: 4px;
+  background-color: rgba(
+    180,
+    181,
+    222,
+    0.04
+  ); /* This color is applied on the other nav buttons and i'm copying it here until I figure out where it comes from */
 }
 
 .dbSelectRender {
@@ -14,4 +34,5 @@
 
 .selectIcon {
   color: #b4b5de !important;
+  margin-right: 4px;
 }
