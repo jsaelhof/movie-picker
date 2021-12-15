@@ -4,8 +4,7 @@ import React, { useRef, useState } from "react";
 import {
   Avatar,
   ClickAwayListener,
-  Grow,
-  Popper,
+  Popover,
   Paper,
   Button,
 } from "@mui/material";
@@ -29,48 +28,44 @@ const ProfileMenu = () => {
         onClick={onOpenMenu}
       />
 
-      <Popper
+      <Popover
         open={open}
         anchorEl={anchorRef.current}
-        transition
-        placement="bottom-end"
-        modifiers={{
-          offset: {
-            enabled: true,
-            offset: "0,8",
-          },
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: -8,
+          horizontal: 0,
         }}
         className={styles.popper}
       >
-        {({ TransitionProps }) => (
-          <Grow {...TransitionProps}>
-            <ClickAwayListener onClickAway={onCloseMenu}>
-              <Paper className={styles.profileMenu} elevation={10}>
-                <div className={styles.profileAvatar}>
-                  <Avatar
-                    alt={user.name}
-                    src={user.picture}
-                    style={{
-                      width: 65,
-                      height: 65,
-                    }}
-                  />
-                  <div className={styles.profileName}>{user.name}</div>
-                  <div className={styles.profileEmail}>{user.email}</div>
-                </div>
+        <ClickAwayListener onClickAway={onCloseMenu}>
+          <Paper className={styles.profileMenu} elevation={10}>
+            <div className={styles.profileAvatar}>
+              <Avatar
+                alt={user.name}
+                src={user.picture}
+                style={{
+                  width: 65,
+                  height: 65,
+                }}
+              />
+              <div className={styles.profileName}>{user.name}</div>
+              <div className={styles.profileEmail}>{user.email}</div>
+            </div>
 
-                <div className={styles.profileActions}>
-                  <Link href="/api/auth/logout">
-                    <Button variant="outlined" onClick={onCloseMenu}>
-                      Logout
-                    </Button>
-                  </Link>
-                </div>
-              </Paper>
-            </ClickAwayListener>
-          </Grow>
-        )}
-      </Popper>
+            <div className={styles.profileActions}>
+              <Link href="/api/auth/logout">
+                <Button variant="outlined" onClick={onCloseMenu}>
+                  Logout
+                </Button>
+              </Link>
+            </div>
+          </Paper>
+        </ClickAwayListener>
+      </Popover>
     </div>
   ) : null;
 };
