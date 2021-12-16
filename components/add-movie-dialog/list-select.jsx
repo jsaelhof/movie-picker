@@ -1,18 +1,9 @@
 import { MenuItem, Select } from "@mui/material";
-import clsx from "clsx";
 import map from "lodash/map";
 import React from "react";
+import ListSelectItem from "./list-select-item";
 
 import styles from "./list-select.module.css";
-
-const getImage = (src) => <img src={src} width="30" height="30" />;
-
-const MenuItemContent = ({ images, labels, value, hideLabelForSelection }) => (
-  <div className={clsx(styles.menuItem, value === 0 && styles.italic)}>
-    {images && getImage(images[value])}
-    {!hideLabelForSelection && <span>{labels[value]}</span>}
-  </div>
-);
 
 const ListSelect = ({
   value,
@@ -31,7 +22,7 @@ const ListSelect = ({
         if (onChange) onChange(target.value);
       }}
       renderValue={(value) => (
-        <MenuItemContent
+        <ListSelectItem
           hideLabelForSelection={hideLabelForSelection}
           value={value}
           {...props}
@@ -41,7 +32,7 @@ const ListSelect = ({
     >
       {map(values, (value) => (
         <MenuItem key={value} value={value}>
-          <MenuItemContent value={value} {...props} />
+          <ListSelectItem value={value} {...props} />
         </MenuItem>
       ))}
     </Select>

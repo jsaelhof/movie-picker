@@ -18,7 +18,7 @@ import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
 import { parseRuntime } from "../../utils/parse-runtime";
 import { GET_MOVIE_DETAILS, SEARCH_BY_TITLE } from "../../graphql";
 import Carousel from "./carousel";
-import ListSelect from "../list-select/list-select";
+import ListSelect from "./list-select";
 import MoviePoster from "./movie-poster";
 import Ratings from "../ratings/ratings";
 
@@ -108,7 +108,7 @@ const AddMovieDialog = ({
             className={styles.title}
             label="Title"
             value={input.title}
-            margin="dense"
+            size="small"
             fullWidth
             variant="outlined"
             placeholder="Title"
@@ -130,7 +130,7 @@ const AddMovieDialog = ({
             className={styles.runtime}
             label="Runtime"
             value={input.runtime || ""}
-            margin="dense"
+            size="small"
             variant="outlined"
             placeholder="0:00"
             inputProps={{
@@ -153,7 +153,7 @@ const AddMovieDialog = ({
             className={styles.year}
             label="Year"
             value={input.year || ""}
-            margin="dense"
+            size="small"
             variant="outlined"
             placeholder="1978"
             inputProps={{

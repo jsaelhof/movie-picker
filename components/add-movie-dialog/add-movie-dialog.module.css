@@ -71,12 +71,16 @@
   grid-area: genre;
 }
 
+.genre > div {
+  padding: 8.5px 14px;
+}
+
 .source {
   grid-area: source;
 }
 
 .source > div {
-  padding: 6px 14px;
+  padding: 5px 14px;
 }
 
 .year {
