@@ -7,7 +7,7 @@ import { titleCase } from "../../utils/title-case";
 import { useResponsive } from "../../hooks/use-responsive";
 import ActionButton from "../action-button/action-button";
 import DatePicker from "../date-picker/date-picker";
-import ListCell from "../list-cell/list-cell";
+import ListCell from "./list-cell";
 
 import styles from "./watched-list-row.module.css";
 
