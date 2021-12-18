@@ -59,7 +59,7 @@ const WatchedListRow = ({
 
         {isEditing && (
           <DatePicker
-            drawer={mobile}
+            useDrawer={mobile}
             defaultDate={watchedDate}
             onChange={(day) => {
               setEditedMovie((state) => ({
