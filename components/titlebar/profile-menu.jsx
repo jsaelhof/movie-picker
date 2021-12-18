@@ -1,15 +1,18 @@
-import styles from "./profile-menu.module.css";
-
 import React, { useRef, useState } from "react";
-import {
-  Avatar,
-  ClickAwayListener,
-  Popover,
-  Paper,
-  Button,
-} from "@mui/material";
+import { ClickAwayListener, Popover, Button } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
+
+import {
+  AppBarAvatar,
+  AvatarButton,
+  Profile,
+  ProfileActions,
+  ProfileAvatar,
+  ProfileEmail,
+  ProfileName,
+  ProfilePaper,
+} from "./profile-menu.styles";
 
 const ProfileMenu = () => {
   const anchorRef = useRef(null);
@@ -19,15 +22,13 @@ const ProfileMenu = () => {
   const onCloseMenu = () => setOpen(false);
 
   return user ? (
-    <div className={styles.profile}>
-      <Avatar
+    <Profile>
+      <AvatarButton
         ref={anchorRef}
         alt={user.name}
         src={user.picture}
-        className={styles.avatarButton}
         onClick={onOpenMenu}
       />
-
       <Popover
         open={open}
         anchorEl={anchorRef.current}
@@ -39,34 +40,26 @@ const ProfileMenu = () => {
           vertical: -8,
           horizontal: 0,
         }}
-        className={styles.popper}
       >
         <ClickAwayListener onClickAway={onCloseMenu}>
-          <Paper className={styles.profileMenu} elevation={10}>
-            <div className={styles.profileAvatar}>
-              <Avatar
-                alt={user.name}
-                src={user.picture}
-                style={{
-                  width: 65,
-                  height: 65,
-                }}
-              />
-              <div className={styles.profileName}>{user.name}</div>
-              <div className={styles.profileEmail}>{user.email}</div>
-            </div>
+          <ProfilePaper elevation={10}>
+            <ProfileAvatar>
+              <AppBarAvatar alt={user.name} src={user.picture} />
+              <ProfileName>{user.name}</ProfileName>
+              <ProfileEmail>{user.email}</ProfileEmail>
+            </ProfileAvatar>
 
-            <div className={styles.profileActions}>
+            <ProfileActions>
               <Link href="/api/auth/logout">
                 <Button variant="outlined" onClick={onCloseMenu}>
                   Logout
                 </Button>
               </Link>
-            </div>
-          </Paper>
+            </ProfileActions>
+          </ProfilePaper>
         </ClickAwayListener>
       </Popover>
-    </div>
+    </Profile>
   ) : null;
 };
 

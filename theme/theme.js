@@ -34,23 +34,12 @@ export const theme = createTheme({
             textTransform: "initial",
             fontSize: "1rem",
             fontWeight: 400,
+            "&:hover": {
+              backgroundColor: "rgba(180,181,222,0.1)",
+            },
           },
         },
       ],
-    },
-  },
-
-  overrides: {
-    MuiButton: {
-      text: {
-        paddingLeft: 16,
-        paddingRight: 16,
-      },
-    },
-    MuiAppBar: {
-      colorTransparent: {
-        color: darkBlue[50],
-      },
     },
   },
 });
