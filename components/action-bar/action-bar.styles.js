@@ -15,7 +15,7 @@ export const ActionToolbar = styled(Toolbar)(
   ({ theme: { breakpoints, spacing } }) => ({
     marginTop: spacing(2),
     columnGap: spacing(2),
-    padding: 0,
+    padding: "0 !important",
 
     [breakpoints.down(615)]: {
       flexDirection: "column-reverse",
