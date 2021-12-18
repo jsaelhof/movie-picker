@@ -1,32 +1,29 @@
-import styles from "./ratings.module.css";
-
 import React from "react";
-import clsx from "clsx";
 import has from "lodash/has";
 import map from "lodash/map";
 
 import { ratingsSource, ratingsSourceImage } from "../../constants/ratings";
+import {
+  RatingsList,
+  RatingsListItem,
+  ratingsSmall,
+  RatingsSourceIcon,
+} from "./ratings.styles";
 
-const Ratings = ({ ratings, size = "medium", dense, className, ...props }) => (
-  <ul
-    {...props}
-    className={clsx(styles.ratings, dense && styles.dense, className)}
-  >
+const Ratings = ({ ratings, size = "medium", dense }) => (
+  <RatingsList $dense={dense}>
     {map(ratings, (rating, source) =>
       has(ratingsSource, source) && rating ? (
-        <li key={source}>
-          <img
+        <RatingsListItem key={source}>
+          <RatingsSourceIcon
+            sx={[size === "small" && ratingsSmall]}
             src={`/images/ratings/${ratingsSourceImage[source]}`}
-            className={clsx(
-              size === "medium" && styles.ratingsSourceIconMedium,
-              size === "small" && styles.ratingsSourceIconSmall
-            )}
           />
           {rating}
-        </li>
+        </RatingsListItem>
       ) : null
     )}
-  </ul>
+  </RatingsList>
 );
 
 export default Ratings;
