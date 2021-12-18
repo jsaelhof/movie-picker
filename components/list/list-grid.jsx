@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import isNil from "lodash/isNil";
 import orderBy from "lodash/orderBy";
 
+import { MovieList } from "./list-grid.styles";
 import { useAppContext } from "../../context/app-context";
 import DeleteDialog from "../delete-dialog/delete-dialog";
 import Movie from "./movie";
-
-import styles from "./list-grid.module.css";
 
 const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
   const { order } = useAppContext();
@@ -16,7 +15,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
 
   return (
     <>
-      <div className={styles.movieList}>
+      <MovieList>
         {movies &&
           orderBy(movies, [order[0]], [order[1]]).map((movie) => (
             <Movie
@@ -27,7 +26,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
               onDeleteMovie={setDeleteMovie}
             />
           ))}
-      </div>
+      </MovieList>
 
       <DeleteDialog
         open={!isNil(deleteMovie)}

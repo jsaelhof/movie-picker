@@ -3,10 +3,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import EyeCheckIcon from "@mitch528/mdi-material-ui/EyeCheck";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
+import { Actions } from "./detail-actions.styles";
 import ActionButton from "../action-button/action-button";
 import Lock from "./lock";
-
-import styles from "./detail-actions.module.css";
 
 const DetailActions = ({
   movie,
@@ -15,7 +14,7 @@ const DetailActions = ({
   onToggleLock,
   onMoreActions,
 }) => (
-  <div className={styles.detailActions}>
+  <Actions>
     <ActionButton Icon={EditIcon} tooltip="Edit" onClick={onEdit} />
     <ActionButton
       Icon={EyeCheckIcon}
@@ -34,7 +33,7 @@ const DetailActions = ({
       tooltip="More Actions"
       onClick={onMoreActions}
     />
-  </div>
+  </Actions>
 );
 
 export default DetailActions;

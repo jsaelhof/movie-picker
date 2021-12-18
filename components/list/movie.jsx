@@ -1,16 +1,27 @@
-import styles from "./movie.module.css";
-
-import { Paper } from "@mui/material";
 import React, { useRef, useState } from "react";
-import { animated, useSpring } from "react-spring";
-import clsx from "clsx";
+import { useSpring } from "react-spring";
 
+import {
+  DetailPoster,
+  Info,
+  InfoData,
+  InfoRatings,
+  MoreActionsDrawer,
+  MovieDetail,
+  MovieDetailPositioner,
+  MoviePosterContainer,
+  MovieContainer,
+  OverflowWrapper,
+  Source,
+  movieDetailPositionerFocused,
+  movieContainerFocused,
+  moreActionsOpen,
+} from "./movie.styles";
 import { formatRuntime } from "../../utils/format-runtime";
 import { sourceLogos } from "../../constants/sources";
 import { useResponsive } from "../../hooks/use-responsive";
 import DetailActions from "./detail-actions";
 import MoreActions from "./more-actions";
-import Ratings from "../ratings/ratings";
 import MoviePoster from "../movie-poster/movie-poster";
 
 const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
@@ -36,9 +47,9 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
   });
 
   return (
-    <Paper
+    <MovieContainer
       key={movie.id}
-      className={clsx(styles.movieWrapper, focused && styles.movieWrapperFocus)}
+      sx={[focused && movieContainerFocused]}
       onMouseEnter={() => {
         timeoutRef.current = setTimeout(() => {
           setFocused(true);
@@ -50,40 +61,26 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
         setFocused(false);
       }}
     >
-      <div className={styles.movie}>
+      <MoviePosterContainer>
         <MoviePoster movie={movie} />
-      </div>
+      </MoviePosterContainer>
 
-      <div
-        className={clsx(
-          styles.movieDetailPositioner,
-          focused && styles.movieDetailShow
-        )}
-      >
-        <animated.div style={detailSpring} className={styles.movieDetail}>
-          <div className={styles.overflowWrapper}>
-            <MoviePoster
-              movie={movie}
-              height={375}
-              className={styles.detailPoster}
-            />
+      <MovieDetailPositioner sx={[focused && movieDetailPositionerFocused]}>
+        <MovieDetail style={detailSpring}>
+          <OverflowWrapper>
+            <DetailPoster movie={movie} height={375} />
 
-            <div className={styles.source}>
+            <Source>
               {<img src={sourceLogos[movie.source]} width="40" height="40" />}
-            </div>
+            </Source>
 
-            <animated.div className={styles.info} style={infoSpring}>
-              <div className={styles.infoData}>
+            <Info style={infoSpring}>
+              <InfoData>
                 <div>{formatRuntime(movie.runtime)}</div>
                 <div>{movie.year}</div>
-              </div>
+              </InfoData>
 
-              <Ratings
-                size="small"
-                ratings={movie.ratings}
-                dense
-                className={styles.infoRatings}
-              />
+              <InfoRatings size="small" ratings={movie.ratings} dense />
 
               <DetailActions
                 movie={movie}
@@ -102,14 +99,11 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
                   setShowMoreActions(true);
                 }}
               />
-            </animated.div>
+            </Info>
 
             {
-              <animated.div
-                className={clsx(
-                  styles.moreActions,
-                  showMoreActions && styles.enableMoreActions
-                )}
+              <MoreActionsDrawer
+                sx={[showMoreActions && moreActionsOpen]}
                 style={moreActionsSpring}
               >
                 <MoreActions
@@ -117,12 +111,12 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
                   onClose={() => setShowMoreActions(false)}
                   onDeleteMovie={() => onDeleteMovie(movie)}
                 />
-              </animated.div>
+              </MoreActionsDrawer>
             }
-          </div>
-        </animated.div>
-      </div>
-    </Paper>
+          </OverflowWrapper>
+        </MovieDetail>
+      </MovieDetailPositioner>
+    </MovieContainer>
   );
 };
 

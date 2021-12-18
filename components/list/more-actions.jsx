@@ -1,4 +1,4 @@
-import { MenuItem, MenuList, Paper } from "@mui/material";
+import { MenuItem, Paper } from "@mui/material";
 import CheckIcon from "@mitch528/mdi-material-ui/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InformationIcon from "@mitch528/mdi-material-ui/InformationOutline";
@@ -16,8 +16,7 @@ import {
   searchTorrent,
 } from "../../utils/search";
 import { sources } from "../../constants/sources";
-
-import styles from "./more-actions.module.css";
+import { CloseButton, Menu, StyledIcon } from "./more-actions.styled";
 
 const MoreActions = ({ movie, onDeleteMovie, onClose }) => {
   const { source, title } = movie;
@@ -73,10 +72,10 @@ const MoreActions = ({ movie, onDeleteMovie, onClose }) => {
 
   return (
     <Paper>
-      <div className={styles.closeButton} onClick={onClose}>
+      <CloseButton onClick={onClose}>
         <KeyboardArrowDown fontSize="small" />
-      </div>
-      <MenuList classes={{ root: styles.menu }} id="more-actions-menu">
+      </CloseButton>
+      <Menu id="more-actions-menu">
         {actions.map(({ value, label, action, Icon, remove }) =>
           remove ? null : (
             <MenuItem
@@ -86,12 +85,12 @@ const MoreActions = ({ movie, onDeleteMovie, onClose }) => {
                 onClose();
               }}
             >
-              {Icon && <Icon className={styles.icon} />}
+              {Icon && <StyledIcon as={Icon} />}
               {label}
             </MenuItem>
           )
         )}
-      </MenuList>
+      </Menu>
     </Paper>
   );
 };
