@@ -5,8 +5,8 @@ import { active, locked, NoPoster, Poster } from "./movie-poster.styles";
 
 const MoviePoster = ({ movie, height = 250, onClick }) => {
   const posterStyles = {
+    width: height * 0.64,
     height,
-    locked: movie.locked,
   };
 
   return movie.poster ? (
