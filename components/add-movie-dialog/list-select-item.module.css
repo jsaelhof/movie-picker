@@ -1,9 +1,0 @@
-.menuItem {
-  display: flex;
-  align-items: center;
-  column-gap: 8px;
-}
-
-.italic {
-  font-style: italic;
-}

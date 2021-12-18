@@ -1,12 +1,11 @@
-import styles from "./carousel.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import React from "react";
 import { useMediaQuery } from "@mui/material";
-import Slider from "react-slick";
 
 import MoviePoster from "./movie-poster";
+import { StatusMessage, Slider } from "./carousel.styles";
 
 const Carousel = ({ movies, searching, onSelectMovie }) => {
   const xsmall = useMediaQuery("(max-width: 600px), (max-height: 414px)");
@@ -15,11 +14,10 @@ const Carousel = ({ movies, searching, onSelectMovie }) => {
     return null;
   }
 
-  if (searching)
-    return <div className={styles.statusMessage}>Searching...</div>;
+  if (searching) return <StatusMessage>Searching...</StatusMessage>;
 
   if (movies.length === 0)
-    return <div className={styles.statusMessage}>No Movies Found</div>;
+    return <StatusMessage>No Movies Found</StatusMessage>;
 
   return (
     <Slider
@@ -29,7 +27,6 @@ const Carousel = ({ movies, searching, onSelectMovie }) => {
       speed={500}
       slidesToShow={4}
       slidesToScroll={4}
-      className={styles.slider}
       responsive={[
         {
           breakpoint: 1200,

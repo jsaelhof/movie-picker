@@ -4,10 +4,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
   useMediaQuery,
 } from "@mui/material";
-import clsx from "clsx";
 import { isNil } from "lodash";
 import React, { useRef, useState } from "react";
 import { useQuery } from "@apollo/client";
@@ -18,11 +16,16 @@ import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
 import { parseRuntime } from "../../utils/parse-runtime";
 import { GET_MOVIE_DETAILS, SEARCH_BY_TITLE } from "../../graphql";
 import Carousel from "./carousel";
-import ListSelect from "./list-select";
-import MoviePoster from "./movie-poster";
-import Ratings from "../ratings/ratings";
-
-import styles from "./add-movie-dialog.module.css";
+import {
+  Genre,
+  Input,
+  Poster,
+  StyledRatings,
+  Runtime,
+  Source,
+  Title,
+  Year,
+} from "./add-movie-dialog.styles";
 
 const AUTO_REFRESH_TIMEOUT = 1500;
 
@@ -49,8 +52,6 @@ const AddMovieDialog = ({
     }),
   });
 
-  const medium = useMediaQuery("(max-width: 1140px)");
-  const small = useMediaQuery("(max-width: 885px)");
   const xsmall = useMediaQuery("(max-width: 600px), (max-height: 414px)");
 
   const timeoutId = useRef();
@@ -91,21 +92,9 @@ const AddMovieDialog = ({
     <Dialog open={true} fullWidth fullScreen={xsmall} maxWidth="lg">
       <DialogTitle>Add a Movie</DialogTitle>
       <DialogContent>
-        <div
-          className={clsx(
-            styles.input,
-            medium && styles.mediumInput,
-            small && styles.smallInput,
-            xsmall && styles.xsmallInput
-          )}
-        >
-          <MoviePoster
-            poster={input.poster}
-            height={xsmall ? 130 : undefined}
-            className={styles.poster}
-          />
-          <TextField
-            className={styles.title}
+        <Input>
+          <Poster poster={input.poster} height={xsmall ? 130 : undefined} />
+          <Title
             label="Title"
             value={input.title}
             size="small"
@@ -126,8 +115,7 @@ const AddMovieDialog = ({
             autoFocus
           />
 
-          <TextField
-            className={styles.runtime}
+          <Runtime
             label="Runtime"
             value={input.runtime || ""}
             size="small"
@@ -141,16 +129,14 @@ const AddMovieDialog = ({
             }
           />
 
-          <ListSelect
-            className={styles.genre}
+          <Genre
             onChange={(value) => setInput({ ...input, genre: value })}
             value={input.genre}
             values={genres}
             labels={genreLabels}
           />
 
-          <TextField
-            className={styles.year}
+          <Year
             label="Year"
             value={input.year || ""}
             size="small"
@@ -164,8 +150,7 @@ const AddMovieDialog = ({
             }
           />
 
-          <ListSelect
-            className={styles.source}
+          <Source
             onChange={(value) => setInput({ ...input, source: value })}
             value={input.source}
             values={sources}
@@ -173,10 +158,8 @@ const AddMovieDialog = ({
             images={sourceLogos}
           />
 
-          {input.ratings && (
-            <Ratings ratings={input.ratings} className={styles.ratings} />
-          )}
-        </div>
+          {input.ratings && <StyledRatings ratings={input.ratings} />}
+        </Input>
 
         <Carousel
           movies={movies}
