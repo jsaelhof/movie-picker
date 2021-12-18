@@ -1,31 +1,15 @@
-import clsx from "clsx";
 import React from "react";
 
-import styles from "./list-cell.module.css";
+import { active, Cell, leftAlign } from "./list-cell.styles";
 
-const ListCell = ({
-  children,
-  left,
-  dense,
-  locked,
-  onClick,
-  classes,
-  ...props
-}) => (
-  <div
-    className={clsx(
-      styles.listCell,
-      left && styles.left,
-      dense && styles.dense,
-      locked && styles.locked,
-      onClick && styles.button,
-      classes
-    )}
+const ListCell = ({ children, classes, left, onClick }) => (
+  <Cell
+    sx={[left && leftAlign, onClick && active]}
+    className={classes}
     onClick={onClick}
-    {...props}
   >
     {children}
-  </div>
+  </Cell>
 );
 
 export default ListCell;

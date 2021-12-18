@@ -1,21 +1,8 @@
-import clsx from "clsx";
-import noop from "lodash/noop";
 import React from "react";
+import { Cell, leftAlign } from "./list-header-cell.styles";
 
-import styles from "./list-header-cell.module.css";
-
-const ListHeaderCell = ({children, left, dense, onClick}) => (
-  <div
-    className={clsx(
-      styles.listHeader,
-      left && styles.left,
-      dense && styles.dense,
-      onClick && styles.pointer,
-    )}
-    onClick={onClick || noop}
-  >
-    {children}
-  </div>
+const ListHeaderCell = ({ children, left }) => (
+  <Cell sx={[left && leftAlign]}>{children}</Cell>
 );
 
 export default ListHeaderCell;
