@@ -123,7 +123,7 @@ const AddMovieDialog = ({
             variant="outlined"
             placeholder="0:00"
             inputProps={{
-              maxlength: 4,
+              maxLength: 4,
             }}
             onChange={({ target }) =>
               setInput({ ...input, runtime: target.value })
