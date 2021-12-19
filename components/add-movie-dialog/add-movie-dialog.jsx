@@ -144,7 +144,7 @@ const AddMovieDialog = ({
             variant="outlined"
             placeholder="1978"
             inputProps={{
-              maxlength: 4,
+              maxLength: 4,
             }}
             onChange={({ target }) =>
               setInput({ ...input, year: target.value })
