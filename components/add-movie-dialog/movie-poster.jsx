@@ -2,10 +2,12 @@ import isNil from "lodash/isNil";
 import React from "react";
 import TheatresIcon from "@mui/icons-material/Theaters";
 import {
+  interactivePoster,
   NoPoster,
   Poster,
   PosterLayout,
   Title,
+  unselectedPoster,
   Year,
 } from "./movie-poster.styles";
 
@@ -19,8 +21,10 @@ const MoviePoster = ({
   className,
 }) => (
   <PosterLayout
-    $interactive={!!onClick}
-    $unselected={!isNil(selected) && !selected}
+    sx={[
+      onClick && interactivePoster,
+      !isNil(selected) && !selected && unselectedPoster,
+    ]}
     className={className}
     onClick={onClick}
   >

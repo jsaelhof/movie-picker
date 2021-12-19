@@ -1,7 +1,7 @@
 import { styled } from "@mui/material";
 
 export const PosterLayout = styled("div")(
-  ({ theme: { palette, spacing }, $interactive, $unselected }) => ({
+  ({ theme: { palette, spacing } }) => ({
     display: "grid",
     gridAutoFlow: "row",
     alignItems: "center",
@@ -10,29 +10,27 @@ export const PosterLayout = styled("div")(
     paddingLeft: spacing(0.5),
     paddingRight: spacing(0.5),
 
-    ...($unselected && {
-      opacity: 0.25,
-    }),
-
-    ...($interactive && {
-      paddingTop: spacing(0.5),
-    }),
-
     "& img": {
       maxWidth: "100%",
       maxHeight: "100%",
       objectFit: "contain",
       boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.4)",
     },
-
-    "& :hover > img": {
-      ...($interactive && {
-        transform: `translateY(${spacing(-0.5)})`,
-        boxShadow: "0px 6px 8px rgba(0, 0, 0, 0.25)",
-      }),
-    },
   })
 );
+
+export const interactivePoster = ({ spacing }) => ({
+  paddingTop: spacing(0.5),
+
+  "& :hover > img": {
+    transform: `translateY(${spacing(-0.5)})`,
+    boxShadow: "0px 6px 8px rgba(0, 0, 0, 0.25)",
+  },
+});
+
+export const unselectedPoster = {
+  opacity: 0.25,
+};
 
 export const Poster = styled("div")(({ theme: { palette } }) => ({
   display: "flex",
