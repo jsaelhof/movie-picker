@@ -21,7 +21,7 @@ export const locked = {
   opacty: 0.3,
 };
 
-export const NoPoster = styled(Poster)(({ palette }) => ({
+export const NoPoster = styled(Poster)(({ theme: { palette } }) => ({
   display: "grid",
   gridTemplateRows: "1fr 100px",
   justifyItems: "center",
