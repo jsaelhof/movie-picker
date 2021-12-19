@@ -1,8 +1,7 @@
-import { MenuItem } from "@mui/material";
+import { MenuItem, Select } from "@mui/material";
 import map from "lodash/map";
 import React from "react";
 
-import { Select } from "./list-select.styles";
 import ListSelectItem from "./list-select-item";
 
 const ListSelect = ({
@@ -14,7 +13,6 @@ const ListSelect = ({
 }) => {
   return (
     <Select
-      margin="dense"
       variant="outlined"
       value={value || 0}
       onChange={({ target }) => {
