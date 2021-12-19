@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { format } from "date-fns";
-import clsx from "clsx";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { titleCase } from "../../utils/title-case";
@@ -8,8 +7,7 @@ import { useResponsive } from "../../hooks/use-responsive";
 import ActionButton from "../action-button/action-button";
 import DatePicker from "../date-picker/date-picker";
 import ListCell from "./list-cell";
-
-import styles from "./watched-list-row.module.css";
+import { RelativeListCell, Title } from "./watched-list-row.styles";
 
 const DATE_CELL_ID = "dateCell";
 
@@ -31,9 +29,8 @@ const WatchedListRow = ({
 
   return (
     <>
-      <ListCell left classes={clsx(minimalColumns && styles.titleCell)}>
-        <a
-          className={clsx(styles.link, minimalColumns && styles.title)}
+      <ListCell left>
+        <Title
           href={`https://www.themoviedb.org/search?query=${movie.title.replace(
             " ",
             "+"
@@ -41,11 +38,10 @@ const WatchedListRow = ({
           target="moviedb"
         >
           {titleCase(movie.title)}
-        </a>
+        </Title>
       </ListCell>
-      <ListCell
+      <RelativeListCell
         data-id={DATE_CELL_ID}
-        classes={styles.dateCell}
         left
         onClick={({ target }) => {
           // Make sure the click is not on a child element (the date picker elements)
@@ -77,7 +73,7 @@ const WatchedListRow = ({
             }}
           />
         )}
-      </ListCell>
+      </RelativeListCell>
       <ListCell>
         <ActionButton
           Icon={DeleteIcon}
