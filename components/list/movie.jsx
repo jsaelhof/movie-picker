@@ -23,6 +23,7 @@ import { useResponsive } from "../../hooks/use-responsive";
 import DetailActions from "./detail-actions";
 import MoreActions from "./more-actions";
 import MoviePoster from "../movie-poster/movie-poster";
+import Ratings from "../ratings/ratings";
 
 const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
   const { mobile } = useResponsive();
@@ -80,7 +81,9 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
                 <div>{movie.year}</div>
               </InfoData>
 
-              <InfoRatings size="small" ratings={movie.ratings} dense />
+              <InfoRatings>
+                <Ratings size="small" ratings={movie.ratings} dense />
+              </InfoRatings>
 
               <DetailActions
                 movie={movie}

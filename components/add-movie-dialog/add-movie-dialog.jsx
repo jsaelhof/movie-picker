@@ -1,7 +1,6 @@
 import {
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
   useMediaQuery,
@@ -20,12 +19,14 @@ import {
   Genre,
   Input,
   Poster,
-  StyledRatings,
   Runtime,
   Source,
   Title,
   Year,
+  RatingsContainer,
+  Actions,
 } from "./add-movie-dialog.styles";
+import Ratings from "../ratings/ratings";
 
 const AUTO_REFRESH_TIMEOUT = 1500;
 
@@ -158,7 +159,11 @@ const AddMovieDialog = ({
             images={sourceLogos}
           />
 
-          {input.ratings && <StyledRatings ratings={input.ratings} />}
+          {input.ratings && (
+            <RatingsContainer>
+              <Ratings ratings={input.ratings} dense />
+            </RatingsContainer>
+          )}
         </Input>
 
         <Carousel
@@ -167,7 +172,7 @@ const AddMovieDialog = ({
           onSelectMovie={(index) => setSelectedMovie(index)}
         />
 
-        <DialogActions>
+        <Actions>
           <Button onClick={onCancel} variant="outlined">
             Cancel
           </Button>
@@ -189,7 +194,7 @@ const AddMovieDialog = ({
           >
             Save Movie
           </Button>
-        </DialogActions>
+        </Actions>
       </DialogContent>
     </Dialog>
   );

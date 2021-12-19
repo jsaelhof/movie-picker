@@ -1,7 +1,6 @@
 import { Paper, styled } from "@mui/material";
 import { animated } from "react-spring";
 
-import Ratings from "../ratings/ratings";
 import MoviePoster from "../movie-poster/movie-poster";
 
 export const MovieContainer = styled(Paper)(() => ({
@@ -89,9 +88,9 @@ export const InfoData = styled("div")`
   justify-content: space-between;
 `;
 
-export const InfoRatings = styled(Ratings)`
-  margin: 0 auto;
-`;
+export const InfoRatings = styled("div")(() => ({
+  justifySelf: "center",
+}));
 
 export const MoreActionsDrawer = styled(animated.div)(() => ({
   position: "fixed",

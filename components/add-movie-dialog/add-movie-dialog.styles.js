@@ -1,5 +1,4 @@
-import { styled, TextField } from "@mui/material";
-import Ratings from "../ratings/ratings";
+import { DialogActions, styled, TextField } from "@mui/material";
 
 import ListSelect from "./list-select";
 import MoviePoster from "./movie-poster";
@@ -97,11 +96,12 @@ export const Source = styled(ListSelect)(() => ({
   },
 }));
 
-export const StyledRatings = styled(Ratings)(
+export const RatingsContainer = styled("div")(
   ({ theme: { breakpoints, spacing } }) => ({
     gridArea: "ratings",
     justifySelf: "flex-end",
     paddingRight: spacing(2),
+    alignSelf: "center",
 
     [breakpoints.down(1140)]: {
       justifySelf: "flex-start",
@@ -113,3 +113,9 @@ export const StyledRatings = styled(Ratings)(
     },
   })
 );
+
+export const Actions = styled(DialogActions)`
+  @media (max-width: 600px) {
+    justify-content: center;
+  }
+`;

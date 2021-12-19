@@ -4,10 +4,11 @@ export const RatingsList = styled("ul")`
   display: flex;
   list-style-type: none;
   padding-left: 0;
-  align-self: center;
-
-  ${({ $dense }) => $dense && { margin: 0 }}
 `;
+
+export const denseMargins = {
+  margin: 0,
+};
 
 export const RatingsListItem = styled("li")`
   display: flex;
@@ -28,5 +29,4 @@ export const RatingsSourceIcon = styled("img")(() => ({
 export const ratingsSmall = {
   width: 20,
   height: 20,
-  marginRight: 8,
 };
