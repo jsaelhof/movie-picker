@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useSpring } from "react-spring";
+import { isEqual } from "lodash";
+import { useQuery } from "@apollo/client";
 
 import {
   DetailPoster,
@@ -24,6 +26,7 @@ import DetailActions from "./detail-actions";
 import MoreActions from "./more-actions";
 import MoviePoster from "../movie-poster/movie-poster";
 import Ratings from "../ratings/ratings";
+import { GET_RATINGS } from "../../graphql";
 
 const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
   const { mobile } = useResponsive();
@@ -45,6 +48,16 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
 
   const moreActionsSpring = useSpring({
     to: { transform: `translateY(${showMoreActions ? -100 : 0}%)` },
+  });
+
+  useQuery(GET_RATINGS, {
+    skip: !focused,
+    variables: { imdbID: movie.imdbID },
+    onCompleted: ({ omdbMovie: { ratings } }) => {
+      if (!isEqual(ratings, movie.ratings)) {
+        onEditMovie({ ...movie, ratings }, false);
+      }
+    },
   });
 
   return (
