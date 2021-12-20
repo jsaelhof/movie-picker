@@ -5,6 +5,11 @@ export const GET_MOVIE_EXTENDED_DETAILS = gql`
     omdbMovie(imdbID: $imdbID) {
       imdbID
       plot
+      ratings {
+        IMDB
+        ROTTEN_TOMATOES
+        METACRITIC
+      }
     }
     tmdbMovie(imdbID: $imdbID) {
       imdbID

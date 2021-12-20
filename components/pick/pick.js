@@ -119,7 +119,7 @@ const Pick = ({ movie }) => {
           >
             <div>{movie.title}</div>
             <StyledStarRating
-              ratings={movie.ratings}
+              ratings={data.ratings}
               anchor={xsmall ? "center" : "left"}
             />
           </MovieTitle>
