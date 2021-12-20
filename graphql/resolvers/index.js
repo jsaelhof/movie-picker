@@ -208,7 +208,7 @@ export const resolvers = {
       if (deletedCount === 1) {
         return { id: movieId };
       } else {
-        throw new Error(`Error undoing movie watched: ${movie.title}`);
+        throw new Error(`Error undoing movie watched: ${movieId}`);
       }
     },
   },

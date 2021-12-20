@@ -1,15 +1,13 @@
-import styles from "./sort-nav.module.css";
-
-import clsx from "clsx";
 import React from "react";
-import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
-
-import { useResponsive } from "../../hooks/use-responsive";
+import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUp from "@mui/icons-material/KeyboardArrowUp";
+import {
+  SortNavList,
+  SortNavListItem,
+  sortNavSelectedItem,
+} from "./sort-nav.styles";
 
 const SortNav = ({ selectedOption, options, onSort }) => {
-  const { small } = useResponsive();
-
   const SortOrderIcon =
     selectedOption[0] === "addedOn"
       ? selectedOption[1] === "asc"
@@ -29,14 +27,13 @@ const SortNav = ({ selectedOption, options, onSort }) => {
   ];
 
   return (
-    <ul className={clsx(styles.sortNav, small && styles.centeredNav)}>
+    <SortNavList>
       {options.map(([label, key]) => (
-        <li
+        <SortNavListItem
           key={key}
-          className={clsx(key === selectedOption[0] && styles.selected)}
+          sx={[key === selectedOption[0] && sortNavSelectedItem]}
           onClick={() => {
-            const newOrder = resolveOrder(key);
-            onSort(newOrder[0], newOrder[1]);
+            onSort(...resolveOrder(key));
           }}
         >
           {label}
@@ -50,9 +47,9 @@ const SortNav = ({ selectedOption, options, onSort }) => {
               }}
             />
           )}
-        </li>
+        </SortNavListItem>
       ))}
-    </ul>
+    </SortNavList>
   );
 };
 

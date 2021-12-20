@@ -1,27 +1,26 @@
 import React from "react";
-import { AppBar, Button, Toolbar } from "@material-ui/core";
-import AddToQueueIcon from "@material-ui/icons/AddToQueue";
-import clsx from "clsx";
+import { AppBar, Button } from "@mui/material";
 
 import { useAppContext } from "../../context/app-context";
 import { useResponsive } from "../../hooks/use-responsive";
 import SortNav from "./sort-nav";
 import SplitButton from "../split-button/split-button";
-
-import styles from "./action-bar.module.css";
+import {
+  ActionBarContainer,
+  ActionToolbar,
+  AddToQueueIcon,
+  SecondaryActions,
+} from "./action-bar.styles";
 
 const ActionBar = ({ disabled, onAdd, onPick }) => {
   const { order, setOrder } = useAppContext();
-  const { small, minimalColumns } = useResponsive();
+  const { minimalColumns } = useResponsive();
 
   return (
-    <div className={clsx(styles.appBar, small && styles.verticalAppBar)}>
+    <ActionBarContainer>
       <AppBar position="static" color="transparent" elevation={0}>
         {!disabled && (
-          <Toolbar
-            className={styles.toolbar}
-            classes={{ root: clsx(small && styles.verticalActions) }}
-          >
+          <ActionToolbar>
             <SortNav
               selectedOption={order}
               options={[
@@ -34,22 +33,17 @@ const ActionBar = ({ disabled, onAdd, onPick }) => {
               }}
             />
 
-            <div className={styles.secondaryActions}>
+            <SecondaryActions>
               <Button variant="outlined" color="primary" onClick={onAdd}>
-                <AddToQueueIcon
-                  className={clsx(
-                    styles.addToQueue,
-                    minimalColumns && styles.addToQueueIconOnly
-                  )}
-                />
+                <AddToQueueIcon />
                 {!minimalColumns && "Add Movie"}
               </Button>
               <SplitButton onPick={onPick} />
-            </div>
-          </Toolbar>
+            </SecondaryActions>
+          </ActionToolbar>
         )}
       </AppBar>
-    </div>
+    </ActionBarContainer>
   );
 };
 

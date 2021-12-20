@@ -1,5 +1,5 @@
-import {Button, IconButton, Snackbar} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import {Button, IconButton, Snackbar} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 
 const Toast = ({open, onClose, onUndo, duration = 5000, message}) => {

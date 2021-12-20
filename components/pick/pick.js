@@ -1,22 +1,35 @@
-import styles from "./pick.module.css";
-
 import React, { useCallback, useState } from "react";
-import { Button, useMediaQuery } from "@material-ui/core";
-import clsx from "clsx";
+import { Button, useMediaQuery } from "@mui/material";
+import { PlayArrow } from "@mui/icons-material";
+import { useQuery } from "@apollo/client";
+import { useSpring } from "react-spring";
+import Search from "@mui/icons-material/Search";
+import TelevisionPlay from "@mitch528/mdi-material-ui/TelevisionPlay";
 
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels } from "../../constants/genres";
 import { searchStreaming, searchTMDB, searchTorrent } from "../../utils/search";
-import Rated from "./rated";
-import MoviePoster from "../movie-poster/movie-poster";
-import { animated, useSpring } from "react-spring";
 import { sourceLogosLarge, sources } from "../../constants/sources";
-import TelevisionPlay from "mdi-material-ui/TelevisionPlay";
-import StarRating from "../ratings/star-rating";
-import { PlayArrow } from "@material-ui/icons";
-import Search from "@material-ui/icons/Search";
-import { useQuery } from "@apollo/client";
 import { GET_MOVIE_EXTENDED_DETAILS } from "../../graphql";
+import {
+  Actions,
+  Backdrop,
+  BackdropWrapper,
+  MovieData,
+  MovieInfo,
+  MovieTitle,
+  PickGrid,
+  Player,
+  PlayerWrapper,
+  Plot,
+  Poster,
+  smallMovieTitle,
+  Source,
+  streamable,
+  StyledStarRating,
+} from "./pick.styles";
+import MoviePoster from "../movie-poster/movie-poster";
+import Rated from "./rated";
 
 const buildTrailerUrl = ({ site, key }) => {
   switch (site) {
@@ -31,11 +44,8 @@ const buildTrailerUrl = ({ site, key }) => {
 };
 
 const Pick = ({ movie }) => {
-  const xlarge = useMediaQuery("(min-width: 2000px)");
-  const large = useMediaQuery("(min-width: 1200px)");
   const small = useMediaQuery("(max-width: 750px)");
   const xsmall = useMediaQuery("(max-width: 660px)");
-  const xxsmall = useMediaQuery("(max-width: 450px)");
 
   const [data, setData] = useState(null);
   const [trailer, setTrailer] = useState(null);
@@ -69,94 +79,61 @@ const Pick = ({ movie }) => {
   const canStream = ![sources.DVD, sources.NONE].includes(movie.source);
 
   return (
-    <div className={styles.pickGrid}>
-      <div
-        className={clsx(
-          styles.backdropWrapper,
-          small && styles.backdropWrapperSmall,
-          large && styles.backdropWrapperarge,
-          xlarge && styles.backdropWrapperXLarge
-        )}
-      >
-        <animated.div
-          className={styles.backdrop}
+    <PickGrid>
+      <BackdropWrapper>
+        <Backdrop
+          sx={[
+            data?.backdrop && {
+              backgroundImage: `url("${data.backdrop}")`,
+            },
+          ]}
           style={{
-            ...(data?.backdrop
-              ? {
-                  backgroundImage: `url("${data.backdrop}")`,
-                }
-              : {
-                  backgroundImage: "linear-gradient(to top, white, #ccc)",
-                }),
             ...fadeSpring,
           }}
         />
-      </div>
+      </BackdropWrapper>
 
       {trailer && (
-        <div className={styles.playerWrapper} onClick={() => setTrailer(null)}>
-          <iframe
+        <PlayerWrapper onClick={() => setTrailer(null)}>
+          <Player
             src={trailer}
-            frameborder="0"
+            frameBorder="0"
             allow="autoplay; clipboard-write; encrypted-media;"
             allowfullscreen
-            className={styles.player}
-          ></iframe>
-        </div>
+          ></Player>
+        </PlayerWrapper>
       )}
 
       {data && (
-        <div
-          className={clsx(
-            styles.movieInfo,
-            xlarge && styles.movieInfoXLarge,
-            large && styles.movieInfoLarge,
-            small && styles.movieInfoSmall,
-            xsmall && styles.movieInfoXSmall
-          )}
-        >
-          <animated.div
-            className={clsx(styles.poster, xsmall && styles.posterXSmall)}
-            style={growSpring}
-          >
+        <MovieInfo>
+          <Poster style={growSpring}>
             <MoviePoster
               height={small ? 300 : 400}
               movie={movie}
               onClick={search}
             />
-          </animated.div>
+          </Poster>
 
-          <div
-            className={clsx(
-              styles.title,
-              (movie.title.length >= 25 || small) && styles.titleSmall,
-              xsmall && styles.titleXSmall
-            )}
+          <MovieTitle
+            sx={[(small || movie.title.length >= 25) && smallMovieTitle]}
           >
             <div>{movie.title}</div>
-            <StarRating
+            <StyledStarRating
               ratings={movie.ratings}
               anchor={xsmall ? "center" : "left"}
-              className={styles.ratings}
             />
-          </div>
+          </MovieTitle>
 
-          <div
-            className={clsx(
-              styles.movieData,
-              small && styles.movieDataSmall,
-              xsmall && styles.movieDataXSmall
-            )}
-          >
+          <MovieData>
             <div>{formatRuntime(movie.runtime)}</div>
             <div>{movie.year}</div>
             <div>{genreLabels[movie.genre]}</div>
             <Rated rated={data.certification} />
-          </div>
+          </MovieData>
 
-          <img
+          <Source
+            sx={[canStream && streamable]}
             src={sourceLogosLarge[movie.source]}
-            className={clsx(styles.source, canStream && styles.activeSource)}
             onClick={() =>
               canStream &&
               window.open(
@@ -166,15 +143,9 @@ const Pick = ({ movie }) => {
             }
           />
 
-          <div className={styles.plot}>{data.plot}</div>
+          <Plot>{data.plot}</Plot>
 
-          <div
-            className={clsx(
-              styles.actions,
-              xsmall && styles.actionsXSmall,
-              xxsmall && styles.actionsXXSmall
-            )}
-          >
+          <Actions>
             {data.trailer && (
               <Button
                 color="primary"
@@ -213,10 +184,10 @@ const Pick = ({ movie }) => {
                 Torrent Search
               </Button>
             )}
-          </div>
-        </div>
+          </Actions>
+        </MovieInfo>
       )}
-    </div>
+    </PickGrid>
   );
 };
 

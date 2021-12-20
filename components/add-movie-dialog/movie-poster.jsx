@@ -1,9 +1,15 @@
-import clsx from "clsx";
 import isNil from "lodash/isNil";
 import React from "react";
-import TheatresIcon from "@material-ui/icons/Theaters";
-
-import styles from "./movie-poster.module.css";
+import TheatresIcon from "@mui/icons-material/Theaters";
+import {
+  interactivePoster,
+  NoPoster,
+  Poster,
+  PosterLayout,
+  Title,
+  unselectedPoster,
+  Year,
+} from "./movie-poster.styles";
 
 const MoviePoster = ({
   poster,
@@ -14,28 +20,27 @@ const MoviePoster = ({
   height = 200,
   className,
 }) => (
-  <div
-    className={clsx(
-      styles.main,
-      onClick && styles.mainInteraction,
-      !isNil(selected) && !selected && styles.unselected,
-      className
-    )}
+  <PosterLayout
+    sx={[
+      onClick && interactivePoster,
+      !isNil(selected) && !selected && unselectedPoster,
+    ]}
+    className={className}
     onClick={onClick}
   >
-    <div className={styles.poster} style={{ height }}>
+    <Poster sx={{ height }}>
       {poster === "N/A" || !poster ? (
-        <div className={styles.noPoster}>
+        <NoPoster>
           <TheatresIcon fontSize="large" />
           No Poster
-        </div>
+        </NoPoster>
       ) : (
         <img src={poster} />
       )}
-    </div>
-    {title && <div className={styles.title}>{title}</div>}
-    {year && <div className={styles.year}>{year}</div>}
-  </div>
+    </Poster>
+    {title && <Title>{title}</Title>}
+    {year && <Year>{year}</Year>}
+  </PosterLayout>
 );
 
 export default MoviePoster;

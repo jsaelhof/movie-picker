@@ -1,11 +1,11 @@
-import styles from "./logo.module.css";
-
 import React from "react";
 
+import { LogoContainer } from "./logo.styles";
+
 const Logo = ({ small }) => (
-  <div className={styles.logo}>
+  <LogoContainer>
     <img src={small ? "/images/logo-small.png" : "/images/logo.png"} />
-  </div>
+  </LogoContainer>
 );
 
 export default Logo;

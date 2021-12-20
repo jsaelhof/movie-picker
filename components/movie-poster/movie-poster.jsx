@@ -1,53 +1,31 @@
-import styles from "./movie-poster.module.css";
-
 import React from "react";
-import clsx from "clsx";
-import TheatresIcon from "@material-ui/icons/Theaters";
+import TheatresIcon from "@mui/icons-material/Theaters";
 
-const MoviePoster = ({
-  movie,
-  height = 250,
-  borderRadius = 4,
-  onClick,
-  className,
-}) => {
-  const width = height * 0.64;
+import { active, locked, NoPoster, Poster } from "./movie-poster.styles";
 
+const MoviePoster = ({ movie, height = 250, onClick }) => {
   const posterStyles = {
-    width,
+    width: height * 0.64,
     height,
-    borderRadius,
   };
 
   return movie.poster ? (
-    <div
-      className={clsx(
-        styles.poster,
-        movie.locked && styles.posterLocked,
-        onClick && styles.active,
-        className
-      )}
-      style={{
-        ...posterStyles,
-        backgroundImage: `url(${movie.poster})`,
-      }}
+    <Poster
+      sx={[
+        posterStyles,
+        {
+          backgroundImage: `url(${movie.poster})`,
+        },
+        onClick && active,
+        movie.locked && locked,
+      ]}
       onClick={onClick}
     />
   ) : (
-    <div
-      className={clsx(
-        styles.poster,
-        styles.noPoster,
-        onClick && styles.active,
-        movie.locked && styles.posterLocked,
-        className
-      )}
-      style={posterStyles}
-      onClick={onClick}
-    >
+    <NoPoster sx={[posterStyles]} onClick={onClick}>
       <TheatresIcon fontSize="large" />
       <div>{movie.title}</div>
-    </div>
+    </NoPoster>
   );
 };
 

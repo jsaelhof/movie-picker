@@ -1,28 +1,45 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createTheme } from "@mui/material";
+import { grey } from "@mui/material/colors";
 
-const navColor = "#b4b5de";
+const darkBlue = {
+  50: "#b4b5de",
+  500: "#37476c",
+  900: "#1e1e30",
+};
 
-export const theme = createMuiTheme({
+const accent = "cornflowerblue";
+const icon = grey[600];
+
+export const theme = createTheme({
   palette: {
     primary: {
-      main: "#37476c",
+      main: darkBlue[500],
     },
     secondary: {
-      main: navColor,
+      main: darkBlue[50],
     },
+    darkBlue,
+    grey,
+    accent,
+    icon,
   },
 
-  overrides: {
+  components: {
     MuiButton: {
-      text: {
-        paddingLeft: 16,
-        paddingRight: 16,
-      },
-    },
-    MuiAppBar: {
-      colorTransparent: {
-        color: navColor,
-      },
+      variants: [
+        {
+          props: { variant: "nav" },
+          style: {
+            color: darkBlue[50],
+            textTransform: "initial",
+            fontSize: "1rem",
+            fontWeight: 400,
+            "&:hover": {
+              backgroundColor: "rgba(180,181,222,0.1)",
+            },
+          },
+        },
+      ],
     },
   },
 });

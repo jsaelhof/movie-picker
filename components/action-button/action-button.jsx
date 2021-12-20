@@ -1,9 +1,11 @@
-import { Tooltip } from "@material-ui/core";
-import clsx from "clsx";
+import { Tooltip } from "@mui/material";
 import noop from "lodash/noop";
 import React from "react";
 
-import styles from "./action-button.module.css";
+import {
+  ButtonContainer,
+  buttonContainerDisabled,
+} from "./action-button.styles";
 
 const ActionButton = ({
   Icon,
@@ -11,7 +13,6 @@ const ActionButton = ({
   movie = {},
   disabled,
   onClick,
-  className,
 }) => (
   <Tooltip
     title={tooltip}
@@ -20,16 +21,12 @@ const ActionButton = ({
     enterDelay={1000}
     enterNextDelay={1000}
   >
-    <Icon
-      data-movie={JSON.stringify(movie)}
-      className={clsx(styles.action, disabled && styles.disabled, className)}
-      onClick={
-        disabled
-          ? noop
-          : ({ currentTarget }) =>
-              onClick(JSON.parse(currentTarget.dataset.movie))
-      }
-    />
+    <ButtonContainer
+      sx={[disabled && buttonContainerDisabled]}
+      onClick={disabled ? noop : () => onClick(movie)}
+    >
+      <Icon />
+    </ButtonContainer>
   </Tooltip>
 );
 

@@ -5,13 +5,18 @@
   "scripts": {
     "dev": "next dev -- -p 4000",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "./node_modules/.bin/eslint -c ./.eslintrc.js . --ext .js,.jsx"
   },
   "dependencies": {
     "@apollo/client": "^3.3.19",
     "@auth0/nextjs-auth0": "^1.5.0",
-    "@material-ui/core": "^4.11.2",
-    "@material-ui/icons": "^4.11.2",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@mitch528/mdi-material-ui": "^7.0.0",
+    "@mui/icons-material": "^5.2.4",
+    "@mui/material": "^5.2.4",
+    "@mui/styles": "^5.2.3",
     "@svgr/webpack": "^5.5.0",
     "apollo-server-micro": "^2.19.2",
     "axios": "^0.21.1",
@@ -19,19 +24,19 @@
     "date-fns": "^2.16.1",
     "graphql": "^15.5.0",
     "lodash": "^4.17.20",
-    "mdi-material-ui": "^6.21.0",
     "mongodb": "^3.6.10",
-    "next": "^10.0.0",
+    "next": "^11.1.2",
     "omit-deep-lodash": "^1.1.5",
-    "react": "16.13.1",
+    "react": "^17.0.2",
     "react-day-picker": "^8.0.0-beta.29",
-    "react-dom": "16.13.1",
+    "react-dom": "^17.0.2",
     "react-slick": "^0.28.1",
     "react-spring": "^9.2.4",
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
-    "eslint-plugin-react": "^7.25.1"
+    "eslint-plugin-react": "^7.25.1",
+    "eslint-plugin-react-hooks": "^4.3.0"
   }
 }

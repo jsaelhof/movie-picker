@@ -1,22 +1,16 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
-const NavButton = ({ children, href, onClick, style, ...props }) => {
+const NavButton = ({ children, href, onClick, ...props }) => {
   const { push } = useRouter();
 
   return (
     <Button
+      variant="nav"
       {...props}
-      color="secondary"
       onClick={() => {
         onClick ? onClick() : push(href);
-      }}
-      style={{
-        textTransform: "initial",
-        fontSize: 16,
-        fontWeight: 400,
-        ...style,
       }}
     >
       {children}

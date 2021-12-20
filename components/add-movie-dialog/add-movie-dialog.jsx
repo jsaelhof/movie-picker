@@ -1,13 +1,10 @@
 import {
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
   useMediaQuery,
-} from "@material-ui/core";
-import clsx from "clsx";
+} from "@mui/material";
 import { isNil } from "lodash";
 import React, { useRef, useState } from "react";
 import { useQuery } from "@apollo/client";
@@ -18,11 +15,18 @@ import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
 import { parseRuntime } from "../../utils/parse-runtime";
 import { GET_MOVIE_DETAILS, SEARCH_BY_TITLE } from "../../graphql";
 import Carousel from "./carousel";
-import ListSelect from "../list-select/list-select";
-import MoviePoster from "./movie-poster";
+import {
+  Genre,
+  Input,
+  Poster,
+  Runtime,
+  Source,
+  Title,
+  Year,
+  RatingsContainer,
+  Actions,
+} from "./add-movie-dialog.styles";
 import Ratings from "../ratings/ratings";
-
-import styles from "./add-movie-dialog.module.css";
 
 const AUTO_REFRESH_TIMEOUT = 1500;
 
@@ -49,8 +53,6 @@ const AddMovieDialog = ({
     }),
   });
 
-  const medium = useMediaQuery("(max-width: 1140px)");
-  const small = useMediaQuery("(max-width: 885px)");
   const xsmall = useMediaQuery("(max-width: 600px), (max-height: 414px)");
 
   const timeoutId = useRef();
@@ -91,24 +93,12 @@ const AddMovieDialog = ({
     <Dialog open={true} fullWidth fullScreen={xsmall} maxWidth="lg">
       <DialogTitle>Add a Movie</DialogTitle>
       <DialogContent>
-        <div
-          className={clsx(
-            styles.input,
-            medium && styles.mediumInput,
-            small && styles.smallInput,
-            xsmall && styles.xsmallInput
-          )}
-        >
-          <MoviePoster
-            poster={input.poster}
-            height={xsmall ? 130 : undefined}
-            className={styles.poster}
-          />
-          <TextField
-            className={styles.title}
+        <Input>
+          <Poster poster={input.poster} height={xsmall ? 130 : undefined} />
+          <Title
             label="Title"
             value={input.title}
-            margin="dense"
+            size="small"
             fullWidth
             variant="outlined"
             placeholder="Title"
@@ -126,46 +116,42 @@ const AddMovieDialog = ({
             autoFocus
           />
 
-          <TextField
-            className={styles.runtime}
+          <Runtime
             label="Runtime"
             value={input.runtime || ""}
-            margin="dense"
+            size="small"
             variant="outlined"
             placeholder="0:00"
             inputProps={{
-              maxlength: 4,
+              maxLength: 4,
             }}
             onChange={({ target }) =>
               setInput({ ...input, runtime: target.value })
             }
           />
 
-          <ListSelect
-            className={styles.genre}
+          <Genre
             onChange={(value) => setInput({ ...input, genre: value })}
             value={input.genre}
             values={genres}
             labels={genreLabels}
           />
 
-          <TextField
-            className={styles.year}
+          <Year
             label="Year"
             value={input.year || ""}
-            margin="dense"
+            size="small"
             variant="outlined"
             placeholder="1978"
             inputProps={{
-              maxlength: 4,
+              maxLength: 4,
             }}
             onChange={({ target }) =>
               setInput({ ...input, year: target.value })
             }
           />
 
-          <ListSelect
-            className={styles.source}
+          <Source
             onChange={(value) => setInput({ ...input, source: value })}
             value={input.source}
             values={sources}
@@ -174,9 +160,11 @@ const AddMovieDialog = ({
           />
 
           {input.ratings && (
-            <Ratings ratings={input.ratings} className={styles.ratings} />
+            <RatingsContainer>
+              <Ratings ratings={input.ratings} dense />
+            </RatingsContainer>
           )}
-        </div>
+        </Input>
 
         <Carousel
           movies={movies}
@@ -184,7 +172,7 @@ const AddMovieDialog = ({
           onSelectMovie={(index) => setSelectedMovie(index)}
         />
 
-        <DialogActions>
+        <Actions>
           <Button onClick={onCancel} variant="outlined">
             Cancel
           </Button>
@@ -206,7 +194,7 @@ const AddMovieDialog = ({
           >
             Save Movie
           </Button>
-        </DialogActions>
+        </Actions>
       </DialogContent>
     </Dialog>
   );

@@ -1,19 +1,19 @@
-import styles from "./titlebar.module.css";
-
 import React from "react";
-import { AppBar, Toolbar } from "@material-ui/core";
+import { AppBar, Box, Toolbar, useMediaQuery } from "@mui/material";
 import { useRouter } from "next/router";
-import clsx from "clsx";
-import Refresh from "@material-ui/icons/Refresh";
+import Refresh from "@mui/icons-material/Refresh";
 
-import { useResponsive } from "../../hooks/use-responsive";
 import { useAppContext } from "../../context/app-context";
 import ProfileMenu from "./profile-menu";
 import NavFull from "./nav-full";
 import Logo from "./logo";
 import NavHamburger from "./nav-hamburger";
-import NavButton from "./nav-button";
-import { useMediaQuery } from "@material-ui/core";
+import {
+  appBarContainerStyles,
+  PickAgainButton,
+  pickScreenToolbarStyles,
+  toolbarStyles,
+} from "./titlebar.styles";
 
 const TitleBar = () => {
   const { movies, setPick } = useAppContext();
@@ -21,35 +21,28 @@ const TitleBar = () => {
   const mobileNav = useMediaQuery("(max-width: 580px)");
   const { pathname } = useRouter();
 
+  const isPickScreen = pathname === "/pick";
+
   return (
-    <div className={styles.appBar}>
+    <Box sx={appBarContainerStyles}>
       <AppBar position="static" color="transparent" elevation={2}>
-        <Toolbar
-          classes={{
-            root: clsx(
-              styles.toolbar,
-              mobileNav && styles.smallToolbar,
-              pathname === "/pick" && mobileNav && styles.smallPickToolbar
-            ),
-          }}
-        >
+        <Toolbar sx={[toolbarStyles, isPickScreen && pickScreenToolbarStyles]}>
           <Logo small={smallLogo} />
           {movies && (mobileNav ? <NavHamburger /> : <NavFull />)}
 
-          {/* In the small view, keep a pick again button in the ain nav area. It's also in the hamburger menu */}
-          {movies && mobileNav && pathname === "/pick" && (
-            <NavButton
+          {/* In the small view, keep a pick again button in the main nav area. It's also in the hamburger menu */}
+          {movies && mobileNav && isPickScreen && (
+            <PickAgainButton
               startIcon={<Refresh />}
               onClick={() => setPick(null)}
-              className={styles.pickAgain}
             >
               Pick Again
-            </NavButton>
+            </PickAgainButton>
           )}
           <ProfileMenu />
         </Toolbar>
       </AppBar>
-    </div>
+    </Box>
   );
 };
 

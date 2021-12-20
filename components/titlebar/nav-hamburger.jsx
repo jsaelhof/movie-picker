@@ -1,21 +1,17 @@
-import styles from "./nav-hamburger.module.css";
-
 import React, { useState } from "react";
-import {
-  ClickAwayListener,
-  Divider,
-  IconButton,
-  Menu,
-  MenuItem,
-} from "@material-ui/core";
+import { ClickAwayListener, IconButton, Menu, MenuItem } from "@mui/material";
 import { useRouter } from "next/router";
-import MenuIcon from "@material-ui/icons/Menu";
-import Refresh from "@material-ui/icons/Refresh";
-import Eye from "mdi-material-ui/Eye";
-import Movie from "mdi-material-ui/Movie";
-import List from "@material-ui/icons/FormatListBulleted";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import { useAppContext } from "../../context/app-context";
+import {
+  EyeIcon,
+  ListIcon,
+  MenuDivider,
+  MovieIcon,
+  NavMenu,
+  RefreshIcon,
+} from "./nav-hamburger.styles";
 
 const NavHamburger = () => {
   const { push, pathname } = useRouter();
@@ -32,8 +28,8 @@ const NavHamburger = () => {
   };
 
   return (
-    <div className={styles.menu}>
-      <IconButton onClick={handleClick} color="secondary">
+    <NavMenu>
+      <IconButton onClick={handleClick} color="secondary" size="large">
         <MenuIcon />
       </IconButton>
 
@@ -47,13 +43,11 @@ const NavHamburger = () => {
                   handleClose();
                 }}
               >
-                <Refresh className={styles.icon} /> Pick again
+                <RefreshIcon /> Pick again
               </MenuItem>
             )}
 
-            {pathname === "/pick" && (
-              <Divider variant="middle" className={styles.divider} />
-            )}
+            {pathname === "/pick" && <MenuDivider variant="middle" />}
 
             {pathname !== "/" && (
               <MenuItem
@@ -62,7 +56,7 @@ const NavHamburger = () => {
                   handleClose();
                 }}
               >
-                <Movie className={styles.icon} /> Movies
+                <MovieIcon /> Movies
               </MenuItem>
             )}
 
@@ -73,11 +67,11 @@ const NavHamburger = () => {
                   handleClose();
                 }}
               >
-                <Eye className={styles.icon} /> Watched
+                <EyeIcon /> Watched
               </MenuItem>
             )}
 
-            <Divider variant="middle" className={styles.divider} />
+            <MenuDivider variant="middle" />
 
             {lists?.map((list) => (
               <MenuItem
@@ -87,13 +81,13 @@ const NavHamburger = () => {
                   handleClose();
                 }}
               >
-                <List className={styles.icon} /> {list.label}
+                <ListIcon /> {list.label}
               </MenuItem>
             ))}
           </div>
         </ClickAwayListener>
       </Menu>
-    </div>
+    </NavMenu>
   );
 };
 

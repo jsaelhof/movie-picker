@@ -1,20 +1,17 @@
-import {
-  Button,
-  ButtonGroup,
-  ClickAwayListener,
-  MenuItem,
-  MenuList,
-  Paper,
-} from "@material-ui/core";
+import { Button, ClickAwayListener, MenuItem, MenuList } from "@mui/material";
 import React, { useState } from "react";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ClockIcon from "mdi-material-ui/ClockOutline";
-import ClockFastIcon from "mdi-material-ui/ClockFast";
-import TimerSandIcon from "mdi-material-ui/TimerSand";
-import clsx from "clsx";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ClockIcon from "@mitch528/mdi-material-ui/ClockOutline";
+import ClockFastIcon from "@mitch528/mdi-material-ui/ClockFast";
+import TimerSandIcon from "@mitch528/mdi-material-ui/TimerSand";
 
-import styles from "./split-button.module.css";
-import { useResponsive } from "../../hooks/use-responsive";
+import {
+  MainButton,
+  MenuIcon,
+  RandomIcon,
+  SplitButtonContainer,
+  SplitMenu,
+} from "./split-button.styles";
 
 const splitButtonItems = [
   {
@@ -38,45 +35,37 @@ const splitButtonItems = [
 ];
 
 const SplitButton = ({ onPick }) => {
-  const { mobile } = useResponsive();
   const [openSplitButton, setOpenSplitButton] = useState(false);
 
   return (
-    <ButtonGroup className={styles.splitButton}>
-      <Button
-        className={clsx(styles.mainButton, mobile && styles.mainButtonMobile)}
-        variant="contained"
-        color="primary"
-        onClick={() => onPick()}
-      >
-        <img src="/images/random.png" className={styles.random} />
+    <SplitButtonContainer>
+      <MainButton variant="contained" onClick={() => onPick()}>
+        <RandomIcon src="/images/random.png" />
         Pick A Movie
-      </Button>
+      </MainButton>
       <Button
-        className={styles.secondaryButton}
         variant="contained"
         size="small"
-        color="primary"
         onClick={() => setOpenSplitButton(true)}
       >
         <ArrowDropDownIcon />
       </Button>
 
       {openSplitButton && (
-        <Paper className={styles.splitButtonPaper}>
+        <SplitMenu>
           <ClickAwayListener onClickAway={() => setOpenSplitButton(false)}>
             <MenuList id="split-button-menu">
               {splitButtonItems.map(({ value, label, Icon, options }) => (
                 <MenuItem key={value} onClick={() => onPick(options)}>
-                  {<Icon className={styles.icon} />}
+                  {<MenuIcon as={Icon} />}
                   {label}
                 </MenuItem>
               ))}
             </MenuList>
           </ClickAwayListener>
-        </Paper>
+        </SplitMenu>
       )}
-    </ButtonGroup>
+    </SplitButtonContainer>
   );
 };
 

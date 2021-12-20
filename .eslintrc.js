@@ -1,9 +1,14 @@
 module.exports = {
   env: {
+    node: true,
     browser: true,
     es2021: true,
   },
-  extends: ["eslint:recommended", "plugin:react/recommended"],
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -14,6 +19,8 @@ module.exports = {
   plugins: ["react"],
   rules: {
     "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0,
     "no-unused-vars": 1,
+    "react/no-unknown-property": 1,
   },
 };

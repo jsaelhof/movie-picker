@@ -1,5 +1,3 @@
-import styles from "./delete-dialog.module.css";
-
 import {
   Button,
   Dialog,
@@ -7,7 +5,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@material-ui/core";
+} from "@mui/material";
 import React from "react";
 
 const DeleteDialog = ({ open, title, content, onCancel, onConfirm }) => (
@@ -19,11 +17,7 @@ const DeleteDialog = ({ open, title, content, onCancel, onConfirm }) => (
         <Button onClick={onCancel} autoFocus>
           Cancel
         </Button>
-        <Button
-          onClick={onConfirm}
-          variant="contained"
-          className={styles.deleteButton}
-        >
+        <Button onClick={onConfirm} variant="contained" color="error">
           Delete
         </Button>
       </DialogActions>

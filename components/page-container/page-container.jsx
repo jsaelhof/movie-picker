@@ -1,16 +1,7 @@
-import styles from "./page-container.module.css";
-
 import React from "react";
-import clsx from "clsx";
-import { useResponsive } from "../../hooks/use-responsive";
 
-const PageContainer = ({ children }) => {
-  const { mobile } = useResponsive();
-  return (
-    <div className={clsx(styles.container, mobile && styles.containerMobile)}>
-      {children}
-    </div>
-  );
-};
+import { Container } from "./page-container.styles";
+
+const PageContainer = ({ children }) => <Container>{children}</Container>;
 
 export default PageContainer;
