@@ -78,7 +78,7 @@ export const typeDefs = gql`
 
   type Query {
     database: Database
-    lists: [List]
+    lists(userId: String!): [List]
     movies(list: String!): [Movie]
     watchedMovies(list: String!): [Movie]
     searchByTitle(title: String!): [SearchResult]

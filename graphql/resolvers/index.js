@@ -21,8 +21,12 @@ export const resolvers = {
       const name = await db.collection("lists").dbName;
       return { name };
     },
-    lists: async (parent, args, { db }) => {
-      return await db.collection("lists").find().project({ _id: 0 }).toArray();
+    lists: async (parent, { userId }, { db }) => {
+      return await db
+        .collection("lists")
+        .find({ userId })
+        .project({ _id: 0 })
+        .toArray();
     },
     movies: async (parent, { list }, { db }) => {
       return await db
