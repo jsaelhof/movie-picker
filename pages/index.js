@@ -18,7 +18,7 @@ import PageContainer from "../components/page-container/page-container";
 
 export default function Home() {
   const router = useRouter();
-  const { list, movies, loadingMovies } = useAppContext();
+  const { list, movies, loadingMovies, lists } = useAppContext();
   const [enableAddMovie, setEnableAddMovie] = useState(false);
   const [enableEditMovie, setEnableEditMovie] = useState(null);
   const [toastProps, setToastProps] = useState(null);
@@ -63,6 +63,8 @@ export default function Home() {
 
   const editMovie = useEditMovie();
   const removeMovie = useRemoveMovie(setError);
+
+  if (lists?.length === 0) router.replace("/create");
 
   return (
     <>

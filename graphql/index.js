@@ -1,3 +1,4 @@
+export { ADD_LIST } from "./add-list";
 export { ADD_MOVIE } from "./add-movie";
 export { EDIT_MOVIE } from "./edit-movie";
 export { GET_DATABASE } from "./get-database";

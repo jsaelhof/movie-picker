@@ -7,6 +7,7 @@ import { errorCodes } from "../../constants/error_codes";
 import { filter, find, findKey, first, get, pick, reject } from "lodash";
 import { convertOmdbRatings } from "../../utils/convert-omdb-ratings";
 import { genreLabels } from "../../constants/genres";
+import { v4 as uuidv4 } from "uuid";
 
 const id = () => random(100000000, 999999999).toString();
 
@@ -158,6 +159,24 @@ export const resolvers = {
   },
 
   Mutation: {
+    addList: async (parent, { userId, name }, { db }) => {
+      if (!name || name.length === 0)
+        throw new ApolloError(errorCodes.NO_LIST_NAME);
+
+      const { result: listResult, ops: listOps } = await db
+        .collection("lists")
+        .insertOne({
+          id: uuidv4(),
+          label: name,
+          userId,
+        });
+
+      if (listResult?.ok) {
+        return listOps[0];
+      } else {
+        throw new Error(`Error inserting new collection: ${name}`);
+      }
+    },
     addMovie: async (parent, { movie, list }, { db }) => {
       if (!movie.title) throw new ApolloError(errorCodes.NO_TITLE);
       if (isNil(movie.source)) movie.source = sources.NONE;
