@@ -1,29 +1,27 @@
-import { useMutation } from "@apollo/client";
 import { useUser } from "@auth0/nextjs-auth0";
-import EmptyListPage from "../components/empty-list-page/empty-list-page";
+import { useRouter } from "next/router";
+import { useCallback } from "react";
+
 import { useAppContext } from "../context/app-context";
-import { ADD_LIST } from "../graphql";
+import { useAddList } from "../hooks/use-add-list";
+import EmptyListPage from "../components/empty-list-page/empty-list-page";
 
 export default function Create() {
   const { user } = useUser();
   const { setList } = useAppContext();
-
-  const [addList] = useMutation(ADD_LIST, {
-    onCompleted: ({ addList }) => {
-      setList(addList);
-    },
-    onError: ({ message }) => {
-      console.log(message);
-    },
+  const router = useRouter();
+  const { addList, loading } = useAddList((addList) => {
+    setList(addList);
+    router.push("/");
   });
 
-  return (
-    <EmptyListPage
-      addList={(name) =>
-        addList({
-          variables: { userId: user.sub, name },
-        })
-      }
-    />
+  const onAddList = useCallback(
+    (name) =>
+      addList({
+        variables: { userId: user.sub, name },
+      }),
+    [addList, user.sub]
   );
+
+  return <EmptyListPage addList={onAddList} creatingList={loading} />;
 }

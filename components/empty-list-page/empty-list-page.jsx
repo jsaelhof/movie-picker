@@ -1,9 +1,9 @@
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useState } from "react";
 import NewListDialog from "../new-list-dialog/new-list-dialog";
 import { EmptyList, Message, Quote } from "./empty-list-page.styles";
 
-const EmptyListPage = ({ addList }) => {
+const EmptyListPage = ({ addList, creatingList }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -17,13 +17,17 @@ const EmptyListPage = ({ addList }) => {
           But first, you need a list...
         </Message>
         <div>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => setOpen(true)}
-          >
-            Create A List
-          </Button>
+          {creatingList ? (
+            <CircularProgress color="secondary" />
+          ) : (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => setOpen(true)}
+            >
+              Create A List
+            </Button>
+          )}
         </div>
       </EmptyList>
       <NewListDialog
