@@ -7,6 +7,10 @@ export const EmptyList = styled("div")(({ theme: { spacing } }) => ({
   marginTop: spacing(8),
   height: "fit-content",
   gap: spacing(4),
+
+  "@media (max-width: 500px)": {
+    marginTop: spacing(6),
+  },
 }));
 
 export const Quote = styled("div")(({ theme: { palette } }) => ({
@@ -22,3 +26,9 @@ export const Message = styled("div")(({ theme: { palette, spacing } }) => ({
   color: palette.grey[800],
   padding: `${spacing(2)}px 0`,
 }));
+
+export const Yoda = styled("img")`
+  @media (max-width: 500px) {
+    width: 200px;
+  }
+`;

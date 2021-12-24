@@ -33,7 +33,7 @@ const DbSelect = () => {
               {list.label}
             </MenuItem>
           ))}
-          <Divider />
+          <Divider variant="middle"/>
           <MenuItem value={NEW_LIST} sx={{ fontStyle: "italic" }}>
             + New List
           </MenuItem>

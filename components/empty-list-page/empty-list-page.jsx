@@ -1,7 +1,7 @@
 import { Button, CircularProgress } from "@mui/material";
 import { useState } from "react";
 import NewListDialog from "../new-list-dialog/new-list-dialog";
-import { EmptyList, Message, Quote } from "./empty-list-page.styles";
+import { EmptyList, Message, Quote, Yoda } from "./empty-list-page.styles";
 
 const EmptyListPage = ({ addList, creatingList }) => {
   const [open, setOpen] = useState(false);
@@ -9,7 +9,7 @@ const EmptyListPage = ({ addList, creatingList }) => {
   return (
     <>
       <EmptyList>
-        <img src="images/yoda.png" />
+        <Yoda src="images/yoda.png" />
         <Quote>&quot;Impossible to see, the future is&quot;</Quote>
         <Message>
           You&apos;re going to make something great!
