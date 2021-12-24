@@ -41,7 +41,7 @@ const WatchedListRow = ({
         </Title>
       </ListCell>
       <RelativeListCell
-        data-id={DATE_CELL_ID}
+        id={DATE_CELL_ID}
         left
         onClick={({ target }) => {
           // Make sure the click is not on a child element (the date picker elements)
