@@ -55,7 +55,7 @@ export const OverflowWrapper = styled("div")`
   background-color: white;
 `;
 
-export const DetailPoster = styled(MoviePoster)`
+export const DetailPosterLayout = styled("div")`
   position: relative;
   z-index: 5;
 `;

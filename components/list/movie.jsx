@@ -4,7 +4,6 @@ import { isEqual } from "lodash";
 import { useQuery } from "@apollo/client";
 
 import {
-  DetailPoster,
   Info,
   InfoData,
   InfoRatings,
@@ -18,6 +17,7 @@ import {
   movieDetailPositionerFocused,
   movieContainerFocused,
   moreActionsOpen,
+  DetailPosterLayout,
 } from "./movie.styles";
 import { formatRuntime } from "../../utils/format-runtime";
 import { sourceLogos } from "../../constants/sources";
@@ -82,7 +82,9 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
       <MovieDetailPositioner sx={[focused && movieDetailPositionerFocused]}>
         <MovieDetail style={detailSpring}>
           <OverflowWrapper>
-            <DetailPoster movie={movie} height={375} />
+            <DetailPosterLayout>
+              <MoviePoster movie={movie} height={375} />
+            </DetailPosterLayout>
 
             <Source>
               {<img src={sourceLogos[movie.source]} width="40" height="40" />}
