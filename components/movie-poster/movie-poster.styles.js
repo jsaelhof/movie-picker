@@ -18,7 +18,7 @@ export const active = {
 };
 
 export const locked = {
-  opacty: 0.3,
+  opacity: 0.3,
 };
 
 export const NoPoster = styled(Poster)(({ theme: { palette } }) => ({

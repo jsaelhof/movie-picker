@@ -6,7 +6,7 @@ export const Picker = styled("div")(() => ({
   border: "1px solid rgba(0, 0, 0, 0.25)",
   top: 40,
   right: 20,
-  zIndex: 10,
+  zIndex: 10000,
   boxShadow: "0 5px 10px rgba(0, 0, 0, 0.15)",
   borderRadius: 5,
 }));

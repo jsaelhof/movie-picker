@@ -12,19 +12,19 @@ export default function Home() {
   const { query } = useRouter();
   const [error, setError] = useState(null);
 
-  const pickMovie = useCallback(() => {
-    try {
-      setPick(randomPick(movies, query));
-    } catch ({ message }) {
-      setError(message);
-    }
-  });
-
   useEffect(() => {
+    const pickMovie = () => {
+      try {
+        setPick(randomPick(movies, query));
+      } catch ({ message }) {
+        setError(message);
+      }
+    };
+
     if (movies && !pick) {
       pickMovie();
     }
-  }, [movies, pick]);
+  }, [movies, pick, query, setPick]);
 
   if (!pick) return null;
 
