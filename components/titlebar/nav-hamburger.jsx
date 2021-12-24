@@ -5,6 +5,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import { useAppContext } from "../../context/app-context";
 import {
+  AddListIcon,
   EyeIcon,
   ListIcon,
   MenuDivider,
@@ -15,7 +16,7 @@ import {
 
 const NavHamburger = () => {
   const { push, pathname } = useRouter();
-  const { lists, setList, setPick } = useAppContext();
+  const { lists, setList, setPick, list } = useAppContext();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -27,6 +28,8 @@ const NavHamburger = () => {
     setAnchorEl(null);
   };
 
+  if (pathname === "/create" && !list) return null;
+
   return (
     <NavMenu>
       <IconButton onClick={handleClick} color="secondary" size="large">
@@ -37,17 +40,19 @@ const NavHamburger = () => {
         <ClickAwayListener onClickAway={handleClose}>
           <div>
             {pathname === "/pick" && (
-              <MenuItem
-                onClick={() => {
-                  setPick(null);
-                  handleClose();
-                }}
-              >
-                <RefreshIcon /> Pick again
-              </MenuItem>
-            )}
+              <>
+                <MenuItem
+                  onClick={() => {
+                    setPick(null);
+                    handleClose();
+                  }}
+                >
+                  <RefreshIcon /> Pick again
+                </MenuItem>
 
-            {pathname === "/pick" && <MenuDivider variant="middle" />}
+                <MenuDivider variant="middle" />
+              </>
+            )}
 
             {pathname !== "/" && (
               <MenuItem
@@ -60,30 +65,44 @@ const NavHamburger = () => {
               </MenuItem>
             )}
 
-            {pathname !== "/watched" && (
-              <MenuItem
-                onClick={() => {
-                  push("/watched");
-                  handleClose();
-                }}
-              >
-                <EyeIcon /> Watched
-              </MenuItem>
+            {pathname !== "/create" && (
+              <>
+                {pathname !== "/watched" && (
+                  <MenuItem
+                    onClick={() => {
+                      push("/watched");
+                      handleClose();
+                    }}
+                  >
+                    <EyeIcon /> Watched
+                  </MenuItem>
+                )}
+
+                <MenuDivider variant="middle" />
+
+                {lists?.map((list) => (
+                  <MenuItem
+                    key={list.id}
+                    onClick={() => {
+                      setList(list);
+                      handleClose();
+                    }}
+                  >
+                    <ListIcon /> {list.label}
+                  </MenuItem>
+                ))}
+
+                <MenuItem
+                  sx={{ fontStyle: "italic" }}
+                  onClick={() => {
+                    push("/create");
+                    handleClose();
+                  }}
+                >
+                  <AddListIcon /> New List
+                </MenuItem>
+              </>
             )}
-
-            <MenuDivider variant="middle" />
-
-            {lists?.map((list) => (
-              <MenuItem
-                key={list.id}
-                onClick={() => {
-                  setList(list);
-                  handleClose();
-                }}
-              >
-                <ListIcon /> {list.label}
-              </MenuItem>
-            ))}
           </div>
         </ClickAwayListener>
       </Menu>

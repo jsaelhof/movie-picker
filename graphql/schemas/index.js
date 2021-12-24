@@ -54,6 +54,7 @@ export const typeDefs = gql`
   type List {
     id: ID!
     label: String!
+    userId: String!
   }
 
   input MovieInput {
@@ -78,7 +79,7 @@ export const typeDefs = gql`
 
   type Query {
     database: Database
-    lists: [List]
+    lists(userId: String!): [List]
     movies(list: String!): [Movie]
     watchedMovies(list: String!): [Movie]
     searchByTitle(title: String!): [SearchResult]
@@ -88,6 +89,7 @@ export const typeDefs = gql`
   }
 
   type Mutation {
+    addList(userId: String!, name: String!): List
     addMovie(movie: MovieInput!, list: String!): Movie
     editMovie(movie: MovieInput!, list: String!, removeKeys: [String]): Movie
     removeMovie(movieId: ID!, list: String!): Movie
