@@ -25,6 +25,7 @@ const NewListDialog = ({ open, onCancel, onConfirm }) => {
         <Box sx={{ marginTop: 2, marginBottom: 4 }}>
           <DialogContentText>Enter a name for your new list:</DialogContentText>
           <Input
+            autoFocus
             fullWidth
             onChange={({ target }) => {
               setError(null);
@@ -42,7 +43,6 @@ const NewListDialog = ({ open, onCancel, onConfirm }) => {
               setInput("");
               onCancel();
             }}
-            autoFocus
           >
             Cancel
           </Button>
