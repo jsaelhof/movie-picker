@@ -9,7 +9,7 @@ import NavButton from "./nav-button";
 
 const NavFull = () => {
   const { pathname } = useRouter();
-  const { setPick } = useAppContext();
+  const { list, setPick } = useAppContext();
 
   return (
     <Nav>
@@ -25,7 +25,13 @@ const NavFull = () => {
         </>
       )}
 
-      {pathname !== "/pick" && (
+      {pathname === "/create" && list && (
+        <NavButton startIcon={<KeyboardArrowLeft />} href="/">
+          Return to Movies
+        </NavButton>
+      )}
+
+      {!["/pick", "/create"].includes(pathname) && (
         <>
           <NavButton href="/">Movies</NavButton>
 
