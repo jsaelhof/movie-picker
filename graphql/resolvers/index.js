@@ -22,7 +22,7 @@ export const resolvers = {
       const name = await db.collection("lists").dbName;
       return { name };
     },
-    lists: async (parent, { userId }, { db }) => {
+    lists: async (parent, args, { db, userId }) => {
       return await db
         .collection("lists")
         .find({ userId })
@@ -159,7 +159,7 @@ export const resolvers = {
   },
 
   Mutation: {
-    addList: async (parent, { userId, name }, { db }) => {
+    addList: async (parent, { name }, { db, userId }) => {
       if (!name || name.length === 0)
         throw new ApolloError(errorCodes.NO_LIST_NAME);
 

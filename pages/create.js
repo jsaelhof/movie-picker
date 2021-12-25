@@ -7,7 +7,6 @@ import { useAddList } from "../hooks/use-add-list";
 import EmptyListPage from "../components/empty-list-page/empty-list-page";
 
 export default function Create() {
-  const { user } = useUser();
   const { setList } = useAppContext();
   const router = useRouter();
   const { addList, loading } = useAddList((addList) => {
@@ -18,9 +17,9 @@ export default function Create() {
   const onAddList = useCallback(
     (name) =>
       addList({
-        variables: { userId: user.sub, name },
+        variables: { name },
       }),
-    [addList, user.sub]
+    [addList]
   );
 
   return <EmptyListPage addList={onAddList} creatingList={loading} />;

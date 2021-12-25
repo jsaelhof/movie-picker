@@ -79,7 +79,7 @@ export const typeDefs = gql`
 
   type Query {
     database: Database
-    lists(userId: String!): [List]
+    lists: [List]
     movies(list: String!): [Movie]
     watchedMovies(list: String!): [Movie]
     searchByTitle(title: String!): [SearchResult]
@@ -89,7 +89,7 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    addList(userId: String!, name: String!): List
+    addList(name: String!): List
     addMovie(movie: MovieInput!, list: String!): Movie
     editMovie(movie: MovieInput!, list: String!, removeKeys: [String]): Movie
     removeMovie(movieId: ID!, list: String!): Movie

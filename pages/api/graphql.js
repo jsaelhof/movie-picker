@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 import { typeDefs } from "../../graphql/schemas";
 import { resolvers } from "../../graphql/resolvers";
 import { api } from "../../constants/api";
-import { withApiAuthRequired } from "@auth0/nextjs-auth0";
+import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DB = process.env.MONGODB_DB;
@@ -25,7 +25,7 @@ let db;
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async () => {
+  context: async ({ req, res }) => {
     if (!db) {
       try {
         const dbClient = new MongoClient(MONGODB_URI, {
@@ -40,7 +40,12 @@ const apolloServer = new ApolloServer({
       }
     }
 
-    return { db };
+    const {
+      user: { sub: userId },
+      idToken: token,
+    } = getSession(req, res);
+
+    return { db, token, userId };
   },
 });
 
