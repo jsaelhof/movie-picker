@@ -1,12 +1,13 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
 
 import { useAppContext } from "../context/app-context";
 import { useAddList } from "../hooks/use-add-list";
-import EmptyListPage from "../components/empty-list-page/empty-list-page";
+import EmptyState from "../components/empty-state/empty-state";
+import NewListDialog from "../components/new-list-dialog/new-list-dialog";
 
 export default function Create() {
+  const [open, setOpen] = useState();
   const { setList } = useAppContext();
   const router = useRouter();
   const { addList, loading } = useAddList((addList) => {
@@ -14,13 +15,33 @@ export default function Create() {
     router.push("/");
   });
 
-  const onAddList = useCallback(
-    (name) =>
-      addList({
-        variables: { name },
-      }),
-    [addList]
-  );
+  return (
+    <>
+      <EmptyState
+        imgSrc={"images/delorean.png"}
+        quote="&quot;Roads? Where we're going, we don't need roads.&quot;"
+        message={
+          <>
+            The future looks bright.
+            <br />
+            Let&apos;s get started by making a list.
+          </>
+        }
+        buttonText="Create a List"
+        onClick={() => setOpen(true)}
+        inProgress={loading}
+      />
 
-  return <EmptyListPage addList={onAddList} creatingList={loading} />;
+      <NewListDialog
+        open={open}
+        onCancel={() => setOpen(false)}
+        onConfirm={(name) => {
+          addList({
+            variables: { name },
+          }),
+            setOpen(false);
+        }}
+      />
+    </>
+  );
 }
