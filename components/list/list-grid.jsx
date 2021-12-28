@@ -6,6 +6,7 @@ import { MovieList } from "./list-grid.styles";
 import { useAppContext } from "../../context/app-context";
 import DeleteDialog from "../delete-dialog/delete-dialog";
 import Movie from "./movie";
+import EmptyList from "./empty-list";
 
 const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
   const { order } = useAppContext();
@@ -15,18 +16,22 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
 
   return (
     <>
-      <MovieList>
-        {movies &&
-          orderBy(movies, [order[0]], [order[1]]).map((movie) => (
-            <Movie
-              key={movie.id}
-              movie={movie}
-              onEditMovie={onEditMovie}
-              onMarkWatched={onMarkWatched}
-              onDeleteMovie={setDeleteMovie}
-            />
-          ))}
-      </MovieList>
+      {movies.length > 0 ? (
+        <MovieList>
+          {movies &&
+            orderBy(movies, [order[0]], [order[1]]).map((movie) => (
+              <Movie
+                key={movie.id}
+                movie={movie}
+                onEditMovie={onEditMovie}
+                onMarkWatched={onMarkWatched}
+                onDeleteMovie={setDeleteMovie}
+              />
+            ))}
+        </MovieList>
+      ) : (
+        <EmptyList />
+      )}
 
       <DeleteDialog
         open={!isNil(deleteMovie)}

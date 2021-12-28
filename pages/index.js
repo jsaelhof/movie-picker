@@ -70,7 +70,7 @@ export default function Home() {
     <>
       <PageContainer>
         <ActionBar
-          disabled={!movies || loadingMovies}
+          disabled={!movies || loadingMovies || movies?.length === 0}
           onAdd={() => {
             setEnableAddMovie(true);
           }}
