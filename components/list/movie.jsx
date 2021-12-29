@@ -65,11 +65,14 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
       key={movie.id}
       sx={[focused && movieContainerFocused]}
       onMouseEnter={() => {
+        console.log("Enter", movie.title);
         timeoutRef.current = setTimeout(() => {
+          console.log("Focus", movie.title);
           setFocused(true);
         }, 250);
       }}
       onMouseLeave={() => {
+        console.log("Leave", movie.title);
         clearTimeout(timeoutRef.current);
         setShowMoreActions(false);
         setFocused(false);
