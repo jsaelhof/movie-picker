@@ -1,6 +1,6 @@
 import EmptyState from "../empty-state/empty-state";
 
-const EmptyList = () => (
+const EmptyList = ({ onAddMovie }) => (
   <EmptyState
     imgSrc="images/stormtroopers.png"
     quote="&quot;These aren't the droids we're looking for.&quot;"
@@ -12,9 +12,7 @@ const EmptyList = () => (
       </>
     }
     buttonText="Add a Movie"
-    onClick={() => {
-      console.log("TEST");
-    }}
+    onClick={onAddMovie}
   />
 );
 
