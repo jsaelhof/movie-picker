@@ -8,7 +8,13 @@ import DeleteDialog from "../delete-dialog/delete-dialog";
 import Movie from "./movie";
 import EmptyList from "./empty-list";
 
-const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
+const ListGrid = ({
+  movies,
+  onRemoveMovie,
+  onMarkWatched,
+  onEditMovie,
+  onAddMovie,
+}) => {
   const { order } = useAppContext();
   const [deleteMovie, setDeleteMovie] = useState(null);
 
@@ -30,7 +36,7 @@ const ListGrid = ({ movies, onRemoveMovie, onMarkWatched, onEditMovie }) => {
             ))}
         </MovieList>
       ) : (
-        <EmptyList />
+        <EmptyList onAddMovie={onAddMovie} />
       )}
 
       <DeleteDialog
