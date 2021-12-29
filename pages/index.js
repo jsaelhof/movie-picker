@@ -84,6 +84,9 @@ export default function Home() {
         {movies && (
           <ListGrid
             movies={movies}
+            onAddMovie={() => {
+              setEnableAddMovie(true);
+            }}
             onEditMovie={(movie, useEditor = true) => {
               if (useEditor) {
                 setEnableEditMovie(movie);
