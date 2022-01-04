@@ -1,19 +1,13 @@
 import React from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import EyeCheckIcon from "@mitch528/mdi-material-ui/EyeCheck";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import LockIcon from "@mui/icons-material/Lock";
+import UnlockIcon from "@mitch528/mdi-material-ui/LockOpenVariant";
 
 import { Actions } from "./detail-actions.styles";
 import ActionButton from "../action-button/action-button";
-import Lock from "./lock";
 
-const DetailActions = ({
-  movie,
-  onEdit,
-  onMarkWatched,
-  onToggleLock,
-  onMoreActions,
-}) => (
+const DetailActions = ({ movie, onEdit, onMarkWatched, onToggleLock }) => (
   <Actions>
     <ActionButton Icon={EditIcon} tooltip="Edit" onClick={onEdit} />
     <ActionButton
@@ -21,18 +15,19 @@ const DetailActions = ({
       tooltip="Mark as Watched"
       onClick={onMarkWatched}
     />
-    <Lock
-      locked={movie.locked}
-      onToggleLock={(locked) => {
-        onToggleLock(locked);
-      }}
-    />
-    <div /> {/* Spacer in the grid */}
-    <ActionButton
-      Icon={MoreHorizIcon}
-      tooltip="More Actions"
-      onClick={onMoreActions}
-    />
+    {movie.locked ? (
+      <ActionButton
+        Icon={UnlockIcon}
+        tooltip="Unlock"
+        onClick={() => onToggleLock(false)}
+      />
+    ) : (
+      <ActionButton
+        Icon={LockIcon}
+        tooltip="Lock"
+        onClick={() => onToggleLock(true)}
+      />
+    )}
   </Actions>
 );
 
