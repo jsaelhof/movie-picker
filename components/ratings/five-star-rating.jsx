@@ -1,18 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { isNil, times } from "lodash";
 import { filter, flow, map, mean, round, thru } from "lodash/fp";
 
 import { omitTypename } from "../../utils/omit-typename";
-import {
-  Star,
-  StarRatingContainer,
-  StyledPopover,
-  Tooltip,
-} from "./five-star-rating.styles";
+import { Star, StarRatingContainer } from "./five-star-rating.styles";
 import StarFull from "./star.svg";
 import StarHalf from "./star-half.svg";
 import StarOutline from "./star-outline.svg";
-import Ratings from "./ratings";
 
 const toAverageRating = flow(
   filter((rating) => !isNil(rating)),
@@ -26,17 +20,11 @@ const toAverageRating = flow(
 const heights = [16, 18, 20, 18, 16];
 const margins = [0, 1, 1.5, 1, 0];
 
-const FiveStarRating = ({ ratings, anchor }) => {
-  // const [anchorEl, setAnchorEl] = useState(null);
+const FiveStarRating = ({ ratings }) => {
   const avgRating = toAverageRating(omitTypename(ratings));
 
   return (
-    <StarRatingContainer
-    // onMouseEnter={(event) => setAnchorEl(event.currentTarget)}
-    // onMouseLeave={() => {
-    //   setAnchorEl(null);
-    // }}
-    >
+    <StarRatingContainer>
       {times(5, (i) => {
         const offset = avgRating - i;
         const height = heights[i];
@@ -51,26 +39,6 @@ const FiveStarRating = ({ ratings, anchor }) => {
           );
         }
       })}
-
-      {/* <StyledPopover
-        open={!!anchorEl}
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: anchor,
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: anchor,
-        }}
-        onClose={() => setAnchorEl(null)}
-        disableRestoreFocus
-        elevation={4}
-      >
-        <Tooltip>
-          <Ratings ratings={ratings} />
-        </Tooltip>
-      </StyledPopover> */}
     </StarRatingContainer>
   );
 };
