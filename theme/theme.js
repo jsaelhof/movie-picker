@@ -7,18 +7,25 @@ const darkBlue = {
   900: "#1e1e30",
 };
 
+const darkGrey = {
+  50: "#e3e3e3",
+  600: "#434343",
+  800: "#131313",
+};
+
 const accent = "cornflowerblue";
 const icon = grey[400];
 
 export const theme = createTheme({
   palette: {
     primary: {
-      main: darkBlue[500],
+      main: darkGrey[600],
     },
     secondary: {
-      main: darkBlue[50],
+      main: darkGrey[50],
     },
     darkBlue,
+    darkGrey,
     grey,
     accent,
     icon,
@@ -30,7 +37,7 @@ export const theme = createTheme({
         {
           props: { variant: "nav" },
           style: {
-            color: darkBlue[50],
+            color: darkGrey[50],
             textTransform: "initial",
             fontSize: "1rem",
             fontWeight: 400,

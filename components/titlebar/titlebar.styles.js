@@ -4,7 +4,7 @@ import NavButton from "./nav-button";
 export const appBarContainerStyles = ({ palette }) => ({
   flexGrow: 1,
   zIndex: 1000,
-  background: `linear-gradient(75deg, ${palette.darkBlue[500]}, ${palette.darkBlue[900]} 80%)`,
+  background: `linear-gradient(75deg, ${palette.darkGrey[600]}, ${palette.darkGrey[800]} 80%)`,
 });
 
 export const toolbarStyles = {
