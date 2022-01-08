@@ -1,7 +1,7 @@
 import { useSpring } from "@react-spring/core";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import Pick from "../pick/pick";
+import FullDetail from "../full-detail/full-detail";
 import { ExpandedBackdrop, ExpandedContent } from "./expanded.styles";
 
 const Expanded = ({ movie, preload, open, centerPoint, onClose }) => {
@@ -48,7 +48,7 @@ const Expanded = ({ movie, preload, open, centerPoint, onClose }) => {
             style={expandedSpring}
             onClick={(e) => e.stopPropagation()}
           >
-            <Pick movie={movie} />
+            <FullDetail movie={movie} />
           </ExpandedContent>,
           document.body
         )}

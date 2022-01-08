@@ -27,7 +27,7 @@ import {
   Source,
   streamable,
   StyledStarRating,
-} from "./pick.styles";
+} from "./full-detail.styles";
 import MoviePoster from "../movie-poster/movie-poster";
 import Rated from "./rated";
 
@@ -43,7 +43,7 @@ const buildTrailerUrl = ({ site, key }) => {
   }
 };
 
-const Pick = ({ movie }) => {
+const FullDetail = ({ movie }) => {
   const small = useMediaQuery("(max-width: 750px)");
   const xsmall = useMediaQuery("(max-width: 660px)");
 
@@ -191,4 +191,4 @@ const Pick = ({ movie }) => {
   );
 };
 
-export default Pick;
+export default FullDetail;
