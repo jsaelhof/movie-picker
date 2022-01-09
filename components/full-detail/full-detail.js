@@ -15,33 +15,21 @@ import {
   Actions,
   Backdrop,
   BackdropWrapper,
+  FullDetailLayout,
   MovieData,
   MovieInfo,
   MovieTitle,
-  PickGrid,
-  Player,
-  PlayerWrapper,
   Plot,
   Poster,
   smallMovieTitle,
   Source,
   streamable,
   StyledStarRating,
+  TrailerLayout,
 } from "./full-detail.styles";
 import MoviePoster from "../movie-poster/movie-poster";
 import Rated from "./rated";
-
-const buildTrailerUrl = ({ site, key }) => {
-  switch (site) {
-    case "YouTube":
-      return `https://www.youtube.com/embed/${key}?autoplay=1`;
-    case "Vimeo":
-      return `https://player.vimeo.com/video/${key}`;
-    default:
-      console.warn(`No pattern exists for site "${site}"`);
-      return null;
-  }
-};
+import Trailer from "./trailer";
 
 const FullDetail = ({ movie }) => {
   const small = useMediaQuery("(max-width: 750px)");
@@ -79,7 +67,7 @@ const FullDetail = ({ movie }) => {
   const canStream = ![sources.DVD, sources.NONE].includes(movie.source);
 
   return (
-    <PickGrid>
+    <FullDetailLayout>
       <BackdropWrapper>
         <Backdrop
           sx={[
@@ -91,18 +79,13 @@ const FullDetail = ({ movie }) => {
             ...fadeSpring,
           }}
         />
-      </BackdropWrapper>
 
-      {trailer && (
-        <PlayerWrapper onClick={() => setTrailer(null)}>
-          <Player
-            src={trailer}
-            frameBorder="0"
-            allow="autoplay; clipboard-write; encrypted-media;"
-            allowfullscreen
-          ></Player>
-        </PlayerWrapper>
-      )}
+        {trailer && (
+          <TrailerLayout>
+            <Trailer trailerId={trailer} onComplete={setTrailer} />
+          </TrailerLayout>
+        )}
+      </BackdropWrapper>
 
       {data && (
         <MovieInfo>
@@ -146,12 +129,12 @@ const FullDetail = ({ movie }) => {
           <Plot>{data.plot}</Plot>
 
           <Actions>
-            {data.trailer && (
+            {data?.trailer?.site === "YouTube" && (
               <Button
                 color="primary"
                 startIcon={<TelevisionPlay />}
                 onClick={() => {
-                  setTrailer(buildTrailerUrl(data.trailer));
+                  setTrailer(data.trailer.key);
                 }}
               >
                 Watch Trailer
@@ -187,7 +170,7 @@ const FullDetail = ({ movie }) => {
           </Actions>
         </MovieInfo>
       )}
-    </PickGrid>
+    </FullDetailLayout>
   );
 };
 

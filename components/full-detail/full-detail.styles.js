@@ -3,13 +3,15 @@ import { animated } from "react-spring";
 
 import StarRating from "../ratings/star-rating";
 
-export const PickGrid = styled("div")`
+export const FullDetailLayout = styled("div")`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 export const BackdropWrapper = styled("div")`
+  display: grid;
+  grid-template-areas: "main";
   mask-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 1) 50%,
@@ -32,6 +34,7 @@ export const BackdropWrapper = styled("div")`
 `;
 
 export const Backdrop = styled(animated.div)`
+  grid-area: main;
   background-size: cover;
   background-position-x: center;
   height: 100%;
@@ -39,25 +42,8 @@ export const Backdrop = styled(animated.div)`
   background-image: linear-gradient(to top, white, #ccc);
 `;
 
-export const PlayerWrapper = styled("div")`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: radial-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
-  z-index: 1000000;
-`;
-
-export const Player = styled("iframe")`
-  box-shadow: 4px 10px 10px rgb(0 0 0 / 30%);
-  border: 2px solid #333;
-  width: 90vw;
-  height: calc(90vw * (1 / 1.778));
-  background-color: black;
+export const TrailerLayout = styled("div")`
+  grid-area: main;
 `;
 
 export const MovieInfo = styled("div")`
