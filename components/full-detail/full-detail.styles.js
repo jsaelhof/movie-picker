@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { IconButton, styled } from "@mui/material";
 import { animated } from "react-spring";
 
 import StarRating from "../ratings/star-rating";
@@ -7,6 +7,17 @@ export const FullDetailLayout = styled("div")`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+`;
+
+export const CloseButton = styled("div")`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 100;
+  color: white;
+  cursor: pointer;
+  mix-blend-mode: exclusion;
 `;
 
 export const BackdropWrapper = styled("div")`

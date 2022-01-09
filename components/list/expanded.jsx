@@ -1,11 +1,16 @@
 import { useSpring } from "@react-spring/core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import FullDetail from "../full-detail/full-detail";
 import { ExpandedBackdrop, ExpandedContent } from "./expanded.styles";
 
 const Expanded = ({ movie, preload, open, centerPoint, onClose }) => {
   const [isClosing, setIsClosing] = useState(false);
+
+  const close = useCallback(() => {
+    setIsClosing(true);
+    onClose();
+  }, [onClose]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "auto";
@@ -29,13 +34,7 @@ const Expanded = ({ movie, preload, open, centerPoint, onClose }) => {
   return (
     <>
       {(open || isClosing) && (
-        <ExpandedBackdrop
-          style={expandedBackdropSpring}
-          onClick={() => {
-            setIsClosing(true);
-            onClose();
-          }}
-        />
+        <ExpandedBackdrop style={expandedBackdropSpring} onClick={close} />
       )}
 
       {/* 
@@ -48,7 +47,7 @@ const Expanded = ({ movie, preload, open, centerPoint, onClose }) => {
             style={expandedSpring}
             onClick={(e) => e.stopPropagation()}
           >
-            <FullDetail movie={movie} />
+            <FullDetail movie={movie} showCloseButton onClose={close} />
           </ExpandedContent>,
           document.body
         )}

@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/client";
 import { useSpring } from "react-spring";
 import Search from "@mui/icons-material/Search";
 import TelevisionPlay from "@mitch528/mdi-material-ui/TelevisionPlay";
+import CloseThick from "@mitch528/mdi-material-ui/CloseThick";
 
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels } from "../../constants/genres";
@@ -15,6 +16,7 @@ import {
   Actions,
   Backdrop,
   BackdropWrapper,
+  CloseButton,
   FullDetailLayout,
   MovieData,
   MovieInfo,
@@ -31,7 +33,7 @@ import MoviePoster from "../movie-poster/movie-poster";
 import Rated from "./rated";
 import Trailer from "./trailer";
 
-const FullDetail = ({ movie }) => {
+const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
   const small = useMediaQuery("(max-width: 750px)");
   const xsmall = useMediaQuery("(max-width: 660px)");
 
@@ -68,6 +70,11 @@ const FullDetail = ({ movie }) => {
 
   return (
     <FullDetailLayout>
+      {showCloseButton && (
+        <CloseButton onClick={onClose}>
+          <CloseThick />
+        </CloseButton>
+      )}
       <BackdropWrapper>
         <Backdrop
           sx={[

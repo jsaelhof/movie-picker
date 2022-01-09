@@ -59,6 +59,8 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
       infoState === "ratings" ? "translateX(0px)" : "translateX(-240px)",
   });
 
+  const closeExpanded = () => setExpanded(false);
+
   useQuery(GET_RATINGS, {
     skip: !focused,
     variables: { imdbID: movie.imdbID },
@@ -141,7 +143,7 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
         preload={focused}
         open={expanded}
         centerPoint={centerPoint}
-        onClose={() => setExpanded(false)}
+        onClose={closeExpanded}
       />
     </>
   );
