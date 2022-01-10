@@ -53,7 +53,7 @@ export const OverflowWrapper = styled("div")`
   background-color: white;
 `;
 
-const infoPanelHeight = 80;
+const infoPanelHeight = 90;
 
 export const InfoLayout = styled(animated.div)(
   ({ theme: { palette, spacing } }) => ({
@@ -91,6 +91,6 @@ export const StarRatingLayout = styled("div")`
 
 export const SourceLayout = styled("div")(({ theme: { spacing } }) => ({
   position: "absolute",
-  bottom: 50,
+  bottom: 60,
   left: spacing(2),
 }));

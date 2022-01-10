@@ -122,6 +122,10 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
                     onToggleLock={(locked) => {
                       onEditMovie({ ...movie, locked }, false);
                     }}
+                    onDelete={() => {
+                      setFocused(false);
+                      onDeleteMovie(movie);
+                    }}
                   />
                 </InfoFooterLayout>
 

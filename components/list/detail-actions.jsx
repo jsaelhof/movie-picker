@@ -1,4 +1,5 @@
 import React from "react";
+import DeleteIcon from "@mitch528/mdi-material-ui/MovieRemove";
 import EditIcon from "@mui/icons-material/Edit";
 import EyeCheckIcon from "@mitch528/mdi-material-ui/EyeCheck";
 import LockIcon from "@mui/icons-material/Lock";
@@ -7,7 +8,13 @@ import UnlockIcon from "@mitch528/mdi-material-ui/LockOpenVariant";
 import { Actions } from "./detail-actions.styles";
 import ActionButton from "../action-button/action-button";
 
-const DetailActions = ({ movie, onEdit, onMarkWatched, onToggleLock }) => (
+const DetailActions = ({
+  movie,
+  onEdit,
+  onMarkWatched,
+  onToggleLock,
+  onDelete,
+}) => (
   <Actions>
     <ActionButton Icon={EditIcon} tooltip="Edit" onClick={onEdit} />
     <ActionButton
@@ -28,6 +35,7 @@ const DetailActions = ({ movie, onEdit, onMarkWatched, onToggleLock }) => (
         onClick={() => onToggleLock(true)}
       />
     )}
+    <ActionButton Icon={DeleteIcon} tooltip="Delete" onClick={onDelete} />
   </Actions>
 );
 
