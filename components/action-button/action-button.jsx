@@ -27,7 +27,7 @@ const ActionButton = ({
         !disabled && onClick(movie);
       }}
     >
-      <Icon />
+      <Icon fontSize="inherit" />
     </ButtonContainer>
   </Tooltip>
 );
