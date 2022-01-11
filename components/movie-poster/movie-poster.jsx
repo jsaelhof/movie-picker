@@ -1,7 +1,7 @@
 import React from "react";
 import TheatresIcon from "@mui/icons-material/Theaters";
 
-import { active, locked, NoPoster, Poster } from "./movie-poster.styles";
+import { active, Lock, locked, NoPoster, Poster } from "./movie-poster.styles";
 
 const MoviePoster = ({ movie, height = 250, onClick }) => {
   const posterStyles = {
@@ -9,23 +9,28 @@ const MoviePoster = ({ movie, height = 250, onClick }) => {
     height,
   };
 
-  return movie.poster ? (
-    <Poster
-      sx={[
-        posterStyles,
-        {
-          backgroundImage: `url(${movie.poster})`,
-        },
-        onClick && active,
-        movie.locked && locked,
-      ]}
-      onClick={onClick}
-    />
-  ) : (
-    <NoPoster sx={[posterStyles]} onClick={onClick}>
-      <TheatresIcon fontSize="large" />
-      <div>{movie.title}</div>
-    </NoPoster>
+  return (
+    <div style={{ position: "relative" }}>
+      {movie.poster ? (
+        <Poster
+          sx={[
+            posterStyles,
+            {
+              backgroundImage: `url(${movie.poster})`,
+            },
+            onClick && active,
+            movie.locked && locked,
+          ]}
+          onClick={onClick}
+        />
+      ) : (
+        <NoPoster sx={[posterStyles]} onClick={onClick}>
+          <TheatresIcon fontSize="large" />
+          <div>{movie.title}</div>
+        </NoPoster>
+      )}
+      {movie.locked && <Lock />}
+    </div>
   );
 };
 

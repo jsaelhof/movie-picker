@@ -1,4 +1,5 @@
 import { styled } from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
 
 export const Poster = styled("div")`
   background-color: white;
@@ -20,6 +21,13 @@ export const active = {
 export const locked = {
   opacity: 0.3,
 };
+
+export const Lock = styled(LockIcon)`
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  opacity: 0.4;
+`;
 
 export const NoPoster = styled(Poster)(({ theme: { palette } }) => ({
   display: "grid",
