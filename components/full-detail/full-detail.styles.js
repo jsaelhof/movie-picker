@@ -1,4 +1,4 @@
-import { IconButton, styled } from "@mui/material";
+import { styled } from "@mui/material";
 import { animated } from "react-spring";
 
 import StarRating from "../ratings/star-rating";
@@ -92,7 +92,7 @@ export const MovieInfo = styled("div")`
       "info source"
       "plot plot"
       "actions actions";
-    grid-template-rows: 300px auto 40px max-content auto 45px;
+    grid-template-rows: 300px auto 40px max-content auto;
     grid-template-columns: 1fr;
     min-height: 300px;
   }
@@ -202,6 +202,8 @@ export const Actions = styled("div")`
 
     span {
       justify-items: center;
+      margin-left: 0;
+      margin-right: 0;
     }
   }
 `;
