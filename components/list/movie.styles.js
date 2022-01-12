@@ -87,6 +87,7 @@ export const InfoFooterLayout = styled(animated.div)`
 
 export const StarRatingLayout = styled("div")`
   grid-area: rating;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
 `;
 
 export const SourceLayout = styled("div")(({ theme: { spacing } }) => ({

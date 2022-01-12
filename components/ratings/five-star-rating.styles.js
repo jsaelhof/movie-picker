@@ -19,6 +19,4 @@ export const Tooltip = styled("div")`
   padding: 0 ${({ theme: { spacing } }) => spacing(2)};
 `;
 
-export const Star = styled("svg")`
-  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
-`;
+export const Star = styled("svg")``;

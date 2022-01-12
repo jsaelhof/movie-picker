@@ -35,7 +35,6 @@ import Trailer from "./trailer";
 
 const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
   const small = useMediaQuery("(max-width: 750px)");
-  const xsmall = useMediaQuery("(max-width: 660px)");
 
   const [data, setData] = useState(null);
   const [trailer, setTrailer] = useState(null);
@@ -108,10 +107,7 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
             sx={[(small || movie.title.length >= 25) && smallMovieTitle]}
           >
             <div>{movie.title}</div>
-            <StyledStarRating
-              ratings={data.ratings}
-              anchor={xsmall ? "center" : "left"}
-            />
+            <StyledStarRating ratings={data.ratings} />
           </MovieTitle>
 
           <MovieData>
