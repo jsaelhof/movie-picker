@@ -132,11 +132,11 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
                 <InfoFooterLayout style={ratingsSpring}>
                   <Ratings ratings={movie.ratings} size="small" dense />
                 </InfoFooterLayout>
-              </InfoLayout>
 
-              <SourceLayout>
-                <Source source={movie.source} />
-              </SourceLayout>
+                <SourceLayout>
+                  <Source source={movie.source} />
+                </SourceLayout>
+              </InfoLayout>
             </OverflowWrapper>
           </MovieDetail>
         </MovieDetailPositioner>
