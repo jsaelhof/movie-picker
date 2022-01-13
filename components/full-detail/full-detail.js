@@ -100,6 +100,7 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
               height={small ? 300 : 400}
               movie={movie}
               onClick={search}
+              noLock
             />
           </Poster>
 

@@ -3,7 +3,7 @@ import TheatresIcon from "@mui/icons-material/Theaters";
 
 import { active, Lock, locked, NoPoster, Poster } from "./movie-poster.styles";
 
-const MoviePoster = ({ movie, height = 250, onClick }) => {
+const MoviePoster = ({ movie, height = 250, onClick, noLock = false }) => {
   const posterStyles = {
     width: height * 0.64,
     height,
@@ -19,7 +19,7 @@ const MoviePoster = ({ movie, height = 250, onClick }) => {
               backgroundImage: `url(${movie.poster})`,
             },
             onClick && active,
-            movie.locked && locked,
+            movie.locked && !noLock && locked,
           ]}
           onClick={onClick}
         />
@@ -29,7 +29,7 @@ const MoviePoster = ({ movie, height = 250, onClick }) => {
           <div>{movie.title}</div>
         </NoPoster>
       )}
-      {movie.locked && <Lock />}
+      {movie.locked && !noLock && <Lock />}
     </div>
   );
 };
