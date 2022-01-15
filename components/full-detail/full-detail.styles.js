@@ -179,23 +179,11 @@ export const streamable = {
   "&:hover": { transform: "scale(1.1)" },
 };
 
-export const Plot = styled("div")`
-  position: relative;
-  grid-area: plot;
-  line-height: 1.7;
-  max-height: 180px;
-  overflow: scroll;
-  ${({ theme: { palette, spacing } }) => ({
-    color: palette.grey[900],
-    marginTop: spacing(2),
-    marginBottom: spacing(3),
-  })}
-
-  @media (max-width: 660px) {
-    max-height: unset;
-    overflow: initial;
-  }
-`;
+export const PlotLayout = styled("div")(({ theme: { spacing } }) => ({
+  gridArea: "plot",
+  marginTop: spacing(2),
+  marginBottom: spacing(3),
+}));
 
 export const Actions = styled("div")`
   grid-area: actions;

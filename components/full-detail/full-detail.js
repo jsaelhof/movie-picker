@@ -1,5 +1,5 @@
-import React, { useCallback, useRef, useState } from "react";
-import { Button, Skeleton, useMediaQuery } from "@mui/material";
+import React, { useCallback, useState } from "react";
+import { Button, useMediaQuery } from "@mui/material";
 import { PlayArrow } from "@mui/icons-material";
 import { useQuery } from "@apollo/client";
 import { useSpring } from "react-spring";
@@ -21,7 +21,7 @@ import {
   MovieData,
   MovieInfo,
   MovieTitle,
-  Plot,
+  PlotLayout,
   Poster,
   smallMovieTitle,
   Source,
@@ -29,18 +29,18 @@ import {
   StyledStarRating,
   TrailerLayout,
 } from "./full-detail.styles";
+import { FullDetailSkeleton } from "./full-detail.skeleton";
 import MoviePoster from "../movie-poster/movie-poster";
 import Rated from "./rated";
 import Trailer from "./trailer";
+import ScrollArea from "./scroll-area";
 
 const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
   const small = useMediaQuery("(max-width: 750px)");
+  const noPlotScroll = useMediaQuery("(max-width: 660px)");
 
   const [data, setData] = useState(null);
   const [trailer, setTrailer] = useState(null);
-  const [plotScroll, setPlotScroll] = useState([]);
-
-  const plotRef = useRef();
 
   const fadeSpring = useSpring({
     opacity: data ? 1 : 0,
@@ -70,74 +70,13 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
 
   const canStream = ![sources.DVD, sources.NONE].includes(movie.source);
 
-  if (!data)
-    return (
-      <FullDetailLayout>
-        {showCloseButton && (
-          <CloseButton onClick={onClose}>
-            <CloseThick />
-          </CloseButton>
-        )}
-
-        <BackdropWrapper>
-          <Skeleton
-            variant="rectangular"
-            width="100%"
-            height="100%"
-            animation="wave"
-          />
-        </BackdropWrapper>
-
-        <MovieInfo>
-          <Poster>
-            <Skeleton
-              variant="rectangular"
-              width={(small ? 300 : 400) * 0.64}
-              height={small ? 300 : 400}
-              animation="wave"
-            />
-          </Poster>
-
-          <MovieTitle>
-            <Skeleton variant="text" width={300} height={60} animation="wave" />
-          </MovieTitle>
-
-          <MovieData>
-            <Skeleton variant="text" width={50} height={40} animation="wave" />
-            <Skeleton variant="text" width={50} height={40} animation="wave" />
-            <Skeleton variant="text" width={50} height={40} animation="wave" />
-          </MovieData>
-
-          <Plot>
-            <Skeleton
-              variant="text"
-              width="100%"
-              height={30}
-              animation="wave"
-            />
-            <Skeleton
-              variant="text"
-              width="100%"
-              height={30}
-              animation="wave"
-            />
-            <Skeleton
-              variant="text"
-              width="100%"
-              height={30}
-              animation="wave"
-            />
-          </Plot>
-
-          <Actions>
-            <Skeleton variant="text" width={100} height={40} animation="wave" />
-            <Skeleton variant="text" width={100} height={40} animation="wave" />
-          </Actions>
-        </MovieInfo>
-      </FullDetailLayout>
-    );
-
-  return (
+  return !data ? (
+    <FullDetailSkeleton
+      showCloseButton={showCloseButton}
+      onClose={onClose}
+      small={small}
+    />
+  ) : (
     <FullDetailLayout>
       {showCloseButton && (
         <CloseButton onClick={onClose}>
@@ -164,132 +103,84 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
         )}
       </BackdropWrapper>
 
-      {data && (
-        <MovieInfo>
-          <Poster style={growSpring}>
-            <MoviePoster
-              height={small ? 300 : 400}
-              movie={movie}
-              onClick={search}
-              noLock
-            />
-          </Poster>
-
-          <MovieTitle
-            sx={[(small || movie.title.length >= 25) && smallMovieTitle]}
-          >
-            <div>{movie.title}</div>
-            <StyledStarRating ratings={data.ratings} />
-          </MovieTitle>
-
-          <MovieData>
-            <div>{formatRuntime(movie.runtime)}</div>
-            <div>{movie.year}</div>
-            <div>{genreLabels[movie.genre]}</div>
-            <Rated rated={data.certification} />
-          </MovieData>
-
-          <Source
-            sx={[canStream && streamable]}
-            src={sourceLogosLarge[movie.source]}
-            onClick={() =>
-              canStream &&
-              window.open(
-                searchStreaming(movie.title, movie.source),
-                "movieView"
-              )
-            }
+      <MovieInfo>
+        <Poster style={growSpring}>
+          <MoviePoster
+            height={small ? 300 : 400}
+            movie={movie}
+            onClick={search}
+            noLock
           />
+        </Poster>
 
-          <Plot
-            ref={plotRef}
-            sx={[
-              plotScroll[0] && {
-                borderTop: "1px solid red",
-              },
-              plotScroll[1] && {
-                borderBottom: "1px solid red",
-              },
-            ]}
-            onLoad={(e) => console.log(e)}
-            onScroll={({
-              target: { scrollTop, scrollHeight, clientHeight },
-            }) => {
-              const canScrollUp = scrollTop > 0;
-              const canScrollDown = scrollHeight - clientHeight - scrollTop > 0;
-              if (
-                canScrollUp !== plotScroll[0] ||
-                canScrollDown !== plotScroll[1]
-              ) {
-                setPlotScroll([canScrollUp, canScrollDown]);
-              }
-            }}
-          >
-            <div
-              style={{
-                width: "100%",
-                height: 10,
-                background: "black",
-                position: "absolute",
-                top: 0,
-                left: 0,
+        <MovieTitle
+          sx={[(small || movie.title.length >= 25) && smallMovieTitle]}
+        >
+          <div>{movie.title}</div>
+          <StyledStarRating ratings={data.ratings} />
+        </MovieTitle>
+
+        <MovieData>
+          <div>{formatRuntime(movie.runtime)}</div>
+          <div>{movie.year}</div>
+          <div>{genreLabels[movie.genre]}</div>
+          <Rated rated={data.certification} />
+        </MovieData>
+
+        <Source
+          sx={[canStream && streamable]}
+          src={sourceLogosLarge[movie.source]}
+          onClick={() =>
+            canStream &&
+            window.open(searchStreaming(movie.title, movie.source), "movieView")
+          }
+        />
+
+        <PlotLayout>
+          <ScrollArea text={data.plot} noScroll={noPlotScroll} />
+        </PlotLayout>
+
+        <Actions>
+          {data.trailer?.site === "YouTube" && (
+            <Button
+              color="primary"
+              startIcon={<TelevisionPlay />}
+              onClick={() => {
+                setTrailer(data.trailer.key);
               }}
-            />
-            {data.plot}
-            <div
-              style={{
-                width: "100%",
-                height: 10,
-                background: "black",
-                position: "absolute",
-                bottom: 0,
-                left: 0,
+            >
+              Watch Trailer
+            </Button>
+          )}
+
+          {canStream && (
+            <Button
+              color="primary"
+              startIcon={<PlayArrow />}
+              onClick={() => {
+                window.open(
+                  searchStreaming(movie.title, movie.source),
+                  "movieView"
+                );
               }}
-            />
-          </Plot>
+            >
+              Stream Movie
+            </Button>
+          )}
 
-          <Actions>
-            {data?.trailer?.site === "YouTube" && (
-              <Button
-                color="primary"
-                startIcon={<TelevisionPlay />}
-                onClick={() => {
-                  setTrailer(data.trailer.key);
-                }}
-              >
-                Watch Trailer
-              </Button>
-            )}
-
-            {canStream && (
-              <Button
-                color="primary"
-                startIcon={<PlayArrow />}
-                onClick={() => {
-                  window.open(
-                    searchStreaming(movie.title, movie.source),
-                    "movieView"
-                  );
-                }}
-              >
-                Stream Movie
-              </Button>
-            )}
-
-            {movie.source === sources.NONE && (
-              <Button
-                color="primary"
-                startIcon={<Search />}
-                onClick={() => {
-                  window.open(searchTorrent(movie.title), "movieView");
-                }}
-              >
-                Torrent Search
-              </Button>
-            )}
-          </Actions>
-        </MovieInfo>
-      )}
+          {movie.source === sources.NONE && (
+            <Button
+              color="primary"
+              startIcon={<Search />}
+              onClick={() => {
+                window.open(searchTorrent(movie.title), "movieView");
+              }}
+            >
+              Torrent Search
+            </Button>
+          )}
+        </Actions>
+      </MovieInfo>
     </FullDetailLayout>
   );
 };

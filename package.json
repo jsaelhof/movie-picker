@@ -33,6 +33,7 @@
     "react-slick": "^0.28.1",
     "react-spring": "^9.2.4",
     "react-youtube": "^7.14.0",
+    "rooks": "^5.8.0",
     "slick-carousel": "^1.8.1",
     "uuid": "^8.3.2"
   },
