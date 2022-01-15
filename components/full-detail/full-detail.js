@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react";
-import { Button, useMediaQuery } from "@mui/material";
+import React, { useCallback, useRef, useState } from "react";
+import { Button, Skeleton, useMediaQuery } from "@mui/material";
 import { PlayArrow } from "@mui/icons-material";
 import { useQuery } from "@apollo/client";
 import { useSpring } from "react-spring";
@@ -38,6 +38,9 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
 
   const [data, setData] = useState(null);
   const [trailer, setTrailer] = useState(null);
+  const [plotScroll, setPlotScroll] = useState([]);
+
+  const plotRef = useRef();
 
   const fadeSpring = useSpring({
     opacity: data ? 1 : 0,
@@ -67,6 +70,73 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
 
   const canStream = ![sources.DVD, sources.NONE].includes(movie.source);
 
+  if (!data)
+    return (
+      <FullDetailLayout>
+        {showCloseButton && (
+          <CloseButton onClick={onClose}>
+            <CloseThick />
+          </CloseButton>
+        )}
+
+        <BackdropWrapper>
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            height="100%"
+            animation="wave"
+          />
+        </BackdropWrapper>
+
+        <MovieInfo>
+          <Poster>
+            <Skeleton
+              variant="rectangular"
+              width={(small ? 300 : 400) * 0.64}
+              height={small ? 300 : 400}
+              animation="wave"
+            />
+          </Poster>
+
+          <MovieTitle>
+            <Skeleton variant="text" width={300} height={60} animation="wave" />
+          </MovieTitle>
+
+          <MovieData>
+            <Skeleton variant="text" width={50} height={40} animation="wave" />
+            <Skeleton variant="text" width={50} height={40} animation="wave" />
+            <Skeleton variant="text" width={50} height={40} animation="wave" />
+          </MovieData>
+
+          <Plot>
+            <Skeleton
+              variant="text"
+              width="100%"
+              height={30}
+              animation="wave"
+            />
+            <Skeleton
+              variant="text"
+              width="100%"
+              height={30}
+              animation="wave"
+            />
+            <Skeleton
+              variant="text"
+              width="100%"
+              height={30}
+              animation="wave"
+            />
+          </Plot>
+
+          <Actions>
+            <Skeleton variant="text" width={100} height={40} animation="wave" />
+            <Skeleton variant="text" width={100} height={40} animation="wave" />
+          </Actions>
+        </MovieInfo>
+      </FullDetailLayout>
+    );
+
   return (
     <FullDetailLayout>
       {showCloseButton && (
@@ -74,6 +144,7 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
           <CloseThick />
         </CloseButton>
       )}
+
       <BackdropWrapper>
         <Backdrop
           sx={[
@@ -130,7 +201,52 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
             }
           />
 
-          <Plot>{data.plot}</Plot>
+          <Plot
+            ref={plotRef}
+            sx={[
+              plotScroll[0] && {
+                borderTop: "1px solid red",
+              },
+              plotScroll[1] && {
+                borderBottom: "1px solid red",
+              },
+            ]}
+            onLoad={(e) => console.log(e)}
+            onScroll={({
+              target: { scrollTop, scrollHeight, clientHeight },
+            }) => {
+              const canScrollUp = scrollTop > 0;
+              const canScrollDown = scrollHeight - clientHeight - scrollTop > 0;
+              if (
+                canScrollUp !== plotScroll[0] ||
+                canScrollDown !== plotScroll[1]
+              ) {
+                setPlotScroll([canScrollUp, canScrollDown]);
+              }
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                height: 10,
+                background: "black",
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
+            />
+            {data.plot}
+            <div
+              style={{
+                width: "100%",
+                height: 10,
+                background: "black",
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+              }}
+            />
+          </Plot>
 
           <Actions>
             {data?.trailer?.site === "YouTube" && (

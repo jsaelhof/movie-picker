@@ -50,7 +50,7 @@ export const Backdrop = styled(animated.div)`
   background-position-x: center;
   height: 100%;
   width: 100%;
-  background-image: linear-gradient(to top, white, #ccc);
+  background-image: linear-gradient(to top, #eee, #bbb);
 `;
 
 export const TrailerLayout = styled("div")`
@@ -67,6 +67,9 @@ export const MovieInfo = styled("div")`
     "poster actions actions";
   grid-template-rows: 130px 40px auto 45px;
   grid-template-columns: max-content 1fr max-content;
+  width: calc(
+    100% - 64px
+  ); // Width is 100% minus left/right margins. This keeps the grid open fully if the content is narrow and helps with the skeletons. It won't get wider than max-width though.
   max-width: 960px;
   min-height: 400px;
   z-index: 10;
@@ -177,13 +180,21 @@ export const streamable = {
 };
 
 export const Plot = styled("div")`
+  position: relative;
   grid-area: plot;
   line-height: 1.7;
+  max-height: 180px;
+  overflow: scroll;
   ${({ theme: { palette, spacing } }) => ({
     color: palette.grey[900],
-    paddingTop: spacing(2),
-    paddingBottom: spacing(3),
+    marginTop: spacing(2),
+    marginBottom: spacing(3),
   })}
+
+  @media (max-width: 660px) {
+    max-height: unset;
+    overflow: initial;
+  }
 `;
 
 export const Actions = styled("div")`
