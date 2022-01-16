@@ -98,7 +98,7 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
 
         {trailer && (
           <TrailerLayout>
-            <Trailer trailerId={trailer} onComplete={setTrailer} />
+            <Trailer trailerId={trailer} onComplete={() => setTrailer(null)} />
           </TrailerLayout>
         )}
       </BackdropWrapper>

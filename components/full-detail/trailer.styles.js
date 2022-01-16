@@ -4,9 +4,14 @@ import YouTube from "react-youtube";
 
 export const TrailerLayout = styled(animated.div)`
   height: 100%;
+  position: relative;
 `;
 
-export const YouTubePlayer = styled(YouTube)`
-  width: 100%;
-  height: 100%;
-`;
+export const YouTubePlayer = styled(YouTube)(({ width, height }) => ({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%,-50%)",
+  width,
+  height,
+}));
