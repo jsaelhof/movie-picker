@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { createPortal } from "react-dom";
 import { Button, useMediaQuery } from "@mui/material";
 import { PlayArrow } from "@mui/icons-material";
 import { useQuery } from "@apollo/client";
@@ -37,7 +38,10 @@ import ScrollArea from "./scroll-area";
 
 const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
   const small = useMediaQuery("(max-width: 750px)");
-  const noPlotScroll = useMediaQuery("(max-width: 660px)");
+  const noPlotScroll = useMediaQuery("(max-width: 660px), (max-height: 414px)");
+  const trailerOverlay = useMediaQuery(
+    "(max-width: 500px), (max-height: 414px)"
+  );
 
   const [data, setData] = useState(null);
   const [trailer, setTrailer] = useState(null);
@@ -96,12 +100,23 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
           }}
         />
 
-        {trailer && (
+        {trailer && !trailerOverlay && (
           <TrailerLayout>
             <Trailer trailerId={trailer} onComplete={() => setTrailer(null)} />
           </TrailerLayout>
         )}
       </BackdropWrapper>
+
+      {trailer &&
+        trailerOverlay &&
+        createPortal(
+          <Trailer
+            overlay
+            trailerId={trailer}
+            onComplete={() => setTrailer(null)}
+          />,
+          document.body
+        )}
 
       <MovieInfo>
         <Poster style={growSpring}>
@@ -145,9 +160,7 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
             <Button
               color="primary"
               startIcon={<TelevisionPlay />}
-              onClick={() => {
-                setTrailer(data.trailer.key);
-              }}
+              onClick={() => setTrailer(data.trailer.key)}
             >
               Watch Trailer
             </Button>

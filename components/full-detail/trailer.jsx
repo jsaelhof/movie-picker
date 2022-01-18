@@ -2,7 +2,12 @@ import { useOnWindowResize } from "rooks";
 
 import { useSpring } from "@react-spring/core";
 import { useCallback, useState } from "react";
-import { TrailerLayout, YouTubePlayer } from "./trailer.styles";
+import {
+  TrailerInline,
+  TrailerOverlay,
+  YouTubePlayerInline,
+  YouTubePlayerOverlay,
+} from "./trailer.styles";
 
 // This is making an assumption that the youtube player is always 640x360.
 // The video is actually varying sizes postioned centered within this by youtube.
@@ -11,7 +16,7 @@ const youTubeIframe = {
   height: 360,
 };
 
-const Trailer = ({ trailerId, onComplete }) => {
+const Trailer = ({ trailerId, overlay, onComplete }) => {
   const [trailerActive, setTrailerActive] = useState(null);
 
   const trailerSpring = useSpring({
@@ -53,8 +58,15 @@ const Trailer = ({ trailerId, onComplete }) => {
     updateSize(trailerNode);
   });
 
+  const TrailerLayout = overlay ? TrailerOverlay : TrailerInline;
+  const YouTubePlayer = overlay ? YouTubePlayerOverlay : YouTubePlayerInline;
+
   return (
-    <TrailerLayout style={trailerSpring} ref={trailerRef}>
+    <TrailerLayout
+      style={trailerSpring}
+      ref={trailerRef}
+      onClick={() => overlay && onComplete()}
+    >
       <YouTubePlayer
         videoId={trailerId}
         width={size.width}
