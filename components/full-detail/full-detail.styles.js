@@ -1,15 +1,28 @@
 import { styled } from "@mui/material";
 import { animated } from "react-spring";
 
-import StarRating from "../ratings/star-rating";
+import FiveStarRating from "../ratings/five-star-rating";
 
-export const PickGrid = styled("div")`
+export const FullDetailLayout = styled("div")`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+`;
+
+export const CloseButton = styled("div")`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 100;
+  color: white;
+  cursor: pointer;
+  mix-blend-mode: exclusion;
 `;
 
 export const BackdropWrapper = styled("div")`
+  display: grid;
+  grid-template-areas: "main";
   mask-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 1) 50%,
@@ -32,32 +45,16 @@ export const BackdropWrapper = styled("div")`
 `;
 
 export const Backdrop = styled(animated.div)`
+  grid-area: main;
   background-size: cover;
   background-position-x: center;
   height: 100%;
   width: 100%;
-  background-image: linear-gradient(to top, white, #ccc);
+  background-image: linear-gradient(to top, #eee, #bbb);
 `;
 
-export const PlayerWrapper = styled("div")`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: radial-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
-  z-index: 1000000;
-`;
-
-export const Player = styled("iframe")`
-  box-shadow: 4px 10px 10px rgb(0 0 0 / 30%);
-  border: 2px solid #333;
-  width: 90vw;
-  height: calc(90vw * (1 / 1.778));
-  background-color: black;
+export const TrailerLayout = styled("div")`
+  grid-area: main;
 `;
 
 export const MovieInfo = styled("div")`
@@ -70,6 +67,9 @@ export const MovieInfo = styled("div")`
     "poster actions actions";
   grid-template-rows: 130px 40px auto 45px;
   grid-template-columns: max-content 1fr max-content;
+  width: calc(
+    100% - 64px
+  ); // Width is 100% minus left/right margins. This keeps the grid open fully if the content is narrow and helps with the skeletons. It won't get wider than max-width though.
   max-width: 960px;
   min-height: 400px;
   z-index: 10;
@@ -84,7 +84,7 @@ export const MovieInfo = styled("div")`
 
   @media (max-width: 750px) {
     margin-top: -120px;
-    grid-template-rows: 100px 40px auto 45px;
+    grid-template-rows: 100px 40px max-content 45px;
   }
 
   @media (max-width: 660px) {
@@ -95,7 +95,7 @@ export const MovieInfo = styled("div")`
       "info source"
       "plot plot"
       "actions actions";
-    grid-template-rows: 300px auto 40px max-content auto 45px;
+    grid-template-rows: 300px auto 40px max-content auto;
     grid-template-columns: 1fr;
     min-height: 300px;
   }
@@ -141,10 +141,12 @@ export const smallMovieTitle = {
   fontSize: 32,
 };
 
-export const StyledStarRating = styled(StarRating)`
-  margin: ${({ theme }) => theme.spacing(1)} 0;
-  grid-area: ratings;
-`;
+export const StyledStarRating = styled(FiveStarRating)(
+  ({ theme: { spacing } }) => ({
+    margin: spacing(1),
+    gridArea: "ratings",
+  })
+);
 
 export const MovieData = styled("div")`
   padding: 0;
@@ -177,15 +179,11 @@ export const streamable = {
   "&:hover": { transform: "scale(1.1)" },
 };
 
-export const Plot = styled("div")`
-  grid-area: plot;
-  line-height: 1.7;
-  ${({ theme: { palette, spacing } }) => ({
-    color: palette.grey[900],
-    paddingTop: spacing(2),
-    paddingBottom: spacing(3),
-  })}
-`;
+export const PlotLayout = styled("div")(({ theme: { spacing } }) => ({
+  gridArea: "plot",
+  marginTop: spacing(2),
+  marginBottom: spacing(3),
+}));
 
 export const Actions = styled("div")`
   grid-area: actions;
@@ -205,6 +203,8 @@ export const Actions = styled("div")`
 
     span {
       justify-items: center;
+      margin-left: 0;
+      margin-right: 0;
     }
   }
 `;

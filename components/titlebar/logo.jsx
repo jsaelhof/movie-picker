@@ -2,9 +2,9 @@ import React from "react";
 
 import { LogoContainer } from "./logo.styles";
 
-const Logo = ({ small }) => (
+const Logo = () => (
   <LogoContainer>
-    <img src={small ? "/images/logo-small.png" : "/images/logo.png"} />
+    <img style={{ height: 20 }} src={"/images/logo.png"} />
   </LogoContainer>
 );
 

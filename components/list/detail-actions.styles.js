@@ -2,6 +2,9 @@ import { styled } from "@mui/material";
 
 export const Actions = styled("div")(({ theme: { spacing } }) => ({
   display: "grid",
-  gridTemplateColumns: "26px 26px 26px 1fr 26px",
-  gap: spacing(1),
+  gridTemplateColumns: "repeat(4, 26px)",
+  gap: spacing(3.5),
+  alignItems: "center",
+  marginLeft: "auto",
+  marginRight: "auto",
 }));

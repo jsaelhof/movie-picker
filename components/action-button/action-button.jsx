@@ -1,5 +1,4 @@
 import { Tooltip } from "@mui/material";
-import noop from "lodash/noop";
 import React from "react";
 
 import {
@@ -23,9 +22,12 @@ const ActionButton = ({
   >
     <ButtonContainer
       sx={[disabled && buttonContainerDisabled]}
-      onClick={disabled ? noop : () => onClick(movie)}
+      onClick={(e) => {
+        e.stopPropagation();
+        !disabled && onClick(movie);
+      }}
     >
-      <Icon />
+      <Icon fontSize="inherit" />
     </ButtonContainer>
   </Tooltip>
 );

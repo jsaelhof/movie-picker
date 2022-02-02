@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { useAppContext } from "../context/app-context";
 import { errorMessage } from "../constants/error_codes";
 import ErrorDialog from "../components/error-dialog/error-dialog";
-import Pick from "../components/pick/pick";
+import FullDetail from "../components/full-detail/full-detail";
 import { randomPick } from "../utils/random-pick";
 
 export default function Home() {
@@ -30,7 +30,7 @@ export default function Home() {
 
   return (
     <>
-      <Pick movie={pick} />
+      <FullDetail movie={pick} />
 
       <ErrorDialog
         open={!!error}

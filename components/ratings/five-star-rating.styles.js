@@ -2,10 +2,8 @@ import { Popover, styled } from "@mui/material";
 
 export const StarRatingContainer = styled("div")`
   display: grid;
-  grid-auto-flow: column;
-  column-gap: 2px;
-  align-items: center;
-  width: 100px;
+  grid-template-columns: repeat(5, max-content);
+  align-items: end;
 `;
 
 export const StyledPopover = styled(Popover)`
@@ -21,7 +19,4 @@ export const Tooltip = styled("div")`
   padding: 0 ${({ theme: { spacing } }) => spacing(2)};
 `;
 
-export const Star = styled("svg")`
-  height: 18.5px;
-  filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.5));
-`;
+export const Star = styled("svg")``;

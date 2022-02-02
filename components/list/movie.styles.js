@@ -1,9 +1,7 @@
-import { Paper, styled } from "@mui/material";
+import { styled } from "@mui/material";
 import { animated } from "react-spring";
 
-import MoviePoster from "../movie-poster/movie-poster";
-
-export const MovieContainer = styled(Paper)(() => ({
+export const MovieContainer = styled(animated.div)(() => ({
   position: "relative",
   borderRadius: 4,
 }));
@@ -21,7 +19,7 @@ export const MoviePosterContainer = styled("div")`
 export const MovieDetailPositioner = styled("div")(() => ({
   width: 240,
   marginLeft: `calc((160px - 240px) / 2)` /* Use diff between zoomed and standard widths to determine horizontal offset to center */,
-  marginTop: "-82px",
+  marginTop: -71,
   position: "absolute",
   top: 0,
   bottom: 0,
@@ -40,7 +38,7 @@ export const MovieDetail = styled(animated.div)`
   border-radius: 4px;
   box-shadow: 3px 10px 10px rgba(0, 0, 0, 0.1),
     0px 5px 15px 0px rgba(0, 0, 0, 0.1), 0px 1px 20px 0px rgba(0, 0, 0, 0.12);
-  transform: scale(0.67);
+  transform: scale3d(0.67, 0.67, 1);
 `;
 
 /* This div wraps the content so that the overflow is hidden in safari properly without hiding the box-shadow.
@@ -55,50 +53,45 @@ export const OverflowWrapper = styled("div")`
   background-color: white;
 `;
 
-export const DetailPosterLayout = styled("div")`
-  position: relative;
-  z-index: 5;
+const infoPanelHeight = 85;
+
+export const InfoLayout = styled(animated.div)(
+  ({ theme: { palette, spacing } }) => ({
+    display: "grid",
+    gridTemplateAreas: `
+    ". rating runtime"
+    "footer footer footer"
+  `,
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gridTemplateRows: "max-content 1fr",
+    justifyItems: "center",
+    alignItems: "end",
+    position: "relative", // This is weird, i don't need this but without it, the locked posters (0.3 opacity) appear over top. Opaque unlocked posters do not.
+    fontSize: 14,
+    color: palette.grey[300],
+    padding: `${spacing(1)} ${spacing(2)} ${spacing(2)}`,
+    background: `linear-gradient(to top, ${palette.common.black}, #434343)`,
+    height: infoPanelHeight - 20,
+    marginTop: -32,
+  })
+);
+
+export const InfoRuntime = styled("div")`
+  grid-area: runtime;
+  text-align: right;
 `;
 
-export const Source = styled("div")`
-  position: fixed;
-  height: 40px;
-  border-radius: 23px;
-  border: 3px solid white;
-  overflow: hidden;
-  transform: translate(-50%, -50%);
-  margin-left: 50%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  z-index: 10;
+export const InfoFooterLayout = styled(animated.div)`
+  grid-area: footer;
 `;
 
-export const Info = styled(animated.div)(({ theme: { palette, spacing } }) => ({
-  display: "grid",
-  gap: 20,
-  fontSize: 14,
-  color: palette.grey[900],
-  padding: `${spacing(1)} ${spacing(2)}`,
-  background: "white",
-  height: "fit-content",
-  boxShadow: "inset 0 4px 5px -3px rgb(0, 0, 0, 0.4)",
-}));
-
-export const InfoData = styled("div")`
-  display: flex;
-  justify-content: space-between;
+export const StarRatingLayout = styled("div")`
+  grid-area: rating;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
 `;
 
-export const InfoRatings = styled("div")(() => ({
-  justifySelf: "center",
+export const SourceLayout = styled("div")(({ theme: { spacing } }) => ({
+  position: "absolute",
+  bottom: 55,
+  left: spacing(2),
 }));
-
-export const MoreActionsDrawer = styled(animated.div)(() => ({
-  position: "fixed",
-  width: "100%",
-  zIndex: 20,
-  pointerEvents: "none",
-}));
-
-export const moreActionsOpen = {
-  pointerEvents: "all",
-};
