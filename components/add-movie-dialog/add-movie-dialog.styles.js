@@ -51,14 +51,13 @@ export const Input = styled("div")(({ theme: { breakpoints, spacing } }) => ({
   [`${breakpoints.down(600)}, (max-height: 414px)`]: {
     justifyContent: "center",
     gridTemplateColumns: "125px 125px",
-    gridTemplateRows: "auto repeat(5, 40px)",
+    gridTemplateRows: "auto repeat(4, 40px)",
     gridTemplateAreas: `
         "poster poster"
         "title title"
         "runtime year"
         "genre genre"
         "source source"
-        "ratings ratings"
       `,
     marginBottom: spacing(4),
   },

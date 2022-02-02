@@ -91,7 +91,7 @@ const AddMovieDialog = ({
 
   return (
     <Dialog open={true} fullWidth fullScreen={xsmall} maxWidth="lg">
-      <DialogTitle>Add a Movie</DialogTitle>
+      {!xsmall && <DialogTitle>Add a Movie</DialogTitle>}
       <DialogContent>
         <Input>
           <Poster poster={input.poster} height={xsmall ? 130 : undefined} />
@@ -159,7 +159,7 @@ const AddMovieDialog = ({
             images={sourceLogos}
           />
 
-          {input.ratings && (
+          {input.ratings && !xsmall && (
             <RatingsContainer>
               <Ratings ratings={input.ratings} dense />
             </RatingsContainer>
