@@ -44,6 +44,10 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
 
   const switchToRatings = debounce(() => setInfoState("ratings"), 250);
   const focus = debounce(() => setFocused(true), 250);
+  const unfocus = () => {
+    focus.cancel();
+    setFocused(false);
+  };
 
   const posterSpring = useSpring({
     transform: focused ? "scale3d(1,1,1)" : "scale3d(0.67,0.67,1)",
@@ -76,11 +80,9 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
       <MovieContainer
         key={movie.id}
         sx={[focused && movieContainerFocused]}
+        onMouseOver={focus}
         onMouseEnter={focus}
-        onMouseLeave={() => {
-          focus.cancel();
-          setFocused(false);
-        }}
+        onMouseLeave={unfocus}
         ref={ref}
       >
         <MoviePosterContainer>
@@ -89,7 +91,10 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
 
         <MovieDetailPositioner
           sx={[focused && movieDetailPositionerFocused]}
-          onClick={() => setExpanded(true)}
+          onClick={() => {
+            unfocus();
+            setExpanded(true);
+          }}
         >
           <MovieDetail style={posterSpring}>
             <OverflowWrapper>
