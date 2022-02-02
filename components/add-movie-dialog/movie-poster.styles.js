@@ -45,8 +45,8 @@ export const NoPoster = styled("div")(() => ({
   alignItems: "center",
   justifyContent: "center",
   textAlign: "center",
-  width: 128,
-  height: 200,
+  height: "100%",
+  aspectRatio: "128 / 200",
   background: "#f7f7fc",
   boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.15)",
 }));
