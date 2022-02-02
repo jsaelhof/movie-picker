@@ -84,7 +84,7 @@ export const MovieInfo = styled("div")`
 
   @media (max-width: 750px) {
     margin-top: -120px;
-    grid-template-rows: 100px 40px auto 45px;
+    grid-template-rows: 100px 40px max-content 45px;
   }
 
   @media (max-width: 660px) {

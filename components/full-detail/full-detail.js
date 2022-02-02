@@ -35,6 +35,7 @@ import MoviePoster from "../movie-poster/movie-poster";
 import Rated from "./rated";
 import Trailer from "./trailer";
 import ScrollArea from "./scroll-area";
+import Footer from "./footer";
 
 const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
   const small = useMediaQuery("(max-width: 750px)");
@@ -194,6 +195,8 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
           )}
         </Actions>
       </MovieInfo>
+
+      <Footer movie={movie} />
     </FullDetailLayout>
   );
 };
