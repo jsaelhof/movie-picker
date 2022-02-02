@@ -9,10 +9,9 @@ export const searchTMDB = (title) =>
   `https://www.themoviedb.org/search?query=${title.replaceAll(" ", "+")}`;
 
 export const searchCommonSense = (title) =>
-  `https://www.commonsensemedia.org/movie-reviews/${title.replaceAll(
-    " ",
-    "-"
-  )}`;
+  `https://www.commonsensemedia.org/movie-reviews/${title
+    .replaceAll(" ", "-")
+    .replaceAll(":", "")}`;
 
 export const searchTorrent = (title) => `http://1337x.to/search/${title}/1/`;
 
