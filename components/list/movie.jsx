@@ -25,6 +25,7 @@ import { GET_RATINGS } from "../../graphql";
 import FiveStarRating from "../ratings/five-star-rating";
 import Source from "./source";
 import Expanded from "./expanded";
+import { useResponsive } from "../../hooks/use-responsive";
 
 const getCenterPoint = (rect) => {
   if (!rect) return undefined;
@@ -34,6 +35,8 @@ const getCenterPoint = (rect) => {
 };
 
 const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
+  const { mobile } = useResponsive();
+
   const ref = useRef();
   const centerPoint = getCenterPoint(ref.current?.getBoundingClientRect());
 
@@ -50,7 +53,11 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
   };
 
   const posterSpring = useSpring({
-    transform: focused ? "scale3d(1,1,1)" : "scale3d(0.67,0.67,1)",
+    transform: focused
+      ? mobile
+        ? "scale3d(0.95, 0.95, 0.95)"
+        : "scale3d(1,1,1)"
+      : "scale3d(0.67,0.67,1)",
   });
 
   const actionsSpring = useSpring({
