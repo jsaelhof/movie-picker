@@ -1,9 +1,11 @@
 import { styled } from "@mui/material";
 import SlickSlider from "react-slick";
 
-export const StatusMessage = styled("div")`
-  height: 280px;
-  text-align: center;
+export const StatusMessage = styled("span")`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Slider = styled(SlickSlider)(
