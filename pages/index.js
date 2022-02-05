@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { map } from "lodash";
 
@@ -64,6 +64,82 @@ export default function Home() {
   const editMovie = useEditMovie();
   const removeMovie = useRemoveMovie(setError);
 
+  const onPick = useCallback(
+    (options) => {
+      router.push(`/pick?${map(options, (v, k) => `${k}=${v}`).join("&")}`);
+    },
+    [router]
+  );
+
+  const onEnableAddMovie = useCallback(() => {
+    setEnableAddMovie(true);
+  }, []);
+
+  const onCancelAddMovie = useCallback(() => {
+    setEnableAddMovie(false);
+  }, []);
+
+  const onEnableEditMovie = useCallback(
+    (movie, useEditor = true) =>
+      useEditor
+        ? setEnableEditMovie(movie)
+        : editMovie({
+            variables: { movie: omitTypename(movie), list: list.id },
+          }),
+    [editMovie, list?.id]
+  );
+
+  const onRemoveMovie = useCallback(
+    (id) =>
+      removeMovie({
+        variables: {
+          movieId: id,
+          list: list.id,
+        },
+      }),
+    [list?.id, removeMovie]
+  );
+
+  const onMarkWatched = useCallback(
+    (movie) =>
+      markWatched({
+        variables: {
+          movie: {
+            ...omitTypename(movie),
+            watchedOn: new Date().toISOString(),
+          },
+          list: list.id,
+        },
+      }),
+    [list?.id, markWatched]
+  );
+
+  const onCloseToast = useCallback(() => setToastProps(null), []);
+
+  const onAddMovie = useCallback(
+    (movie) => {
+      addMovie({
+        variables: { movie: omitTypename(movie), list: list.id },
+      });
+      setEnableAddMovie(false);
+    },
+    [addMovie, list?.id]
+  );
+
+  const onEditMovie = useCallback(
+    (movie) => {
+      editMovie({
+        variables: { movie: omitTypename(movie), list: list.id },
+      });
+      setEnableEditMovie(false);
+    },
+    [editMovie, list?.id]
+  );
+
+  const onCancelEditMovie = useCallback(() => {
+    setEnableEditMovie(false);
+  }, []);
+
   if (lists?.length === 0) router.replace("/create");
 
   return (
@@ -71,57 +147,24 @@ export default function Home() {
       <PageContainer>
         <ActionBar
           disabled={!movies || loadingMovies || movies?.length === 0}
-          onAdd={() => {
-            setEnableAddMovie(true);
-          }}
-          onPick={(options) => {
-            router.push(
-              `/pick?${map(options, (v, k) => `${k}=${v}`).join("&")}`
-            );
-          }}
+          onAdd={onEnableAddMovie}
+          onPick={onPick}
         />
 
         {movies && (
           <ListGrid
             movies={movies}
-            onAddMovie={() => {
-              setEnableAddMovie(true);
-            }}
-            onEditMovie={(movie, useEditor = true) => {
-              if (useEditor) {
-                setEnableEditMovie(movie);
-              } else {
-                editMovie({
-                  variables: { movie: omitTypename(movie), list: list.id },
-                });
-              }
-            }}
-            onRemoveMovie={(id) =>
-              removeMovie({
-                variables: {
-                  movieId: id,
-                  list: list.id,
-                },
-              })
-            }
-            onMarkWatched={(movie) =>
-              markWatched({
-                variables: {
-                  movie: {
-                    ...omitTypename(movie),
-                    watchedOn: new Date().toISOString(),
-                  },
-                  list: list.id,
-                },
-              })
-            }
+            onAddMovie={onEnableAddMovie}
+            onEditMovie={onEnableEditMovie}
+            onRemoveMovie={onRemoveMovie}
+            onMarkWatched={onMarkWatched}
           />
         )}
       </PageContainer>
 
       <Toast
         open={toastProps !== null}
-        onClose={() => setToastProps(null)}
+        onClose={onCloseToast}
         {...toastProps}
       />
 
@@ -134,31 +177,14 @@ export default function Home() {
       />
 
       {enableAddMovie && (
-        <AddMovieDialog
-          onAddMovie={(movie) => {
-            addMovie({
-              variables: { movie: omitTypename(movie), list: list.id },
-            });
-            setEnableAddMovie(false);
-          }}
-          onCancel={() => {
-            setEnableAddMovie(false);
-          }}
-        />
+        <AddMovieDialog onAddMovie={onAddMovie} onCancel={onCancelAddMovie} />
       )}
 
       {enableEditMovie && (
         <AddMovieDialog
           movie={enableEditMovie}
-          onAddMovie={(movie) => {
-            editMovie({
-              variables: { movie: omitTypename(movie), list: list.id },
-            });
-            setEnableEditMovie(false);
-          }}
-          onCancel={() => {
-            setEnableEditMovie(false);
-          }}
+          onAddMovie={onEditMovie}
+          onCancel={onCancelEditMovie}
         />
       )}
     </>

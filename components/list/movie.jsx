@@ -165,4 +165,4 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
   );
 };
 
-export default Movie;
+export default React.memo(Movie);
