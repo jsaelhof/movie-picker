@@ -11,9 +11,9 @@ const AuthenticatedAppPage = ({ Component, pageProps }) => {
     <div
       style={{
         display: "grid",
+        gridTemplateColumns: "minmax(0, auto)",
         gridTemplateRows: "auto 1fr auto",
         minHeight: "100vh",
-        //background: "radial-gradient(#37476c, #1e1e30 80%)",
         background: "radial-gradient(#FFF, #DFDFDF 80%)",
       }}
     >
