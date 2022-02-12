@@ -23,6 +23,7 @@ export const GET_MOVIES = gql`
       id
       title
       watchedOn
+      poster
     }
   }
 `;
