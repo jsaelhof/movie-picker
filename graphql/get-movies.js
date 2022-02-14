@@ -24,6 +24,7 @@ export const GET_MOVIES = gql`
       title
       watchedOn
       poster
+      imdbID
     }
   }
 `;
