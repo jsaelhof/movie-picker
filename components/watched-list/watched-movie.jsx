@@ -62,6 +62,7 @@ const WatchedMovie = ({
         {isEditing && (
           <DatePicker
             useDrawer={mobile}
+            right={right}
             defaultDate={watchedDate}
             onChange={(day) => {
               setEditedMovie((state) => ({

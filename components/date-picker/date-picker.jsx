@@ -5,10 +5,16 @@ import { DayPicker } from "react-day-picker";
 import { Button, Drawer } from "@mui/material";
 
 import { useOnClickOutside } from "../../hooks/use-on-click-outside";
-import { ButtonGroup, DrawerPicker, Picker } from "./date-picker.styles";
+import {
+  ButtonGroup,
+  DrawerPicker,
+  Picker,
+  RightAlignedPicker,
+} from "./date-picker.styles";
 
 const DatePicker = ({
   useDrawer = false,
+  right = false,
   defaultDate,
   onChange,
   onCancel,
@@ -18,7 +24,10 @@ const DatePicker = ({
   useOnClickOutside(ref, onCancel);
 
   const picker = (
-    <Picker ref={ref} sx={[useDrawer && DrawerPicker]}>
+    <Picker
+      ref={ref}
+      sx={[useDrawer && DrawerPicker, right && RightAlignedPicker]}
+    >
       <DayPicker
         defaultMonth={defaultDate}
         defaultSelected={defaultDate}
