@@ -49,10 +49,18 @@ export const InfoLayout = styled("div")(({ theme, $right }) => ({
 export const InfoTitle = styled("div")(() => ({
   fontSize: "2rem",
   fontWeight: "bold",
+
+  "@media (max-width: 550px)": {
+    fontSize: "1.5rem",
+  },
 }));
 
 export const InfoDate = styled("div")(() => ({
   position: "relative",
   fontSize: "1.25rem",
   cursor: "pointer",
+
+  "@media (max-width: 430px)": {
+    fontSize: "1.125rem",
+  },
 }));

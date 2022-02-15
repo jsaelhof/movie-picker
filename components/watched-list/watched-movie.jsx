@@ -15,6 +15,7 @@ import {
   Editing,
 } from "./watched-movie.styles";
 import { useResponsive } from "../../hooks/use-responsive";
+import { useMediaQuery } from "@mui/material";
 
 const WatchedMovie = ({
   movie,
@@ -33,6 +34,8 @@ const WatchedMovie = ({
   });
 
   const { mobile } = useResponsive();
+  const small = useMediaQuery("(max-width: 550px)");
+  const xsmall = useMediaQuery("(max-width: 430px)");
   const [editedMovie, setEditedMovie] = useState(null);
 
   // If the date is in process of being changed use that otherwise use the date from the movie.
@@ -45,7 +48,7 @@ const WatchedMovie = ({
 
   const nodes = [
     <PosterLayout key={`${movie.id}-poster`}>
-      <MoviePoster movie={movie} />
+      <MoviePoster movie={movie} height={small ? 200 : 250} />
     </PosterLayout>,
     <InfoLayout key={`${movie.id}-info`} $right={right}>
       <InfoTitle>{movie.title}</InfoTitle>
@@ -58,7 +61,12 @@ const WatchedMovie = ({
           }
         }}
       >
-        {format(parseISO(movie.watchedOn), "EEEE MMMM do, yyyy")}
+        {format(
+          parseISO(movie.watchedOn),
+          (xsmall && "EEE MMM do, yyyy") ||
+            (small && "EEEE MMM do, yyyy") ||
+            "EEEE MMMM do, yyyy"
+        )}
 
         {isEditing && (
           <DatePicker
