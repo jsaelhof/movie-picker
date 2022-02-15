@@ -12,6 +12,7 @@ import {
   PosterLayout,
   InfoTitle,
   InfoDate,
+  Editing,
 } from "./watched-movie.styles";
 import { useResponsive } from "../../hooks/use-responsive";
 
@@ -85,7 +86,12 @@ const WatchedMovie = ({
   ];
 
   return (
-    <Container key={movie.id} ref={ref} $right={right}>
+    <Container
+      key={movie.id}
+      ref={ref}
+      $right={right}
+      sx={[isEditing && Editing]}
+    >
       <BackdropWrapper>
         <Backdrop
           sx={{

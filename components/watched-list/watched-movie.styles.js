@@ -17,6 +17,10 @@ export const Container = styled("div")(({ $right }) => ({
   },
 }));
 
+export const Editing = {
+  zIndex: 100000,
+};
+
 export const BackdropWrapper = styled("div")(() => ({
   position: "absolute",
   inset: 0,
