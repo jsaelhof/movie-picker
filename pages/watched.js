@@ -6,5 +6,5 @@ import WatchedList from "../components/watched-list/watched-list";
 export default function Home() {
   const { watchedMovies } = useAppContext();
 
-  return watchedMovies && <WatchedList />;
+  return watchedMovies && <WatchedList movies={watchedMovies} />;
 }
