@@ -1,18 +1,22 @@
 import { styled } from "@mui/material";
+import { animated } from "react-spring";
 
-export const Picker = styled("div")(() => ({
+export const Picker = styled(animated.div)(({ theme: { palette } }) => ({
   position: "absolute",
-  background: "white",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  background: `${palette.darkGrey[800]}EE`,
+  color: palette.grey[400],
   border: "1px solid rgba(0, 0, 0, 0.25)",
-  top: 40,
-  left: -20,
-  boxShadow: "0 5px 10px rgba(0, 0, 0, 0.15)",
-  borderRadius: 5,
+  top: 0,
+  bottom: 0,
+  right: 0,
 }));
 
 export const RightAlignedPicker = {
-  left: "unset",
-  right: -20,
+  right: "unset",
+  left: 0,
 };
 
 export const DrawerPicker = {
@@ -20,9 +24,8 @@ export const DrawerPicker = {
   textAlign: "center",
 };
 
-export const ButtonGroup = styled("div")(({ theme: { spacing } }) => ({
-  display: "flex",
-  justifyContent: "space-between",
-  marginLeft: "40%",
-  marginTop: spacing(1),
+export const ButtonGroup = styled("div")(() => ({
+  display: "grid",
+  gridTemplateColumns: "auto 1fr 48px auto",
+  margin: "0 1em 1em",
 }));

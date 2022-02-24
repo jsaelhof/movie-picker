@@ -10,6 +10,8 @@ const ActionButton = ({
   Icon,
   tooltip = "",
   movie = {},
+  fontSize = 20,
+  critical,
   disabled,
   onClick,
 }) => (
@@ -21,7 +23,8 @@ const ActionButton = ({
     enterNextDelay={1000}
   >
     <ButtonContainer
-      sx={[disabled && buttonContainerDisabled]}
+      $critical={critical}
+      sx={[disabled && buttonContainerDisabled, { fontSize }]}
       onClick={(e) => {
         e.stopPropagation();
         !disabled && onClick(movie);

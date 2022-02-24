@@ -12,10 +12,11 @@ import {
   PosterLayout,
   InfoTitle,
   InfoDate,
-  Editing,
+  Content,
 } from "./watched-movie.styles";
 import { useResponsive } from "../../hooks/use-responsive";
 import { useMediaQuery } from "@mui/material";
+import { useSpring } from "react-spring";
 
 const WatchedMovie = ({
   movie,
@@ -37,6 +38,18 @@ const WatchedMovie = ({
   const small = useMediaQuery("(max-width: 550px)");
   const xsmall = useMediaQuery("(max-width: 430px)");
   const [editedMovie, setEditedMovie] = useState(null);
+  const [datePickerMounted, setDatePickerMounted] = useState(null);
+
+  const calendarSpring = useSpring({
+    mounted: isEditing ? 1 : 0,
+    transform: isEditing
+      ? "translateX(0px)"
+      : `translateX(${right ? "-" : ""}200px)`,
+    opacity: isEditing ? 1 : 0,
+    onRest: ({ value: { mounted } }) => {
+      !mounted && setDatePickerMounted(false);
+    },
+  });
 
   // If the date is in process of being changed use that otherwise use the date from the movie.
   const watchedDate = new Date(
@@ -48,28 +61,50 @@ const WatchedMovie = ({
 
   const nodes = [
     <PosterLayout key={`${movie.id}-poster`}>
-      <MoviePoster movie={movie} height={small ? 200 : 250} />
+      <MoviePoster movie={movie} height={small ? 200 : 270} />
     </PosterLayout>,
     <InfoLayout key={`${movie.id}-info`} $right={right}>
       <InfoTitle>{movie.title}</InfoTitle>
-      <InfoDate
-        onClick={({ target, currentTarget }) => {
-          // Make sure the click is not on a child element (the date picker elements)
-          if (target === currentTarget) {
-            setEditedMovie({ ...movie });
-            onEditMovie(movie);
-          }
-        }}
-      >
+      <InfoDate>
         {format(
           parseISO(movie.watchedOn),
-          (xsmall && "EEE MMM do, yyyy") ||
-            (small && "EEEE MMM do, yyyy") ||
-            "EEEE MMMM do, yyyy"
+          (xsmall && "EEE, MMM do, yyyy") ||
+            (small && "EEEE, MMM do, yyyy") ||
+            "EEEE, MMMM do, yyyy"
         )}
+      </InfoDate>
+    </InfoLayout>,
+  ];
 
-        {isEditing && (
+  return (
+    <Container
+      data-id={movie.id}
+      key={movie.id}
+      ref={ref}
+      onClick={() => {
+        if (isEditing) {
+          onCancel();
+          setEditedMovie(null);
+        } else {
+          setDatePickerMounted(true);
+          setEditedMovie({ ...movie });
+          onEditMovie(movie);
+        }
+      }}
+    >
+      <BackdropWrapper>
+        <Backdrop
+          sx={{
+            backgroundImage: `url(${data?.tmdbMovie?.backdrop})`,
+          }}
+        />
+      </BackdropWrapper>
+      <Content $right={right}>
+        {right ? nodes.reverse() : nodes}
+
+        {datePickerMounted && (
           <DatePicker
+            spring={calendarSpring}
             useDrawer={mobile}
             right={right}
             defaultDate={watchedDate}
@@ -87,27 +122,13 @@ const WatchedMovie = ({
               onCancel();
               setEditedMovie(null);
             }}
+            onDelete={() => {
+              onCancel();
+              onDelete(movie);
+            }}
           />
         )}
-      </InfoDate>
-    </InfoLayout>,
-  ];
-
-  return (
-    <Container
-      key={movie.id}
-      ref={ref}
-      $right={right}
-      sx={[isEditing && Editing]}
-    >
-      <BackdropWrapper>
-        <Backdrop
-          sx={{
-            backgroundImage: `url(${data?.tmdbMovie?.backdrop})`,
-          }}
-        />
-      </BackdropWrapper>
-      {right ? nodes.reverse() : nodes}
+      </Content>
     </Container>
   );
 };

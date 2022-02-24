@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import isNil from "lodash/isNil";
 
 import { Container } from "./watched-list.styles";
@@ -50,6 +50,24 @@ const WatchedList = ({ movies }) => {
   const editMovie = useEditMovie();
   const removeMovie = useRemoveMovie(setError);
 
+  const onEditMovie = useCallback(({ id }) => setEditingMovie(id), []);
+
+  const onSaveMovie = useCallback(
+    (movie) => {
+      editMovie({
+        variables: { movie: omitTypename(movie), list: list.id },
+      });
+      setEditingMovie(null);
+    },
+    [editMovie, list.id]
+  );
+
+  const onCancelEdit = useCallback(() => setEditingMovie(null), []);
+
+  const onDeleteMovie = useCallback(({ id }) => {
+    setDeleteMovie(id);
+  }, []);
+
   return movies ? (
     <>
       <Container>
@@ -61,17 +79,10 @@ const WatchedList = ({ movies }) => {
                 movie={movie}
                 right={i % 2}
                 isEditing={editingMovie === movie.id}
-                onEditMovie={({ id }) => setEditingMovie(id)}
-                onSave={(movie) => {
-                  editMovie({
-                    variables: { movie: omitTypename(movie), list: list.id },
-                  });
-                  setEditingMovie(null);
-                }}
-                onCancel={() => setEditingMovie(null)}
-                onDelete={({ id }) => {
-                  setDeleteMovie(id);
-                }}
+                onEditMovie={onEditMovie}
+                onSave={onSaveMovie}
+                onCancel={onCancelEdit}
+                onDelete={onDeleteMovie}
               />
             )
         )}

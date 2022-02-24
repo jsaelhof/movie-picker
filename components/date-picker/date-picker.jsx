@@ -1,16 +1,17 @@
-import "react-day-picker/style.css";
-
-import { useRef } from "react";
+import { Drawer } from "@mui/material";
+import { Close, Delete } from "@mui/icons-material";
+import { CalendarCheck } from "@mitch528/mdi-material-ui";
 import { DayPicker } from "react-day-picker";
-import { Button, Drawer } from "@mui/material";
 
-import { useOnClickOutside } from "../../hooks/use-on-click-outside";
 import {
   ButtonGroup,
   DrawerPicker,
   Picker,
   RightAlignedPicker,
 } from "./date-picker.styles";
+import ActionButton from "../action-button/action-button";
+
+const preventBubbling = (e) => e.stopPropagation();
 
 const DatePicker = ({
   useDrawer = false,
@@ -19,14 +20,14 @@ const DatePicker = ({
   onChange,
   onCancel,
   onSave,
+  onDelete,
+  spring,
 }) => {
-  const ref = useRef();
-  useOnClickOutside(ref, onCancel);
-
   const picker = (
     <Picker
-      ref={ref}
       sx={[useDrawer && DrawerPicker, right && RightAlignedPicker]}
+      style={spring}
+      onClick={preventBubbling}
     >
       <DayPicker
         defaultMonth={defaultDate}
@@ -36,17 +37,18 @@ const DatePicker = ({
         }}
         mode="single"
         onSelect={onChange}
-        footer={
-          <ButtonGroup>
-            <Button variant="outlined" onClick={onCancel}>
-              Cancel
-            </Button>
-            <Button variant="contained" color="primary" onClick={onSave}>
-              Save
-            </Button>
-          </ButtonGroup>
-        }
       />
+      <ButtonGroup>
+        <ActionButton
+          Icon={Delete}
+          onClick={onDelete}
+          critical={true}
+          fontSize={24}
+        />
+        <span />
+        <ActionButton Icon={Close} onClick={onCancel} fontSize={24} />
+        <ActionButton Icon={CalendarCheck} onClick={onSave} fontSize={24} />
+      </ButtonGroup>
     </Picker>
   );
 
