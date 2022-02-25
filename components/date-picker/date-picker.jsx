@@ -6,8 +6,10 @@ import { DayPicker } from "react-day-picker";
 import {
   ButtonGroup,
   DrawerPicker,
+  DrawerPaper,
   Picker,
   RightAlignedPicker,
+  Title,
 } from "./date-picker.styles";
 import ActionButton from "../action-button/action-button";
 
@@ -16,6 +18,7 @@ const preventBubbling = (e) => e.stopPropagation();
 const DatePicker = ({
   useDrawer = false,
   right = false,
+  title,
   defaultDate,
   onChange,
   onCancel,
@@ -26,7 +29,7 @@ const DatePicker = ({
   const picker = (
     <Picker
       sx={[useDrawer && DrawerPicker, right && RightAlignedPicker]}
-      style={spring}
+      style={!useDrawer ? spring : undefined}
       onClick={preventBubbling}
     >
       <DayPicker
@@ -53,7 +56,13 @@ const DatePicker = ({
   );
 
   return useDrawer ? (
-    <Drawer anchor="bottom" open={true} ModalProps={{ hideBackdrop: true }}>
+    <Drawer
+      anchor="bottom"
+      open={true}
+      ModalProps={{ hideBackdrop: true }}
+      PaperProps={{ sx: [DrawerPaper] }}
+    >
+      <Title>{title}</Title>
       {picker}
     </Drawer>
   ) : (

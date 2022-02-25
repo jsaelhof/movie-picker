@@ -55,7 +55,7 @@ export const InfoTitle = styled("div")(() => ({
   fontWeight: "bold",
 
   "@media (max-width: 550px)": {
-    fontSize: "1.5rem",
+    fontSize: "1.25rem",
   },
 }));
 

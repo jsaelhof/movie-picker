@@ -14,7 +14,6 @@ import {
   InfoDate,
   Content,
 } from "./watched-movie.styles";
-import { useResponsive } from "../../hooks/use-responsive";
 import { useMediaQuery } from "@mui/material";
 import { useSpring } from "react-spring";
 
@@ -34,7 +33,6 @@ const WatchedMovie = ({
     },
   });
 
-  const { mobile } = useResponsive();
   const small = useMediaQuery("(max-width: 550px)");
   const xsmall = useMediaQuery("(max-width: 430px)");
   const [editedMovie, setEditedMovie] = useState(null);
@@ -105,7 +103,8 @@ const WatchedMovie = ({
         {datePickerMounted && (
           <DatePicker
             spring={calendarSpring}
-            useDrawer={mobile}
+            useDrawer={small}
+            title={movie.title}
             right={right}
             defaultDate={watchedDate}
             onChange={(day) => {
