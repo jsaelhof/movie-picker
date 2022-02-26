@@ -1,3 +1,5 @@
+import "react-day-picker/style.css";
+
 import { Drawer } from "@mui/material";
 import { Close, Delete } from "@mui/icons-material";
 import { CalendarCheck } from "@mitch528/mdi-material-ui";
@@ -10,6 +12,8 @@ import {
   Picker,
   RightAlignedPicker,
   Title,
+  dayPickerStyles,
+  dayPickerSmallStyles,
 } from "./date-picker.styles";
 import ActionButton from "../action-button/action-button";
 
@@ -26,6 +30,7 @@ const DatePicker = ({
   onDelete,
   spring,
 }) => {
+  const actionSize = useDrawer ? 28 : 24;
   const picker = (
     <Picker
       sx={[useDrawer && DrawerPicker, right && RightAlignedPicker]}
@@ -33,6 +38,12 @@ const DatePicker = ({
       onClick={preventBubbling}
     >
       <DayPicker
+        styles={{
+          root: {
+            ...dayPickerStyles,
+            ...(!useDrawer && dayPickerSmallStyles),
+          },
+        }}
         defaultMonth={defaultDate}
         defaultSelected={defaultDate}
         disabled={{
@@ -46,11 +57,15 @@ const DatePicker = ({
           Icon={Delete}
           onClick={onDelete}
           critical={true}
-          fontSize={24}
+          fontSize={actionSize}
         />
         <span />
-        <ActionButton Icon={Close} onClick={onCancel} fontSize={24} />
-        <ActionButton Icon={CalendarCheck} onClick={onSave} fontSize={24} />
+        <ActionButton Icon={Close} onClick={onCancel} fontSize={actionSize} />
+        <ActionButton
+          Icon={CalendarCheck}
+          onClick={onSave}
+          fontSize={actionSize}
+        />
       </ButtonGroup>
     </Picker>
   );

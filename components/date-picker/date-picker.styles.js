@@ -35,13 +35,15 @@ export const DrawerPaper = ({ palette }) => ({
   background: `${palette.darkGrey[800]}EE`,
 });
 
-export const ButtonGroup = styled("div")(() => ({
+export const ButtonGroup = styled("div")(({ theme: { spacing } }) => ({
   display: "grid",
-  gridTemplateColumns: "auto 1fr 48px auto",
+  gridTemplateColumns: "auto 1fr auto auto",
+  columnGap: spacing(2),
   margin: "0 1em 1em",
 
   "@media (max-width:550px)": {
     margin: "1em 1em 0",
+    columnGap: spacing(4),
   },
 }));
 
@@ -51,3 +53,15 @@ export const Title = styled("div")(({ theme: { palette, spacing } }) => ({
   color: palette.grey[400],
   padding: `${spacing(2)} ${spacing(2)}`,
 }));
+
+export const dayPickerStyles = {
+  "--rdp-accent-color": "#6494ed99",
+  "--rdp-background-color": "#ffffff22",
+  "--rdp-outline": "2px solid var(--rdp-accent-color)",
+  fontSize: "0.9rem",
+};
+
+export const dayPickerSmallStyles = {
+  "--rdp-cell-size": "32px",
+  marginBottom: 0,
+};
