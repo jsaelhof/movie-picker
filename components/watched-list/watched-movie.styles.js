@@ -18,14 +18,9 @@ export const BackdropWrapper = styled("div")(() => ({
 
 export const Backdrop = styled("div")(() => ({
   backgroundSize: "cover",
-  backgroundPositionX: "center",
-  backgroundPositionY: "20%",
-  transition: "50ms",
-
-  // backgroundAttachment: "fixed",
-  // backgroundPosition: "center",
-  // backgroundRepeat: "no-repeat",
-
+  backgroundAttachment: "fixed",
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
   height: "100%",
 }));
 
