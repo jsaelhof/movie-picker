@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { format, parseISO } from "date-fns";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GET_MOVIE_EXTENDED_DETAILS } from "../../graphql";
 import DatePicker from "../date-picker/date-picker";
 import MoviePoster from "../movie-poster/movie-poster";
@@ -16,6 +16,9 @@ import {
 } from "./watched-movie.styles";
 import { useMediaQuery } from "@mui/material";
 import { useSpring } from "react-spring";
+import { scaleLinear } from "d3-scale";
+
+const scaleY = scaleLinear().domain([-0.5, 0.5]).range([15, 25]).clamp(true);
 
 const WatchedMovie = ({
   movie,
@@ -37,7 +40,9 @@ const WatchedMovie = ({
   const xsmall = useMediaQuery("(max-width: 430px)");
   const [editedMovie, setEditedMovie] = useState(null);
   const [datePickerMounted, setDatePickerMounted] = useState(null);
+  const [parallaxFactor, setParallaxFactor] = useState(0);
 
+  // FIXME: Move this into the date picker?
   const calendarSpring = useSpring({
     mounted: isEditing ? 1 : 0,
     transform: isEditing
@@ -56,6 +61,19 @@ const WatchedMovie = ({
 
   // Try parallaxing the background image by moving it's background position on scroll
   const ref = useRef();
+
+  useEffect(() => {
+    const onScroll = ({ target: { documentElement } }) => {
+      const { clientHeight } = documentElement;
+      const { top, height } = ref?.current?.getBoundingClientRect();
+      const moviePos = top + height / 2;
+      const offset = (0.5 - moviePos / clientHeight).toFixed(2);
+      setParallaxFactor(scaleY(offset));
+    };
+    window.addEventListener("scroll", onScroll);
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [movie.title]);
 
   const nodes = [
     <PosterLayout key={`${movie.id}-poster`}>
@@ -94,6 +112,7 @@ const WatchedMovie = ({
         <Backdrop
           sx={{
             backgroundImage: `url(${data?.tmdbMovie?.backdrop})`,
+            backgroundPositionY: `${parallaxFactor}%`,
           }}
         />
       </BackdropWrapper>
