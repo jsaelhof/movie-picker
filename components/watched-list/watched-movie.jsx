@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { format, parseISO } from "date-fns";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { GET_MOVIE_EXTENDED_DETAILS } from "../../graphql";
 import DatePicker from "../date-picker/date-picker";
 import MoviePoster from "../movie-poster/movie-poster";
@@ -54,9 +54,6 @@ const WatchedMovie = ({
     isEditing ? editedMovie.watchedOn : movie.watchedOn
   );
 
-  // Try parallaxing the background image by moving it's background position on scroll
-  const ref = useRef();
-
   const nodes = [
     <PosterLayout key={`${movie.id}-poster`}>
       <MoviePoster movie={movie} height={small ? 200 : 270} />
@@ -78,7 +75,6 @@ const WatchedMovie = ({
     <Container
       data-id={movie.id}
       key={movie.id}
-      ref={ref}
       onClick={() => {
         if (isEditing) {
           onCancel();
