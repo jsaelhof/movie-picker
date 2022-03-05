@@ -2,9 +2,6 @@ import { useMutation } from "@apollo/client";
 import { EDIT_MOVIE } from "../graphql";
 
 export const useEditMovie = () => {
-  const [editMovie] = useMutation(EDIT_MOVIE, {
-    refetchQueries: ["GetMovies"],
-  });
-
+  const [editMovie] = useMutation(EDIT_MOVIE);
   return editMovie;
 };
