@@ -85,6 +85,12 @@ export default function Home() {
         ? setEnableEditMovie(movie)
         : editMovie({
             variables: { movie: omitTypename(movie), list: list.id },
+            optimisticResponse: {
+              editMovie: {
+                ...movie,
+                __typename: "Movie",
+              },
+            },
           }),
     [editMovie, list?.id]
   );
@@ -130,6 +136,12 @@ export default function Home() {
     (movie) => {
       editMovie({
         variables: { movie: omitTypename(movie), list: list.id },
+        optimisticResponse: {
+          editMovie: {
+            ...movie,
+            __typename: "Movie",
+          },
+        },
       });
       setEnableEditMovie(false);
     },
