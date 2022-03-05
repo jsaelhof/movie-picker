@@ -214,6 +214,9 @@ export const resolvers = {
               }, {}),
             },
           }),
+        },
+        {
+          returnDocument: "after",
         }
       );
 
