@@ -56,6 +56,12 @@ const WatchedList = ({ movies }) => {
     (movie) => {
       editMovie({
         variables: { movie: omitTypename(movie), list: list.id },
+        optimisticResponse: {
+          editMovie: {
+            ...movie,
+            __typename: "Movie",
+          },
+        },
       });
       setEditingMovie(null);
     },
