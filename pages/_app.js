@@ -25,6 +25,9 @@ const client = new ApolloClient({
           movies: {
             merge: false,
           },
+          watchedMovies: {
+            merge: false,
+          },
         },
       },
     },

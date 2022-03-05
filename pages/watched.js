@@ -1,51 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { useAppContext } from "../context/app-context";
-import { useRemoveMovie } from "../hooks/use-remove-movie";
-import { useEditMovie } from "../hooks/use-edit-movie";
-import { errorMessage } from "../constants/error_codes";
-import { omitTypename } from "../utils/omit-typename";
-import ErrorDialog from "../components/error-dialog/error-dialog";
 import WatchedList from "../components/watched-list/watched-list";
-import PageContainer from "../components/page-container/page-container";
 
-export default function Home() {
-  const { list, watchedMovies } = useAppContext();
-  const [error, setError] = useState(null);
+export default function Watched() {
+  const { watchedMovies } = useAppContext();
 
-  const editMovie = useEditMovie();
-  const removeMovie = useRemoveMovie(setError);
-
-  return (
-    <>
-      <PageContainer>
-        {watchedMovies && (
-          <WatchedList
-            movies={watchedMovies}
-            onEditMovie={(movie) =>
-              editMovie({
-                variables: { movie: omitTypename(movie), list: list.id },
-              })
-            }
-            onRemoveMovie={(id) =>
-              removeMovie({
-                variables: {
-                  movieId: id,
-                  list: list.id,
-                },
-              })
-            }
-          />
-        )}
-      </PageContainer>
-
-      <ErrorDialog
-        open={!!error}
-        content={
-          errorMessage[error] || errorMessage.UNKNOWN.replace("%%", error)
-        }
-        onConfirm={() => setError(null)}
-      />
-    </>
-  );
+  return watchedMovies ? <WatchedList movies={watchedMovies} /> : null;
 }
