@@ -53,14 +53,13 @@ const useLists = (onComplete) => {
 };
 
 const useMovies = (list) => {
-  const { data, refetch, loading } = useQuery(GET_MOVIES, {
+  const { data, loading } = useQuery(GET_MOVIES, {
     skip: !list,
     variables: { list: list?.id },
   });
 
   return {
     ...data,
-    refetchMovies: refetch,
     loading,
   };
 };
