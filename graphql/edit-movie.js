@@ -13,6 +13,7 @@ export const EDIT_MOVIE = gql`
       source
       genre
       locked
+      watchedOn
     }
   }
 `;
