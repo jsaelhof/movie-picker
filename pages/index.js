@@ -1,11 +1,11 @@
 import { useMutation } from "@apollo/client";
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
-import { map } from "lodash";
+import { map, omit } from "lodash";
 
 import { errorMessage } from "../constants/error_codes";
 import { omitTypename } from "../utils/omit-typename";
-import { ADD_MOVIE, EDIT_MOVIE } from "../graphql";
+import { ADD_MOVIE } from "../graphql";
 import { useAppContext } from "../context/app-context";
 import { useRemoveMovie } from "../hooks/use-remove-movie";
 import { useEditMovie } from "../hooks/use-edit-movie";
@@ -34,7 +34,7 @@ export default function Home() {
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
 
-  const [undoWatched] = useMutation(EDIT_MOVIE, {
+  const undoWatchedMutation = useEditMovie({
     onCompleted: ({ editMovie: movie }) => {
       setToastProps({
         message: `Moved '${movie.title}' back to movies list`,
@@ -43,14 +43,14 @@ export default function Home() {
     refetchQueries: ["GetMovies"],
   });
 
-  const [markWatched] = useMutation(EDIT_MOVIE, {
+  const markWatchedMutation = useEditMovie({
     onCompleted: ({ editMovie: movie }) => {
       setToastProps({
         message: `Moved '${movie.title}' to watched list`,
-        onUndo: async () => {
-          undoWatched({
+        onUndo: () => {
+          undoWatchedMutation({
             variables: {
-              movie: omitTypename(movie),
+              movie: omitTypename(omit(movie, "watchedOn")),
               list: list.id,
               removeKeys: ["watchedOn"],
             },
@@ -110,7 +110,7 @@ export default function Home() {
 
   const onMarkWatched = useCallback(
     (movie) =>
-      markWatched({
+      markWatchedMutation({
         variables: {
           movie: {
             ...omitTypename(movie),
@@ -119,7 +119,7 @@ export default function Home() {
           list: list.id,
         },
       }),
-    [list?.id, markWatched]
+    [list?.id, markWatchedMutation]
   );
 
   const onCloseToast = useCallback(() => setToastProps(null), []);
