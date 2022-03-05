@@ -16,6 +16,16 @@ import Toast from "../components/toast/toast";
 import ListGrid from "../components/list/list-grid";
 import PageContainer from "../components/page-container/page-container";
 
+const editMovieMutationOptions = (movie, list) => ({
+  variables: { movie: omitTypename(movie), list: list.id },
+  optimisticResponse: {
+    editMovie: {
+      ...movie,
+      __typename: "Movie",
+    },
+  },
+});
+
 export default function Home() {
   const router = useRouter();
   const { list, movies, loadingMovies, lists } = useAppContext();
@@ -61,8 +71,8 @@ export default function Home() {
     refetchQueries: ["GetMovies"],
   });
 
-  const editMovie = useEditMovie();
-  const removeMovie = useRemoveMovie(setError);
+  const editMovieMutation = useEditMovie();
+  const removeMovieMutation = useRemoveMovie(setError);
 
   const onPick = useCallback(
     (options) => {
@@ -83,27 +93,19 @@ export default function Home() {
     (movie, useEditor = true) =>
       useEditor
         ? setEnableEditMovie(movie)
-        : editMovie({
-            variables: { movie: omitTypename(movie), list: list.id },
-            optimisticResponse: {
-              editMovie: {
-                ...movie,
-                __typename: "Movie",
-              },
-            },
-          }),
-    [editMovie, list?.id]
+        : editMovieMutation(editMovieMutationOptions(movie, list)),
+    [editMovieMutation, list]
   );
 
   const onRemoveMovie = useCallback(
     (id) =>
-      removeMovie({
+      removeMovieMutation({
         variables: {
           movieId: id,
           list: list.id,
         },
       }),
-    [list?.id, removeMovie]
+    [list?.id, removeMovieMutation]
   );
 
   const onMarkWatched = useCallback(
@@ -134,18 +136,10 @@ export default function Home() {
 
   const onEditMovie = useCallback(
     (movie) => {
-      editMovie({
-        variables: { movie: omitTypename(movie), list: list.id },
-        optimisticResponse: {
-          editMovie: {
-            ...movie,
-            __typename: "Movie",
-          },
-        },
-      });
+      editMovieMutation(editMovieMutationOptions(movie, list));
       setEnableEditMovie(false);
     },
-    [editMovie, list?.id]
+    [editMovieMutation, list]
   );
 
   const onCancelEditMovie = useCallback(() => {
