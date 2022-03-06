@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, gql } from "@apollo/client";
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { map, omit } from "lodash";
@@ -26,6 +26,12 @@ const editMovieMutationOptions = (movie, list) => ({
   },
 });
 
+const cacheFilter = (cacheList, id) =>
+  cacheList.filter(({ __ref }) => __ref !== `Movie:${id}`);
+
+const cacheInsert = (cacheList, id) =>
+  cacheList.concat({ __ref: `Movie:${id}` });
+
 export default function Home() {
   const router = useRouter();
   const { list, movies, loadingMovies, lists } = useAppContext();
@@ -40,7 +46,18 @@ export default function Home() {
         message: `Moved '${movie.title}' back to movies list`,
       });
     },
-    refetchQueries: ["GetMovies"],
+    update(cache, { data: { editMovie } }) {
+      cache.modify({
+        fields: {
+          movies(state = []) {
+            return cacheInsert(state, editMovie.id);
+          },
+          watchedMovies(state = []) {
+            return cacheFilter(state, editMovie.id);
+          },
+        },
+      });
+    },
   });
 
   const markWatchedMutation = useEditMovie({
@@ -54,11 +71,28 @@ export default function Home() {
               list: list.id,
               removeKeys: ["watchedOn"],
             },
+            optimisticResponse: {
+              editMovie: {
+                ...omit(movie, "watchedOn"),
+                __typename: "Movie",
+              },
+            },
           });
         },
       });
     },
-    refetchQueries: ["GetMovies"],
+    update(cache, { data: { editMovie } }) {
+      cache.modify({
+        fields: {
+          movies(state = []) {
+            return cacheFilter(state, editMovie.id);
+          },
+          watchedMovies(state = []) {
+            return cacheInsert(state, editMovie.id);
+          },
+        },
+      });
+    },
   });
 
   const [addMovie] = useMutation(ADD_MOVIE, {
@@ -109,16 +143,25 @@ export default function Home() {
   );
 
   const onMarkWatched = useCallback(
-    (movie) =>
+    (movie) => {
+      const watchedOn = new Date().toISOString();
       markWatchedMutation({
         variables: {
           movie: {
             ...omitTypename(movie),
-            watchedOn: new Date().toISOString(),
+            watchedOn,
           },
           list: list.id,
         },
-      }),
+        optimisticResponse: {
+          editMovie: {
+            ...movie,
+            watchedOn,
+            __typename: "Movie",
+          },
+        },
+      });
+    },
     [list?.id, markWatchedMutation]
   );
 
