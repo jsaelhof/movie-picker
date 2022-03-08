@@ -47,8 +47,8 @@ const WatchedList = ({ movies }) => {
     return () => window.removeEventListener("scroll", onScroll);
   }, [infiniteLoadPointer, movies.length]);
 
-  const editMovie = useEditMovie();
-  const removeMovie = useRemoveMovie(setError);
+  const [editMovie] = useEditMovie();
+  const [removeMovie] = useRemoveMovie(setError);
 
   const onEditMovie = useCallback(({ id }) => setEditingMovie(id), []);
 

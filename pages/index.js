@@ -40,7 +40,7 @@ export default function Home() {
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
 
-  const undoWatchedMutation = useEditMovie({
+  const [undoWatchedMutation] = useEditMovie({
     onCompleted: ({ editMovie: movie }) => {
       setToastProps({
         message: `Moved '${movie.title}' back to movies list`,
@@ -60,7 +60,7 @@ export default function Home() {
     },
   });
 
-  const markWatchedMutation = useEditMovie({
+  const [markWatchedMutation] = useEditMovie({
     onCompleted: ({ editMovie: movie }) => {
       setToastProps({
         message: `Moved '${movie.title}' to watched list`,
@@ -105,8 +105,8 @@ export default function Home() {
     refetchQueries: ["GetMovies"],
   });
 
-  const editMovieMutation = useEditMovie();
-  const removeMovieMutation = useRemoveMovie(setError);
+  const [editMovieMutation] = useEditMovie();
+  const [removeMovieMutation] = useRemoveMovie(setError);
 
   const onPick = useCallback(
     (options) => {
