@@ -7,3 +7,10 @@ export const REMOVE_MOVIE = gql`
     }
   }
 `;
+
+export const removeMovieOptions = (movie, list) => ({
+  variables: {
+    movieId: movie.id,
+    list: list.id,
+  },
+});

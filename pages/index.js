@@ -1,36 +1,29 @@
-import { useMutation, gql } from "@apollo/client";
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
-import { map, omit } from "lodash";
+import { map } from "lodash";
 
 import { errorMessage } from "../constants/error_codes";
-import { omitTypename } from "../utils/omit-typename";
-import { ADD_MOVIE } from "../graphql";
 import { useAppContext } from "../context/app-context";
-import { useRemoveMovie } from "../hooks/use-remove-movie";
-import { useEditMovie } from "../hooks/use-edit-movie";
 import ActionBar from "../components/action-bar/action-bar";
 import AddMovieDialog from "../components/add-movie-dialog/add-movie-dialog";
 import ErrorDialog from "../components/error-dialog/error-dialog";
 import Toast from "../components/toast/toast";
 import ListGrid from "../components/list/list-grid";
 import PageContainer from "../components/page-container/page-container";
-
-const editMovieMutationOptions = (movie, list) => ({
-  variables: { movie: omitTypename(movie), list: list.id },
-  optimisticResponse: {
-    editMovie: {
-      ...movie,
-      __typename: "Movie",
-    },
-  },
-});
-
-const cacheFilter = (cacheList, id) =>
-  cacheList.filter(({ __ref }) => __ref !== `Movie:${id}`);
-
-const cacheInsert = (cacheList, id) =>
-  cacheList.concat({ __ref: `Movie:${id}` });
+import {
+  addMovieOptions,
+  editMovieOptions,
+  markWatchedOptions,
+  undoWatchedOptions,
+  removeMovieOptions,
+} from "../graphql/mutations";
+import {
+  useAddMovie,
+  useEditMovie,
+  useMarkWatched,
+  useRemoveMovie,
+  useUndoWatched,
+} from "../graphql/hooks";
 
 export default function Home() {
   const router = useRouter();
@@ -40,73 +33,34 @@ export default function Home() {
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
 
-  const [undoWatchedMutation] = useEditMovie({
-    onCompleted: ({ editMovie: movie }) => {
-      setToastProps({
-        message: `Moved '${movie.title}' back to movies list`,
-      });
-    },
-    update(cache, { data: { editMovie } }) {
-      cache.modify({
-        fields: {
-          movies(state = []) {
-            return cacheInsert(state, editMovie.id);
-          },
-          watchedMovies(state = []) {
-            return cacheFilter(state, editMovie.id);
-          },
-        },
-      });
-    },
+  const [undoWatchedMutation] = useUndoWatched(({ editMovie: movie }) => {
+    setToastProps({
+      message: `Moved '${movie.title}' back to movies list`,
+    });
   });
 
-  const [markWatchedMutation] = useEditMovie({
-    onCompleted: ({ editMovie: movie }) => {
-      setToastProps({
-        message: `Moved '${movie.title}' to watched list`,
-        onUndo: () => {
-          undoWatchedMutation({
-            variables: {
-              movie: omitTypename(omit(movie, "watchedOn")),
-              list: list.id,
-              removeKeys: ["watchedOn"],
-            },
-            optimisticResponse: {
-              editMovie: {
-                ...omit(movie, "watchedOn"),
-                __typename: "Movie",
-              },
-            },
-          });
-        },
-      });
-    },
-    update(cache, { data: { editMovie } }) {
-      cache.modify({
-        fields: {
-          movies(state = []) {
-            return cacheFilter(state, editMovie.id);
-          },
-          watchedMovies(state = []) {
-            return cacheInsert(state, editMovie.id);
-          },
-        },
-      });
-    },
+  const [markWatchedMutation] = useMarkWatched(({ editMovie: movie }) => {
+    setToastProps({
+      message: `Moved '${movie.title}' to watched list`,
+      onUndo: () => {
+        undoWatchedMutation(undoWatchedOptions(movie, list));
+      },
+    });
   });
 
-  const [addMovie] = useMutation(ADD_MOVIE, {
-    onCompleted: ({ addMovie: movie }) => {
+  const [addMovieMutation] = useAddMovie(
+    ({ addMovie: movie }) => {
       setToastProps({ message: `Added '${movie.title}'` });
     },
-    onError: ({ message }) => {
+    ({ message }) => {
       setError(message);
-    },
-    refetchQueries: ["GetMovies"],
-  });
+    }
+  );
 
   const [editMovieMutation] = useEditMovie();
-  const [removeMovieMutation] = useRemoveMovie(setError);
+  const [removeMovieMutation] = useRemoveMovie(({ message }) => {
+    setError(message);
+  });
 
   const onPick = useCallback(
     (options) => {
@@ -127,59 +81,36 @@ export default function Home() {
     (movie, useEditor = true) =>
       useEditor
         ? setEnableEditMovie(movie)
-        : editMovieMutation(editMovieMutationOptions(movie, list)),
+        : editMovieMutation(editMovieOptions(movie, list)),
     [editMovieMutation, list]
   );
 
   const onRemoveMovie = useCallback(
-    (id) =>
-      removeMovieMutation({
-        variables: {
-          movieId: id,
-          list: list.id,
-        },
-      }),
-    [list?.id, removeMovieMutation]
+    (movie) => removeMovieMutation(removeMovieOptions(movie, list)),
+    [list, removeMovieMutation]
   );
 
   const onMarkWatched = useCallback(
     (movie) => {
       const watchedOn = new Date().toISOString();
-      markWatchedMutation({
-        variables: {
-          movie: {
-            ...omitTypename(movie),
-            watchedOn,
-          },
-          list: list.id,
-        },
-        optimisticResponse: {
-          editMovie: {
-            ...movie,
-            watchedOn,
-            __typename: "Movie",
-          },
-        },
-      });
+      markWatchedMutation(markWatchedOptions(movie, watchedOn, list));
     },
-    [list?.id, markWatchedMutation]
+    [list, markWatchedMutation]
   );
 
   const onCloseToast = useCallback(() => setToastProps(null), []);
 
   const onAddMovie = useCallback(
     (movie) => {
-      addMovie({
-        variables: { movie: omitTypename(movie), list: list.id },
-      });
+      addMovieMutation(addMovieOptions(movie, list));
       setEnableAddMovie(false);
     },
-    [addMovie, list?.id]
+    [addMovieMutation, list]
   );
 
   const onEditMovie = useCallback(
     (movie) => {
-      editMovieMutation(editMovieMutationOptions(movie, list));
+      editMovieMutation(editMovieOptions(movie, list));
       setEnableEditMovie(false);
     },
     [editMovieMutation, list]

@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { format, parseISO } from "date-fns";
 import { useState } from "react";
-import { GET_MOVIE_EXTENDED_DETAILS } from "../../graphql";
+import { GET_MOVIE_EXTENDED_DETAILS } from "../../graphql/queries";
 import DatePicker from "../date-picker/date-picker";
 import MoviePoster from "../movie-poster/movie-poster";
 import {

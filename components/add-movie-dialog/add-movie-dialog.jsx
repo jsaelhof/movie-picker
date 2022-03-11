@@ -13,7 +13,7 @@ import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels, genres } from "../../constants/genres";
 import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
 import { parseRuntime } from "../../utils/parse-runtime";
-import { GET_MOVIE_DETAILS, SEARCH_BY_TITLE } from "../../graphql";
+import { GET_MOVIE_DETAILS, SEARCH_BY_TITLE } from "../../graphql/queries";
 import Carousel from "./carousel";
 import {
   Genre,

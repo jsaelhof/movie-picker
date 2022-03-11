@@ -1,11 +1,9 @@
 import { useMutation } from "@apollo/client";
-import { ADD_LIST } from "../graphql";
+import { ADD_LIST } from "../mutations";
 
-export const useAddList = (onComplete) => {
+export const useAddList = (onCompleted) => {
   const [addList, { loading }] = useMutation(ADD_LIST, {
-    onCompleted: ({ addList }) => {
-      onComplete(addList);
-    },
+    onCompleted,
     onError: ({ message }) => {
       console.log(message);
     },

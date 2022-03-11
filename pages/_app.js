@@ -19,18 +19,18 @@ const client = new ApolloClient({
     // The warning was:
     // Cache data may be lost when replacing the movies field of a Query object.
     // To address this problem (which is not a bug in Apollo Client), define a custom merge function for the Query.movies field, so InMemoryCache can safely merge these objects:
-    typePolicies: {
-      Query: {
-        fields: {
-          movies: {
-            merge: false,
-          },
-          watchedMovies: {
-            merge: false,
-          },
-        },
-      },
-    },
+    // typePolicies: {
+    //   Query: {
+    //     fields: {
+    //       movies: {
+    //         merge: false,
+    //       },
+    //       watchedMovies: {
+    //         merge: false,
+    //       },
+    //     },
+    //   },
+    // },
   }),
 });
 

@@ -12,7 +12,7 @@ import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels } from "../../constants/genres";
 import { searchStreaming, searchTMDB, searchTorrent } from "../../utils/search";
 import { sourceLogosLarge, sources } from "../../constants/sources";
-import { GET_MOVIE_EXTENDED_DETAILS } from "../../graphql";
+import { GET_MOVIE_EXTENDED_DETAILS } from "../../graphql/queries";
 import {
   Actions,
   Backdrop,

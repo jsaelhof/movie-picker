@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import React, { useCallback } from "react";
 import { createContext, useState } from "react";
-import { GET_LISTS, GET_MOVIES } from "../graphql";
+import { GET_LISTS, GET_MOVIES } from "../graphql/queries";
 
 const AppContext = createContext({});
 

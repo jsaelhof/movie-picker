@@ -8,9 +8,9 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const DeleteDialog = ({ open, title, content, onCancel, onConfirm }) => (
+const DeleteDialog = ({ open, content, onCancel, onConfirm }) => (
   <Dialog open={open} onClose={onCancel} maxWidth="xs" fullWidth>
-    <DialogTitle>{title}</DialogTitle>
+    <DialogTitle>Hasta La Vista, Baby</DialogTitle>
     <DialogContent>
       <DialogContentText>{content}</DialogContentText>
       <DialogActions>

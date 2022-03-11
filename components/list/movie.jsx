@@ -21,7 +21,7 @@ import { formatRuntime } from "../../utils/format-runtime";
 import DetailActions from "./detail-actions";
 import MoviePoster from "../movie-poster/movie-poster";
 import Ratings from "../ratings/ratings";
-import { GET_RATINGS } from "../../graphql";
+import { GET_RATINGS } from "../../graphql/queries";
 import FiveStarRating from "../ratings/five-star-rating";
 import Source from "./source";
 import Expanded from "./expanded";
