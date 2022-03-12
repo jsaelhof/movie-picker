@@ -9,7 +9,7 @@ import WatchedMovie from "./watched-movie";
 import { orderBy } from "lodash";
 import { useAppContext } from "../../context/app-context";
 import { editMovieOptions, removeMovieOptions } from "../../graphql/mutations";
-import { useEditMovie, useRemoveMovie } from "../../graphql/hooks";
+import { useEditMovie, useRemoveWatchedMovie } from "../../graphql/hooks";
 
 const INFINITE_LOAD_CHUNK_SIZE = 5;
 
@@ -47,7 +47,7 @@ const WatchedList = ({ movies }) => {
   }, [infiniteLoadPointer, movies.length]);
 
   const [editMovieMutation] = useEditMovie();
-  const [removeMovieMutation] = useRemoveMovie(({ message }) => {
+  const [removeMovieMutation] = useRemoveWatchedMovie(({ message }) => {
     setError(message);
   });
 
@@ -89,7 +89,7 @@ const WatchedList = ({ movies }) => {
 
       <DeleteDialog
         open={!isNil(deleteMovie)}
-        content={`'${deleteMovie.title}' will be removed from the Watched Movies list`}
+        content={`'${deleteMovie?.title}' will be removed from the Watched Movies list`}
         onCancel={() => setDeleteMovie(null)}
         onConfirm={() => {
           removeMovieMutation(removeMovieOptions(deleteMovie, list));

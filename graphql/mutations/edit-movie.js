@@ -47,7 +47,7 @@ export const markWatchedOptions = (movie, watchedOn, list) => ({
   },
 });
 
-export const undoMarkWatchedOptions = (movie, list) => ({
+export const undoWatchedOptions = (movie, list) => ({
   variables: {
     movie: omitTypename(omit(movie, "watchedOn")),
     list: list.id,

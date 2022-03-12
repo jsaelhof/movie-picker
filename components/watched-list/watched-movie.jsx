@@ -31,6 +31,7 @@ const WatchedMovie = ({
     variables: {
       imdbID: movie.imdbID,
     },
+    skip: !movie.imdbID,
   });
 
   const small = useMediaQuery("(max-width: 550px)");
