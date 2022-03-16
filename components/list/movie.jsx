@@ -73,7 +73,7 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
   const closeExpanded = () => setExpanded(false);
 
   useQuery(GET_RATINGS, {
-    skip: !focused,
+    skip: !focused || !movie.imdbID,
     variables: { imdbID: movie.imdbID },
     onCompleted: ({ omdbMovie: { ratings } }) => {
       if (!isEqual(ratings, movie.ratings)) {

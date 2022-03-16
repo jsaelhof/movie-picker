@@ -64,6 +64,7 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
   }, [movie]);
 
   useQuery(GET_MOVIE_EXTENDED_DETAILS, {
+    skip: !movie.imdbID,
     errorPolicy: "all",
     variables: {
       imdbID: movie.imdbID,

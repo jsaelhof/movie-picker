@@ -27,11 +27,11 @@ const WatchedMovie = ({
   onDelete,
 }) => {
   const { data } = useQuery(GET_MOVIE_EXTENDED_DETAILS, {
+    skip: !movie.imdbID,
     errorPolicy: "all",
     variables: {
       imdbID: movie.imdbID,
     },
-    skip: !movie.imdbID,
   });
 
   const small = useMediaQuery("(max-width: 550px)");
