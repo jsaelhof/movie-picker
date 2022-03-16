@@ -75,12 +75,7 @@ export const typeDefs = gql`
     ratings: RatingsInput
   }
 
-  type Database {
-    name: String
-  }
-
   type Query {
-    database: Database
     lists: [List]
     movies(list: String!): [Movie]
     watchedMovies(list: String!): [Movie]

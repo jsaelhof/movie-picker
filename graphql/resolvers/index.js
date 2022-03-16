@@ -1,5 +1,4 @@
 import {
-  database,
   lists,
   movies,
   searchByTitle,
@@ -12,7 +11,6 @@ import { addList, addMovie, editMovie, removeMovie } from "./mutation";
 
 export const resolvers = {
   Query: {
-    database,
     lists,
     movies,
     watchedMovies,

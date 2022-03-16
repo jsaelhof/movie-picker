@@ -1,4 +1,3 @@
-export { database } from "./database";
 export { lists } from "./lists";
 export { movies } from "./movies";
 export { omdbMovie } from "./omdb-movie";

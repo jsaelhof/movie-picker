@@ -1,4 +1,3 @@
-export * from "./get-database";
 export * from "./get-lists";
 export * from "./get-movies";
 export * from "./get-movie-details";
