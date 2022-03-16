@@ -68,7 +68,7 @@ const AddMovieDialog = ({
   });
 
   useQuery(GET_MOVIE_DETAILS, {
-    skip: !movies?.[selectedMovie] || movies?.[selectedMovie]?.imdbID,
+    skip: !movies?.[selectedMovie] || !movies?.[selectedMovie]?.imdbID,
     variables: { imdbID: movies?.[selectedMovie]?.imdbID },
     onCompleted: ({ omdbMovie, tmdbProvider }) => {
       setInput({
