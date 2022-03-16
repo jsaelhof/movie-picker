@@ -61,6 +61,7 @@ export const typeDefs = gql`
   input MovieInput {
     id: ID
     title: String
+    list: String
     runtime: Int
     source: Int
     genre: Int
