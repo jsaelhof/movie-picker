@@ -12,7 +12,6 @@ export const addMovie = async (parent, { movie, list }, { db }) => {
   // TODO: This should be able to be updateOne with upsert and could probably be extracted to a function.
   const { result, ops } = await db.collection(list).insertOne({
     ...movie,
-    list,
     addedOn: new Date().toISOString(),
     editedOn: new Date().toISOString(),
   });

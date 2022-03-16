@@ -19,6 +19,7 @@ export const ADD_MOVIE = gql`
 export const addMovieOptions = (movie, list) => {
   const movieWithId = {
     id: uuidv4(),
+    list: list.id,
     ...movie,
   };
 
@@ -27,8 +28,6 @@ export const addMovieOptions = (movie, list) => {
     // optimisticResponse: {
     //   addMovie: {
     //     ...movieWithId,
-    //     list: list.id,
-    //     locked: false,
     //   },
     // },
     refetchQueries: ["GetMovies"],
