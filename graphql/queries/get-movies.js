@@ -5,6 +5,7 @@ export const GET_MOVIES = gql`
     movies(list: $list) {
       id
       title
+      list
       runtime
       source
       genre

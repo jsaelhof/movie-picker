@@ -11,16 +11,26 @@ export const ADD_MOVIE = gql`
       source
       genre
       locked
+      list
     }
   }
 `;
 
-export const addMovieOptions = (movie, list) => ({
-  variables: {
-    movie: omitTypename({
-      id: uuidv4(),
-      ...movie,
-    }),
-    list: list.id,
-  },
-});
+export const addMovieOptions = (movie, list) => {
+  const movieWithId = {
+    id: uuidv4(),
+    ...movie,
+  };
+
+  return {
+    variables: { movie: omitTypename(movieWithId), list: list.id },
+    // optimisticResponse: {
+    //   addMovie: {
+    //     ...movieWithId,
+    //     list: list.id,
+    //     locked: false,
+    //   },
+    // },
+    refetchQueries: ["GetMovies"],
+  };
+};
