@@ -5,6 +5,7 @@ import { cacheFilter, cacheInsert } from "./utils/cache-update-utils";
 export const useUndoWatched = (onCompleted) => {
   const [undoWatchedMutation, status] = useMutation(EDIT_MOVIE, {
     onCompleted,
+    // TODO: This should use cache.update to avoid filtering multiple lists
     update(cache, { data: { editMovie } }) {
       cache.modify({
         fields: {

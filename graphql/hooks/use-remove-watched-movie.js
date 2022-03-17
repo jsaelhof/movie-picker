@@ -4,6 +4,7 @@ import { REMOVE_MOVIE } from "../mutations";
 export const useRemoveWatchedMovie = (onError) => {
   const [removeWatchedMovie, status] = useMutation(REMOVE_MOVIE, {
     update(cache, { data: { removeMovie } }) {
+      // TODO: This should use cache.update to avoid filtering multiple lists
       cache.modify({
         fields: {
           watchedMovies(state = []) {

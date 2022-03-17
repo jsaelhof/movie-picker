@@ -6,6 +6,7 @@ export const useMarkWatched = (onCompleted) => {
   const [markWatchedMutation, status] = useMutation(EDIT_MOVIE, {
     onCompleted,
     update(cache, { data: { editMovie } }) {
+      // TODO: This should use cache.update to avoid filtering multiple lists
       cache.modify({
         fields: {
           movies(state = []) {
