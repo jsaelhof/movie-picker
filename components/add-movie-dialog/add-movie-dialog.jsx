@@ -47,6 +47,7 @@ const AddMovieDialog = ({
     genre: null,
     source: sources.NONE,
     year: "",
+    locked: false,
     ...initialInputState,
     ...(initialInputState.runtime && {
       runtime: formatRuntime(initialInputState.runtime, true),

@@ -7,10 +7,19 @@ export const ADD_MOVIE = gql`
     addMovie(movie: $movie, list: $list) {
       id
       title
+      imdbID
       runtime
       source
       genre
+      year
+      poster
+      addedOn
       locked
+      ratings {
+        IMDB
+        ROTTEN_TOMATOES
+        METACRITIC
+      }
       list
     }
   }
@@ -25,11 +34,11 @@ export const addMovieOptions = (movie, list) => {
 
   return {
     variables: { movie: omitTypename(movieWithId), list: list.id },
-    // optimisticResponse: {
-    //   addMovie: {
-    //     ...movieWithId,
-    //   },
-    // },
-    refetchQueries: ["GetMovies"],
+    optimisticResponse: {
+      addMovie: {
+        addedOn: new Date().toISOString(), // This is actually set on the server
+        ...movieWithId,
+      },
+    },
   };
 };
