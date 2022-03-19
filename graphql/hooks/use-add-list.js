@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { ADD_LIST } from "../mutations";
+import { GET_LISTS } from "../queries";
 
 export const useAddList = (onCompleted) => {
   const [addList, { loading }] = useMutation(ADD_LIST, {
@@ -7,18 +8,16 @@ export const useAddList = (onCompleted) => {
     onError: ({ message }) => {
       console.log(message);
     },
-    // This updates the lists query in the cache when a new list is added.
-    // Code and discussion: https://community.apollographql.com/t/how-exactly-do-you-update-an-array-in-the-cache-after-a-mutation/315
-    // TODO: This should use cache.update to avoid filtering multiple lists
-    update(cache, mutationResult) {
-      cache.modify({
-        fields: {
-          lists: (previous, { toReference }) => [
-            ...previous,
-            toReference(mutationResult.data.addList),
-          ],
+    update(cache, { data: { addList } }) {
+      cache.updateQuery(
+        {
+          query: GET_LISTS,
+          variables: { name: addList.label },
         },
-      });
+        ({ lists }) => ({
+          lists: [...lists, addList],
+        })
+      );
     },
   });
 

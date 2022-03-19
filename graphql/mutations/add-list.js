@@ -8,3 +8,7 @@ export const ADD_LIST = gql`
     }
   }
 `;
+
+export const addListOptions = (name) => ({
+  variables: { name },
+});

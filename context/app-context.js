@@ -12,7 +12,7 @@ const AppProvider = ({ children }) => {
   const [order, setOrder] = useState(["addedOn", "desc"]);
   const [pick, setPick] = useState(null);
 
-  // Expost a list change function so that we can clear any state from the old list while changing to a new one
+  // Expose a list change function so that we can clear any state from the old list while changing to a new one
   const setList = useCallback((val) => {
     setPick(null);
     _setList(val);

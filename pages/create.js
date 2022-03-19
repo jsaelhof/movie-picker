@@ -5,6 +5,7 @@ import { useAppContext } from "../context/app-context";
 import { useAddList } from "../graphql/hooks";
 import EmptyState from "../components/empty-state/empty-state";
 import NewListDialog from "../components/new-list-dialog/new-list-dialog";
+import { addListOptions } from "../graphql/mutations";
 
 export default function Create() {
   const [open, setOpen] = useState();
@@ -36,10 +37,7 @@ export default function Create() {
         open={open}
         onCancel={() => setOpen(false)}
         onConfirm={(name) => {
-          addList({
-            variables: { name },
-          }),
-            setOpen(false);
+          addList(addListOptions(name)), setOpen(false);
         }}
       />
     </>
