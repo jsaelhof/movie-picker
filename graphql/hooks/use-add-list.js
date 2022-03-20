@@ -1,13 +1,12 @@
 import { useMutation } from "@apollo/client";
 import { ADD_LIST } from "../mutations";
 import { GET_LISTS } from "../queries";
+import { noop } from "lodash";
 
 export const useAddList = (onCompleted) => {
-  const [addList, { loading }] = useMutation(ADD_LIST, {
+  const [addList, { loading, error, reset }] = useMutation(ADD_LIST, {
     onCompleted,
-    onError: ({ message }) => {
-      console.log(message);
-    },
+    onError: noop, // Required to prevent throwing an uncaught exception.
     update(cache, { data: { addList } }) {
       cache.updateQuery(
         {
@@ -21,5 +20,5 @@ export const useAddList = (onCompleted) => {
     },
   });
 
-  return { addList, loading };
+  return { addList, loading, error, reset };
 };

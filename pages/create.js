@@ -1,17 +1,16 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
 
 import { useAppContext } from "../context/app-context";
 import { useAddList } from "../graphql/hooks";
 import EmptyState from "../components/empty-state/empty-state";
-import NewListDialog from "../components/new-list-dialog/new-list-dialog";
+import CreateListInput from "../components/create-list/create-list-input";
+import CreateListError from "../components/create-list/create-list-error";
 import { addListOptions } from "../graphql/mutations";
 
 export default function Create() {
-  const [open, setOpen] = useState();
   const { setList } = useAppContext();
   const router = useRouter();
-  const { addList, loading } = useAddList(({ addList }) => {
+  const { addList, loading, error, reset } = useAddList(({ addList }) => {
     setList(addList);
     router.push("/");
   });
@@ -28,17 +27,18 @@ export default function Create() {
             Let&apos;s get started by making a list.
           </>
         }
-        buttonText="Create a List"
-        onClick={() => setOpen(true)}
+        content={
+          error ? (
+            <CreateListError reset={reset} />
+          ) : (
+            <CreateListInput
+              onSubmit={(name) => {
+                addList(addListOptions(name));
+              }}
+            />
+          )
+        }
         inProgress={loading}
-      />
-
-      <NewListDialog
-        open={open}
-        onCancel={() => setOpen(false)}
-        onConfirm={(name) => {
-          addList(addListOptions(name)), setOpen(false);
-        }}
       />
     </>
   );

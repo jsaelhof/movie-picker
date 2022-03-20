@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import EmptyState from "../empty-state/empty-state";
 
 const EmptyList = ({ onAddMovie }) => (
@@ -11,8 +12,11 @@ const EmptyList = ({ onAddMovie }) => (
         Let&apos;s add one now!
       </>
     }
-    buttonText="Add a Movie"
-    onClick={onAddMovie}
+    content={
+      <Button onClick={onAddMovie} variant="outlined" color="primary">
+        Add a Movie
+      </Button>
+    }
   />
 );
 
