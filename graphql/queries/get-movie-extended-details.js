@@ -4,8 +4,8 @@ export const GET_MOVIE_EXTENDED_DETAILS = gql`
   query GetMovieExtendedDetails($imdbID: ID!) {
     omdbMovie(imdbID: $imdbID) {
       imdbID
-      plot
       ratings {
+        id
         IMDB
         ROTTEN_TOMATOES
         METACRITIC

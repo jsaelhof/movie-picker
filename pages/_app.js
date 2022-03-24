@@ -19,45 +19,85 @@ const client = new ApolloClient({
     // The warning was:
     // Cache data may be lost when replacing the movies field of a Query object.
     // To address this problem (which is not a bug in Apollo Client), define a custom merge function for the Query.movies field, so InMemoryCache can safely merge these objects:
-    // typePolicies: {
-    //   Query: {
-    //     fields: {
-    //       movies: {
-    //         merge: false,
-    //       },
-    //       watchedMovies: {
-    //         merge: false,
-    //       },
-    //     },
-    //   },
-    // },
+    typePolicies: {
+      Query: {
+        fields: {
+          movies: {
+            merge: false,
+          },
+          watchedMovies: {
+            merge: false,
+          },
+        },
+      },
+      Movie: {
+        fields: {
+          ratings: {
+            merge(existing, incoming, { mergeObjects }) {
+              return mergeObjects(existing, incoming);
+            },
+          },
+        },
+      },
+    },
   }),
 });
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    this.setState({ hasError: true });
+    // You can also log the error to an error reporting service
+    // TODO: Connect to DataDog
+    console.error(error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>;
+    }
+    return this.props.children;
+  }
+}
+
 function MyApp(props) {
   return (
-    <UserProvider>
-      <ApolloProvider client={client}>
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <AppProvider>
-              <Head>
-                <title>Movie Decider 4000</title>
-                <link rel="icon" href="/favicon.ico" />
-                <link rel="apple-touch-icon" href="touch-icon-iphone.png" />
-                <meta name="apple-mobile-web-app-title" content="MD4000"></meta>
-                <meta name="apple-mobile-web-app-capable" content="yes"></meta>
-                <meta
-                  name="apple-mobile-web-app-status-bar-style"
-                  content="black"
-                ></meta>
-              </Head>
-              <AuthenticatedAppPage {...props} />
-            </AppProvider>
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </ApolloProvider>
-    </UserProvider>
+    <ErrorBoundary>
+      <UserProvider>
+        <ApolloProvider client={client}>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+              <AppProvider>
+                <Head>
+                  <title>Movie Decider 4000</title>
+                  <link rel="icon" href="/favicon.ico" />
+                  <link rel="apple-touch-icon" href="touch-icon-iphone.png" />
+                  <meta
+                    name="apple-mobile-web-app-title"
+                    content="MD4000"
+                  ></meta>
+                  <meta
+                    name="apple-mobile-web-app-capable"
+                    content="yes"
+                  ></meta>
+                  <meta
+                    name="apple-mobile-web-app-status-bar-style"
+                    content="black"
+                  ></meta>
+                </Head>
+                <AuthenticatedAppPage {...props} />
+              </AppProvider>
+            </ThemeProvider>
+          </StyledEngineProvider>
+        </ApolloProvider>
+      </UserProvider>
+    </ErrorBoundary>
   );
 }
 

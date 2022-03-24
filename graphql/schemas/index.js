@@ -9,12 +9,14 @@ export const typeDefs = gql`
   }
 
   type Ratings {
+    id: ID!
     IMDB: String
     ROTTEN_TOMATOES: String
     METACRITIC: String
   }
 
   input RatingsInput {
+    id: ID!
     IMDB: String
     ROTTEN_TOMATOES: String
     METACRITIC: String
@@ -35,14 +37,10 @@ export const typeDefs = gql`
     watchedOn: String
     locked: Boolean
     ratings: Ratings
-    backdrop: String
-    certification: String
-    trailer: Trailer
-    plot: String
   }
 
   input MovieInput {
-    id: ID
+    id: ID!
     imdbID: String
     title: String
     list: String
@@ -75,13 +73,44 @@ export const typeDefs = gql`
     poster: String
   }
 
+  type OmdbMovie {
+    imdbID: ID!
+    title: String
+    year: String
+    runtime: Int
+    genre: Int
+    ratings: OmdbRatings
+    poster: String
+  }
+
+  type OmdbRatings {
+    id: ID!
+    IMDB: String
+    ROTTEN_TOMATOES: String
+    METACRITIC: String
+  }
+
+  type TmdbMovie {
+    imdbID: ID!
+    title: String
+    backdrop: String
+    certification: String
+    trailer: TmdbTrailer
+    plot: String
+  }
+
+  type TmdbTrailer {
+    site: String
+    key: ID!
+  }
+
   type Query {
     lists: [List]
     movies(list: String!): [Movie]
     watchedMovies(list: String!): [Movie]
     searchByTitle(title: String!): [SearchResult]
-    omdbMovie(imdbID: ID!): Movie
-    tmdbMovie(imdbID: ID!): Movie
+    omdbMovie(imdbID: ID!): OmdbMovie
+    tmdbMovie(imdbID: ID!): TmdbMovie
     tmdbProvider(imdbID: ID!): Provider
   }
 

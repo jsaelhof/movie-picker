@@ -9,6 +9,7 @@ export const GET_MOVIE_DETAILS = gql`
       runtime
       genre
       ratings {
+        id
         IMDB
         ROTTEN_TOMATOES
         METACRITIC

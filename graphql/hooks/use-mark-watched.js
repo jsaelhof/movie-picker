@@ -1,22 +1,45 @@
-import { useMutation } from "@apollo/client";
-import { EDIT_MOVIE } from "../mutations";
-import { cacheFilter, cacheInsert } from "./utils/cache-update-utils";
+import { gql, useMutation } from "@apollo/client";
+import { GET_MOVIES } from "../queries";
+
+const GQL = gql`
+  mutation MarkWatched($movie: MovieInput!, $list: String!) {
+    editMovie(movie: $movie, list: $list) {
+      id
+      title
+      list
+      runtime
+      source
+      genre
+      year
+      poster
+      imdbID
+      locked
+      addedOn
+      watchedOn
+      ratings {
+        id
+        IMDB
+        ROTTEN_TOMATOES
+        METACRITIC
+      }
+    }
+  }
+`;
 
 export const useMarkWatched = (onCompleted) => {
-  const [markWatchedMutation, status] = useMutation(EDIT_MOVIE, {
+  const [markWatchedMutation, status] = useMutation(GQL, {
     onCompleted,
     update(cache, { data: { editMovie } }) {
-      // TODO: This should use cache.update to avoid filtering multiple lists
-      cache.modify({
-        fields: {
-          movies(state = []) {
-            return cacheFilter(state, editMovie.id);
-          },
-          watchedMovies(state = []) {
-            return cacheInsert(state, editMovie.id);
-          },
+      cache.updateQuery(
+        {
+          query: GET_MOVIES,
+          variables: { list: editMovie.list },
         },
-      });
+        ({ movies, watchedMovies }) => ({
+          movies: movies.filter(({ id }) => id !== editMovie.id),
+          watchedMovies: [...watchedMovies, editMovie],
+        })
+      );
     },
   });
   return [markWatchedMutation, status];

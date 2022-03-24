@@ -21,7 +21,7 @@ import { formatRuntime } from "../../utils/format-runtime";
 import DetailActions from "./detail-actions";
 import MoviePoster from "../movie-poster/movie-poster";
 import Ratings from "../ratings/ratings";
-import { GET_RATINGS } from "../../graphql/queries";
+import { GET_RATINGS, useUpdateRatings } from "../../graphql/queries";
 import FiveStarRating from "../ratings/five-star-rating";
 import Source from "./source";
 import Expanded from "./expanded";
@@ -72,14 +72,9 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
 
   const closeExpanded = () => setExpanded(false);
 
-  useQuery(GET_RATINGS, {
+  useUpdateRatings(movie, {
     skip: !focused || !movie.imdbID,
-    variables: { imdbID: movie.imdbID },
-    onCompleted: ({ omdbMovie: { ratings } }) => {
-      if (!isEqual(ratings, movie.ratings)) {
-        onEditMovie({ ...movie, ratings }, false);
-      }
-    },
+    onUpdated: (updatedMovie) => onEditMovie(updatedMovie, false),
   });
 
   return (

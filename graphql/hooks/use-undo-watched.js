@@ -1,22 +1,49 @@
-import { useMutation } from "@apollo/client";
-import { EDIT_MOVIE } from "../mutations";
-import { cacheFilter, cacheInsert } from "./utils/cache-update-utils";
+import { gql, useMutation } from "@apollo/client";
+import { GET_MOVIES } from "../queries";
+
+const GQL = gql`
+  mutation UndoMarkWatched(
+    $movie: MovieInput!
+    $list: String!
+    $removeKeys: [String]
+  ) {
+    editMovie(movie: $movie, list: $list, removeKeys: $removeKeys) {
+      id
+      title
+      list
+      runtime
+      source
+      genre
+      year
+      poster
+      imdbID
+      locked
+      addedOn
+      watchedOn
+      ratings {
+        id
+        IMDB
+        ROTTEN_TOMATOES
+        METACRITIC
+      }
+    }
+  }
+`;
 
 export const useUndoWatched = (onCompleted) => {
-  const [undoWatchedMutation, status] = useMutation(EDIT_MOVIE, {
+  const [undoWatchedMutation, status] = useMutation(GQL, {
     onCompleted,
-    // TODO: This should use cache.update to avoid filtering multiple lists
     update(cache, { data: { editMovie } }) {
-      cache.modify({
-        fields: {
-          movies(state = []) {
-            return cacheInsert(state, editMovie.id);
-          },
-          watchedMovies(state = []) {
-            return cacheFilter(state, editMovie.id);
-          },
+      cache.updateQuery(
+        {
+          query: GET_MOVIES,
+          variables: { list: editMovie.list },
         },
-      });
+        ({ movies, watchedMovies }) => ({
+          movies: [...movies, editMovie],
+          watchedMovies: watchedMovies.filter(({ id }) => id !== editMovie.id),
+        })
+      );
     },
   });
   return [undoWatchedMutation, status];

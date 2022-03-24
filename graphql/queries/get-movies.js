@@ -14,7 +14,9 @@ export const GET_MOVIES = gql`
       imdbID
       locked
       addedOn
+      watchedOn
       ratings {
+        id
         IMDB
         ROTTEN_TOMATOES
         METACRITIC
@@ -23,9 +25,22 @@ export const GET_MOVIES = gql`
     watchedMovies(list: $list) {
       id
       title
-      watchedOn
+      list
+      runtime
+      source
+      genre
+      year
       poster
       imdbID
+      locked
+      addedOn
+      watchedOn
+      ratings {
+        id
+        IMDB
+        ROTTEN_TOMATOES
+        METACRITIC
+      }
     }
   }
 `;

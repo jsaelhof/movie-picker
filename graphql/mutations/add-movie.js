@@ -7,36 +7,45 @@ export const ADD_MOVIE = gql`
     addMovie(movie: $movie, list: $list) {
       id
       title
-      imdbID
+      list
       runtime
       source
       genre
       year
       poster
-      addedOn
+      imdbID
       locked
+      addedOn
+      watchedOn
       ratings {
+        id
         IMDB
         ROTTEN_TOMATOES
         METACRITIC
       }
-      list
     }
   }
 `;
 
 export const addMovieOptions = (movie, list) => {
-  const movieWithId = {
-    id: uuidv4(),
+  const id = uuidv4();
+
+  const movieWithId = omitTypename({
+    id,
     list: list.id,
     ...movie,
-  };
+    ratings: {
+      ...movie.ratings,
+      id,
+    },
+  });
 
   return {
-    variables: { movie: omitTypename(movieWithId), list: list.id },
+    variables: { movie: movieWithId, list: list.id },
     optimisticResponse: {
       addMovie: {
         addedOn: new Date().toISOString(), // This is actually set on the server
+        watchedOn: null,
         ...movieWithId,
       },
     },
