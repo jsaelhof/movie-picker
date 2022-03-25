@@ -27,7 +27,6 @@ export const useUpdateRatings = (movie, { skip, onUpdated }) => {
           pick(movie.ratings, ratingsSources)
         )
       ) {
-        console.log("Update required", movie.ratings, ratings);
         onUpdated({
           ...movie,
           ratings: {
