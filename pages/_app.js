@@ -39,6 +39,12 @@ const client = new ApolloClient({
           },
         },
       },
+      OmdbMovie: {
+        merge(existing, incoming, { mergeObjects }) {
+          console.log("Merge", existing, incoming, mergeObjects);
+          return mergeObjects(existing, incoming);
+        },
+      },
     },
   }),
 });
