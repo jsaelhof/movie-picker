@@ -83,7 +83,7 @@ const WatchedMovie = ({
       <BackdropWrapper>
         <Backdrop
           sx={{
-            backgroundImage: `url(${data?.tmdbMovie?.backdrop})`,
+            backgroundImage: `url(${data?.backdrop})`,
           }}
         />
       </BackdropWrapper>
