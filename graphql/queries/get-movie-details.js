@@ -24,7 +24,7 @@ const GET_MOVIE_DETAILS = gql`
 `;
 
 export const useGetMovieDetails = (movie, { onCompleted }) => {
-  useQuery(GET_MOVIE_DETAILS, {
+  return useQuery(GET_MOVIE_DETAILS, {
     skip: !movie || !movie?.imdbID,
     variables: { imdbID: movie?.imdbID },
     onCompleted: ({ omdbMovie, tmdbProvider }) => {

@@ -17,10 +17,13 @@ export const GET_RATINGS = gql`
 `;
 
 export const useUpdateRatings = (movie, { skip, onUpdated }) => {
-  useQuery(GET_RATINGS, {
+  return useQuery(GET_RATINGS, {
     skip,
     variables: { imdbID: movie.imdbID },
     onCompleted: ({ omdbMovie: { ratings } }) => {
+      // If the new ratings differ from the ones in my DB, update the DB.
+      // TODO: Should I even store ratings anymore? If i'm going to pull them from the api each time
+      // then i should just use those and remove them from my DB.
       if (
         !isEqual(
           pick(ratings, ratingsSources),

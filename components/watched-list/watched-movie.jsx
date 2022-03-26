@@ -25,7 +25,7 @@ const WatchedMovie = ({
   onCancel,
   onDelete,
 }) => {
-  const {data} = useGetMovieExtendedDetails(movie);
+  const { data } = useGetMovieExtendedDetails(movie);
 
   const small = useMediaQuery("(max-width: 550px)");
   const xsmall = useMediaQuery("(max-width: 430px)");

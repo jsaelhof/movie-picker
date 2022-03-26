@@ -26,18 +26,17 @@ const GET_MOVIE_EXTENDED_DETAILS = gql`
   }
 `;
 
-export const useGetMovieExtendedDetails = (
-  movie,
-  { onCompleted = noop, onError = noop } = {}
-) => {
-  return useQuery(GET_MOVIE_EXTENDED_DETAILS, {
+export const useGetMovieExtendedDetails = (movie) => {
+  const { data, ...rest } = useQuery(GET_MOVIE_EXTENDED_DETAILS, {
     skip: !movie.imdbID,
     errorPolicy: "all",
     variables: {
       imdbID: movie.imdbID,
     },
-    onCompleted: ({ tmdbMovie, omdbMovie }) =>
-      onCompleted({ ...omdbMovie, ...tmdbMovie }),
-    onError,
   });
+
+  return {
+    data: { ...data?.omdbMovie, ...data?.tmdbMovie },
+    ...rest
+  };
 };

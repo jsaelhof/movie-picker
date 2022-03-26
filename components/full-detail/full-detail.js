@@ -43,7 +43,8 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
     "(max-width: 500px), (max-height: 414px)"
   );
 
-  const [data, setData] = useState(null);
+  const { data } = useGetMovieExtendedDetails(movie);
+
   const [trailer, setTrailer] = useState(null);
 
   const fadeSpring = useSpring({
@@ -61,11 +62,6 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
   const search = useCallback(() => {
     window.open(searchTMDB(movie.title), "moviedb");
   }, [movie]);
-
-  useGetMovieExtendedDetails(movie, {
-    onCompleted: (details) => setData(details),
-    onError: () => setData({}),
-  });
 
   const canStream = ![sources.DVD, sources.NONE].includes(movie.source);
 

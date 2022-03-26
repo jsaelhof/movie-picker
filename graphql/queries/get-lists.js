@@ -10,11 +10,11 @@ export const GET_LISTS = gql`
 `;
 
 export const useGetLists = ({ onCompleted }) => {
-  const { data } = useQuery(GET_LISTS, {
+  const { data, ...rest } = useQuery(GET_LISTS, {
     onCompleted: ({ lists }) => {
       onCompleted(lists[0]);
     },
   });
 
-  return { ...data };
+  return { ...data, ...rest };
 };
