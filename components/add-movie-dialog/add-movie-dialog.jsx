@@ -7,13 +7,12 @@ import {
 } from "@mui/material";
 import { isNil } from "lodash";
 import React, { useRef, useState } from "react";
-import { useQuery } from "@apollo/client";
 
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels, genres } from "../../constants/genres";
 import { sourceLabels, sourceLogos, sources } from "../../constants/sources";
 import { parseRuntime } from "../../utils/parse-runtime";
-import { GET_MOVIE_DETAILS, SEARCH_BY_TITLE } from "../../graphql/queries";
+import { useGetMovieDetails, useSearchByTitle } from "../../graphql/queries";
 import Carousel from "./carousel";
 import {
   Genre,
@@ -58,26 +57,21 @@ const AddMovieDialog = ({
 
   const timeoutId = useRef();
 
-  useQuery(SEARCH_BY_TITLE, {
+  useSearchByTitle(input.title, {
     skip: !(searchStale && input.title?.length > 0),
-    variables: { title: input.title },
-    onCompleted: ({ searchByTitle }) => {
+    onCompleted: (searchByTitle) => {
       setSearchStale(false);
       setMovies(searchByTitle);
       setSearching(false);
     },
   });
 
-  useQuery(GET_MOVIE_DETAILS, {
-    skip: !movies?.[selectedMovie] || !movies?.[selectedMovie]?.imdbID,
-    variables: { imdbID: movies?.[selectedMovie]?.imdbID },
-    onCompleted: ({ omdbMovie, tmdbProvider }) => {
+  useGetMovieDetails(movies?.[selectedMovie], {
+    onCompleted: (details) =>
       setInput({
         ...input,
-        ...omdbMovie,
-        ...(tmdbProvider && { source: tmdbProvider.provider }),
-      });
-    },
+        ...details,
+      }),
   });
 
   const resetSearch = () => {

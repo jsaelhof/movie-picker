@@ -8,8 +8,12 @@ import ErrorDialog from "../error-dialog/error-dialog";
 import WatchedMovie from "./watched-movie";
 import { orderBy } from "lodash";
 import { useAppContext } from "../../context/app-context";
-import { editMovieOptions, removeMovieOptions } from "../../graphql/mutations";
-import { useEditMovie, useRemoveWatchedMovie } from "../../graphql/hooks";
+import {
+  editMovieOptions,
+  removeMovieOptions,
+  useEditMovie,
+  useRemoveWatchedMovie,
+} from "../../graphql/mutations";
 
 const INFINITE_LOAD_CHUNK_SIZE = 5;
 
@@ -47,8 +51,10 @@ const WatchedList = ({ movies }) => {
   }, [infiniteLoadPointer, movies.length]);
 
   const [editMovieMutation] = useEditMovie();
-  const [removeMovieMutation] = useRemoveWatchedMovie(({ message }) => {
-    setError(message);
+  const [removeMovieMutation] = useRemoveWatchedMovie({
+    onError: ({ message }) => {
+      setError(message);
+    },
   });
 
   const onEditMovie = useCallback(({ id }) => setEditingMovie(id), []);

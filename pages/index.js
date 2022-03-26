@@ -14,16 +14,14 @@ import {
   addMovieOptions,
   editMovieOptions,
   markWatchedOptions,
-  undoWatchedOptions,
+  undoMarkWatchedOptions,
   removeMovieOptions,
-} from "../graphql/mutations";
-import {
   useAddMovie,
   useEditMovie,
   useMarkWatched,
   useRemoveMovie,
-  useUndoWatched,
-} from "../graphql/hooks";
+  useUndoMarkWatched,
+} from "../graphql/mutations";
 
 export default function Home() {
   const router = useRouter();
@@ -33,29 +31,33 @@ export default function Home() {
   const [toastProps, setToastProps] = useState(null);
   const [error, setError] = useState(null);
 
-  const [undoWatchedMutation] = useUndoWatched(({ editMovie: movie }) => {
-    setToastProps({
-      message: `Moved '${movie.title}' back to movies list`,
-    });
+  const [undoMarkWatchedMutation] = useUndoMarkWatched({
+    onCompleted: ({ editMovie: movie }) => {
+      setToastProps({
+        message: `Moved '${movie.title}' back to movies list`,
+      });
+    },
   });
 
-  const [markWatchedMutation] = useMarkWatched(({ editMovie: movie }) => {
-    setToastProps({
-      message: `Moved '${movie.title}' to watched list`,
-      onUndo: () => {
-        undoWatchedMutation(undoWatchedOptions(movie, list));
-      },
-    });
+  const [markWatchedMutation] = useMarkWatched({
+    onCompleted: ({ editMovie: movie }) => {
+      setToastProps({
+        message: `Moved '${movie.title}' to watched list`,
+        onUndo: () => {
+          undoMarkWatchedMutation(undoMarkWatchedOptions(movie, list));
+        },
+      });
+    },
   });
 
-  const [addMovieMutation] = useAddMovie(
-    ({ addMovie: movie }) => {
+  const [addMovieMutation] = useAddMovie({
+    onCompleted: ({ addMovie: movie }) => {
       setToastProps({ message: `Added '${movie.title}'` });
     },
-    ({ message }) => {
+    onError: ({ message }) => {
       setError(message);
-    }
-  );
+    },
+  });
 
   const [editMovieMutation] = useEditMovie();
   const [removeMovieMutation] = useRemoveMovie(({ message }) => {

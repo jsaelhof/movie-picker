@@ -1,8 +1,7 @@
-import { gql } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { omitTypename } from "../../utils/omit-typename";
-import { omit } from "lodash";
 
-export const EDIT_MOVIE = gql`
+const EDIT_MOVIE = gql`
   mutation EditMovie(
     $movie: MovieInput!
     $list: String!
@@ -31,43 +30,16 @@ export const EDIT_MOVIE = gql`
   }
 `;
 
+export const useEditMovie = () => {
+  const [editMovie, status] = useMutation(EDIT_MOVIE);
+  return [editMovie, status];
+};
+
 export const editMovieOptions = (movie, list) => ({
   variables: { movie: omitTypename(movie), list: list.id },
   optimisticResponse: {
     editMovie: {
       ...movie,
-      __typename: "Movie",
-    },
-  },
-});
-
-export const markWatchedOptions = (movie, watchedOn, list) => ({
-  variables: {
-    movie: {
-      ...omitTypename(movie),
-      watchedOn,
-    },
-    list: list.id,
-  },
-  optimisticResponse: {
-    editMovie: {
-      ...movie,
-      watchedOn,
-      __typename: "Movie",
-    },
-  },
-});
-
-export const undoWatchedOptions = (movie, list) => ({
-  variables: {
-    movie: omitTypename(omit(movie, "watchedOn")),
-    list: list.id,
-    removeKeys: ["watchedOn"],
-  },
-  optimisticResponse: {
-    editMovie: {
-      ...movie,
-      watchedOn: null,
       __typename: "Movie",
     },
   },

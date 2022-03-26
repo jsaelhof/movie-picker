@@ -9,6 +9,8 @@ export const addMovie = async (parent, { movie, list }, { db }) => {
   if (isNil(movie.source)) movie.source = sources.NONE;
   if (isNil(movie.locked)) movie.locked = false;
 
+  await new Promise((resolve) => setTimeout(resolve, 10000));
+
   // TODO: This should be able to be updateOne with upsert and could probably be extracted to a function.
   const { result, ops } = await db.collection(list).insertOne({
     ...movie,

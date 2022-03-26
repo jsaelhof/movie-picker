@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 
 export const GET_MOVIES = gql`
   query GetMovies($list: String!) {
@@ -44,3 +44,15 @@ export const GET_MOVIES = gql`
     }
   }
 `;
+
+export const useGetMovies = (list) => {
+  const { data, loading } = useQuery(GET_MOVIES, {
+    skip: !list,
+    variables: { list: list?.id },
+  });
+
+  return {
+    ...data,
+    loading,
+  };
+};

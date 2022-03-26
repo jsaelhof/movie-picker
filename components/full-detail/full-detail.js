@@ -2,7 +2,6 @@ import React, { useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 import { Button, useMediaQuery } from "@mui/material";
 import { PlayArrow } from "@mui/icons-material";
-import { useQuery } from "@apollo/client";
 import { useSpring } from "react-spring";
 import Search from "@mui/icons-material/Search";
 import TelevisionPlay from "@mitch528/mdi-material-ui/TelevisionPlay";
@@ -12,7 +11,7 @@ import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels } from "../../constants/genres";
 import { searchStreaming, searchTMDB, searchTorrent } from "../../utils/search";
 import { sourceLogosLarge, sources } from "../../constants/sources";
-import { GET_MOVIE_EXTENDED_DETAILS } from "../../graphql/queries";
+import { useGetMovieExtendedDetails } from "../../graphql/queries";
 import {
   Actions,
   Backdrop,
@@ -63,14 +62,8 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
     window.open(searchTMDB(movie.title), "moviedb");
   }, [movie]);
 
-  useQuery(GET_MOVIE_EXTENDED_DETAILS, {
-    skip: !movie.imdbID,
-    errorPolicy: "all",
-    variables: {
-      imdbID: movie.imdbID,
-    },
-    onCompleted: ({ tmdbMovie, omdbMovie }) =>
-      setData({ ...omdbMovie, ...tmdbMovie }),
+  useGetMovieExtendedDetails(movie, {
+    onCompleted: (details) => setData(details),
     onError: () => setData({}),
   });
 

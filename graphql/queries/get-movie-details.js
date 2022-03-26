@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 
-export const GET_MOVIE_DETAILS = gql`
+const GET_MOVIE_DETAILS = gql`
   query GetMovieDetails($imdbID: ID!) {
     omdbMovie(imdbID: $imdbID) {
       imdbID
@@ -22,3 +22,16 @@ export const GET_MOVIE_DETAILS = gql`
     }
   }
 `;
+
+export const useGetMovieDetails = (movie, { onCompleted }) => {
+  useQuery(GET_MOVIE_DETAILS, {
+    skip: !movie || !movie?.imdbID,
+    variables: { imdbID: movie?.imdbID },
+    onCompleted: ({ omdbMovie, tmdbProvider }) => {
+      onCompleted({
+        ...omdbMovie,
+        ...(tmdbProvider && { source: tmdbProvider.provider }),
+      });
+    },
+  });
+};

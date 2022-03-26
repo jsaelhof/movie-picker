@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 
 export const GET_LISTS = gql`
   query GetLists {
@@ -8,3 +8,13 @@ export const GET_LISTS = gql`
     }
   }
 `;
+
+export const useGetLists = ({ onCompleted }) => {
+  const { data } = useQuery(GET_LISTS, {
+    onCompleted: ({ lists }) => {
+      onCompleted(lists[0]);
+    },
+  });
+
+  return { ...data };
+};

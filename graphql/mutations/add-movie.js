@@ -1,8 +1,10 @@
-import { gql } from "@apollo/client";
-import { omitTypename } from "../../utils/omit-typename";
+import { gql, useMutation } from "@apollo/client";
 import { v4 as uuidv4 } from "uuid";
 
-export const ADD_MOVIE = gql`
+import { GET_MOVIES } from "../queries";
+import { omitTypename } from "../../utils/omit-typename";
+
+const ADD_MOVIE = gql`
   mutation AddMovie($movie: MovieInput!, $list: String!) {
     addMovie(movie: $movie, list: $list) {
       id
@@ -26,6 +28,26 @@ export const ADD_MOVIE = gql`
     }
   }
 `;
+
+export const useAddMovie = ({ onCompleted, onError }) => {
+  const [addMovieMutation, status] = useMutation(ADD_MOVIE, {
+    onCompleted,
+    onError,
+    update(cache, { data: { addMovie } }) {
+      cache.updateQuery(
+        {
+          query: GET_MOVIES,
+          variables: { list: addMovie.list },
+        },
+        ({ movies, watchedMovies }) => ({
+          movies: [...movies, addMovie],
+          watchedMovies,
+        })
+      );
+    },
+  });
+  return [addMovieMutation, status];
+};
 
 export const addMovieOptions = (movie, list) => {
   const id = uuidv4();

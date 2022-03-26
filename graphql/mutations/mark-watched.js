@@ -1,4 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
+import { omitTypename } from "../../utils/omit-typename";
 import { GET_MOVIES } from "../queries";
 
 const GQL = gql`
@@ -26,7 +27,7 @@ const GQL = gql`
   }
 `;
 
-export const useMarkWatched = (onCompleted) => {
+export const useMarkWatched = ({ onCompleted }) => {
   const [markWatchedMutation, status] = useMutation(GQL, {
     onCompleted,
     update(cache, { data: { editMovie } }) {
@@ -44,3 +45,20 @@ export const useMarkWatched = (onCompleted) => {
   });
   return [markWatchedMutation, status];
 };
+
+export const markWatchedOptions = (movie, watchedOn, list) => ({
+  variables: {
+    movie: {
+      ...omitTypename(movie),
+      watchedOn,
+    },
+    list: list.id,
+  },
+  optimisticResponse: {
+    editMovie: {
+      ...movie,
+      watchedOn,
+      __typename: "Movie",
+    },
+  },
+});

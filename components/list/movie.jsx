@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useSpring } from "react-spring";
-import { debounce, isEqual } from "lodash";
-import { useQuery } from "@apollo/client";
+import { debounce } from "lodash";
 
 import {
   InfoLayout,

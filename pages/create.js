@@ -1,18 +1,19 @@
 import { useRouter } from "next/router";
 
 import { useAppContext } from "../context/app-context";
-import { useAddList } from "../graphql/hooks";
 import EmptyState from "../components/empty-state/empty-state";
 import CreateListInput from "../components/create-list/create-list-input";
 import CreateListError from "../components/create-list/create-list-error";
-import { addListOptions } from "../graphql/mutations";
+import { addListOptions, useAddList } from "../graphql/mutations";
 
 export default function Create() {
   const { setList } = useAppContext();
   const router = useRouter();
-  const { addList, loading, error, reset } = useAddList(({ addList }) => {
-    setList(addList);
-    router.push("/");
+  const { addList, loading, error, reset } = useAddList({
+    onCompleted: ({ addList }) => {
+      setList(addList);
+      router.push("/");
+    },
   });
 
   return (

@@ -1,4 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
+import { omit } from "lodash";
+import { omitTypename } from "../../utils/omit-typename";
 import { GET_MOVIES } from "../queries";
 
 const GQL = gql`
@@ -30,8 +32,8 @@ const GQL = gql`
   }
 `;
 
-export const useUndoWatched = (onCompleted) => {
-  const [undoWatchedMutation, status] = useMutation(GQL, {
+export const useUndoMarkWatched = ({ onCompleted }) => {
+  const [undoMarkWatchedMutation, status] = useMutation(GQL, {
     onCompleted,
     update(cache, { data: { editMovie } }) {
       cache.updateQuery(
@@ -46,5 +48,20 @@ export const useUndoWatched = (onCompleted) => {
       );
     },
   });
-  return [undoWatchedMutation, status];
+  return [undoMarkWatchedMutation, status];
 };
+
+export const undoMarkWatchedOptions = (movie, list) => ({
+  variables: {
+    movie: omitTypename(omit(movie, "watchedOn")),
+    list: list.id,
+    removeKeys: ["watchedOn"],
+  },
+  optimisticResponse: {
+    editMovie: {
+      ...movie,
+      watchedOn: null,
+      __typename: "Movie",
+    },
+  },
+});
