@@ -1,4 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
+import { noop } from "lodash";
 
 const GET_MOVIE_DETAILS = gql`
   query GetMovieDetails($imdbID: ID!) {
@@ -23,8 +24,8 @@ const GET_MOVIE_DETAILS = gql`
   }
 `;
 
-export const useGetMovieDetails = (movie, { onCompleted }) => {
-  return useQuery(GET_MOVIE_DETAILS, {
+export const useGetMovieDetails = (movie, { onCompleted = noop } = {}) => {
+  const { data, ...rest } = useQuery(GET_MOVIE_DETAILS, {
     skip: !movie || !movie?.imdbID,
     variables: { imdbID: movie?.imdbID },
     onCompleted: ({ omdbMovie, tmdbProvider }) => {
@@ -34,4 +35,12 @@ export const useGetMovieDetails = (movie, { onCompleted }) => {
       });
     },
   });
+
+  return {
+    data: {
+      ...data?.omdbMovie,
+      ...(data?.tmdbProvider && { source: data.tmdbProvider.provider }),
+    },
+    ...rest,
+  };
 };

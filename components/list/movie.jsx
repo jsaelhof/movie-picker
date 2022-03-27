@@ -25,6 +25,7 @@ import FiveStarRating from "../ratings/five-star-rating";
 import Source from "./source";
 import Expanded from "./expanded";
 import { useResponsive } from "../../hooks/use-responsive";
+import { useUpdateMovie } from "../../graphql/mutations/update-movie";
 
 const getCenterPoint = (rect) => {
   if (!rect) return undefined;
@@ -71,10 +72,7 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
 
   const closeExpanded = () => setExpanded(false);
 
-  useUpdateRatings(movie, {
-    skip: !focused || !movie.imdbID,
-    onUpdated: (updatedMovie) => onEditMovie(updatedMovie, false),
-  });
+  useUpdateMovie(movie, focused);
 
   return (
     <>

@@ -7,7 +7,13 @@ import {
   tmdbProvider,
   watchedMovies,
 } from "./query";
-import { addList, addMovie, editMovie, removeMovie } from "./mutation";
+import {
+  addList,
+  addMovie,
+  editMovie,
+  removeMovie,
+  updateMovie,
+} from "./mutation";
 
 export const resolvers = {
   Query: {
@@ -25,5 +31,6 @@ export const resolvers = {
     addMovie,
     editMovie,
     removeMovie,
+    updateMovie,
   },
 };

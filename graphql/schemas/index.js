@@ -33,7 +33,6 @@ export const typeDefs = gql`
     year: String
     poster: String
     addedOn: String
-    editedOn: String
     watchedOn: String
     locked: Boolean
     ratings: Ratings
@@ -50,7 +49,6 @@ export const typeDefs = gql`
     year: String
     poster: String
     addedOn: String
-    editedOn: String
     watchedOn: String
     locked: Boolean
     ratings: RatingsInput
@@ -119,5 +117,6 @@ export const typeDefs = gql`
     addMovie(movie: MovieInput!, list: String!): Movie
     editMovie(movie: MovieInput!, list: String!, removeKeys: [String]): Movie
     removeMovie(movieId: ID!, list: String!): Movie
+    updateMovie(movieId: ID!, list: String!): Movie
   }
 `;
