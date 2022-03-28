@@ -17,7 +17,7 @@ const GET_MOVIE_DETAILS = gql`
       }
       poster
     }
-    tmdbProvider(imdbID: $imdbID) {
+    tmdbMovie(imdbID: $imdbID) {
       imdbID
       provider
     }

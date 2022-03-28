@@ -1,5 +1,4 @@
 import { gql, useQuery } from "@apollo/client";
-import { noop } from "lodash";
 
 const GET_MOVIE_EXTENDED_DETAILS = gql`
   query GetMovieExtendedDetails($imdbID: ID!) {
@@ -37,6 +36,6 @@ export const useGetMovieExtendedDetails = (movie) => {
 
   return {
     data: { ...data?.omdbMovie, ...data?.tmdbMovie },
-    ...rest
+    ...rest,
   };
 };

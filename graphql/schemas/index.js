@@ -59,11 +59,6 @@ export const typeDefs = gql`
     key: String
   }
 
-  type Provider {
-    imdbID: ID!
-    provider: Int
-  }
-
   type SearchResult {
     title: String
     year: String
@@ -95,6 +90,7 @@ export const typeDefs = gql`
     certification: String
     trailer: TmdbTrailer
     plot: String
+    provider: String
   }
 
   type TmdbTrailer {
@@ -109,7 +105,6 @@ export const typeDefs = gql`
     searchByTitle(title: String!): [SearchResult]
     omdbMovie(imdbID: ID!): OmdbMovie
     tmdbMovie(imdbID: ID!): TmdbMovie
-    tmdbProvider(imdbID: ID!): Provider
   }
 
   type Mutation {

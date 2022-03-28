@@ -44,6 +44,11 @@ const client = new ApolloClient({
           return mergeObjects(existing, incoming);
         },
       },
+      TmdbMovie: {
+        merge(existing, incoming, { mergeObjects }) {
+          return mergeObjects(existing, incoming);
+        },
+      },
     },
   }),
 });

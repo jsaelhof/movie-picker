@@ -7,6 +7,7 @@ import {
   tmdbProvider,
   watchedMovies,
 } from "./query";
+import { tmdbMovieProvider } from "./query/tmdb-movie-provider";
 import {
   addList,
   addMovie,
@@ -23,7 +24,10 @@ export const resolvers = {
     searchByTitle,
     omdbMovie,
     tmdbMovie,
-    tmdbProvider,
+  },
+
+  TmdbMovie: {
+    provider: tmdbMovieProvider,
   },
 
   Mutation: {
