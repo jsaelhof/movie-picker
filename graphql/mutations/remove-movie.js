@@ -1,10 +1,12 @@
 import { gql, useMutation } from "@apollo/client";
 import { isEqual } from "lodash";
+import { GET_MOVIES } from "../queries";
 
 export const REMOVE_MOVIE = gql`
   mutation RemoveMovie($movieId: ID!, $list: String!) {
     removeMovie(movieId: $movieId, list: $list) {
       id
+      list
     }
   }
 `;
@@ -12,16 +14,16 @@ export const REMOVE_MOVIE = gql`
 export const useRemoveMovie = (onError) => {
   const [removeMovie, status] = useMutation(REMOVE_MOVIE, {
     update(cache, { data: { removeMovie } }) {
-      // TODO: This should use cache.update to avoid filtering multiple lists
-      cache.modify({
-        fields: {
-          movies(state = [], { toReference }) {
-            return state.filter(
-              (ref) => !isEqual(ref, toReference(removeMovie))
-            );
-          },
+      cache.updateQuery(
+        {
+          query: GET_MOVIES,
+          variables: { list: removeMovie.list },
         },
-      });
+        ({ movies, watchedMovies }) => ({
+          movies: movies.filter(({ id }) => id !== removeMovie.id),
+          watchedMovies,
+        })
+      );
     },
     onError,
   });
@@ -32,16 +34,18 @@ export const useRemoveMovie = (onError) => {
 export const useRemoveWatchedMovie = ({ onError }) => {
   const [removeWatchedMovie, status] = useMutation(REMOVE_MOVIE, {
     update(cache, { data: { removeMovie } }) {
-      // TODO: This should use cache.update to avoid filtering multiple lists
-      cache.modify({
-        fields: {
-          watchedMovies(state = []) {
-            return state.filter(
-              ({ __ref }) => __ref !== `Movie:${removeMovie.id}`
-            );
-          },
+      cache.updateQuery(
+        {
+          query: GET_MOVIES,
+          variables: { list: removeMovie.list },
         },
-      });
+        ({ movies, watchedMovies }) => ({
+          movies,
+          watchedMovies: watchedMovies.filter(
+            ({ id }) => id !== removeMovie.id
+          ),
+        })
+      );
     },
     onError,
   });
@@ -49,9 +53,16 @@ export const useRemoveWatchedMovie = ({ onError }) => {
   return [removeWatchedMovie, status];
 };
 
-export const removeMovieOptions = (movie, list) => ({
+export const removeMovieOptions = ({ id, list }) => ({
   variables: {
-    movieId: movie.id,
-    list: list.id,
+    movieId: id,
+    list,
+  },
+  optimisticResponse: {
+    removeMovie: {
+      id,
+      list,
+      __typename: "Movie",
+    },
   },
 });

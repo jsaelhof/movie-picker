@@ -88,8 +88,8 @@ export default function Home() {
   );
 
   const onRemoveMovie = useCallback(
-    (movie) => removeMovieMutation(removeMovieOptions(movie, list)),
-    [list, removeMovieMutation]
+    (movie) => removeMovieMutation(removeMovieOptions(movie)),
+    [removeMovieMutation]
   );
 
   const onMarkWatched = useCallback(

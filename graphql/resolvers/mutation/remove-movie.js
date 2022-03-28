@@ -4,7 +4,7 @@ export const removeMovie = async (parent, { movieId, list }, { db }) => {
   });
 
   if (deletedCount === 1) {
-    return { id: movieId };
+    return { id: movieId, list };
   } else {
     throw new Error(`Error undoing movie watched: ${movieId}`);
   }

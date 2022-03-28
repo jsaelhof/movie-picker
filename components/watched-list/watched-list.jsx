@@ -98,7 +98,7 @@ const WatchedList = ({ movies }) => {
         content={`'${deleteMovie?.title}' will be removed from the Watched Movies list`}
         onCancel={() => setDeleteMovie(null)}
         onConfirm={() => {
-          removeMovieMutation(removeMovieOptions(deleteMovie, list));
+          removeMovieMutation(removeMovieOptions(deleteMovie));
           setDeleteMovie(null);
         }}
       />
