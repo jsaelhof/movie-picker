@@ -11,6 +11,10 @@ export const Container = styled("div")(() => ({
 
 export const BackdropWrapper = styled("div")(() => ({
   position: "absolute",
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
   inset: 0,
   maskImage:
     "linear-gradient(to bottom, rgba(0, 0, 0, 0.75) 40%, rgba(0,0,0,0.1) 100%)",
@@ -26,9 +30,10 @@ export const Content = styled("div")(({ $right, theme: { spacing } }) => ({
   position: "relative",
   width: "100%",
   maxWidth: `calc(1000px - ${spacing(6)})`,
-  display: "flex",
+  display: "grid",
+  gridAutoFlow: "column",
   alignItems: "end",
-  justifyContent: $right ? "flex-end" : "flex-start",
+  justifyContent: $right ? "end" : "start",
   padding: spacing(3),
   columnGap: spacing(3),
   transition: "padding 400ms",
