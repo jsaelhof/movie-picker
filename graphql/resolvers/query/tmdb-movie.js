@@ -19,10 +19,11 @@ export const tmdbMovie = async (parent, { imdbID }) => {
   }
 
   // Look up the TMDB data using the movie id from the first request.
+  // ADD "images" TO append_to_respond to get full list of backdrops and posters.
   const {
     data: { backdrop_path, videos, overview },
   } = await axios.get(
-    `${process.env.TMDB_API_URL}/movie/${tmdbData.movie_results[0].id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=videos,images`
+    `${process.env.TMDB_API_URL}/movie/${tmdbData.movie_results[0].id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=videos`
   );
 
   const officialTrailer = find(
