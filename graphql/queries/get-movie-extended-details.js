@@ -6,6 +6,7 @@ const GET_MOVIE_EXTENDED_DETAILS = gql`
       imdbID
       title
       rated
+      actors
       ratings {
         id
         IMDB

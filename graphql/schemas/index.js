@@ -73,6 +73,7 @@ export const typeDefs = gql`
     runtime: Int
     genre: Int
     rated: String
+    actors: [String]
     ratings: OmdbRatings
     poster: String
   }
