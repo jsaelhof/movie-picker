@@ -72,6 +72,7 @@ export const typeDefs = gql`
     year: String
     runtime: Int
     genre: Int
+    rated: String
     ratings: OmdbRatings
     poster: String
   }
@@ -85,9 +86,7 @@ export const typeDefs = gql`
 
   type TmdbMovie {
     imdbID: ID!
-    title: String
     backdrop: String
-    certification: String
     trailer: TmdbTrailer
     plot: String
     provider: String

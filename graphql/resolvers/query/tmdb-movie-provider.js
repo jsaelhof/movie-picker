@@ -3,7 +3,8 @@ import { fromTMDBProvider } from "../../../constants/sources";
 import { first, get, isNil } from "lodash";
 
 export const tmdbMovieProvider = async (parent) => {
-  // Look up the TMDB data using the movie id from the first request.
+  // Look up the TMDB data using the imdbID.
+  // This depends on the parent having already provided this value.
   const { data: providerData } = await axios.get(
     `${process.env.TMDB_API_URL}/movie/${parent.imdbID}/watch/providers?api_key=${process.env.TMDB_API_KEY}`
   );

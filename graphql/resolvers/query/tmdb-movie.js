@@ -1,5 +1,5 @@
 import axios from "axios";
-import { filter, find, first, get, isNil, pick, reject } from "lodash";
+import { filter, find, first, isNil, pick, reject } from "lodash";
 
 const TMDB_IMAGE_URL = "http://image.tmdb.org/t/p/%size%%path%";
 
@@ -20,9 +20,9 @@ export const tmdbMovie = async (parent, { imdbID }) => {
 
   // Look up the TMDB data using the movie id from the first request.
   const {
-    data: { title, backdrop_path, videos, releases, overview },
+    data: { backdrop_path, videos, overview },
   } = await axios.get(
-    `${process.env.TMDB_API_URL}/movie/${tmdbData.movie_results[0].id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=videos,images,releases,certifications`
+    `${process.env.TMDB_API_URL}/movie/${tmdbData.movie_results[0].id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=videos,images`
   );
 
   const officialTrailer = find(
@@ -34,14 +34,8 @@ export const tmdbMovie = async (parent, { imdbID }) => {
 
   return {
     imdbID,
-    title,
     backdrop: toTMDBImageUrl(backdrop_path),
     trailer: trailerData ? pick(trailerData, ["site", "key"]) : null,
-    certification:
-      get(releases, "countries", []).filter(
-        ({ certification, iso_3166_1 }) =>
-          certification !== "" && iso_3166_1 === "US"
-      )?.[0]?.certification || null,
     plot: overview,
   };
 };

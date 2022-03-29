@@ -5,7 +5,7 @@ import { genreLabels } from "../../../constants/genres";
 
 export const omdbMovie = async (parent, { imdbID }) => {
   const {
-    data: { Response, Title, Year, Runtime, Genre, Ratings, Poster },
+    data: { Response, Title, Year, Runtime, Genre, Ratings, Poster, Rated },
   } = await axios.get(
     `${process.env.OMDB_API_URL}?i=${imdbID}&apikey=${process.env.OMDB_API_KEY}&plot=full`
   );
@@ -27,6 +27,7 @@ export const omdbMovie = async (parent, { imdbID }) => {
       imdbID,
       title: Title,
       year: Year,
+      rated: Rated,
       runtime,
       ...(genre && { genre: parseInt(genre) }),
       ratings: {

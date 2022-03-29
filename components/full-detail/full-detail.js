@@ -130,7 +130,7 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
           <div>{formatRuntime(movie.runtime)}</div>
           <div>{movie.year}</div>
           <div>{genreLabels[movie.genre]}</div>
-          <Rated rated={data.certification} />
+          <Rated rated={data.rated} />
         </MovieData>
 
         <Source

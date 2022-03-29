@@ -4,6 +4,8 @@ const GET_MOVIE_EXTENDED_DETAILS = gql`
   query GetMovieExtendedDetails($imdbID: ID!) {
     omdbMovie(imdbID: $imdbID) {
       imdbID
+      title
+      rated
       ratings {
         id
         IMDB
@@ -13,9 +15,7 @@ const GET_MOVIE_EXTENDED_DETAILS = gql`
     }
     tmdbMovie(imdbID: $imdbID) {
       imdbID
-      title
       backdrop
-      certification
       trailer {
         site
         key
