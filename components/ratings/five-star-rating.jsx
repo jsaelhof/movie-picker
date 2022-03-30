@@ -1,14 +1,15 @@
 import React from "react";
 import { isNil, times } from "lodash";
-import { filter, flow, map, mean, round, thru } from "lodash/fp";
+import { filter, flow, map, mean, pick, round, thru } from "lodash/fp";
 
-import { omitTypename } from "../../utils/omit-typename";
 import { Star, StarRatingContainer } from "./five-star-rating.styles";
 import StarFull from "./star.svg";
 import StarHalf from "./star-half.svg";
 import StarOutline from "./star-outline.svg";
+import { ratingsSources } from "../../constants/ratings";
 
 const toAverageRating = flow(
+  pick(ratingsSources),
   filter((rating) => !isNil(rating)),
   map((rating) => parseInt(rating)),
   mean,
@@ -21,7 +22,7 @@ const heights = [16, 18, 20, 18, 16];
 const margins = [0, 1, 1.5, 1, 0];
 
 const FiveStarRating = ({ ratings }) => {
-  const avgRating = toAverageRating(omitTypename(ratings));
+  const avgRating = toAverageRating(ratings);
 
   return (
     <StarRatingContainer>

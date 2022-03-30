@@ -1,7 +1,6 @@
-import { useQuery } from "@apollo/client";
 import { format, parseISO } from "date-fns";
 import { useState } from "react";
-import { GET_MOVIE_EXTENDED_DETAILS } from "../../graphql";
+import { useGetMovieExtendedDetails } from "../../graphql/queries";
 import DatePicker from "../date-picker/date-picker";
 import MoviePoster from "../movie-poster/movie-poster";
 import {
@@ -26,12 +25,7 @@ const WatchedMovie = ({
   onCancel,
   onDelete,
 }) => {
-  const { data } = useQuery(GET_MOVIE_EXTENDED_DETAILS, {
-    errorPolicy: "all",
-    variables: {
-      imdbID: movie.imdbID,
-    },
-  });
+  const { data } = useGetMovieExtendedDetails(movie);
 
   const small = useMediaQuery("(max-width: 550px)");
   const xsmall = useMediaQuery("(max-width: 430px)");
@@ -89,7 +83,7 @@ const WatchedMovie = ({
       <BackdropWrapper>
         <Backdrop
           sx={{
-            backgroundImage: `url(${data?.tmdbMovie?.backdrop})`,
+            backgroundImage: `url(${data?.backdrop})`,
           }}
         />
       </BackdropWrapper>

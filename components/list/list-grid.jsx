@@ -41,11 +41,10 @@ const ListGrid = ({
 
       <DeleteDialog
         open={!isNil(deleteMovie)}
-        title="Hasta La Vista, Baby"
         content={`'${deleteMovie?.title}' will be removed`}
         onCancel={() => setDeleteMovie(null)}
         onConfirm={() => {
-          onRemoveMovie(deleteMovie.id);
+          onRemoveMovie(deleteMovie);
           setDeleteMovie(null);
         }}
       />

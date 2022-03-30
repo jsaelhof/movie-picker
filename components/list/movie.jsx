@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useSpring } from "react-spring";
-import { debounce, isEqual } from "lodash";
-import { useQuery } from "@apollo/client";
+import { debounce } from "lodash";
 
 import {
   InfoLayout,
@@ -21,11 +20,12 @@ import { formatRuntime } from "../../utils/format-runtime";
 import DetailActions from "./detail-actions";
 import MoviePoster from "../movie-poster/movie-poster";
 import Ratings from "../ratings/ratings";
-import { GET_RATINGS } from "../../graphql";
+import { GET_RATINGS, useUpdateRatings } from "../../graphql/queries";
 import FiveStarRating from "../ratings/five-star-rating";
 import Source from "./source";
 import Expanded from "./expanded";
 import { useResponsive } from "../../hooks/use-responsive";
+import { useUpdateMovie } from "../../graphql/mutations/update-movie";
 
 const getCenterPoint = (rect) => {
   if (!rect) return undefined;
@@ -72,15 +72,7 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
 
   const closeExpanded = () => setExpanded(false);
 
-  useQuery(GET_RATINGS, {
-    skip: !focused,
-    variables: { imdbID: movie.imdbID },
-    onCompleted: ({ omdbMovie: { ratings } }) => {
-      if (!isEqual(ratings, movie.ratings)) {
-        onEditMovie({ ...movie, ratings }, false);
-      }
-    },
-  });
+  useUpdateMovie(movie, focused);
 
   return (
     <>

@@ -2,7 +2,6 @@ import React, { useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 import { Button, useMediaQuery } from "@mui/material";
 import { PlayArrow } from "@mui/icons-material";
-import { useQuery } from "@apollo/client";
 import { useSpring } from "react-spring";
 import Search from "@mui/icons-material/Search";
 import TelevisionPlay from "@mitch528/mdi-material-ui/TelevisionPlay";
@@ -12,7 +11,7 @@ import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels } from "../../constants/genres";
 import { searchStreaming, searchTMDB, searchTorrent } from "../../utils/search";
 import { sourceLogosLarge, sources } from "../../constants/sources";
-import { GET_MOVIE_EXTENDED_DETAILS } from "../../graphql";
+import { useGetMovieExtendedDetails } from "../../graphql/queries";
 import {
   Actions,
   Backdrop,
@@ -44,7 +43,8 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
     "(max-width: 500px), (max-height: 414px)"
   );
 
-  const [data, setData] = useState(null);
+  const { data } = useGetMovieExtendedDetails(movie);
+
   const [trailer, setTrailer] = useState(null);
 
   const fadeSpring = useSpring({
@@ -62,16 +62,6 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
   const search = useCallback(() => {
     window.open(searchTMDB(movie.title), "moviedb");
   }, [movie]);
-
-  useQuery(GET_MOVIE_EXTENDED_DETAILS, {
-    errorPolicy: "all",
-    variables: {
-      imdbID: movie.imdbID,
-    },
-    onCompleted: ({ tmdbMovie, omdbMovie }) =>
-      setData({ ...omdbMovie, ...tmdbMovie }),
-    onError: () => setData({}),
-  });
 
   const canStream = ![sources.DVD, sources.NONE].includes(movie.source);
 
@@ -140,7 +130,7 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
           <div>{formatRuntime(movie.runtime)}</div>
           <div>{movie.year}</div>
           <div>{genreLabels[movie.genre]}</div>
-          <Rated rated={data.certification} />
+          <Rated rated={data.rated} />
         </MovieData>
 
         <Source

@@ -7,10 +7,13 @@ import DeleteDialog from "../delete-dialog/delete-dialog";
 import ErrorDialog from "../error-dialog/error-dialog";
 import WatchedMovie from "./watched-movie";
 import { orderBy } from "lodash";
-import { useEditMovie } from "../../hooks/use-edit-movie";
-import { useRemoveMovie } from "../../hooks/use-remove-movie";
 import { useAppContext } from "../../context/app-context";
-import { omitTypename } from "../../utils/omit-typename";
+import {
+  editMovieOptions,
+  removeMovieOptions,
+  useEditMovie,
+  useRemoveWatchedMovie,
+} from "../../graphql/mutations";
 
 const INFINITE_LOAD_CHUNK_SIZE = 5;
 
@@ -47,25 +50,27 @@ const WatchedList = ({ movies }) => {
     return () => window.removeEventListener("scroll", onScroll);
   }, [infiniteLoadPointer, movies.length]);
 
-  const editMovie = useEditMovie();
-  const removeMovie = useRemoveMovie(setError);
+  const [editMovieMutation] = useEditMovie();
+  const [removeMovieMutation] = useRemoveWatchedMovie({
+    onError: ({ message }) => {
+      setError(message);
+    },
+  });
 
   const onEditMovie = useCallback(({ id }) => setEditingMovie(id), []);
 
   const onSaveMovie = useCallback(
     (movie) => {
-      editMovie({
-        variables: { movie: omitTypename(movie), list: list.id },
-      });
+      editMovieMutation(editMovieOptions(movie, list));
       setEditingMovie(null);
     },
-    [editMovie, list.id]
+    [editMovieMutation, list]
   );
 
   const onCancelEdit = useCallback(() => setEditingMovie(null), []);
 
-  const onDeleteMovie = useCallback(({ id }) => {
-    setDeleteMovie(id);
+  const onDeleteMovie = useCallback((movie) => {
+    setDeleteMovie(movie);
   }, []);
 
   return movies ? (
@@ -90,18 +95,10 @@ const WatchedList = ({ movies }) => {
 
       <DeleteDialog
         open={!isNil(deleteMovie)}
-        title="Remove Watched Movie?"
-        content={`'${
-          movies.find(({ id }) => id === deleteMovie)?.title
-        }' will be removed from the Watched Movies list`}
+        content={`'${deleteMovie?.title}' will be removed from the Watched Movies list`}
         onCancel={() => setDeleteMovie(null)}
         onConfirm={() => {
-          removeMovie({
-            variables: {
-              movieId: deleteMovie,
-              list: list.id,
-            },
-          });
+          removeMovieMutation(removeMovieOptions(deleteMovie));
           setDeleteMovie(null);
         }}
       />
