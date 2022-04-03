@@ -106,6 +106,16 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
                     switchToRatings.cancel();
                     setInfoState("actions");
                   }}
+                  // This prevents the card from expanding when tapping the stars on mobile to
+                  // display the ratings breakdown.
+                  onClick={(e) => {
+                    if (
+                      "ontouchstart" in window ||
+                      navigator.msMaxTouchPoints > 0
+                    ) {
+                      e.stopPropagation();
+                    }
+                  }}
                 >
                   <FiveStarRating ratings={movie.ratings} />
                 </StarRatingLayout>
