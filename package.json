@@ -6,7 +6,8 @@
     "dev": "next dev -- -p 4000",
     "build": "next build",
     "start": "next start",
-    "lint": "./node_modules/.bin/eslint -c ./.eslintrc.js . --ext .js,.jsx"
+    "lint": "./node_modules/.bin/eslint -c ./.eslintrc.js . --ext .js,.jsx",
+    "unused": "next-unused"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
@@ -26,6 +27,7 @@
     "lodash": "^4.17.20",
     "mongodb": "^3.6.10",
     "next": "^11.1.2",
+    "next-unused": "^0.0.6",
     "omit-deep-lodash": "^1.1.5",
     "react": "^17.0.2",
     "react-day-picker": "^8.0.0-beta.29",
@@ -41,5 +43,22 @@
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.3.0"
+  },
+  "next-unused": {
+    "alias": {},
+    "include": [
+      "components",
+      "constants",
+      "context",
+      "css",
+      "graphql",
+      "hooks",
+      "pages",
+      "public",
+      "theme",
+      "utils"
+    ],
+    "exclude": [],
+    "entrypoints": []
   }
 }
