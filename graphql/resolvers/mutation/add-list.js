@@ -6,17 +6,18 @@ export const addList = async (parent, { name }, { db, userId }) => {
   if (!name || name.length === 0)
     throw new ApolloError(errorCodes.NO_LIST_NAME);
 
-  const { result: listResult, ops: listOps } = await db
-    .collection("lists")
-    .insertOne({
+  try {
+    const record = {
       id: uuidv4(),
       label: name,
       userId,
-    });
+    };
 
-  if (listResult?.ok) {
-    return listOps[0];
-  } else {
+    await db.collection("lists").insertOne(record);
+
+    return record;
+  } catch (ex) {
+    // TODO: Log this error to Datadog?
     throw new Error(`Error inserting new collection: ${name}`);
   }
 };

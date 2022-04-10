@@ -9,16 +9,18 @@ export const addMovie = async (parent, { movie, list }, { db }) => {
   if (isNil(movie.source)) movie.source = sources.NONE;
   if (isNil(movie.locked)) movie.locked = false;
 
-  // TODO: This should be able to be updateOne with upsert and could probably be extracted to a function.
-  const { result, ops } = await db.collection(list).insertOne({
-    ...movie,
-    addedOn: new Date().toISOString(),
-    editedOn: new Date().toISOString(),
-  });
+  try {
+    const record = {
+      ...movie,
+      addedOn: new Date().toISOString(),
+      editedOn: new Date().toISOString(),
+    };
 
-  if (result.ok === 1) {
-    return ops[0];
-  } else {
+    await db.collection(list).insertOne(record);
+
+    return record;
+  } catch (ex) {
+    // TODO: Log this exception to Datadog?
     throw new Error(`Error adding movie: ${movie.title}`);
   }
 };

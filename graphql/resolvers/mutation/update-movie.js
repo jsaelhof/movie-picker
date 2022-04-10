@@ -28,7 +28,6 @@ export const updateMovie = async (parent, { movieId, list }, { db }) => {
     }
   }
 
-  // await new Promise((resolve) => setTimeout(resolve, 5000));
   if (update) {
     // Update my DB and get the updated document
     const { value, ok } = await db.collection(list).findOneAndUpdate(
@@ -49,7 +48,7 @@ export const updateMovie = async (parent, { movieId, list }, { db }) => {
       throw new Error(`Error updating movie: ${movie.title}`);
     }
   } else {
-    // If there was no update generated, just return back the original movie data ith no change
+    // If there was no update generated, just return back the original movie data with no change
     return movie;
   }
 };
