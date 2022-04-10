@@ -1,6 +1,6 @@
 import { useOnWindowResize } from "rooks";
 
-import { useSpring } from "@react-spring/core";
+import { useSpring } from "react-spring";
 import { useCallback, useState } from "react";
 import {
   TrailerInline,

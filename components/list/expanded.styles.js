@@ -1,5 +1,5 @@
 import { styled } from "@mui/material";
-import { animated } from "@react-spring/web";
+import { animated } from "react-spring";
 
 export const ExpandedBackdrop = styled(animated.div)(() => ({
   position: "fixed",

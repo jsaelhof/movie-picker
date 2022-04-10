@@ -1,4 +1,4 @@
-import { useSpring } from "@react-spring/core";
+import { useSpring } from "react-spring";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import FullDetail from "../full-detail/full-detail";

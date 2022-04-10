@@ -20,7 +20,6 @@ import { formatRuntime } from "../../utils/format-runtime";
 import DetailActions from "./detail-actions";
 import MoviePoster from "../movie-poster/movie-poster";
 import Ratings from "../ratings/ratings";
-import { GET_RATINGS, useUpdateRatings } from "../../graphql/queries";
 import FiveStarRating from "../ratings/five-star-rating";
 import Source from "./source";
 import Expanded from "./expanded";
@@ -43,7 +42,6 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
   const [infoState, setInfoState] = useState("actions");
   const [focused, setFocused] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  // const [focused, setFocused] = useState(movie.id === "266639538");
 
   const switchToRatings = debounce(() => setInfoState("ratings"), 250);
   const focus = debounce(() => setFocused(true), 250);
