@@ -6,7 +6,7 @@
     "dev": "next dev -- -p 4000",
     "build": "next build",
     "start": "next start",
-    "lint": "./node_modules/.bin/eslint -c ./.eslintrc.js . --ext .js,.jsx",
+    "lint": "next lint",
     "unused": "next-unused"
   },
   "dependencies": {
@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "eslint": "^7.32.0",
+    "eslint-config-next": "12.1.4",
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.3.0"
   },
