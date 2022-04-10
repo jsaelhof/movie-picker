@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "unused": "next-unused"
+    "eslint": "eslint",
+    "unused": "next-unused",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
@@ -43,7 +45,9 @@
     "eslint": "^7.32.0",
     "eslint-config-next": "12.1.4",
     "eslint-plugin-react": "^7.25.1",
-    "eslint-plugin-react-hooks": "^4.3.0"
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7"
   },
   "next-unused": {
     "alias": {},
@@ -61,5 +65,8 @@
     ],
     "exclude": [],
     "entrypoints": []
+  },
+  "lint-staged": {
+    "*.(js|jsx|ts|tsx)": "npm run eslint"
   }
 }
