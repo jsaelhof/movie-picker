@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "eslint": "eslint",
     "unused": "next-unused",
     "prepare": "husky install"
   },
@@ -67,6 +66,8 @@
     "entrypoints": []
   },
   "lint-staged": {
-    "*.(js|jsx|ts|tsx)": "npm run eslint"
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
   }
 }
