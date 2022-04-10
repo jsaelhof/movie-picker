@@ -3,7 +3,6 @@ export const editMovie = async (
   { movie, list, removeKeys },
   { db }
 ) => {
-  // await new Promise((resolve) => setTimeout(resolve, 5000));
   const { value, ok } = await db.collection(list).findOneAndUpdate(
     {
       id: movie.id,

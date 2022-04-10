@@ -28,12 +28,8 @@ const apolloServer = new ApolloServer({
   context: async ({ req, res }) => {
     if (!db) {
       try {
-        const dbClient = new MongoClient(MONGODB_URI, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
-        });
-
-        if (!dbClient.isConnected()) await dbClient.connect();
+        const dbClient = new MongoClient(MONGODB_URI);
+        await dbClient.connect();
         db = dbClient.db(MONGODB_DB); // database name
       } catch (e) {
         console.log("error while connecting with graphql context (db)", e);
