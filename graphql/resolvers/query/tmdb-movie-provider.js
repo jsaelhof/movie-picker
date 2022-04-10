@@ -1,6 +1,6 @@
 import axios from "axios";
 import { fromTMDBProvider } from "../../../constants/sources";
-import { first, get, isNil } from "lodash";
+import { first, isNil } from "lodash";
 
 export const tmdbMovieProvider = async (parent) => {
   // Look up the TMDB data using the imdbID.
@@ -10,7 +10,7 @@ export const tmdbMovieProvider = async (parent) => {
   );
 
   return first(
-    get(providerData, "results.CA.flatrate", [])
+    (providerData?.results?.CA?.flatrate ?? [])
       .map(({ provider_name }) => fromTMDBProvider[provider_name])
       .filter((provider_name) => !isNil(provider_name))
   );
