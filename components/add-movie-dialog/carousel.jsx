@@ -3,7 +3,6 @@ import "slick-carousel/slick/slick-theme.css";
 
 import React from "react";
 import { useMediaQuery } from "@mui/material";
-import { cond, constant, stubTrue } from "lodash";
 
 import MoviePoster from "./movie-poster";
 import { StatusMessage, Slider } from "./carousel.styles";
@@ -17,19 +16,12 @@ const Carousel = ({ movies, searching, onSelectMovie }) => {
         height: xsmall ? 190 : 280,
       }}
     >
-      {cond([
-        [constant(!movies && !searching), constant(null)],
-        [
-          constant(searching),
-          constant(<StatusMessage>Searching...</StatusMessage>),
-        ],
-        [
-          constant(movies?.length === 0),
-          constant(<StatusMessage>No Movies Found</StatusMessage>),
-        ],
-        [
-          stubTrue,
-          constant(
+      <ConditionalRender cond={!movies && !searching} message="">
+        <ConditionalRender cond={searching} message="Searching...">
+          <ConditionalRender
+            cond={movies?.length === 0}
+            message="No Movies Found"
+          >
             <Slider
               arrows
               dots
@@ -75,11 +67,14 @@ const Carousel = ({ movies, searching, onSelectMovie }) => {
                 />
               ))}
             </Slider>
-          ),
-        ],
-      ])()}
+          </ConditionalRender>
+        </ConditionalRender>
+      </ConditionalRender>
     </div>
   );
 };
+
+const ConditionalRender = ({ cond, message, children }) =>
+  cond ? <StatusMessage>{message}</StatusMessage> : children;
 
 export default Carousel;

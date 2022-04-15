@@ -12,6 +12,12 @@ export default function Home() {
   const { query } = useRouter();
   const [error, setError] = useState(null);
 
+  // This is used to reset the pick in app state whne the page loads the first time.
+  // Without this, when leaving the pick page and then picking again, the last pick will remain
+  // in app state. This also means it does not conform to new pick options.
+  // eslint-disable-next-line
+  useEffect(() => setPick(null), []);
+
   useEffect(() => {
     const pickMovie = () => {
       try {

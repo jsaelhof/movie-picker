@@ -1,6 +1,6 @@
 import React from "react";
 import { isNil, times } from "lodash";
-import { filter, flow, map, mean, pick, round, thru } from "lodash/fp";
+import { filter, flow, map, mean, pick } from "lodash/fp";
 
 import { Star, StarRatingContainer } from "./five-star-rating.styles";
 import StarFull from "./star.svg";
@@ -13,9 +13,7 @@ const toAverageRating = flow(
   filter((rating) => !isNil(rating)),
   map((rating) => parseInt(rating)),
   mean,
-  thru((avg) => avg / 10),
-  round,
-  thru((avg) => avg / 2)
+  (val) => Math.round(val / 10) / 2
 );
 
 const heights = [16, 18, 20, 18, 16];
