@@ -1,5 +1,4 @@
 import { gql, useMutation } from "@apollo/client";
-import { isEqual } from "lodash";
 import { GET_MOVIES } from "../queries";
 
 export const REMOVE_MOVIE = gql`

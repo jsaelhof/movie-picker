@@ -1,6 +1,6 @@
 import { Select as MuiSelect, styled } from "@mui/material";
 
-export const Select = styled(MuiSelect)(({ theme: { palette, spacing } }) => ({
+export const Select = styled(MuiSelect)(({ theme: { palette } }) => ({
   color: palette.secondary.main,
 
   "& .MuiSelect-select": {

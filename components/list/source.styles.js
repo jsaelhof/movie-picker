@@ -3,7 +3,7 @@ import { styled } from "@mui/material";
 const borderSize = 3;
 const size = 40;
 
-export const SourceLayout = styled("div")(({ theme: { spacing } }) => ({
+export const SourceLayout = styled("div")(() => ({
   display: "grid",
   gridTemplateAreas: `"main"`,
   width: size + borderSize * 2,
