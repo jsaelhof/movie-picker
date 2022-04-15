@@ -1,6 +1,4 @@
 import React from "react";
-import has from "lodash/has";
-import map from "lodash/map";
 
 import { ratingsSource, ratingsSourceImage } from "../../constants/ratings";
 import {
@@ -13,8 +11,8 @@ import {
 
 const Ratings = ({ ratings, size = "medium", dense }) => (
   <RatingsList sx={[dense && denseMargins]}>
-    {map(ratings, (rating, source) =>
-      has(ratingsSource, source) && rating ? (
+    {Object.entries(ratings).map(([source, rating]) =>
+      ratingsSource[source] && rating ? (
         <RatingsListItem key={source}>
           <RatingsSourceIcon
             sx={[size === "small" && ratingsSmall]}
@@ -27,4 +25,4 @@ const Ratings = ({ ratings, size = "medium", dense }) => (
   </RatingsList>
 );
 
-export default Ratings;
+export default React.memo(Ratings);
