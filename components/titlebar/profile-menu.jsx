@@ -50,7 +50,7 @@ const ProfileMenu = () => {
             </ProfileAvatar>
 
             <ProfileActions>
-              <Link href="/api/auth/logout">
+              <Link href="/api/auth/logout" passHref>
                 <Button variant="outlined" onClick={onCloseMenu}>
                   Logout
                 </Button>

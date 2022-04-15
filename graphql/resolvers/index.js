@@ -4,7 +4,6 @@ import {
   searchByTitle,
   omdbMovie,
   tmdbMovie,
-  tmdbProvider,
   watchedMovies,
 } from "./query";
 import { tmdbMovieProvider } from "./query/tmdb-movie-provider";

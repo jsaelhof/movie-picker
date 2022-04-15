@@ -13,4 +13,17 @@ module.exports = () => ({
 
     return config;
   },
+  eslint: {
+    dirs: [
+      "components",
+      "constants",
+      "context",
+      "css",
+      "graphql",
+      "hooks",
+      "pages",
+      "theme",
+      "utils",
+    ],
+  },
 });
