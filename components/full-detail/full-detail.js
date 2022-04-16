@@ -23,10 +23,10 @@ import {
   MovieTitle,
   PlotLayout,
   Poster,
+  RatingsArea,
   smallMovieTitle,
   Source,
   streamable,
-  StyledStarRating,
   TrailerLayout,
 } from "./full-detail.styles";
 import { FullDetailSkeleton } from "./full-detail.skeleton";
@@ -35,6 +35,7 @@ import Rated from "./rated";
 import Trailer from "./trailer";
 import ScrollArea from "./scroll-area";
 import Footer from "./footer";
+import { StarRatingLayout } from "./star-rating-layout";
 
 const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
   const small = useMediaQuery("(max-width: 750px)");
@@ -123,7 +124,10 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
           sx={[(small || movie.title.length >= 25) && smallMovieTitle]}
         >
           <div>{movie.title}</div>
-          <StyledStarRating ratings={data.ratings} />
+
+          <RatingsArea>
+            <StarRatingLayout ratings={data.ratings} />
+          </RatingsArea>
         </MovieTitle>
 
         <MovieData>

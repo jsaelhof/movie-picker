@@ -4,7 +4,13 @@ export const RatingsList = styled("ul")`
   display: flex;
   list-style-type: none;
   padding-left: 0;
+  font-size: 16px;
+  font-weight: normal;
 `;
+
+export const small = {
+  fontSize: 14,
+};
 
 export const denseMargins = {
   margin: 0,
@@ -26,7 +32,7 @@ export const RatingsSourceIcon = styled("img")(() => ({
   marginRight: 8,
 }));
 
-export const ratingsSmall = {
+export const ratingsSourceIconSmall = {
   width: 20,
   height: 20,
 };
