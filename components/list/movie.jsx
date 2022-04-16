@@ -104,9 +104,15 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
                     switchToRatings.cancel();
                     setInfoState("actions");
                   }}
-                  // This prevents the card from expanding when tapping the stars on mobile to
-                  // display the ratings breakdown.
                   onClick={(e) => {
+                    // OnClick, toggle the state.
+                    // Works for desktop and mobile but mainly here for mobile.
+                    setInfoState(
+                      infoState === "ratings" ? "actions" : "ratings"
+                    );
+
+                    // This prevents the card from expanding when tapping the stars on mobile to
+                    // display the ratings breakdown.
                     if (
                       "ontouchstart" in window ||
                       navigator.msMaxTouchPoints > 0
