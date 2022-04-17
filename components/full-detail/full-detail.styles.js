@@ -1,8 +1,6 @@
 import { styled } from "@mui/material";
 import { animated } from "react-spring";
 
-import FiveStarRating from "../ratings/five-star-rating";
-
 export const FullDetailLayout = styled("div")`
   display: flex;
   flex-direction: column;
@@ -141,12 +139,9 @@ export const smallMovieTitle = {
   fontSize: 32,
 };
 
-export const StyledStarRating = styled(FiveStarRating)(
-  ({ theme: { spacing } }) => ({
-    margin: spacing(1),
-    gridArea: "ratings",
-  })
-);
+export const RatingsArea = styled("div")`
+  gridarea: "ratings";
+`;
 
 export const MovieData = styled("div")`
   padding: 0;
