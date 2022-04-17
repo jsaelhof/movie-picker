@@ -1,11 +1,19 @@
-import React from "react";
+import { useRouter } from "next/router";
 
 import { LogoContainer } from "./logo.styles";
 
-const Logo = () => (
-  <LogoContainer>
-    <img style={{ height: 20 }} src={"/images/logo.png"} />
-  </LogoContainer>
-);
+const Logo = () => {
+  const { push } = useRouter();
+
+  return (
+    <LogoContainer
+      onClick={() => {
+        push("/");
+      }}
+    >
+      <img style={{ height: 20 }} src={"/images/logo.png"} />
+    </LogoContainer>
+  );
+};
 
 export default Logo;

@@ -24,9 +24,9 @@ const ActionBar = ({ disabled, onAdd, onPick }) => {
             <SortNav
               selectedOption={order}
               options={[
+                ["Added", "addedOn"],
                 ["Title", "title"],
                 ["Runtime", "runtime"],
-                ["Added", "addedOn"],
               ]}
               onSort={(option, direction) => {
                 setOrder([option, direction]);

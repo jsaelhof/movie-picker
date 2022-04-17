@@ -7,4 +7,5 @@ export const LogoContainer = styled("div")(({ theme: { spacing } }) => ({
   gap: spacing(1),
   alignItems: "center",
   justifyContent: "flex-start",
+  cursor: "pointer",
 }));
