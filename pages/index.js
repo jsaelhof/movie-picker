@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { map } from "lodash";
+import { animated, useSpring, useTransition } from "react-spring";
 
 import { errorMessage } from "../constants/error_codes";
 import { useAppContext } from "../context/app-context";
@@ -22,6 +23,7 @@ import {
   useRemoveMovie,
   useUndoMarkWatched,
 } from "../graphql/mutations";
+import { Countdown } from "../components/countdown/countdown";
 
 export default function Home() {
   const router = useRouter();
@@ -122,25 +124,52 @@ export default function Home() {
     setEnableEditMovie(false);
   }, []);
 
+  // Controls the fade-out and unmount of the countdown animation.
+  // Transition is used so it unmounts after the animation completes.
+  const loadingTransitions = useTransition(loadingMovies, {
+    from: { opacity: 1 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
+
+  // Controls fading in the movies once loaded.
+  const moviesSpring = useSpring({
+    opacity: !!movies ? 1 : 0,
+    delay: 1500,
+  });
+
   if (lists?.length === 0) router.replace("/create");
 
   return (
     <>
       <PageContainer>
-        <ActionBar
-          disabled={!movies || loadingMovies || movies?.length === 0}
-          onAdd={onEnableAddMovie}
-          onPick={onPick}
-        />
+        {loadingTransitions(
+          (styles, item) =>
+            item && (
+              <animated.div style={styles}>
+                <Countdown />
+              </animated.div>
+            )
+        )}
 
         {movies && (
-          <ListGrid
-            movies={movies}
-            onAddMovie={onEnableAddMovie}
-            onEditMovie={onEnableEditMovie}
-            onRemoveMovie={onRemoveMovie}
-            onMarkWatched={onMarkWatched}
+          <ActionBar
+            disabled={!movies || loadingMovies || movies?.length === 0}
+            onAdd={onEnableAddMovie}
+            onPick={onPick}
           />
+        )}
+
+        {movies && (
+          <animated.div style={moviesSpring}>
+            <ListGrid
+              movies={movies}
+              onAddMovie={onEnableAddMovie}
+              onEditMovie={onEnableEditMovie}
+              onRemoveMovie={onRemoveMovie}
+              onMarkWatched={onMarkWatched}
+            />
+          </animated.div>
         )}
       </PageContainer>
 
