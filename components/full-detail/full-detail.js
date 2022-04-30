@@ -50,23 +50,6 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
   );
 
   const [editMovieMutation] = useEditMovie();
-  const onBackdropRotate = useCallback(
-    (forward) => () => {
-      if (data.backdrops) {
-        editMovieMutation(
-          editMovieOptions(
-            {
-              ...movie,
-              background: getNeighbor(data.backdrops, backdrop, forward),
-            },
-            list
-          )
-        );
-      }
-    },
-    [backdrop, data.backdrops, editMovieMutation, list, movie]
-  );
-
   const { data, loading } = useGetMovieExtendedDetails(movie);
 
   const [trailer, setTrailer] = useState(null);
@@ -120,11 +103,39 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
           }}
         />
 
-        <PrevBackgroundButton onClick={onBackdropRotate(false)}>
+        <PrevBackgroundButton
+          onClick={() => {
+            if (data.backdrops) {
+              editMovieMutation(
+                editMovieOptions(
+                  {
+                    ...movie,
+                    background: getNeighbor(data.backdrops, backdrop, false),
+                  },
+                  list
+                )
+              );
+            }
+          }}
+        >
           <ChevronLeft />
         </PrevBackgroundButton>
 
-        <NextBackgroundButton onClick={onBackdropRotate(true)}>
+        <NextBackgroundButton
+          onClick={() => {
+            if (data.backdrops) {
+              editMovieMutation(
+                editMovieOptions(
+                  {
+                    ...movie,
+                    background: getNeighbor(data.backdrops, backdrop),
+                  },
+                  list
+                )
+              );
+            }
+          }}
+        >
           <ChevronRight />
         </NextBackgroundButton>
 
