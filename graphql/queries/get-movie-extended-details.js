@@ -17,6 +17,7 @@ const GET_MOVIE_EXTENDED_DETAILS = gql`
     tmdbMovie(imdbID: $imdbID) {
       imdbID
       backdrop
+      backdrops
       trailer {
         site
         key
