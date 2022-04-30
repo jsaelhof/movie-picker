@@ -18,6 +18,36 @@ export const CloseButton = styled("div")`
   mix-blend-mode: exclusion;
 `;
 
+const ChangeBackgroundButton = styled("div")`
+  grid-area: main;
+  color: rgba(255, 255, 255, 1);
+  width: 10%;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  opacity: 0;
+  transition: opacity 400ms;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  & svg {
+    font-size: 3rem;
+    filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.75));
+  }
+`;
+
+export const NextBackgroundButton = styled(ChangeBackgroundButton)`
+  justify-self: end;
+  justify-content: end;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.4), transparent);
+`;
+
+export const PrevBackgroundButton = styled(ChangeBackgroundButton)`
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.4), transparent);
+`;
+
 export const BackdropWrapper = styled("div")`
   display: grid;
   grid-template-areas: "main";

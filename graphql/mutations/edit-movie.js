@@ -26,6 +26,7 @@ const EDIT_MOVIE = gql`
         ROTTEN_TOMATOES
         METACRITIC
       }
+      background
     }
   }
 `;

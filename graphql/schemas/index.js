@@ -36,6 +36,7 @@ export const typeDefs = gql`
     watchedOn: String
     locked: Boolean
     ratings: Ratings
+    background: String
   }
 
   input MovieInput {
@@ -52,6 +53,7 @@ export const typeDefs = gql`
     watchedOn: String
     locked: Boolean
     ratings: RatingsInput
+    background: String
   }
 
   type Trailer {
@@ -88,6 +90,7 @@ export const typeDefs = gql`
   type TmdbMovie {
     imdbID: ID!
     backdrop: String
+    backdrops: [String]
     trailer: TmdbTrailer
     plot: String
     provider: String
