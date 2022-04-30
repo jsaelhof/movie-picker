@@ -21,6 +21,7 @@ export const GET_MOVIES = gql`
         ROTTEN_TOMATOES
         METACRITIC
       }
+      background
     }
     watchedMovies(list: $list) {
       id
@@ -41,6 +42,7 @@ export const GET_MOVIES = gql`
         ROTTEN_TOMATOES
         METACRITIC
       }
+      background
     }
   }
 `;

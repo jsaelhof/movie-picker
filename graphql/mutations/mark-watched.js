@@ -23,6 +23,7 @@ const GQL = gql`
         ROTTEN_TOMATOES
         METACRITIC
       }
+      background
     }
   }
 `;

@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Button, useMediaQuery } from "@mui/material";
-import { PlayArrow } from "@mui/icons-material";
+import { ChevronLeft, ChevronRight, PlayArrow } from "@mui/icons-material";
 import { useSpring } from "react-spring";
 import Search from "@mui/icons-material/Search";
 import TelevisionPlay from "@mitch528/mdi-material-ui/TelevisionPlay";
@@ -12,6 +12,8 @@ import { genreLabels } from "../../constants/genres";
 import { searchStreaming, searchTMDB, searchTorrent } from "../../utils/search";
 import { sourceLogosLarge, sources } from "../../constants/sources";
 import { useGetMovieExtendedDetails } from "../../graphql/queries";
+import { editMovieOptions, useEditMovie } from "../../graphql/mutations";
+import { useAppContext } from "../../context/app-context";
 import {
   Actions,
   Backdrop,
@@ -21,8 +23,10 @@ import {
   MovieData,
   MovieInfo,
   MovieTitle,
+  NextBackgroundButton,
   PlotLayout,
   Poster,
+  PrevBackgroundButton,
   RatingsArea,
   smallMovieTitle,
   Source,
@@ -38,13 +42,15 @@ import Footer from "./footer";
 import { StarRatingLayout } from "./star-rating-layout";
 
 const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
+  const { list } = useAppContext();
   const small = useMediaQuery("(max-width: 750px)");
   const noPlotScroll = useMediaQuery("(max-width: 660px), (max-height: 414px)");
   const trailerOverlay = useMediaQuery(
     "(max-width: 500px), (max-height: 414px)"
   );
 
-  const { data } = useGetMovieExtendedDetails(movie);
+  const [editMovieMutation] = useEditMovie();
+  const { data, loading } = useGetMovieExtendedDetails(movie);
 
   const [trailer, setTrailer] = useState(null);
 
@@ -66,7 +72,12 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
 
   const canStream = ![sources.DVD, sources.NONE].includes(movie.source);
 
-  return !data ? (
+  const backdrop = useMemo(
+    () => movie.background || data.backdrops?.[0],
+    [data.backdrops, movie.background]
+  );
+
+  return loading ? (
     <FullDetailSkeleton
       showCloseButton={showCloseButton}
       onClose={onClose}
@@ -83,14 +94,50 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
       <BackdropWrapper>
         <Backdrop
           sx={[
-            data?.backdrop && {
-              backgroundImage: `url("${data.backdrop}")`,
+            {
+              backgroundImage: `url("${backdrop}")`,
             },
           ]}
           style={{
             ...fadeSpring,
           }}
         />
+
+        <PrevBackgroundButton
+          onClick={() => {
+            if (data.backdrops) {
+              editMovieMutation(
+                editMovieOptions(
+                  {
+                    ...movie,
+                    background: getNeighbor(data.backdrops, backdrop, false),
+                  },
+                  list
+                )
+              );
+            }
+          }}
+        >
+          <ChevronLeft />
+        </PrevBackgroundButton>
+
+        <NextBackgroundButton
+          onClick={() => {
+            if (data.backdrops) {
+              editMovieMutation(
+                editMovieOptions(
+                  {
+                    ...movie,
+                    background: getNeighbor(data.backdrops, backdrop),
+                  },
+                  list
+                )
+              );
+            }
+          }}
+        >
+          <ChevronRight />
+        </NextBackgroundButton>
 
         {trailer && !trailerOverlay && (
           <TrailerLayout>
@@ -193,6 +240,12 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
       <Footer movie={movie} />
     </FullDetailLayout>
   );
+};
+
+const getNeighbor = (arr, item, forward = true) => {
+  const currentIndex = arr.findIndex((val) => val === item);
+  const index = (currentIndex + (forward ? 1 : arr.length - 1)) % arr.length;
+  return arr[index];
 };
 
 export default FullDetail;
