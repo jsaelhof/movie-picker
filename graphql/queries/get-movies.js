@@ -55,6 +55,11 @@ export const useGetMovies = (list) => {
 
   return {
     ...data,
+    moviesById:
+      data?.movies.reduce((acc, movie) => {
+        acc[movie.id] = movie;
+        return acc;
+      }, {}) ?? {},
     ...rest,
   };
 };

@@ -7,7 +7,12 @@ const AppContext = createContext({});
 const AppProvider = ({ children }) => {
   const [list, _setList] = useState();
   const { lists } = useGetLists({ onCompleted: _setList });
-  const { movies, watchedMovies, loading: loadingMovies } = useGetMovies(list);
+  const {
+    movies,
+    moviesById,
+    watchedMovies,
+    loading: loadingMovies,
+  } = useGetMovies(list);
   const [order, setOrder] = useState(["addedOn", "desc"]);
   const [pick, setPick] = useState(null);
 
@@ -17,17 +22,23 @@ const AppProvider = ({ children }) => {
     _setList(val);
   }, []);
 
+  const clearPick = useCallback(() => {
+    setPick(null);
+  }, []);
+
   const context = {
     lists,
     list,
     setList,
     movies,
+    moviesById,
     watchedMovies,
     loadingMovies,
     order,
     setOrder,
     pick,
     setPick,
+    clearPick,
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;

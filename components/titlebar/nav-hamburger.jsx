@@ -16,7 +16,7 @@ import {
 
 const NavHamburger = () => {
   const { push, pathname } = useRouter();
-  const { lists, setList, setPick, list } = useAppContext();
+  const { lists, setList, clearPick, list } = useAppContext();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -43,7 +43,7 @@ const NavHamburger = () => {
               <>
                 <MenuItem
                   onClick={() => {
-                    setPick(null);
+                    clearPick();
                     handleClose();
                   }}
                 >

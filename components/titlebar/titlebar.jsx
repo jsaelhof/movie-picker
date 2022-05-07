@@ -16,7 +16,7 @@ import {
 } from "./titlebar.styles";
 
 const TitleBar = () => {
-  const { movies, setPick } = useAppContext();
+  const { movies, clearPick } = useAppContext();
   const smallLogo = useMediaQuery("(max-width: 430px)");
   const mobileNav = useMediaQuery("(max-width: 580px)");
   const { pathname } = useRouter();
@@ -32,10 +32,7 @@ const TitleBar = () => {
 
           {/* In the small view, keep a pick again button in the main nav area. It's also in the hamburger menu */}
           {movies && mobileNav && isPickScreen && (
-            <PickAgainButton
-              startIcon={<Refresh />}
-              onClick={() => setPick(null)}
-            >
+            <PickAgainButton startIcon={<Refresh />} onClick={clearPick}>
               Pick Again
             </PickAgainButton>
           )}
