@@ -9,7 +9,7 @@ import NavButton from "./nav-button";
 
 const NavFull = () => {
   const { pathname } = useRouter();
-  const { list, setPick } = useAppContext();
+  const { list, clearPick } = useAppContext();
 
   return (
     <Nav>
@@ -19,7 +19,7 @@ const NavFull = () => {
             Return to Movies
           </NavButton>
 
-          <NavButton startIcon={<Refresh />} onClick={() => setPick(null)}>
+          <NavButton startIcon={<Refresh />} onClick={clearPick}>
             Pick Again
           </NavButton>
         </>
