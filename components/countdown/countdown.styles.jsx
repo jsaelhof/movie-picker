@@ -23,7 +23,10 @@ const numberAnim = keyframes`
 
 export const Container = styled("div")(() => ({
   position: "absolute",
-  inset: 0,
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
   width: "100%",
   height: "100%",
   display: "flex",
@@ -38,11 +41,11 @@ export const Frame = styled("div")(() => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  WebkitMask: `linear-gradient(to top,  transparent 0%, #fff 10% 90%, transparent 100%),
+  maskImage: `linear-gradient(to top,  transparent 0%, #fff 10% 90%, transparent 100%),
         linear-gradient(to left, transparent 0%, #fff 10% 90%, transparent 100%)`,
-  WebkitMaskPosition: "center",
-  WebkitMaskRepeat: "no-repeat",
-  WebkitMaskComposite: "source-in",
+  maskPosition: "center",
+  maskRepeat: "no-repeat",
+  maskComposite: "source-in",
 }));
 
 export const HorizontalLine = styled("div")(() => ({

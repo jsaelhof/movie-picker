@@ -135,7 +135,7 @@ export default function Home() {
   // Controls fading in the movies once loaded.
   const moviesSpring = useSpring({
     opacity: !!movies ? 1 : 0,
-    delay: 1500,
+    delay: 500,
   });
 
   if (lists?.length === 0) router.replace("/create");
