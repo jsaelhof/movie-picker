@@ -140,8 +140,6 @@ export default function Home() {
 
   if (lists?.length === 0) router.replace("/create");
 
-  return <Countdown />;
-
   return (
     <>
       <PageContainer>
