@@ -41,15 +41,14 @@ export const Frame = styled("div")(() => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  maskImage: `linear-gradient(to top,  transparent 0%, #fff 10% 90%, transparent 100%),
-        linear-gradient(to left, transparent 0%, #fff 10% 90%, transparent 100%)`,
-  maskPosition: "center",
-  maskRepeat: "no-repeat",
-  maskComposite: "source-in",
 
   "@supports (-webkit-mask-image: linear-gradient(to top,  transparent 0%, #fff 10% 90%, transparent 100%))":
     {
-      background: "hotpink",
+      maskImage: `linear-gradient(to top,  transparent 0%, #fff 10% 90%, transparent 100%),
+        linear-gradient(to left, transparent 0%, #fff 10% 90%, transparent 100%)`,
+      maskPosition: "center",
+      maskRepeat: "no-repeat",
+      maskComposite: "source-in",
     },
 }));
 
