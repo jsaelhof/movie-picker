@@ -32,6 +32,10 @@ export const Container = styled("div")(() => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+
+  "@media (max-width:550px)": {
+    transform: "scale(0.75, 0.75)",
+  },
 }));
 
 export const Frame = styled("div")(() => ({
