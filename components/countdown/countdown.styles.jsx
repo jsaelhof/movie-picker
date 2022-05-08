@@ -41,28 +41,21 @@ export const Frame = styled("div")(() => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-
-  "@supports (-webkit-mask-image: linear-gradient(to top,  transparent 0%, #fff 10% 90%, transparent 100%))":
-    {
-      maskImage: `linear-gradient(to top,  transparent 0%, #fff 10% 90%, transparent 100%),
-        linear-gradient(to left, transparent 0%, #fff 10% 90%, transparent 100%)`,
-      maskPosition: "center",
-      maskRepeat: "no-repeat",
-      maskComposite: "source-in",
-    },
 }));
 
 export const HorizontalLine = styled("div")(() => ({
   position: "absolute",
   width: "100%",
   height: 2,
-  background: "#CCC",
+  background:
+    "linear-gradient(to right,  transparent 0%, #CCC 10% 90%, transparent 100%)",
 }));
 export const VerticalLine = styled("div")(() => ({
   position: "absolute",
   height: "100%",
   width: 2,
-  background: "#CCC",
+  background:
+    "linear-gradient(to bottom,  transparent 0%, #CCC 10% 90%, transparent 100%)",
 }));
 
 export const Needle = styled("div")(() => ({
