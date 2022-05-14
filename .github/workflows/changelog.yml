@@ -27,12 +27,17 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        
     - name: Update File
       uses: DamianReeves/write-file-action@v1.0
       with:
         path: ./changelog.md
         contents: |
           ### PR
+          ##### ${{ steps.date.outputs.date }}
           PR Link
           
           ${{ github.event.commits[0].message }}
