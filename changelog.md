@@ -1,3 +1,13 @@
+### PR #101 - Update changelog.yml
+
+Read the existing changelog and put the latest content at the top
+
+##### 2022-05-14T16:00:05Z
+![](public/images/link.png) [GitHub PR](https://github.com/jsaelhof/movie-picker/pull/101)
+
+----
+<br/>
+
 ### PR #99 - update changelog format
 
 Update the markdown format for the changelog
