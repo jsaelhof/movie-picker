@@ -41,10 +41,10 @@ jobs:
         path: ./changelog.md
         contents: |
           ### PR #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}
+          ##### ${{ github.event.pull_request.merged_at }}
           
           ${{ github.event.pull_request.body }}
           
-          ##### ${{ github.event.pull_request.merged_at }}
           ![](public/images/link.png) [GitHub PR](${{ github.event.pull_request.html_url }})
       
           ----
