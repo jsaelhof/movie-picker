@@ -1,3 +1,13 @@
+### PR #102 - Move Date
+##### 2022-05-14T16:02:10Z
+
+Moves the date above the body
+
+![](public/images/link.png) [GitHub PR](https://github.com/jsaelhof/movie-picker/pull/102)
+
+----
+<br/>
+
 ### PR #101 - Update changelog.yml
 
 Read the existing changelog and put the latest content at the top
