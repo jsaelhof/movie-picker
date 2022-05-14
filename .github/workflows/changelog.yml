@@ -13,8 +13,7 @@ jobs:
 
     runs-on: ubuntu-latest
     
-    permissions:
-      contents: write
+    permissions: read-all|write-all
 
     strategy:
       matrix:
@@ -33,7 +32,7 @@ jobs:
     - name: Update File
       uses: DamianReeves/write-file-action@v1.0
       with:
-        path: ${{ env.home}}/.changelog.md
+        path: ${{ env.home}}/changelog.md
         contents: |
           echo "Hello World!"
         write-mode: append
