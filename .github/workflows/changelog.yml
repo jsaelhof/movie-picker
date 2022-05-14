@@ -34,14 +34,15 @@ jobs:
       with:
         path: ./changelog.md
         contents: |
-          #### PR #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }} (__${{ github.event.pull_request.head.ref }}__)
-          ##### ${{ github.event.pull_request.merged_at }}
-          [Pull Request](${{ github.event.pull_request.html_url }})
+          ### PR #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}
           
           ${{ github.event.pull_request.body }}
           
+          ##### ${{ github.event.pull_request.merged_at }}
+          ![](public/images/link.png) [GitHub PR](${{ github.event.pull_request.html_url }})
+      
           ----
-          
+          <br/>
         write-mode: append
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.0.0
