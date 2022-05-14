@@ -28,8 +28,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-         
-    - name: Update File
+        
+    - name: Read changelog
+      id: read
+      uses: juliangruber/read-file-action@v1.1.4
+      with:
+        path: ./changelog.md
+
+    - name: Update changelog
       uses: DamianReeves/write-file-action@v1.0
       with:
         path: ./changelog.md
@@ -43,7 +49,9 @@ jobs:
       
           ----
           <br/>
-        write-mode: append
+          
+          ${{ steps.read.outputs.content }}
+        write-mode: overwrite
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.0.0
       with:
