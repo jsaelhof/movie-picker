@@ -32,7 +32,8 @@ jobs:
       with:
         path: ./changelog.md
         contents: |
-          echo "Hello World!"
+        
+          Hello World!
         write-mode: append
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.0.0
