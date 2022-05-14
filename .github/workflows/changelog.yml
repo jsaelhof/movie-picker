@@ -32,10 +32,13 @@ jobs:
       with:
         path: ./changelog.md
         contents: |
-        
+          ### PR
+          PR Link
+          
           Hello World!
-        write-mode: append
+        write-mode: overwrite
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.0.0
       with:
         add: ./changelog.md
+        message: update changelog
