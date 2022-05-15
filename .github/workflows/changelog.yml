@@ -33,8 +33,7 @@ jobs:
       id: parseDate
       run: |
         MERGED=${{ github.event.pull_request.merged_at }}
-        DATE=${MERGED:0:10}
-        echo "::set-output name=DATE::${DATE}"
+        echo "::set-output name=DATE::${MERGED:0:10}"
         
     - name: Read changelog
       id: read
