@@ -1,7 +1,7 @@
-# This workflow will 
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# When pull request is closed and merged, this workflow will checkout the repo, read the change log, 
+# add the details of the pull request to it, and commit it.
 
-name: Node.js CI
+name: Changelog
 
 on:
   pull_request:
@@ -40,14 +40,27 @@ jobs:
           
           ${{ github.event.pull_request.body }}
           
-          ![](public/images/link.png) [GitHub PR](${{ github.event.pull_request.html_url }})
+          ![](public/images/link.png) [Pull Request](${{ github.event.pull_request.html_url }})
       
           ----
           
           ${{ steps.read.outputs.content }}
         write-mode: overwrite
+        
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.0.0
       with:
         add: ./changelog.md
         message: update changelog
+        
+    - name: Comment
+      uses: actions/github-script@v5
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '[Changelog](${{GITHUB_SERVER_URL}}/${{GITHUB_REPOSITORY}}/blob/main/changelog.md)'
+          })     
