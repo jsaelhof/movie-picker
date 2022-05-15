@@ -6,7 +6,7 @@ name: Changelog
 on:
   pull_request:
     branches:
-      - github-actions-changelog
+      - main
     types: [closed]
 
 jobs:
