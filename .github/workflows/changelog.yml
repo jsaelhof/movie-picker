@@ -29,6 +29,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         
+    - name: Parse Date
+      id: parseDate
+      run: |
+        DATE=${{ github.event.pull_request.merged_at }}
+        echo '::set-output name=DATE::${DATE:0:10}'
+        
     - name: Read changelog
       id: read
       uses: juliangruber/read-file-action@v1.1.4
@@ -41,14 +47,13 @@ jobs:
         path: ./changelog.md
         contents: |
           ### PR #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}
-          ##### ${{ github.event.pull_request.merged_at }}
+          ##### ${{ steps.parseDate.outputs.DATE }}
           
           ${{ github.event.pull_request.body }}
           
           ![](public/images/link.png) [GitHub PR](${{ github.event.pull_request.html_url }})
       
           ----
-          <br/>
           
           ${{ steps.read.outputs.content }}
         write-mode: overwrite
