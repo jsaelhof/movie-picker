@@ -62,5 +62,5 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: '[Changelog]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/blob/main/changelog.md)'
+            body: '[Changelog](${{github.server_url}}/${{github.repository}}/blob/main/changelog.md)'
           })     
