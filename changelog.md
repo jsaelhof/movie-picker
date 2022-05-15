@@ -1,3 +1,12 @@
+### PR #116 - GitHub actions changelog
+##### 2022-05-15
+
+#115 Add a Github Action to build a changelog
+
+![](public/images/link.png) [Pull Request](https://github.com/jsaelhof/movie-picker/pull/116)
+
+----
+
 ### PR #113 - Update changelog.yml
 ##### 2022-05-15
 
