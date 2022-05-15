@@ -1,3 +1,12 @@
+### PR #108 - Update changelog.yml
+##### 2022-05-15
+
+Update the changelog
+
+![](public/images/link.png) [GitHub PR](https://github.com/jsaelhof/movie-picker/pull/108)
+
+----
+
 ### PR #107 - Update changelog.yml
 ##### 2022-05-15
 
