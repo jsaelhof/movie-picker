@@ -1,40 +1,66 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# When pull request is closed and merged, this workflow will checkout the repo, read the change log, 
+# add the details of the pull request to it, and commit it.
 
-name: Node.js CI
+name: Changelog
 
 on:
-  push:
+  pull_request:
     branches:
-      - github-actions-changelog
+      - main
+    types: [closed]
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
 
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    
     steps:
     - uses: actions/checkout@v3
-    
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
         
-    - name: Update File
+    - name: Parse Date
+      id: parseDate
+      run: |
+        MERGED=${{ github.event.pull_request.merged_at }}
+        echo "::set-output name=DATE::${MERGED:0:10}"
+        
+    - name: Read changelog
+      id: read
+      uses: juliangruber/read-file-action@v1.1.4
+      with:
+        path: ./changelog.md
+
+    - name: Update changelog
       uses: DamianReeves/write-file-action@v1.0
       with:
-        path: ${{ env.home}}/.changelog.md
+        path: ./changelog.md
         contents: |
-          echo "Hello World!"
-        write-mode: append
+          ### PR #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}
+          ##### ${{ steps.parseDate.outputs.DATE }}
+          
+          ${{ github.event.pull_request.body }}
+          
+          ![](public/images/link.png) [Pull Request](${{ github.event.pull_request.html_url }})
+      
+          ----
+          
+          ${{ steps.read.outputs.content }}
+        write-mode: overwrite
+        
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.0.0
       with:
         add: ./changelog.md
+        message: update changelog
+        
+    - name: Comment
+      uses: actions/github-script@v5
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '[Changelog](${{github.server_url}}/${{github.repository}}/blob/main/changelog.md)'
+          })     
