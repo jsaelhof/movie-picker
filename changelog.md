@@ -1,3 +1,12 @@
+### PR #106 - Update changelog.yml
+##### {2022-05-15T02:40:31Z:0:10}
+
+Update the changelog
+
+![](public/images/link.png) [GitHub PR](https://github.com/jsaelhof/movie-picker/pull/106)
+
+----
+
 ### PR #103 - Update changelog.md
 ##### ${DATE:0:10}
 
