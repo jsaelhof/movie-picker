@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "unused": "next-unused",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "jest --watch",
+    "test:coverage": "jest --watch --collectCoverage=true"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
@@ -41,11 +43,15 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
     "eslint": "^7.32.0",
     "eslint-config-next": "12.1.4",
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^7.0.4",
+    "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
     "lint-staged": "^12.3.7"
   },
   "next-unused": {
