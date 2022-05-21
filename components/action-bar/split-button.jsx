@@ -38,12 +38,13 @@ const SplitButton = ({ onPick }) => {
   const [openSplitButton, setOpenSplitButton] = useState(false);
 
   return (
-    <SplitButtonContainer>
+    <SplitButtonContainer aria-label="Pick A Movie">
       <MainButton variant="contained" onClick={() => onPick()}>
         <RandomIcon src="/images/random.png" />
         Pick A Movie
       </MainButton>
       <Button
+        aria-label="Pick Menu"
         variant="contained"
         size="small"
         onClick={() => setOpenSplitButton(true)}
