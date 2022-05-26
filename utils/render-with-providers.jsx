@@ -1,14 +1,22 @@
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import { AppProvider } from "../context/app-context";
 import { GET_LISTS } from "../graphql/queries";
 
-export const renderWithProviders = (children) =>
-  render(
+export const renderWithProviders = async (children, options) => {
+  const RenderWrapper = ({ children }) => (
     <MockedProvider mocks={[GET_LISTS_MOCK]} addTypename={false}>
       <AppProvider>{children}</AppProvider>
     </MockedProvider>
   );
+
+  const result = render(children, { wrapper: RenderWrapper, ...options });
+
+  // Await for one tick to make sure that the mock query responses are not in the loading state
+  await waitFor(() => new Promise((resolve) => setTimeout(resolve, 0)));
+
+  return result;
+};
 
 const GET_LISTS_MOCK = {
   request: {

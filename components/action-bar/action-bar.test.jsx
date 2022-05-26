@@ -19,16 +19,16 @@ describe("action-bar", () => {
     };
   });
 
-  it("should not render the bar when disabled", () => {
-    const { queryByText } = renderWithProviders(
+  it("should not render the bar when disabled", async () => {
+    const { queryByText } = await renderWithProviders(
       <ActionBar disabled={true} onAdd={test.onAdd} onPick={test.onPick} />
     );
 
     expect(queryByText("Added")).not.toBeInTheDocument();
   });
 
-  it("should not render the bar when enabled", () => {
-    const { getByText, getByLabelText } = renderWithProviders(
+  it("should not render the bar when enabled", async () => {
+    const { getByText, getByLabelText } = await renderWithProviders(
       <ActionBar disabled={false} onAdd={test.onAdd} onPick={test.onPick} />
     );
 
@@ -37,8 +37,8 @@ describe("action-bar", () => {
     expect(getByLabelText("Pick A Movie")).toBeInTheDocument();
   });
 
-  it("should render the Add Movie button with a label when space exists", () => {
-    const { getByText, getByLabelText } = renderWithProviders(
+  it("should render the Add Movie button with a label when space exists", async () => {
+    const { getByText, getByLabelText } = await renderWithProviders(
       <ActionBar disabled={false} onAdd={test.onAdd} onPick={test.onPick} />
     );
 
@@ -46,10 +46,10 @@ describe("action-bar", () => {
     expect(getByText("Add Movie")).toBeInTheDocument();
   });
 
-  it("should render the Add Movie button without a label when space is limited", () => {
+  it("should render the Add Movie button without a label when space is limited", async () => {
     mockMedium = true;
 
-    const { queryByText, getByLabelText } = renderWithProviders(
+    const { queryByText, getByLabelText } = await renderWithProviders(
       <ActionBar disabled={false} onAdd={test.onAdd} onPick={test.onPick} />
     );
 
@@ -57,8 +57,8 @@ describe("action-bar", () => {
     expect(queryByText("Add Movie")).not.toBeInTheDocument();
   });
 
-  it("should call onAdd when Add Movie is pressed", () => {
-    const { getByLabelText } = renderWithProviders(
+  it("should call onAdd when Add Movie is pressed", async () => {
+    const { getByLabelText } = await renderWithProviders(
       <ActionBar disabled={false} onAdd={test.onAdd} onPick={test.onPick} />
     );
 
@@ -66,8 +66,8 @@ describe("action-bar", () => {
     expect(test.onAdd).toBeCalled();
   });
 
-  it("should call onPick when Pick A Movie is pressed", () => {
-    const { getByRole } = renderWithProviders(
+  it("should call onPick when Pick A Movie is pressed", async () => {
+    const { getByRole } = await renderWithProviders(
       <ActionBar disabled={false} onAdd={test.onAdd} onPick={test.onPick} />
     );
 
