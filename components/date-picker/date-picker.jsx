@@ -36,6 +36,7 @@ const DatePicker = ({
       sx={[useDrawer && DrawerPicker, right && RightAlignedPicker]}
       style={!useDrawer ? spring : undefined}
       onClick={preventBubbling}
+      data-testid="datePicker"
     >
       <DayPicker
         styles={{

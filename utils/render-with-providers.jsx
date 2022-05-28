@@ -2,11 +2,15 @@ import { render, waitFor } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import { AppProvider } from "../context/app-context";
 import { GET_LISTS } from "../graphql/queries";
+import { ThemeProvider } from "@mui/material";
+import { theme } from "../theme/theme";
 
 export const renderWithProviders = async (children, options) => {
   const RenderWrapper = ({ children }) => (
     <MockedProvider mocks={[GET_LISTS_MOCK]} addTypename={false}>
-      <AppProvider>{children}</AppProvider>
+      <ThemeProvider theme={theme}>
+        <AppProvider>{children}</AppProvider>
+      </ThemeProvider>
     </MockedProvider>
   );
 
