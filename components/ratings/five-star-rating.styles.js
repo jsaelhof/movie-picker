@@ -1,4 +1,4 @@
-import { Popover, styled } from "@mui/material";
+import { styled } from "@mui/material";
 
 export const StarRatingContainer = styled("div")`
   display: grid;
@@ -6,17 +6,12 @@ export const StarRatingContainer = styled("div")`
   align-items: end;
 `;
 
-export const StyledPopover = styled(Popover)`
-  pointer-events: none;
-  margin-top: ${({ theme: { spacing } }) => spacing(1)};
+export const Star = styled("div")`
+  font-size: 0;
+  width: 100%;
 
-  & .MuiPopover-paper {
-    border-radius: 8px;
+  > img {
+    width: 100%;
+    height: 100%;
   }
 `;
-
-export const Tooltip = styled("div")`
-  padding: 0 ${({ theme: { spacing } }) => spacing(2)};
-`;
-
-export const Star = styled("svg")``;
