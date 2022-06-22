@@ -66,6 +66,7 @@ const Trailer = ({ trailerId, overlay, onComplete }) => {
       style={trailerSpring}
       ref={trailerRef}
       onClick={() => overlay && onComplete()}
+      aria-label="Trailer"
     >
       <YouTubePlayer
         videoId={trailerId}
