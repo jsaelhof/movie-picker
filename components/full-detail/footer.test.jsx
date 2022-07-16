@@ -26,14 +26,14 @@ describe("full detail footer", () => {
 
   it("should render the footer action images", () => {
     const { getByAltText } = render(<Footer movie={test.movie} />);
-    expect(getByAltText("IMDB")).toBeInTheDocument();
-    expect(getByAltText("TMDB")).toBeInTheDocument();
-    expect(getByAltText("Common Sense Media")).toBeInTheDocument();
+    expect(getByAltText("Search IMDB")).toBeInTheDocument();
+    expect(getByAltText("Search TMDB")).toBeInTheDocument();
+    expect(getByAltText("Search Common Sense Media")).toBeInTheDocument();
   });
 
   it("should open IMDB with title when clicked when no imdbID is provided", () => {
     const { getByAltText } = render(<Footer movie={test.movie} />);
-    fireEvent.click(getByAltText("IMDB"));
+    fireEvent.click(getByAltText("Search IMDB"));
     expect(window.open).toHaveBeenCalledWith(
       // Without replicating the entire URL, this should ensure the URL has the right domain and the movie title
       expect.stringMatching(new RegExp(`www\.imdb\.com.*${test.movie.title}`)),
@@ -45,7 +45,7 @@ describe("full detail footer", () => {
     const { getByAltText } = render(
       <Footer movie={{ ...test.movie, imdbID: "t12345" }} />
     );
-    fireEvent.click(getByAltText("IMDB"));
+    fireEvent.click(getByAltText("Search IMDB"));
     expect(window.open).toHaveBeenCalledWith(
       // Without replicating the entire URL, this should ensure the URL has the right domain and the movie title
       expect.stringMatching(new RegExp(`www\.imdb\.com.*t12345`)),
@@ -55,7 +55,7 @@ describe("full detail footer", () => {
 
   it("should open TMDB when clicked", () => {
     const { getByAltText } = render(<Footer movie={test.movie} />);
-    fireEvent.click(getByAltText("TMDB"));
+    fireEvent.click(getByAltText("Search TMDB"));
     expect(window.open).toHaveBeenCalledWith(
       // Without replicating the entire URL, this should ensure the URL has the right domain and the movie title
       expect.stringMatching(
@@ -67,7 +67,7 @@ describe("full detail footer", () => {
 
   it("should open Common Sense Media when clicked", () => {
     const { getByAltText } = render(<Footer movie={test.movie} />);
-    fireEvent.click(getByAltText("Common Sense Media"));
+    fireEvent.click(getByAltText("Search Common Sense Media"));
     expect(window.open).toHaveBeenCalledWith(
       // Without replicating the entire URL, this should ensure the URL has the right domain and the movie title
       expect.stringMatching(

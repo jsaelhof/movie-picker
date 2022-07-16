@@ -1,7 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { omitTypename } from "../../utils/omit-typename";
 
-const EDIT_MOVIE = gql`
+export const EDIT_MOVIE = gql`
   mutation EditMovie(
     $movie: MovieInput!
     $list: String!

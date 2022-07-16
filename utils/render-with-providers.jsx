@@ -5,9 +5,13 @@ import { GET_LISTS } from "../graphql/queries";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../theme/theme";
 
-export const renderWithProviders = async (children, options) => {
+export const renderWithProviders = async (
+  children,
+  mocks = [],
+  options = {}
+) => {
   const RenderWrapper = ({ children }) => (
-    <MockedProvider mocks={[GET_LISTS_MOCK]} addTypename={false}>
+    <MockedProvider mocks={[GET_LISTS_MOCK, ...mocks]} addTypename={false}>
       <ThemeProvider theme={theme}>
         <AppProvider>{children}</AppProvider>
       </ThemeProvider>

@@ -19,6 +19,7 @@ const MoviePoster = ({
     <div style={{ ...(!noRel && { position: "relative" }) }}>
       {movie.poster ? (
         <Poster
+          aria-label="Movie Poster"
           sx={[
             posterStyles,
             {
@@ -30,7 +31,11 @@ const MoviePoster = ({
           onClick={onClick}
         />
       ) : (
-        <NoPoster sx={[posterStyles]} onClick={onClick}>
+        <NoPoster
+          aria-label="Movie Poster"
+          sx={[posterStyles]}
+          onClick={onClick}
+        >
           <TheatresIcon fontSize="large" />
           <div>{movie.title}</div>
         </NoPoster>

@@ -8,7 +8,6 @@ import FiveStarRating from "../ratings/five-star-rating";
 import { RatingContainer } from "./star-rating-layout.styles";
 
 export const StarRatingLayout = ({ ratings }) => {
-  console.log({ ratings });
   const centered = useMediaQuery("(max-width: 660px)");
   const [showRatings, setShowRatings] = useState(false);
 
