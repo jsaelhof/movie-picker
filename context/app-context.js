@@ -52,4 +52,4 @@ const useAppContext = () => {
   return context;
 };
 
-export { AppProvider, useAppContext };
+export { AppContext, AppProvider, useAppContext };

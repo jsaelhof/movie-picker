@@ -1,8 +1,7 @@
 import { fireEvent, render } from "@testing-library/react";
 import Trailer from "./trailer";
 
-const MockYouTube = () => <div data-testid="youtube" />;
-jest.mock("react-youtube", () => MockYouTube);
+jest.mock("react-youtube", () => () => <div data-testid="youtube" />);
 
 describe("trailer", () => {
   let test;

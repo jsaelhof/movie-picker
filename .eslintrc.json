@@ -6,6 +6,7 @@
     "no-unused-vars": 2,
     "react/no-unknown-property": 2,
     "@next/next/no-img-element": 0,
-    "jsx-a11y/alt-text": 0
+    "jsx-a11y/alt-text": 0,
+    "react/display-name": 0
   }
 }

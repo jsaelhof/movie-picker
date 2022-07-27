@@ -34,7 +34,11 @@ const Expanded = ({ movie, preload, open, centerPoint, onClose }) => {
   return (
     <>
       {(open || isClosing) && (
-        <ExpandedBackdrop style={expandedBackdropSpring} onClick={close} />
+        <ExpandedBackdrop
+          data-testid="backdrop"
+          style={expandedBackdropSpring}
+          onClick={close}
+        />
       )}
 
       {/* 
