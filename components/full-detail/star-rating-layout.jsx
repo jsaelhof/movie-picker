@@ -30,6 +30,7 @@ export const StarRatingLayout = ({ ratings }) => {
         // Works for desktop and mobile but mainly here for mobile.
         setShowRatings(!showRatings);
       }}
+      data-testid="starRatingLayout"
     >
       <FiveStarRating ratings={ratings} />
       <animated.div style={ratingsSpring}>
