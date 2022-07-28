@@ -10,7 +10,7 @@ jest.mock("next/router", () => ({
 }));
 
 describe("logo", () => {
-  it("shold navigate to the root on click", () => {
+  it("should navigate to the root on click", () => {
     const { getByLabelText } = render(<Logo />);
     fireEvent.click(getByLabelText("Movie Decider 4000"));
     expect(pushMock).toBeCalledWith("/");
