@@ -26,14 +26,19 @@ const DbSelect = () => {
               push("/");
             }
           }}
-          renderValue={() => <Button variant="nav">{list.label}</Button>}
+          renderValue={() => (
+            <Button variant="nav" aria-label={list.label}>
+              {list.label}
+            </Button>
+          )}
+          aria-label="Choose a List"
         >
           {lists.map((list) => (
             <MenuItem key={list.id} value={list.id}>
               {list.label}
             </MenuItem>
           ))}
-          <Divider variant="middle"/>
+          <Divider variant="middle" />
           <MenuItem value={NEW_LIST} sx={{ fontStyle: "italic" }}>
             + New List
           </MenuItem>
