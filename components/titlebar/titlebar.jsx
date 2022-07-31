@@ -17,7 +17,6 @@ import {
 
 const TitleBar = () => {
   const { movies, clearPick } = useAppContext();
-  const smallLogo = useMediaQuery("(max-width: 430px)");
   const mobileNav = useMediaQuery("(max-width: 580px)");
   const { pathname } = useRouter();
 
@@ -27,7 +26,7 @@ const TitleBar = () => {
     <Box sx={appBarContainerStyles}>
       <AppBar position="static" color="transparent" elevation={2}>
         <Toolbar sx={[toolbarStyles, isPickScreen && pickScreenToolbarStyles]}>
-          <Logo small={smallLogo} />
+          <Logo />
           {movies && (mobileNav ? <NavHamburger /> : <NavFull />)}
 
           {/* In the small view, keep a pick again button in the main nav area. It's also in the hamburger menu */}
