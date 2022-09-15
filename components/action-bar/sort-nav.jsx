@@ -5,23 +5,35 @@ import {
   SortNavList,
   SortNavListItem,
   sortNavSelectedItem,
+  sortOrderIcon,
 } from "./sort-nav.styles";
+import { useAppContext } from "../../context/app-context";
 
-const SortNav = ({ selectedOption, options, onSort }) => {
+const options = [
+  ["Added", "addedOn"],
+  ["Title", "title"],
+  ["Runtime", "runtime"],
+];
+
+const SortNav = () => {
+  const { order, setOrder } = useAppContext();
+
   const SortOrderIcon =
-    selectedOption[0] === "addedOn"
-      ? selectedOption[1] === "asc"
+    order[0] === "addedOn"
+      ? order[1] === "asc"
         ? KeyboardArrowUp
         : KeyboardArrowDown
-      : selectedOption[1] === "asc"
+      : order[1] === "asc"
       ? KeyboardArrowDown
       : KeyboardArrowUp;
 
   const resolveOrder = (key) => [
     key,
-    key !== selectedOption[0]
-      ? "asc"
-      : selectedOption[1] === "asc"
+    key !== order[0]
+      ? key === "addedOn"
+        ? "desc"
+        : "asc"
+      : order[1] === "asc"
       ? "desc"
       : "asc",
   ];
@@ -31,21 +43,16 @@ const SortNav = ({ selectedOption, options, onSort }) => {
       {options.map(([label, key]) => (
         <SortNavListItem
           key={key}
-          sx={[key === selectedOption[0] && sortNavSelectedItem]}
+          data-active={key === order[0]}
+          data-sort={key === order[0] && order[1]}
+          sx={[key === order[0] && sortNavSelectedItem]}
           onClick={() => {
-            onSort(...resolveOrder(key));
+            setOrder(resolveOrder(key));
           }}
         >
           {label}
-          {key === selectedOption[0] && (
-            <SortOrderIcon
-              fontSize="small"
-              style={{
-                verticalAlign: "middle",
-                paddingBottom: 2,
-                marginLeft: 4,
-              }}
-            />
+          {key === order[0] && (
+            <SortOrderIcon fontSize="small" style={sortOrderIcon} />
           )}
         </SortNavListItem>
       ))}

@@ -81,6 +81,7 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
         onMouseEnter={focus}
         onMouseLeave={unfocus}
         ref={ref}
+        data-testid={"listItem"}
       >
         <MoviePosterContainer>
           <MoviePoster movie={movie} />
@@ -92,6 +93,7 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
             unfocus();
             setExpanded(true);
           }}
+          data-testid="positioner"
         >
           <MovieDetail style={posterSpring}>
             <OverflowWrapper>
@@ -120,13 +122,14 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
                       e.stopPropagation();
                     }
                   }}
+                  data-testid="rating"
                 >
                   <FiveStarRating ratings={movie.ratings} />
                 </StarRatingLayout>
 
                 <InfoRuntime>{formatRuntime(movie.runtime)}</InfoRuntime>
 
-                <InfoFooterLayout style={actionsSpring}>
+                <InfoFooterLayout style={actionsSpring} data-testid="actions">
                   <DetailActions
                     movie={movie}
                     onEdit={() => {
@@ -147,7 +150,7 @@ const Movie = ({ movie, onEditMovie, onMarkWatched, onDeleteMovie }) => {
                   />
                 </InfoFooterLayout>
 
-                <InfoFooterLayout style={ratingsSpring}>
+                <InfoFooterLayout style={ratingsSpring} data-testid="ratings">
                   <Ratings ratings={movie.ratings} size="small" dense />
                 </InfoFooterLayout>
 

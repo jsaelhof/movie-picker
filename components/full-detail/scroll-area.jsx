@@ -10,6 +10,14 @@ const ScrollArea = ({ text, noScroll }) => {
 
   const [textNode, setTextNode] = useState(null);
 
+  const updateOverflows = useCallback(
+    ({ scrollTop, scrollHeight, clientHeight }) => {
+      setTopOverflow(scrollTop > 0);
+      setBottomOverflow(scrollHeight - clientHeight - scrollTop > 0);
+    },
+    []
+  );
+
   // Callback ref: https://reactjs.org/docs/refs-and-the-dom.html#callback-refs
   const onPlotRefChange = useCallback(
     (node) => {
@@ -27,14 +35,6 @@ const ScrollArea = ({ text, noScroll }) => {
       updateOverflows(target);
     },
     [updateOverflows]
-  );
-
-  const updateOverflows = useCallback(
-    ({ scrollTop, scrollHeight, clientHeight }) => {
-      setTopOverflow(scrollTop > 0);
-      setBottomOverflow(scrollHeight - clientHeight - scrollTop > 0);
-    },
-    []
   );
 
   useOnWindowResize(() => {

@@ -38,7 +38,7 @@ const Footer = ({ movie }) => {
       {actions.map(({ label, src, action }) => (
         <ActionImage
           key={label}
-          alt={label}
+          alt={`Search ${label}`}
           src={src}
           onClick={() => {
             action(movie);

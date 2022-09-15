@@ -32,3 +32,9 @@ export const sortNavSelectedItem = ({ palette }) => ({
   color: "initial",
   borderBottom: `1px solid ${palette.accent}`,
 });
+
+export const sortOrderIcon = {
+  verticalAlign: "middle",
+  paddingBottom: 2,
+  marginLeft: 4,
+};

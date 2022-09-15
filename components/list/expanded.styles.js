@@ -17,7 +17,7 @@ export const ExpandedContent = styled(animated.div)(() => ({
   width: "90vw",
   height: "calc(100vh - 32px)",
   background: "white",
-  overflow: "scroll",
+  overflowY: "scroll",
   zIndex: 10001,
   left: "4.98vw", // This should be 5vw (1/2 the 10vw the content doesn't fill, to center it) but 5 causes a tear on the edge of the picture background. So does 4.99. No idea why.
   top: 16,

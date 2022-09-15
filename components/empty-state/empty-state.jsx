@@ -9,7 +9,7 @@ const EmptyState = ({
   inProgress = false,
 }) => (
   <EmptyListLayout>
-    <Img src={imgSrc} />
+    <Img src={imgSrc} alt="Empty image" />
     {quote && <Quote>{quote}</Quote>}
     <Message>{message}</Message>
     <div>{inProgress ? <CircularProgress color="secondary" /> : content}</div>

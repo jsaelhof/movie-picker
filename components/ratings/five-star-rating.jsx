@@ -3,9 +3,6 @@ import { isNil, times } from "lodash";
 import { filter, flow, map, mean, pick } from "lodash/fp";
 
 import { Star, StarRatingContainer } from "./five-star-rating.styles";
-import StarFull from "./star.svg";
-import StarHalf from "./star-half.svg";
-import StarOutline from "./star-outline.svg";
 import { ratingsSources } from "../../constants/ratings";
 
 const toAverageRating = flow(
@@ -21,23 +18,27 @@ const margins = [0, 1, 1.5, 1, 0];
 
 const FiveStarRating = ({ ratings }) => {
   const avgRating = toAverageRating(ratings);
-
   return (
     <StarRatingContainer>
-      {times(5, (i) => {
-        const offset = avgRating - i;
-        const height = heights[i];
-        const marginBottom = `${margins[i]}px`;
-        if (offset >= 1) {
-          return <Star as={StarFull} key={i} sx={{ height, marginBottom }} />;
-        } else if (offset === 0.5) {
-          return <Star as={StarHalf} key={i} sx={{ height, marginBottom }} />;
-        } else {
-          return (
-            <Star as={StarOutline} key={i} sx={{ height, marginBottom }} />
-          );
-        }
-      })}
+      {times(5, (i) => (
+        <Star
+          key={i}
+          sx={{
+            height: heights[i],
+            marginBottom: `${margins[i]}px`,
+          }}
+        >
+          {[
+            avgRating - i >= 1
+              ? "star-full"
+              : avgRating - i === 0.5
+              ? "star-half"
+              : "star-outline",
+          ].map((image) => (
+            <img key={i} src={`/images/star/${image}.svg`} alt={image} />
+          ))}
+        </Star>
+      ))}
     </StarRatingContainer>
   );
 };

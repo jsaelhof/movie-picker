@@ -93,6 +93,7 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
 
       <BackdropWrapper>
         <Backdrop
+          data-testid={backdrop}
           sx={[
             {
               backgroundImage: `url("${backdrop}")`,

@@ -21,6 +21,7 @@ const Ratings = ({ ratings, size = "medium", dense }) => {
             <RatingsSourceIcon
               sx={[size === "small" && ratingsSourceIconSmall]}
               src={`/images/ratings/${ratingsSourceImage[source]}`}
+              alt={source}
             />
             {rating}
           </RatingsListItem>

@@ -6,7 +6,7 @@
 .pnp.js
 
 # testing
-/coverage
+/.coverage
 
 # next.js
 /.next/
@@ -31,3 +31,5 @@ yarn-error.log*
 settings.json
 
 .vercel
+
+/alter

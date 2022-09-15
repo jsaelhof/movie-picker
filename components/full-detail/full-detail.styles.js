@@ -170,7 +170,7 @@ export const smallMovieTitle = {
 };
 
 export const RatingsArea = styled("div")`
-  gridarea: "ratings";
+  grid-area: ratings;
 `;
 
 export const MovieData = styled("div")`

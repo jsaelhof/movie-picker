@@ -8,12 +8,12 @@ export const Layout = styled("div")(() => ({
 export const TextArea = styled("div")`
   line-height: 1.7;
   max-height: 180px;
-  overflow: scroll;
+  overflow-y: scroll;
   ${({ noScroll, theme: { palette } }) => ({
     color: palette.grey[900],
     ...(noScroll && {
       maxHeight: "unset",
-      overflow: "initial",
+      overflowY: "initial",
     }),
   })}
 `;
