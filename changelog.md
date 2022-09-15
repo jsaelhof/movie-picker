@@ -1,3 +1,12 @@
+### PR #122 - Feature/testing setup
+##### 2022-09-15
+
+
+
+![](public/images/link.png) [Pull Request](https://github.com/jsaelhof/movie-picker/pull/122)
+
+----
+
 ### PR #119 - Upgrade to React 18, requires updates to Rooks, React Spring and Reac…
 ##### 2022-05-18
 
