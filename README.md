@@ -1,4 +1,4 @@
-## The Movie Decier 4000 - A Next.js Experiment App
+## The Movie Decider 4000 - A Next.js Experiment App
 
 During the lockdowns in 2020, our family was watching more movies but we could never decide which movie to watch from our list. I wanted to play around with Next.js so I wrote up a small app that stores a list of movies and randomly picks one. Over time, this project has grown to include the ability to switch DB's (so that we can have a list for grown up movies and one for movies with the kids), integrate with OMDB and TMDB API's to pull in data like genre and runtime, and provide a number of extra functions like finding trailers, reviews, ratings, IMDB info, streaming info and more.
 
