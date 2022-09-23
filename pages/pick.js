@@ -30,6 +30,8 @@ const useRandomPick = () => {
 
       if (size(list) === 0) {
         setError(errorCodes.PICKING);
+      } else if (size(list) === 1) {
+        setPick(list[0].id);
       } else {
         const unpickedMovies = reject(list, ({ id }) => history.includes(id));
 
