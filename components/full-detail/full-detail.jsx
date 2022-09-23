@@ -3,13 +3,12 @@ import { createPortal } from "react-dom";
 import { Button, useMediaQuery } from "@mui/material";
 import { ChevronLeft, ChevronRight, PlayArrow } from "@mui/icons-material";
 import { useSpring } from "react-spring";
-import Search from "@mui/icons-material/Search";
 import TelevisionPlay from "@mitch528/mdi-material-ui/TelevisionPlay";
 import CloseThick from "@mitch528/mdi-material-ui/CloseThick";
 
 import { formatRuntime } from "../../utils/format-runtime";
 import { genreLabels } from "../../constants/genres";
-import { searchStreaming, searchTMDB, searchTorrent } from "../../utils/search";
+import { searchStreaming, searchTMDB } from "../../utils/search";
 import { sourceLogosLarge, sources } from "../../constants/sources";
 import { useGetMovieExtendedDetails } from "../../graphql/queries";
 import { editMovieOptions, useEditMovie } from "../../graphql/mutations";
@@ -221,18 +220,6 @@ const FullDetail = ({ movie, showCloseButton = false, onClose }) => {
               }}
             >
               Stream Movie
-            </Button>
-          )}
-
-          {movie.source === sources.NONE && (
-            <Button
-              color="primary"
-              startIcon={<Search />}
-              onClick={() => {
-                window.open(searchTorrent(movie.title), "movieView");
-              }}
-            >
-              Torrent Search
             </Button>
           )}
         </Actions>

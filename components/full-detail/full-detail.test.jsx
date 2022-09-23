@@ -362,29 +362,6 @@ describe("full-detail", () => {
     );
   });
 
-  it("should show a search torrent option when the source is NONE and open the torrent site", async () => {
-    window.open = jest.fn();
-
-    const { getByRole } = await renderWithProviders(
-      <FullDetail
-        {...test.props}
-        movie={{ ...test.props.movie, source: sources.NONE }}
-      />,
-      [GET_MOVIE_EXTENDED_DETAILS_MOCK]
-    );
-
-    await waitFor(() =>
-      expect(
-        getByRole("button", { name: "Torrent Search" })
-      ).toBeInTheDocument()
-    );
-    fireEvent.click(getByRole("button", { name: "Torrent Search" }));
-    expect(window.open).toHaveBeenCalledWith(
-      expect.stringMatching(/1337x.to.*Bourne/),
-      "movieView"
-    );
-  });
-
   it("should render the footer buttons", async () => {
     const { getByAltText } = await renderWithProviders(
       <FullDetail {...test.props} />,

@@ -13,8 +13,6 @@ export const searchCommonSense = (title) =>
     .replaceAll(" ", "-")
     .replaceAll(":", "")}`;
 
-export const searchTorrent = (title) => `http://1337x.to/search/${title}/1/`;
-
 export const searchStreaming = (title, source) =>
   ({
     [sources.NETFLIX]: `http://netflix.com/search?q=%s`, // FIXME: Doesn't like commas in the search...possibly other special chars. Other sites maybe the same?
