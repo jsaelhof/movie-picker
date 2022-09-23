@@ -20,7 +20,7 @@ const useRandomPick = () => {
         locked: (locked) => !locked,
       };
 
-      if (!query.minRuntime || !query.maxRuntime) {
+      if (query.minRuntime || query.maxRuntime) {
         filters.runtime = (runtime) =>
           runtime >= (query.minRuntime || 0) &&
           runtime <= (query.maxRuntime || Infinity);
